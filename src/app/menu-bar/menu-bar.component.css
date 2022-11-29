@@ -20,9 +20,7 @@ mat-sidenav {
   border-radius: 10px;
   margin: 16px;
   margin-left: 32px;
-
-  padding: 16px;
-
+  padding: 4px;
   overflow: auto;
 }
 

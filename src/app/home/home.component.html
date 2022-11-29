@@ -1,1 +1,13 @@
+<mat-sidenav-content>
+  <div>
+    <div  class="content mat-elevation-z8" style="overflow: hidden;">
+    <a href="{{urlIFrame}}" target="_blank" mat-raised-button color="primary" class="vaiAlSito" *ngIf="urlIFrame!=='' && !isLoading">vai al sito</a>
+    <div class="spinner">
+    <mat-spinner *ngIf="isLoading" ></mat-spinner>
+    </div>
+    <iframe frameBorder="0" loading="lazy" *ngIf="urlIFrame!=='' && !isLoading" class="iframe" [src]="sanitizer.bypassSecurityTrustResourceUrl(urlIFrame)" ></iframe>
+    </div>
+  </div>
+
+</mat-sidenav-content>
 

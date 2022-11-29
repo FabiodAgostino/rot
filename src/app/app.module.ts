@@ -16,6 +16,8 @@ import {MatSidenavModule} from '@angular/material/sidenav';
 import {MatButtonModule} from '@angular/material/button';
 import { MatDividerModule } from '@angular/material/divider';
 import { HelpComponent } from './help/help.component';
+import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
+
 
 
 
@@ -26,7 +28,7 @@ import { HelpComponent } from './help/help.component';
     AppComponent,
     HomeComponent,
     MenuBarComponent,
-    HelpComponent
+    HelpComponent,
   ],
   imports: [
     BrowserModule,
@@ -40,7 +42,8 @@ import { HelpComponent } from './help/help.component';
     MatToolbarModule,
     MatSidenavModule,
     MatDividerModule,
-    MatButtonModule
+    MatButtonModule,
+    MatProgressSpinnerModule
   ],
   providers: [],
   bootstrap: [AppComponent]

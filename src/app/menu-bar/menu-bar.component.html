@@ -9,9 +9,8 @@
     <mat-icon *ngIf="sidenav.opened"> close </mat-icon>
   </button>
   &nbsp;
-<span class="material-icons ank" style="color: rgb(255, 210, 48); font-size: 56px; -webkit-text-stroke-width: 0px;" routerLink="/">anchor</span>
+<span class="material-icons ank" style="color: rgb(255, 210, 48); font-size: 56px; -webkit-text-stroke-width: 0px;" routerLink="/" (click)="goChild('')">anchor</span>
 &nbsp;
-
   Rotiniel Tools
 </mat-toolbar>
 
@@ -21,12 +20,10 @@
     <mat-divider></mat-divider>
 
 
-  <a mat-raised-button href="https://bitmed.github.io/tmarmor/" target="_blank" class="but">Infondere armature</a>
-  <a mat-raised-button href="https://bitmed.github.io/tmenchant/" target="_blank" class="but">TM Enchant</a>
-  <a mat-raised-button href="https://alatarl.github.io/CalendarioTM/" target="_blank" class="but">Calendario elfico</a>
-  <a mat-raised-button href="https://alatarl.github.io/ElficoTM/" target="_blank" class="but">Dizionario elfico</a>
-
-
+  <a mat-raised-button (click)="goChild('https://bitmed.github.io/tmarmor/'); sidenav.toggle()"  class="but">Infondere armature</a>
+  <a mat-raised-button (click)="goChild('https://bitmed.github.io/tmenchant/'); sidenav.toggle()" target="_blank" class="but">TM Enchant</a>
+  <a mat-raised-button (click)="goChild('https://alatarl.github.io/CalendarioTM/'); sidenav.toggle()"  target="_blank" class="but">Calendario elfico</a>
+  <a mat-raised-button (click)="goChild('https://alatarl.github.io/ElficoTM/'); sidenav.toggle()"  target="_blank" class="but">Dizionario elfico</a>
 
 
     <mat-divider></mat-divider>
@@ -35,9 +32,9 @@
       <span>Help</span>
     </button>
   </mat-sidenav>
-  <mat-sidenav-content>
-    <div class="content mat-elevation-z8">
-      <router-outlet></router-outlet>
-    </div>
-  </mat-sidenav-content>
+      <app-home [events]="iFrameEmitter.asObservable()"></app-home>
 </mat-sidenav-container>
+
+
+
+
