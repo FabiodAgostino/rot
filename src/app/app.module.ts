@@ -15,6 +15,7 @@ import { MatIconModule } from '@angular/material/icon';
 import {MatSidenavModule} from '@angular/material/sidenav';
 import {MatButtonModule} from '@angular/material/button';
 import { MatDividerModule } from '@angular/material/divider';
+import { HelpComponent } from './help/help.component';
 
 
 
@@ -24,7 +25,8 @@ import { MatDividerModule } from '@angular/material/divider';
   declarations: [
     AppComponent,
     HomeComponent,
-    MenuBarComponent
+    MenuBarComponent,
+    HelpComponent
   ],
   imports: [
     BrowserModule,
