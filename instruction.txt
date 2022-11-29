@@ -1,0 +1,6 @@
+-crea repo
+-clona
+-npm audit fix --force
+-ng build --base-href=/nomeprogetto/ e cambia su index il base href con nomeprogetto
+-modifica outputdir su angular.son con docs
+-ng build --prod
