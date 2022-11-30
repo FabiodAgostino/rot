@@ -27,7 +27,6 @@ import { IframeGeneratorComponent } from './iframe-generator/iframe-generator.co
 
 
 
-
 @NgModule({
   declarations: [
     AppComponent,
@@ -53,7 +52,7 @@ import { IframeGeneratorComponent } from './iframe-generator/iframe-generator.co
     MatButtonModule,
     MatProgressSpinnerModule,
     OverlayModule,
-    MatProgressSpinnerModule
+    MatProgressSpinnerModule,
 
   ],
   providers: [SafePipe],

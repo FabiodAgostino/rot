@@ -1,4 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
+import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
+import { Observable, Subscription } from 'rxjs';
+import { SafePipe } from 'src/environments/selfPipe';
 
 @Component({
   selector: 'app-iframe-generator',
@@ -7,9 +10,38 @@ import { Component, OnInit } from '@angular/core';
 })
 export class IframeGeneratorComponent implements OnInit {
 
-  constructor() { }
+  isLoading = false;
+  itsSafe: SafeHtml | undefined;
+  private safePipe: SafePipe = new SafePipe(this.sanitizer);
+  eventsSubscription = new Subscription();
+  @Input() events = new Observable<string>();
+  urlIFrame = "";
+
+
+  constructor(public sanitizer: DomSanitizer, private _safePipe: SafePipe) { }
 
   ngOnInit(): void {
+    this.eventsSubscription = this.events.subscribe((x) =>
+    {
+      const timing = x.includes("alatar") ? 2000 : 1000;
+      if(x!="")
+      {
+        this.isLoading=true;
+        this.urlIFrame=x;
+        setTimeout(()=> {
+        this.isLoading=false;}, timing);
+      }
+      else
+      {
+        this.urlIFrame=x;
+      }
+    } );
+
+
+  }
+
+  ngOnDestroy() {
+    this.eventsSubscription.unsubscribe();
   }
 
 }

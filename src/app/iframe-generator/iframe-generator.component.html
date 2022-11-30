@@ -1,1 +1,7 @@
-<p>iframe-generator works!</p>
+<div>
+  <div  class="content mat-elevation-z8" style="overflow: hidden;">
+    <a href="{{urlIFrame}}" target="_blank" mat-raised-button color="primary" class="vaiAlSito" *ngIf="urlIFrame!=='' && !isLoading">Vai al sito</a>
+  <app-progress-spinner *ngIf="isLoading"></app-progress-spinner>
+  <iframe frameBorder="0"  [hidden]="urlIFrame!='' && isLoading" class="iframe" [src]="urlIFrame | safe" ></iframe>
+  </div>
+</div>
