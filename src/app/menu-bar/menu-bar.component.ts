@@ -12,14 +12,18 @@ export class MenuBarComponent implements OnInit {
 
   constructor() { }
   iFrameEmitter: Subject<string> = new Subject<string>();
-
+  boolHome= false;
 
   ngOnInit(): void {
   }
 
   goChild(url: string)
   {
-    this.iFrameEmitter.next(url);
+    this.boolHome=true;
+    setTimeout(()=> {
+      this.iFrameEmitter.next(url);}, 100);
+
+
   }
 
 

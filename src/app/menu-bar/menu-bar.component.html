@@ -3,13 +3,13 @@
   <button
     mat-icon-button
     *ngIf="sidenav.mode === 'over'"
-    (click)="sidenav.toggle()"
+    (click)="sidenav.toggle(); "
   >
     <mat-icon *ngIf="!sidenav.opened"> menu </mat-icon>
     <mat-icon *ngIf="sidenav.opened"> close </mat-icon>
   </button>
   &nbsp;
-<span class="material-icons ank" style="color: rgb(255, 210, 48); font-size: 56px; -webkit-text-stroke-width: 0px;" routerLink="/" (click)="goChild('')">anchor</span>
+<span class="material-icons ank" style="color: rgb(255, 210, 48); font-size: 56px; -webkit-text-stroke-width: 0px;" routerLink="/" (click)="boolHome=false;">anchor</span>
 &nbsp;
   Rotiniel Tools
 </mat-toolbar>
@@ -21,20 +21,26 @@
 
 
   <a mat-raised-button (click)="goChild('https://bitmed.github.io/tmarmor/'); sidenav.toggle()"  class="but">Infondere armature</a>
-  <a mat-raised-button (click)="goChild('https://bitmed.github.io/tmenchant/'); sidenav.toggle()" target="_blank" class="but">TM Enchant</a>
-  <a mat-raised-button (click)="goChild('https://alatarl.github.io/CalendarioTM/'); sidenav.toggle()"  target="_blank" class="but">Calendario elfico</a>
-  <a mat-raised-button (click)="goChild('https://alatarl.github.io/ElficoTM/'); sidenav.toggle()"  target="_blank" class="but">Dizionario elfico</a>
+  <a mat-raised-button  (click)="goChild('https://bitmed.github.io/tmenchant/'); sidenav.toggle()" target="_blank" class="but">TM Enchant</a>
+  <a mat-raised-button  (click)="goChild('https://alatarl.github.io/CalendarioTM/'); sidenav.toggle()"  target="_blank" class="but">Calendario elfico</a>
+  <a mat-raised-button  (click)="goChild('https://alatarl.github.io/ElficoTM/'); sidenav.toggle()"  target="_blank" class="but">Dizionario elfico</a>
 
 
     <mat-divider></mat-divider>
-    <button mat-raised-button class="menu-button" routerLink="/help" (click)="sidenav.toggle()">
+    <button mat-raised-button class="menu-button" routerLink="/help" (click)="sidenav.toggle(); boolHome=false;">
       <mat-icon>help</mat-icon>
       <span>Help</span>
     </button>
+
+    <button mat-raised-button class="menu-button" routerLink="/credits" (click)="sidenav.toggle(); boolHome=false;">
+      <mat-icon>info</mat-icon>
+      <span>Credits</span>
+    </button>
   </mat-sidenav>
-  <app-home [events]="iFrameEmitter.asObservable()"></app-home>
+  <app-home [events]="iFrameEmitter.asObservable()" *ngIf="boolHome"></app-home>
+  <router-outlet *ngIf="!boolHome"></router-outlet>
   <footer class="footer mat-elevation-z8">
-    ...
+    Rotiniel Inc.
    </footer>
 </mat-sidenav-container>
 

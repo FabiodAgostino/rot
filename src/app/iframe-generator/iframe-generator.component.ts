@@ -24,16 +24,12 @@ export class IframeGeneratorComponent implements OnInit {
     this.eventsSubscription = this.events.subscribe((x) =>
     {
       const timing = x.includes("alatar") ? 2000 : 1000;
+      this.urlIFrame=x;
       if(x!="")
       {
         this.isLoading=true;
-        this.urlIFrame=x;
         setTimeout(()=> {
         this.isLoading=false;}, timing);
-      }
-      else
-      {
-        this.urlIFrame=x;
       }
     } );
 

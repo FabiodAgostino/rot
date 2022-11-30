@@ -21,6 +21,7 @@ import { SafePipe } from 'src/environments/selfPipe';
 import { OverlayModule } from '@angular/cdk/overlay';
 import { ProgressSpinnerComponent } from './progress-spinner/progress-spinner.component';
 import { IframeGeneratorComponent } from './iframe-generator/iframe-generator.component';
+import { CreditsComponent } from './credits/credits.component';
 
 
 
@@ -36,6 +37,7 @@ import { IframeGeneratorComponent } from './iframe-generator/iframe-generator.co
     SafePipe,
     ProgressSpinnerComponent,
     IframeGeneratorComponent,
+    CreditsComponent,
   ],
   imports: [
     BrowserModule,
