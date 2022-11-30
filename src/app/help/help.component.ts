@@ -8,8 +8,21 @@ import { Component, OnInit } from '@angular/core';
 export class HelpComponent implements OnInit {
 
   constructor() { }
+  color = 'primary';
+  mode = 'indeterminate';
+  value = 50;
+  displayProgressSpinner = false;
+  spinnerWithoutBackdrop = false;
 
   ngOnInit(): void {
+    this.showProgressSpinner();
   }
+
+  showProgressSpinner = () => {
+    this.displayProgressSpinner = true;
+    setTimeout(() => {
+      this.displayProgressSpinner = false;
+    }, 3000);
+  };
 
 }

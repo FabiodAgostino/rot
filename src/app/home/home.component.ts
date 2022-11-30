@@ -1,6 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { Observable, Subscription } from 'rxjs';
-import { DomSanitizer } from "@angular/platform-browser";
+import { DomSanitizer, SafeHtml } from "@angular/platform-browser";
+import { SafePipe } from 'src/environments/selfPipe';
 
 @Component({
   selector: 'app-home',
@@ -11,20 +12,28 @@ export class HomeComponent implements OnInit {
 
   eventsSubscription = new Subscription();
   isLoading = false;
+  itsSafe: SafeHtml | undefined;
+  private safePipe: SafePipe = new SafePipe(this.sanitizer);
 
   @Input() events = new Observable<string>();
   urlIFrame = "";
 
-  constructor(public sanitizer: DomSanitizer) { }
+  constructor(public sanitizer: DomSanitizer, private _safePipe: SafePipe) { }
 
   ngOnInit(): void {
     this.eventsSubscription = this.events.subscribe((x) =>
     {
-      this.isLoading=true;
-      setTimeout(()=> {
-      this.urlIFrame=x;
-      this.isLoading=false;}, 2000);
-        console.log("s");
+      if(x!="")
+      {
+        this.isLoading=true;
+        setTimeout(()=> {
+        this.urlIFrame=x;
+        this.isLoading=false;}, 1000);
+      }
+      else
+      {
+        this.urlIFrame=x;
+      }
     } );
 
 
@@ -33,6 +42,5 @@ export class HomeComponent implements OnInit {
   ngOnDestroy() {
     this.eventsSubscription.unsubscribe();
   }
-
 
 }

@@ -21,13 +21,9 @@
 .vaiAlSito
 {
   position: absolute;
-  bottom: 30px;
-  margin: 10px;
+  bottom: 20px;
+  margin: 20px;
 }
 
-.spinner
-{
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
+
+

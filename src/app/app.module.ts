@@ -17,6 +17,11 @@ import {MatButtonModule} from '@angular/material/button';
 import { MatDividerModule } from '@angular/material/divider';
 import { HelpComponent } from './help/help.component';
 import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
+import { SafePipe } from 'src/environments/selfPipe';
+import { OverlayModule } from '@angular/cdk/overlay';
+import { ProgressSpinnerComponent } from './progress-spinner/progress-spinner.component';
+import { IframeGeneratorComponent } from './iframe-generator/iframe-generator.component';
+
 
 
 
@@ -29,6 +34,9 @@ import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
     HomeComponent,
     MenuBarComponent,
     HelpComponent,
+    SafePipe,
+    ProgressSpinnerComponent,
+    IframeGeneratorComponent,
   ],
   imports: [
     BrowserModule,
@@ -43,9 +51,12 @@ import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
     MatSidenavModule,
     MatDividerModule,
     MatButtonModule,
+    MatProgressSpinnerModule,
+    OverlayModule,
     MatProgressSpinnerModule
+
   ],
-  providers: [],
+  providers: [SafePipe],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
