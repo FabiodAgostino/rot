@@ -23,7 +23,7 @@ export class IframeGeneratorComponent implements OnInit {
   ngOnInit(): void {
     this.eventsSubscription = this.events.subscribe((x) =>
     {
-      const timing = x.includes("alatar") ? 2000 : 1000;
+      const timing = x.includes("alatar") ? 2300 : 1000;
       this.urlIFrame=x;
       if(x!="")
       {
