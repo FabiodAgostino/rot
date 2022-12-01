@@ -20,10 +20,10 @@
     <mat-divider></mat-divider>
 
 
-  <a mat-raised-button (click)="goChild('https://bitmed.github.io/tmarmor/'); sidenav.toggle()"  class="but">Infondere armature</a>
-  <a mat-raised-button  (click)="goChild('https://bitmed.github.io/tmenchant/'); sidenav.toggle()" target="_blank" class="but">TM Enchant</a>
-  <a mat-raised-button  (click)="goChild('https://alatarl.github.io/CalendarioTM/'); sidenav.toggle()"  target="_blank" class="but">Calendario elfico</a>
-  <a mat-raised-button  (click)="goChild('https://alatarl.github.io/ElficoTM/'); sidenav.toggle()"  target="_blank" class="but">Dizionario elfico</a>
+  <a mat-raised-button routerLink="/" (click)="goChild('https://bitmed.github.io/tmarmor/'); sidenav.toggle()"  class="but">Infondere armature</a>
+  <a mat-raised-button  routerLink="/" (click)="goChild('https://bitmed.github.io/tmenchant/'); sidenav.toggle()" class="but">TM Enchant</a>
+  <a mat-raised-button  routerLink="/" (click)="goChild('https://alatarl.github.io/CalendarioTM/'); sidenav.toggle()"  class="but">Calendario elfico</a>
+  <a mat-raised-button  routerLink="/" (click)="goChild('https://alatarl.github.io/ElficoTM/'); sidenav.toggle()"  class="but">Dizionario elfico</a>
 
 
     <mat-divider></mat-divider>
@@ -39,9 +39,7 @@
   </mat-sidenav>
   <app-home [events]="iFrameEmitter.asObservable()" *ngIf="boolHome"></app-home>
   <router-outlet *ngIf="!boolHome"></router-outlet>
-  <footer class="footer mat-elevation-z8">
-    Rotiniel Inc.
-   </footer>
+  <app-footer></app-footer>
 </mat-sidenav-container>
 
 

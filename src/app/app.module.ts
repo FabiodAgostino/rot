@@ -22,6 +22,7 @@ import { OverlayModule } from '@angular/cdk/overlay';
 import { ProgressSpinnerComponent } from './progress-spinner/progress-spinner.component';
 import { IframeGeneratorComponent } from './iframe-generator/iframe-generator.component';
 import { CreditsComponent } from './credits/credits.component';
+import { FooterComponent } from './footer/footer.component';
 
 
 
@@ -38,6 +39,7 @@ import { CreditsComponent } from './credits/credits.component';
     ProgressSpinnerComponent,
     IframeGeneratorComponent,
     CreditsComponent,
+    FooterComponent,
   ],
   imports: [
     BrowserModule,
