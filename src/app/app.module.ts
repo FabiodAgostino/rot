@@ -23,8 +23,9 @@ import { ProgressSpinnerComponent } from './progress-spinner/progress-spinner.co
 import { IframeGeneratorComponent } from './iframe-generator/iframe-generator.component';
 import { CreditsComponent } from './credits/credits.component';
 import { FooterComponent } from './footer/footer.component';
-
-
+import { FlexLayoutModule } from '@angular/flex-layout';
+import {PlatformModule} from '@angular/cdk/platform';
+import {MatTooltipModule} from '@angular/material/tooltip';
 
 
 
@@ -57,6 +58,10 @@ import { FooterComponent } from './footer/footer.component';
     MatProgressSpinnerModule,
     OverlayModule,
     MatProgressSpinnerModule,
+    FlexLayoutModule,
+    PlatformModule,
+    MatTooltipModule
+
 
   ],
   providers: [SafePipe],

@@ -15,17 +15,18 @@
   margin-left: 32px;
   padding: 4px;
   overflow: auto;
+  position: relative;
 }
 
 
 .vaiAlSito
 {
   position: absolute;
-  bottom: 5%;
+  bottom: 0;
   margin: 20px;
-  display: inline-flex;
-  justify-content: center;
   max-width: 100%;
   line-height: 0.4em;
   padding: 1.1em .75em;
+  display: flex;
+  flex-direction: column;
 }
