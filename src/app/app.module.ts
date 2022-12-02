@@ -26,6 +26,7 @@ import { FooterComponent } from './footer/footer.component';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import {PlatformModule} from '@angular/cdk/platform';
 import {MatTooltipModule} from '@angular/material/tooltip';
+import { SchedaPlayerComponent } from './scheda-player/scheda-player.component';
 
 
 
@@ -41,6 +42,7 @@ import {MatTooltipModule} from '@angular/material/tooltip';
     IframeGeneratorComponent,
     CreditsComponent,
     FooterComponent,
+    SchedaPlayerComponent,
   ],
   imports: [
     BrowserModule,
