@@ -1,0 +1,12 @@
+<mat-card class="home" fxFlex="100"  fxLayout="column" >
+  <ul>
+    <li class="li"><b>Religione:</b> {{spellsPaladino.religione}}</li>
+    <li class="li"><b>Aura:</b> {{spellsPaladino.aura}}</li>
+    <b>Spells:</b>
+    <ul>
+      <li *ngFor="let spell of spellsPaladino?.spell">
+          {{spell}}
+      </li>
+    </ul>
+  </ul>
+</mat-card>

@@ -37,13 +37,15 @@ import {MatSelectModule} from '@angular/material/select';
 import {MatInputModule} from '@angular/material/input';
 import {MatCheckboxModule} from '@angular/material/checkbox';
 import {MatCardModule} from '@angular/material/card';
-import { SchedaPersonaggioComponent } from './scheda-personaggio/scheda-personaggio.component';
-import { ModaleSkillsComponent } from './modale-skills/modale-skills.component';
+import { SchedaPersonaggioComponent } from './scheda-pg/scheda-personaggio/scheda-personaggio.component';
+import { ModaleSkillsComponent } from './scheda-pg/modale-skills/modale-skills.component';
 import { MatDialog } from '@angular/material/dialog';
 import {MatDialogModule} from '@angular/material/dialog';
 import {MatExpansionModule} from '@angular/material/expansion';
 import {MatProgressBarModule} from '@angular/material/progress-bar';
-
+import { ModaleChiericoComponent } from './scheda-pg/modale-chierico/modale-chierico.component';
+import { ModalePaladinoComponent } from './scheda-pg/modale-paladino/modale-paladino.component';
+import { FinishWizardComponent } from './scheda-pg/finish-wizard/finish-wizard.component';
 
 @NgModule({
   declarations: [
@@ -59,6 +61,9 @@ import {MatProgressBarModule} from '@angular/material/progress-bar';
     DevelopComponent,
     SchedaPersonaggioComponent,
     ModaleSkillsComponent,
+    ModaleChiericoComponent,
+    ModalePaladinoComponent,
+    FinishWizardComponent,
   ],
   imports: [
     BrowserModule,
@@ -89,7 +94,7 @@ import {MatProgressBarModule} from '@angular/material/progress-bar';
     MatCardModule,
     MatDialogModule,
     MatExpansionModule,
-    MatProgressBarModule
+    MatProgressBarModule,
   ],
   providers: [SafePipe, MatDialog],
   bootstrap: [AppComponent],

@@ -1,18 +1,24 @@
 import { Injectable } from '@angular/core';
+import { AngularFireDatabase } from '@angular/fire/compat/database';
 import { AngularFirestore, AngularFirestoreCollection } from '@angular/fire/compat/firestore';
 import { BehaviorSubject, Observable } from 'rxjs';
-import { Classe, Razza, Religione, Skill, TipologiaSkill } from '../models/Pg';
+import { Classe, Pg, Razza, Religione, Skill, SkillChecked, SpellPaladino, TipologiaSkill } from '../models/Pg';
 
 @Injectable({
   providedIn: 'root'
 })
 export class SchedaPersonaggioService {
 
-  constructor(private store: AngularFirestore) { }
+  constructor(private store: AngularFirestore, private angularFire : AngularFireDatabase) { }
 
   getAllClass()
   {
     return this.getObservable(this.store.collection('Classe'))as Observable<Classe[]>;;
+  }
+
+  getSpellPaladinoFromDivinita(divinita: string)
+  {
+    return this.getObservableSpellPaladino(this.store.collection('SpellPaladino', ref => ref.where('religione',"==",divinita)))as Observable<SpellPaladino[]>;;
   }
 
   getAllSkills(tipologia: number = -1)
@@ -53,7 +59,36 @@ export class SchedaPersonaggioService {
       classi: skill.classi,
       idTipologiaSkill: skill.idTipologiaSkill
   });
+}
+  AddPg(pg: Pg, guid: string)
+  {
+    this.store.collection("Pg").add({
+      nome: pg.nome,
+      classe: pg.classe.nome,
+      divinita: pg.religione.nome,
+      pantheon: pg.religione.pantheon,
+      forza: pg.stats.forza,
+      destrezza: pg.stats.destrezza,
+      intelligenza: pg.stats.intelligenza,
+      guid: guid
+  });
   }
+
+  addSkillsPg(skill: SkillChecked, guidPg: String)
+  {
+    this.store.collection("SkillsPg").add({
+      guidPg:guidPg,
+      nomeSkill: skill.nome,
+      valueSkill: skill.value
+    });
+  }
+
+  getPg(guid: string)
+  {
+    this.getObservablePg(this.store.collection('PG', ref=> ref.where('guid','==',guid))) as Observable<Pg[]>;
+  }
+
+
 
 
 
@@ -100,6 +135,22 @@ export class SchedaPersonaggioService {
   private getObservableReligioni = (collection: AngularFirestoreCollection<Religione>) => {
     const subject = new BehaviorSubject<Religione[]>([]);
     collection.valueChanges({ idField: 'id' }).subscribe((val: Religione[]) => {
+      subject.next(val);
+    });
+    return subject;
+  }
+
+  private getObservableSpellPaladino = (collection: AngularFirestoreCollection<SpellPaladino>) => {
+    const subject = new BehaviorSubject<SpellPaladino[]>([]);
+    collection.valueChanges({ idField: 'id' }).subscribe((val: SpellPaladino[]) => {
+      subject.next(val);
+    });
+    return subject;
+  }
+
+  private getObservablePg = (collection: AngularFirestoreCollection<Pg>) => {
+    const subject = new BehaviorSubject<Pg[]>([]);
+    collection.valueChanges({ idField: 'id' }).subscribe((val: Pg[]) => {
       subject.next(val);
     });
     return subject;

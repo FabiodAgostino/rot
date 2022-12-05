@@ -1,10 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, Validators } from '@angular/forms';
-import { Classe, Pg, Razza, Religione, Skill } from '../models/Pg';
-import { SchedaPersonaggioService } from '../service/scheda-personaggio.service';
+import { Classe, Pg, Razza, Religione, Skill } from '../../models/Pg';
+import { SchedaPersonaggioService } from '../../service/scheda-personaggio.service';
 import {MatDialog, MAT_DIALOG_DATA, MatDialogRef} from '@angular/material/dialog';
 import { ModaleSkillsComponent } from '../modale-skills/modale-skills.component';
-
+import { ModalePaladinoComponent } from '../modale-paladino/modale-paladino.component';
+import jsPDF from 'jspdf';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-scheda-personaggio',
@@ -22,9 +24,9 @@ export class SchedaPersonaggioComponent implements OnInit {
   skills = new Array<Skill>();
   skillConsigliate = new Array<Skill>();
   nomeForm = new FormControl('', [Validators.required, Validators.minLength(3)]);
-  classeForm = new FormControl(new Classe(), [Validators.required]);
-  razzaForm = new FormControl(new Razza(), [Validators.required]);
-  religioneForm = new FormControl(new Razza(), [Validators.required]);
+  classeForm = new FormControl(null, [Validators.required]);
+  razzaForm = new FormControl(null, [Validators.required]);
+  religioneForm = new FormControl(null, [Validators.required]);
 
   forzaForm = new FormControl(0, [Validators.required, Validators.minLength(1),Validators.maxLength(3)]);
   destrezzaForm = new FormControl(0, [Validators.required, Validators.minLength(1),Validators.maxLength(3)]);
@@ -33,7 +35,7 @@ export class SchedaPersonaggioComponent implements OnInit {
   totaleStat = 0;
 
 
-  constructor(private service: SchedaPersonaggioService, private dialog: MatDialog){}
+  constructor(private service: SchedaPersonaggioService, private dialog: MatDialog, private route: Router){}
 
   ngOnInit(): void {
     this.service.getAllRazze().subscribe(x=> this.razze=x);
@@ -147,5 +149,29 @@ export class SchedaPersonaggioComponent implements OnInit {
     this.totaleStat=this.schedaPg.stats.forza+this.schedaPg.stats.destrezza+this.schedaPg.stats.intelligenza;
     this.colorBar = this.totaleStat>200 && this.totaleStat<215 ? 'accent' : this.totaleStat>215 ? 'warn' : 'primary';
   }
+
+  openPaladino()
+  {
+    this.dialog.open(ModalePaladinoComponent,{data:this.schedaPg.religione.nome});
+  }
+
+  checkSalva()
+  {
+    const stats = this.schedaPg.stats;
+    const religione = this.schedaPg.religione.nome;
+    return stats.forza!==0 && stats.destrezza!==0 && stats.intelligenza!==0 && this.nomeForm.valid && religione!=='' && this.classeForm.valid && this.razzaForm.valid && this.schedaPg.skills.length>0;
+  }
+
+  savePg()
+  {
+    let guid=  crypto.randomUUID();
+    this.service.AddPg(this.schedaPg,guid);
+
+    this.schedaPg.skills.forEach(x=>{
+      this.service.addSkillsPg(x,guid);
+    })
+    this.route.navigate(["/FinishWizardPg",{guid:guid}])
+  }
+
 
 }

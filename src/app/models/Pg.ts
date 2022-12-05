@@ -1,15 +1,28 @@
 export class Pg
 {
   nome: string = "";
-  cognome: string = "";
   classe: Classe = new Classe();
   skills = new Array<SkillChecked>();
   razza = new Razza;
   stats = new Stats();
-  weight: [number,number] =  [0,0];
   divinita: string = "";
   malusMagico: number = 0;
   religione = new Religione();
+}
+
+export class SkillsPg
+{
+  guidPg: string = "";
+  nomeSkill: string = "";
+  valueSkill: number = 0;
+}
+
+export class SpellPaladino
+{
+  id: number = 0;
+  religione: string ="";
+  spell = Array<string>();
+  aura: string = "";
 }
 
 export class Religione

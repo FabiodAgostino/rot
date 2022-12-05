@@ -2,9 +2,9 @@ import { Component, Inject, OnInit } from '@angular/core';
 import { FormControl, Validators } from '@angular/forms';
 import { MatCheckboxChange } from '@angular/material/checkbox';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { Classe, Pg, Skill, SkillChecked, TipologiaSkill } from '../models/Pg';
-import { SchedaPersonaggioService } from '../service/scheda-personaggio.service';
-import { Utils } from '../utils/utility';
+import { Classe, Pg, Skill, SkillChecked, TipologiaSkill } from '../../models/Pg';
+import { SchedaPersonaggioService } from '../../service/scheda-personaggio.service';
+import { Utils } from '../../utils/utility';
 
 @Component({
   selector: 'app-modale-skills',
