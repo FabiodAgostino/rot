@@ -18,7 +18,7 @@ export class SchedaPersonaggioService {
   getAllSkills(tipologia: number = -1)
   {
     if(tipologia===-1)
-      return this.getObservableSkill(this.store.collection('Skill'))as Observable<Skill[]>;
+      return this.getObservableSkill(this.store.collection('Skill',ref => ref.orderBy('idTipologiaSkill')))as Observable<Skill[]>;
 
     return this.getObservableSkill(this.store.collection('Skill', ref=> ref.where('idTipologiaSkill',"==",tipologia.toString())))as Observable<Skill[]>;
   }

@@ -13,6 +13,8 @@
   padding: 10px;
   overflow: auto;
   border: 2px solid #004a9f;
+  background-color: 	#a8afb8;
+  color:black;
 }
 
 .home2
@@ -78,7 +80,13 @@ background-color: darkgrey;
 outline: 1px solid slategrey;
 }
 
-
+.material-symbols-outlined {
+  font-variation-settings:
+  'FILL' 1,
+  'wght' 400,
+  'GRAD' 0,
+  'opsz' 48
+}
 
 
 

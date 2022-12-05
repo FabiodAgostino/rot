@@ -28,6 +28,7 @@ export class ModaleSkillsComponent implements OnInit {
   magiche = new Array<SkillChecked>();
   lavorative = new Array<SkillChecked>();
   conoscitive = new Array<SkillChecked>();
+  skillsComplessive = new Array<SkillChecked>();
   skillForm = new FormControl(0, [Validators.required]);
   arraySkills = new Array<Array<SkillChecked>>();
   valueTotale = 0;
@@ -35,10 +36,10 @@ export class ModaleSkillsComponent implements OnInit {
   skillScelte = new Array<SkillChecked>();
   isSmartphone = false;
   skills = new Array<SkillChecked>();
+  expanded= true;
 
-  ngOnInit(): void {
-
-
+  ngOnInit(): void
+  {
     this.isSmartphone=this.utils.isSmartphone();
     this.reload();
   }
@@ -107,35 +108,18 @@ export class ModaleSkillsComponent implements OnInit {
 
   setAll(event: MatCheckboxChange){
     if ( event.checked ) {
-      this.lavorative=this.setStandardSkills(this.lavorative);
-      this.combattive=this.setStandardSkills(this.combattive);
-      this.magiche=this.setStandardSkills(this.magiche);
-      this.conoscitive=this.setStandardSkills(this.conoscitive);
-      this.miscellanee=this.setStandardSkills(this.miscellanee);
-      this.musicali=this.setStandardSkills(this.musicali);
+      this.skillsComplessive=this.setStandardSkills(this.skillsComplessive);
       this.getSkillsChecked();
    }
    else
-  {
-    this.lavorative=this.setStandardSkills(this.lavorative,1);
-      this.combattive=this.setStandardSkills(this.combattive,1);
-      this.magiche=this.setStandardSkills(this.magiche,1);
-      this.conoscitive=this.setStandardSkills(this.conoscitive,1);
-      this.miscellanee=this.setStandardSkills(this.miscellanee,1);
-      this.musicali=this.setStandardSkills(this.musicali,1);
-  }
+    this.skillsComplessive=this.setStandardSkills(this.skillsComplessive,1);
   this.resultSkills();
   }
 
   resultSkills()
   {
     this.valueTotale = 0;
-    this.valueTotale +=this.lavorative.reduce((partialSum, a) => partialSum + a.value, 0);
-    this.valueTotale +=this.combattive.reduce((partialSum, a) => partialSum + a.value, 0);
-    this.valueTotale +=this.miscellanee.reduce((partialSum, a) => partialSum + a.value, 0);
-    this.valueTotale +=this.magiche.reduce((partialSum, a) => partialSum + a.value, 0);
-    this.valueTotale +=this.musicali.reduce((partialSum, a) => partialSum + a.value, 0);
-    this.valueTotale +=this.conoscitive.reduce((partialSum, a) => partialSum + a.value, 0);
+    this.valueTotale +=this.skillsComplessive.reduce((partialSum, a) => partialSum + a.value, 0);
 
   }
 
@@ -144,12 +128,10 @@ export class ModaleSkillsComponent implements OnInit {
     this.service.getClasseSkills(this.classe.nome).subscribe(x=>
       {
         this.skillDiClasse=this.getStandardSkills(x);
-          this.service.getAllSkills(0).subscribe(u=> {this.lavorative=Skill.ConvertToSkillsChecked(u); this.reloadSkills(this.lavorative)});
-          this.service.getAllSkills(1).subscribe(u=> {this.combattive=Skill.ConvertToSkillsChecked(u); this.reloadSkills(this.lavorative)});
-          this.service.getAllSkills(2).subscribe(u=> {this.magiche=Skill.ConvertToSkillsChecked(u); this.reloadSkills(this.lavorative)});
-          this.service.getAllSkills(3).subscribe(u=> {this.conoscitive=Skill.ConvertToSkillsChecked(u); this.reloadSkills(this.lavorative)});
-          this.service.getAllSkills(4).subscribe(u=> {this.miscellanee=Skill.ConvertToSkillsChecked(u); this.reloadSkills(this.lavorative)});
-          this.service.getAllSkills(5).subscribe(u=> {this.musicali=Skill.ConvertToSkillsChecked(u); this.reloadSkills(this.lavorative)});
+        this.service.getAllSkills().subscribe(u=> {
+          this.skillsComplessive=Skill.ConvertToSkillsChecked(u);
+          this.reloadSkills();
+        });
       });
   }
 
@@ -164,29 +146,24 @@ export class ModaleSkillsComponent implements OnInit {
     this.skillScelte[i].value=skill.value;
   }
 
-  getSkillsSelected()
-  {
-  }
-
-
   salvaSkills()
   {
+    this.getSkillsChecked();
     this.dialogRef.close({data: this.skillScelte});
   }
 
-  reloadSkills(array: Array<SkillChecked>)
+  reloadSkills()
   {
     if(this.skills.length>0)
     {
     this.skills.forEach(x=>{
-      let i =array.findIndex(y=> y.id==x.id);
-      if(array[i]?.value!==undefined)
+      let i =this.skillsComplessive.findIndex(y=> y.id==x.id);
+      if(this.skillsComplessive[i]?.value!==undefined)
       {
-        array[i].value=x.value;
-        array[i].isChecked = x.isChecked;
+        this.skillsComplessive[i].value=x.value;
+        this.skillsComplessive[i].isChecked = x.isChecked;
       }
     });
-    console.log(array);
     this.resultSkills();
     }
   }
@@ -194,11 +171,13 @@ export class ModaleSkillsComponent implements OnInit {
   getSkillsChecked()
   {
     this.skillScelte = new Array<SkillChecked>();
-    this.skillScelte=this.skillScelte.concat(this.lavorative.filter(x=> x.isChecked && x.value>0));
-    this.skillScelte=this.skillScelte.concat(this.combattive.filter(x=> x.isChecked && x.value>0));
-    this.skillScelte=this.skillScelte.concat(this.magiche.filter(x=> x.isChecked && x.value>0));
-    this.skillScelte=this.skillScelte.concat(this.conoscitive.filter(x=> x.isChecked && x.value>0));
-    this.skillScelte=this.skillScelte.concat(this.musicali.filter(x=> x.isChecked && x.value>0));
-    this.skillScelte=this.skillScelte.concat(this.miscellanee.filter(x=> x.isChecked && x.value>0));
+    this.skillScelte=this.skillScelte.concat(this.skillsComplessive.filter(x=> x.isChecked && x.value>0));
+  }
+
+  reset()
+  {
+    this.skillsComplessive.forEach(x=> {x.value=0;x.isChecked=false;})
+    this.valueTotale=0;
+    this.skillScelte= new Array<SkillChecked>();
   }
 }
