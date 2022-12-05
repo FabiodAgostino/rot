@@ -11,7 +11,7 @@ export class FooterComponent implements OnInit {
   constructor() { }
   version:string ="";
   ngOnInit(): void {
-    const config = require("./version.json");
+    const config = require("../../environments/version.json");
     this.version=config.version;
   }
 

@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { NgModule, CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 
 import { AppRoutingModule } from './app-routing.module';
@@ -9,7 +9,7 @@ import { RouterModule } from '@angular/router';
 import { MenuBarComponent } from './menu-bar/menu-bar.component';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatNativeDateModule } from '@angular/material/core';
-import { ReactiveFormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatIconModule } from '@angular/material/icon';
 import {MatSidenavModule} from '@angular/material/sidenav';
@@ -26,9 +26,23 @@ import { FooterComponent } from './footer/footer.component';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import {PlatformModule} from '@angular/cdk/platform';
 import {MatTooltipModule} from '@angular/material/tooltip';
-import { SchedaPlayerComponent } from './scheda-player/scheda-player.component';
-
-
+import { environment } from "../environments/environment";
+import { AngularFireModule } from "@angular/fire/compat";
+import { AngularFireAuthModule } from "@angular/fire/compat/auth";
+import { AngularFireStorageModule } from '@angular/fire/compat/storage';
+import { AngularFirestoreModule } from '@angular/fire/compat/firestore';
+import { AngularFireDatabaseModule  } from '@angular/fire/compat/database';
+import { DevelopComponent } from './develop/develop.component';
+import {MatSelectModule} from '@angular/material/select';
+import {MatInputModule} from '@angular/material/input';
+import {MatCheckboxModule} from '@angular/material/checkbox';
+import {MatCardModule} from '@angular/material/card';
+import { SchedaPersonaggioComponent } from './scheda-personaggio/scheda-personaggio.component';
+import { ModaleSkillsComponent } from './modale-skills/modale-skills.component';
+import { MatDialog } from '@angular/material/dialog';
+import {MatDialogModule} from '@angular/material/dialog';
+import {MatExpansionModule} from '@angular/material/expansion';
+import {MatProgressBarModule} from '@angular/material/progress-bar';
 
 
 @NgModule({
@@ -42,7 +56,9 @@ import { SchedaPlayerComponent } from './scheda-player/scheda-player.component';
     IframeGeneratorComponent,
     CreditsComponent,
     FooterComponent,
-    SchedaPlayerComponent,
+    DevelopComponent,
+    SchedaPersonaggioComponent,
+    ModaleSkillsComponent,
   ],
   imports: [
     BrowserModule,
@@ -62,11 +78,25 @@ import { SchedaPlayerComponent } from './scheda-player/scheda-player.component';
     MatProgressSpinnerModule,
     FlexLayoutModule,
     PlatformModule,
-    MatTooltipModule
-
-
+    MatTooltipModule,
+    AngularFireModule.initializeApp(environment.firebaseConfig),
+    AngularFireAuthModule,
+    AngularFirestoreModule,
+    FormsModule,
+    MatSelectModule,
+    MatInputModule,
+    MatCheckboxModule,
+    MatCardModule,
+    MatDialogModule,
+    MatExpansionModule,
+    MatProgressBarModule
   ],
-  providers: [SafePipe],
-  bootstrap: [AppComponent]
+  providers: [SafePipe, MatDialog],
+  bootstrap: [AppComponent],
+  schemas: [
+    CUSTOM_ELEMENTS_SCHEMA,
+    NO_ERRORS_SCHEMA
+  ]
+
 })
 export class AppModule { }

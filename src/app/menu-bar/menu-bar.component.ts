@@ -1,6 +1,8 @@
-import { Component, EventEmitter, OnInit, Output } from '@angular/core';
-import { SafeHtml, SafeScript, SafeUrl } from '@angular/platform-browser';
-import { Subject } from 'rxjs';
+import { Component, OnInit } from '@angular/core';
+import { AngularFirestore, AngularFirestoreCollection, AngularFirestoreModule } from '@angular/fire/compat/firestore';
+import {  Subject } from 'rxjs';
+import { Classe } from '../models/Pg';
+import { SchedaPersonaggioService } from '../service/scheda-personaggio.service';
 
 
 @Component({
@@ -10,11 +12,12 @@ import { Subject } from 'rxjs';
 })
 export class MenuBarComponent implements OnInit {
 
-  constructor() { }
+  constructor(public service: SchedaPersonaggioService){}
   iFrameEmitter: Subject<string> = new Subject<string>();
   boolHome= false;
+  class = new Array<Classe>();
 
-  ngOnInit(): void {
+   ngOnInit() {
   }
 
   goChild(url: string)
@@ -23,9 +26,11 @@ export class MenuBarComponent implements OnInit {
     setTimeout(()=> {
       this.iFrameEmitter.next(url);}, 100);
 
-
   }
 
 
-
 }
+
+
+
+

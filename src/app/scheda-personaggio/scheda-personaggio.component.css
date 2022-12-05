@@ -1,0 +1,49 @@
+.content {
+  height: calc(100vh - 130px);
+  border-radius: 10px;
+  margin: 16px;
+  margin-left: 32px;
+  padding: 4px;
+  overflow: auto;
+}
+
+.home
+{
+  border: 2px solid black;
+}
+
+
+
+.title
+{
+  padding: 15px;
+  font-size: x-large;
+  font-weight: bold;
+  font-family: 'Playfair Display', serif;
+  color: #004a9f;
+}
+
+.form
+{
+  padding: 10px;
+  margin: 10px;
+}
+
+.firstForm
+{
+  border: 2px solid #004a9f;
+  border-radius: 10px;
+  padding-left: 3%;
+  padding-right: 3%;
+  padding-bottom: 3%;
+  margin-right: 15%;
+  margin-left: 15%;
+
+}
+
+
+.green
+{
+  background-color:#388E3C;
+  color: white;
+}

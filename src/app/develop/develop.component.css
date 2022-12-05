@@ -1,0 +1,28 @@
+.example-form-field {
+  width: 200px;
+}
+
+.container {
+  height: 100%;
+  padding: 15px;
+  display: flex;
+  margin-top:5%
+}
+
+.home
+{
+  height: auto;
+  padding: 0;
+  display: flex;
+  justify-content: center;
+  margin-top:5%
+}
+
+.skills
+{
+  width: 50%;
+  padding: 0;
+  display: flex;
+  justify-content: center;
+  margin-top:5%
+}

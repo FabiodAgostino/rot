@@ -1,0 +1,197 @@
+<mat-card class="home" fxFlex="100"  fxLayout="column" *ngIf="!isSmartphone">
+  <mat-card-header>
+    <mat-card-title>Skills</mat-card-title>
+    <mat-card-subtitle>Scegli le skills del tuo pg</mat-card-subtitle>
+  </mat-card-header>
+  <div style="padding:5px"></div>
+  <div>
+  <mat-progress-bar mode="determinate" [color]="valueTotale<=1200 ? 'primary' : 'warn'" [value]="valueTotale/12"></mat-progress-bar>
+  </div>
+  <div>
+    <section class="example-section" fxFlex fxlayout="column">
+      <mat-checkbox class="example-margin" color="primary" (change)="setAll($event)">Applica skills consigliate</mat-checkbox>
+    </section>
+    <div fxFlex fxlayout="column">
+      <b>Totale skills selezionate: <u [style.color]="valueTotale>1200 ? 'red' : '#004a9f'">{{valueTotale}}</u></b>
+    </div>
+  </div>
+  <div style="padding:10px"></div>
+
+<!-- LAVORATIVE -->
+  <mat-expansion-panel hideToggle class="menubar" (opened)="salva=true">
+    <mat-expansion-panel-header >
+      <mat-panel-title>
+        <b>Skills</b>
+
+      </mat-panel-title>
+      <mat-panel-description>
+      </mat-panel-description>
+    </mat-expansion-panel-header>
+    <div class="skills" fxLayout="column" fxFlex>
+      <b>Lavorative</b>
+      <li *ngFor="let lavorativa of lavorative" fxFlex>
+        <div fxFlex="100" >
+          <button mat-raised-button (click)="setSkill(lavorativa)" fxFlex="100" class="skill" [color]="lavorativa.isChecked ? 'primary' : 'warn'" >{{lavorativa.nome}}</button>
+            <input *ngIf="lavorativa.isChecked" class="value" matInput type="number" fxFlex="30" [(ngModel)]="lavorativa.value"  placeholder="Valore skill" (keyup)="checkNumber(lavorativa)">
+        </div>
+      </li>
+      <div class="bar">
+        <mat-divider></mat-divider>
+      </div>
+      <b>Combattive</b>
+      <li *ngFor="let lavorativa of combattive" fxFlex>
+        <div fxFlex="100" >
+          <button mat-raised-button (click)="setSkill(lavorativa)" fxFlex="100" class="skill" [color]="lavorativa.isChecked ? 'primary' : 'warn'">{{lavorativa.nome}}</button>
+            <input *ngIf="lavorativa.isChecked" class="value" matInput type="number" fxFlex="30" [(ngModel)]="lavorativa.value"  placeholder="Valore skill" (keyup)="checkNumber(lavorativa)">
+        </div>
+      </li>
+      <div class="bar">
+        <mat-divider></mat-divider>
+      </div>
+      <b>Magiche</b>
+      <li *ngFor="let lavorativa of magiche" fxFlex>
+        <div fxFlex="100" >
+          <button mat-raised-button (click)="setSkill(lavorativa)" fxFlex="100" class="skill" [color]="lavorativa.isChecked ? 'primary' : 'warn'">{{lavorativa.nome}}</button>
+            <input *ngIf="lavorativa.isChecked" class="value" matInput type="number" fxFlex="30" [(ngModel)]="lavorativa.value"  placeholder="Valore skill" (keyup)="checkNumber(lavorativa)">
+        </div>
+      </li>
+      <div class="bar">
+        <mat-divider></mat-divider>
+      </div>
+      <b>Conoscitive</b>
+      <li *ngFor="let lavorativa of conoscitive" fxFlex>
+        <div fxFlex="100" >
+          <button mat-raised-button (click)="setSkill(lavorativa)" fxFlex="100" class="skill" [color]="lavorativa.isChecked ? 'primary' : 'warn'">{{lavorativa.nome}}</button>
+            <input *ngIf="lavorativa.isChecked" class="value" matInput type="number" fxFlex="30" [(ngModel)]="lavorativa.value"  placeholder="Valore skill" (keyup)="checkNumber(lavorativa)">
+        </div>
+      </li>
+      <div class="bar">
+        <mat-divider></mat-divider>
+      </div>
+      <b>Miscellanee</b>
+      <li *ngFor="let lavorativa of miscellanee" fxFlex>
+        <div fxFlex="100" >
+          <button mat-raised-button (click)="setSkill(lavorativa)" fxFlex="100" class="skill" [color]="lavorativa.isChecked ? 'primary' : 'warn'">{{lavorativa.nome}}</button>
+            <input *ngIf="lavorativa.isChecked" class="value" matInput type="number" fxFlex="30" [(ngModel)]="lavorativa.value"  placeholder="Valore skill" (keyup)="checkNumber(lavorativa)">
+        </div>
+      </li>
+      <div class="bar">
+        <mat-divider></mat-divider>
+      </div>
+      <b>Musicali</b>
+      <li *ngFor="let lavorativa of musicali" fxFlex>
+        <div fxFlex="100" >
+          <button mat-raised-button (click)="setSkill(lavorativa)" fxFlex="100" class="skill" [color]="lavorativa.isChecked ? 'primary' : 'warn'">{{lavorativa.nome}}</button>
+            <input *ngIf="lavorativa.isChecked" class="value" matInput type="number" fxFlex="30" [(ngModel)]="lavorativa.value"  placeholder="Valore skill" (keyup)="checkNumber(lavorativa)">
+        </div>
+      </li>
+  </div>
+  </mat-expansion-panel>
+  <div fxLayout="row" fxLayoutAlign="end end" >
+    <button mat-raised-button *ngIf="salva" color="primary" [disabled]="valueTotale>1200" (click)="salvaSkills()">Salva</button>
+  </div>
+</mat-card>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <div class="home2" fxFlex="100"  fxLayout="column" *ngIf="isSmartphone">
+  <div style="padding:5px"></div>
+  <div>
+  <mat-progress-bar mode="determinate" [color]="valueTotale<=1200 ? 'primary' : 'warn'" [value]="valueTotale/12"></mat-progress-bar>
+  </div>
+  <div>
+    <section class="example-section" fxFlex fxlayout="column">
+      <mat-checkbox class="example-margin" color="primary" (change)="setAll($event)">Applica skills consigliate</mat-checkbox>
+    </section>
+  </div>
+  <div style="padding:10px"></div>
+  <div>
+    <b>Totale skills selezionate: <u [style.color]="valueTotale>1200 ? 'red' : '#004a9f'">{{valueTotale}}</u></b>
+  </div>
+  <div style="padding:10px"></div>
+
+<!-- LAVORATIVE -->
+    <div class="skills" fxLayout="column" fxFlex>
+      <b>Lavorative</b>
+      <li *ngFor="let lavorativa of lavorative" fxFlex>
+        <div fxFlex="100" >
+          <button mat-raised-button (click)="setSkill(lavorativa)" fxFlex="100" class="skill" [color]="lavorativa.isChecked ? 'primary' : 'warn'" >{{lavorativa.nome}}</button>
+            <input *ngIf="lavorativa.isChecked" class="value" matInput type="number" fxFlex="30" [(ngModel)]="lavorativa.value"  placeholder="Valore skill" (keyup)="checkNumber(lavorativa)">
+        </div>
+      </li>
+      <div class="bar">
+        <mat-divider></mat-divider>
+      </div>
+      <b>Combattive</b>
+      <li *ngFor="let lavorativa of combattive" fxFlex>
+        <div fxFlex="100" >
+          <button mat-raised-button (click)="setSkill(lavorativa)" fxFlex="100" class="skill" [color]="lavorativa.isChecked ? 'primary' : 'warn'">{{lavorativa.nome}}</button>
+            <input *ngIf="lavorativa.isChecked" class="value" matInput type="number" fxFlex="30" [(ngModel)]="lavorativa.value"  placeholder="Valore skill" (keyup)="checkNumber(lavorativa)">
+        </div>
+      </li>
+      <div class="bar">
+        <mat-divider></mat-divider>
+      </div>
+      <b>Magiche</b>
+      <li *ngFor="let lavorativa of magiche" fxFlex>
+        <div fxFlex="100" >
+          <button mat-raised-button (click)="setSkill(lavorativa)" fxFlex="100" class="skill" [color]="lavorativa.isChecked ? 'primary' : 'warn'">{{lavorativa.nome}}</button>
+            <input *ngIf="lavorativa.isChecked" class="value" matInput type="number" fxFlex="30" [(ngModel)]="lavorativa.value"  placeholder="Valore skill" (keyup)="checkNumber(lavorativa)">
+        </div>
+      </li>
+      <div class="bar">
+        <mat-divider></mat-divider>
+      </div>
+      <b>Conoscitive</b>
+      <li *ngFor="let lavorativa of conoscitive" fxFlex>
+        <div fxFlex="100" >
+          <button mat-raised-button (click)="setSkill(lavorativa)" fxFlex="100" class="skill" [color]="lavorativa.isChecked ? 'primary' : 'warn'">{{lavorativa.nome}}</button>
+            <input *ngIf="lavorativa.isChecked" class="value" matInput type="number" fxFlex="30" [(ngModel)]="lavorativa.value"  placeholder="Valore skill" (keyup)="checkNumber(lavorativa)">
+        </div>
+      </li>
+      <div class="bar">
+        <mat-divider></mat-divider>
+      </div>
+      <b>Miscellanee</b>
+      <li *ngFor="let lavorativa of miscellanee" fxFlex>
+        <div fxFlex="100" >
+          <button mat-raised-button (click)="setSkill(lavorativa)" fxFlex="100" class="skill" [color]="lavorativa.isChecked ? 'primary' : 'warn'">{{lavorativa.nome}}</button>
+            <input *ngIf="lavorativa.isChecked" class="value" matInput type="number" fxFlex="30" [(ngModel)]="lavorativa.value"  placeholder="Valore skill" (keyup)="checkNumber(lavorativa)">
+        </div>
+      </li>
+      <div class="bar">
+        <mat-divider></mat-divider>
+      </div>
+      <b>Musicali</b>
+      <li *ngFor="let lavorativa of musicali" fxFlex>
+        <div fxFlex="100" >
+          <button mat-raised-button (click)="setSkill(lavorativa)" fxFlex="100" class="skill" [color]="lavorativa.isChecked ? 'primary' : 'warn'">{{lavorativa.nome}}</button>
+            <input *ngIf="lavorativa.isChecked" class="value" matInput type="number" fxFlex="30" [(ngModel)]="lavorativa.value"  placeholder="Valore skill" (keyup)="checkNumber(lavorativa)">
+        </div>
+      </li>
+  </div>
+  <div fxLayout="row" fxLayoutAlign="center center" >
+    <button mat-raised-button color="primary" [disabled]="valueTotale>1200" (click)="salvaSkills()">Salva</button>
+  </div>
+</div>
+

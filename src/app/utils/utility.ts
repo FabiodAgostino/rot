@@ -1,5 +1,6 @@
 import { Platform } from "@angular/cdk/platform"
 import { Injectable } from '@angular/core';
+import { Classe, ClasseCheckBox, Skill } from "../models/Pg";
 
 @Injectable({
   providedIn: 'root',
@@ -12,4 +13,5 @@ export class Utils {
   platform: Platform;
 
   isSmartphone() { return this.platform.ANDROID || this.platform.IOS};
+
 }

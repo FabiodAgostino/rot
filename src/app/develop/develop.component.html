@@ -1,0 +1,51 @@
+<div *ngIf="develop">
+  <div class="home" fxLayout="row">
+    <mat-card fxFlex="70" class="container" fxLayout="column">
+      <mat-card-header>
+        <mat-card-title>Salva nuova skill</mat-card-title>
+      </mat-card-header>
+      <mat-card-content fxFlex="100" style="height: 300px" fxLayoutAlign="center center">
+
+            <div fxFlex="30" fxLayout="column">
+              <mat-form-field class="example-form-field">
+                <mat-label>Nome skill</mat-label>
+                <input matInput type="text" [(ngModel)]="newSkill.nome" fxFlex color="primary"/>
+                <button matSuffix mat-icon-button aria-label="Clear" (click)="newSkill.nome=''">
+                  <mat-icon>close</mat-icon>
+                </button>
+              </mat-form-field>
+            </div>
+
+            <div *ngIf="tipologiaSkills.length>0"  fxLayout="column" fxFlex="30">
+                <mat-form-field appearance="fill">
+                <mat-label>Tipologia Skill</mat-label>
+                <mat-select color="primary" [(ngModel)]="newSkill.idTipologiaSkill" >
+                  <mat-option color="primary" *ngFor="let tipologia of tipologiaSkills" [value]="tipologia.id" >{{tipologia.nome}}</mat-option>
+                </mat-select>
+              </mat-form-field>
+            </div>
+          <div fxFlex="30" fxLayout="column" style="margin-left: 10%;">
+            <section >
+                <mat-checkbox style="padding:4px" *ngFor="let classe of classi" color="primary" (change)="toggle(classe)">{{classe.nome}}</mat-checkbox>
+            </section>
+          </div>
+          <div fxFlex style="margin-left: 5%; margin-right:5%">
+            <button mat-raised-button color="primary" [disabled]="newSkill.nome=='' || newSkill.idTipologiaSkill === -1" (click)="SalvaSkill()">Salva</button>
+          </div>
+      </mat-card-content>
+    </mat-card>
+  </div>
+  <div  fxLayout="row"  class="skills" fxLayoutAlign="center center" >
+  <mat-card fxFlex fxLayout="row"  fxFlex style="height: 300px; overflow-y: auto;" >
+    <ul *ngIf="skills.length>0" >
+      <li fxLayout="column" *ngFor="let skill of skills" style="padding: 5px;"><b>*{{skill.nome}}</b> <ul *ngFor="let classe of skill.classi"><li>{{classe}}</li></ul></li>
+    </ul>
+  </mat-card>
+  </div>
+</div>
+
+
+
+
+
+

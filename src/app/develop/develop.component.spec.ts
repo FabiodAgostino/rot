@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { SchedaPlayerComponent } from './scheda-player.component';
+import { DevelopComponent } from './develop.component';
 
-describe('SchedaPlayerComponent', () => {
-  let component: SchedaPlayerComponent;
-  let fixture: ComponentFixture<SchedaPlayerComponent>;
+describe('DevelopComponent', () => {
+  let component: DevelopComponent;
+  let fixture: ComponentFixture<DevelopComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ SchedaPlayerComponent ]
+      declarations: [ DevelopComponent ]
     })
     .compileComponents();
 
-    fixture = TestBed.createComponent(SchedaPlayerComponent);
+    fixture = TestBed.createComponent(DevelopComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
