@@ -14,4 +14,5 @@ export class Utils {
 
   isSmartphone() { return this.platform.ANDROID || this.platform.IOS};
 
+
 }

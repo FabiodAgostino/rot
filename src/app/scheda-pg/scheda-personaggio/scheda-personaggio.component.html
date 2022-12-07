@@ -6,8 +6,9 @@
   <div fxLayout="row" fxLayoutAlign="space-around center" style="text-align:center; margin-bottom: 10px">
     <b>Compila il form e scarica il pdf con tutte le caratteristiche del tuo pg!</b>
   </div>
-  <mat-divider fxLayout="row" style="padding: 10px;"></mat-divider>
+  <mat-divider fxLayout="row" style="border-top-color:#004a9f"></mat-divider>
 
+<div style="padding: 8px;"></div>
 <mat-card fxLayout="column" fxFlex="100" class="firstForm">
   <mat-card-header>
     <mat-card-title>
@@ -35,7 +36,7 @@
     <mat-form-field fxFlex.xs="100" fxFlex.sm="60" fxFlex.md="70" fxFlex.lg="100" fxFlex.xl="100">
     <mat-label>Razza</mat-label>
     <mat-select color="primary" [(ngModel)]="schedaPg.razza.nome" [formControl]="razzaForm" fxFlex >
-      <mat-option color="primary" *ngFor="let razza of razze" [value]="razza.nome" (click)="getReligioni(); getClassi()">{{razza.nome}}</mat-option>
+      <mat-option color="primary" *ngFor="let razza of razze" [value]="razza.nome" (click)="changeRazza='changed';getReligioni(); getClassi()">{{razza.nome}}</mat-option>
     </mat-select>
       <mat-error *ngIf="classeForm.hasError('required') && schedaPg.razza == undefined">
         Seleziona una razza
@@ -115,14 +116,14 @@
 </mat-card>
 <div div fxLayout="row wrap" fxLayoutAlign="center center" >
   <div  style="margin-top: 1%;">
-    <button mat-raised-button   color="primary" (click)="selectSkills()" *ngIf="schedaPg.skills.length==0">Scegli skills  <mat-icon>assignment</mat-icon></button>
+    <button mat-raised-button   color="primary" (click)="selectSkills()" [disabled]="schedaPg.classe.nome===undefined" *ngIf="schedaPg.skills.length==0">Scegli skills  <mat-icon>assignment</mat-icon></button>
     <button mat-raised-button   class="green"  (click)="selectSkills()" *ngIf="schedaPg.skills.length>0">Skills selezionate <mat-icon>done</mat-icon></button>
   </div>
 </div>
-<mat-divider fxLayout="row" style="margin: 10px;"></mat-divider>
+<mat-divider fxLayout="row" style="margin: 10px; border-top-color:#004a9f"></mat-divider>
     <div fxLayout="row wrap"  fxLayoutAlign="space-around center" fxFlex>
               <div  style="margin-top: 1%;" >
-                <button mat-raised-button color="warn" (click)="selectSkills()" >Reset  <mat-icon>undo</mat-icon></button>
+                <button mat-raised-button color="warn" (click)="reset()" >Reset  <mat-icon>undo</mat-icon></button>
               </div>
               <div style="margin-top: 1%;" >
                 <button mat-raised-button color="primary"  [disabled]="!checkSalva()" (click)="savePg()">Salva <mat-icon>done</mat-icon></button>
