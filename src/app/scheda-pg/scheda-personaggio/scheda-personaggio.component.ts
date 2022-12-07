@@ -67,7 +67,10 @@ export class SchedaPersonaggioComponent implements OnInit {
 
   selectSkills()
   {
-    const dialog=this.dialog.open(ModaleSkillsComponent,{data: this.schedaPg});
+    const dialog=this.dialog.open(ModaleSkillsComponent,{
+      maxWidth: '1000px',
+      maxHeight: '600px',
+      data: this.schedaPg});
 
     dialog.afterClosed().subscribe(x=>
       {

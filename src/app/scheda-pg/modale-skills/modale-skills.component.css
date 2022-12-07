@@ -1,6 +1,8 @@
 .menubar
 {
   margin: 2%;
+  border-color: #004a9f;
+  border-radius: 10px;
 }
 
 .home
@@ -8,12 +10,7 @@
   height: calc(100vh - 150px);
   width: calc(100vh - 130px);
   border-radius: 10px;
-  margin: 16px;
-  margin-left: 32px;
-  padding: 10px;
   overflow: auto;
-  border: 2px solid #004a9f;
-  background-color: 	#a8afb8;
   color:black;
 }
 
@@ -87,7 +84,4 @@ outline: 1px solid slategrey;
   'GRAD' 0,
   'opsz' 48
 }
-
-
-
 
