@@ -16,8 +16,10 @@ export class MenuBarComponent implements OnInit {
   iFrameEmitter: Subject<string> = new Subject<string>();
   boolHome= false;
   class = new Array<Classe>();
-
+  develop= false;
    ngOnInit() {
+    const config = require("../../environments/version.json");
+    this.develop=config.develop;
   }
 
   goChild(url: string)
