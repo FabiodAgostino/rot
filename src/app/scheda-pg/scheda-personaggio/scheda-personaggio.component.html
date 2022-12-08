@@ -1,7 +1,12 @@
 
 <div fxLayout="column" fxFlex>
-  <div fxLayout="row" fxLayoutAlign="space-around center" class="title">
+  <div fxLayout="row" fxLayoutAlign="center center" class="title">
     Scheda Personaggio
+    <button mat-icon-button matTooltip="Recupera una scheda già compilata" (click)="recuperaScheda()">
+      <span class="material-symbols-outlined" style="color:green">
+        downloading
+        </span>
+    </button>
   </div>
   <div fxLayout="row" fxLayoutAlign="space-around center" style="text-align:center; margin-bottom: 10px">
     <b>Compila il form e scarica il pdf con tutte le caratteristiche del tuo pg!</b>
@@ -75,7 +80,7 @@
   </div>
 </div>
 </mat-card>
-<mat-card fxLayout="column" fxFlex="100" class="firstForm" style="margin-top: 3%;">
+<mat-card fxLayout="column" fxFlex="100" class="firstForm" style="margin-top: 2%;">
   <mat-card-title>
     Stats
   </mat-card-title>
@@ -120,7 +125,7 @@
     <button mat-raised-button   class="green"  (click)="selectSkills()" *ngIf="schedaPg.skills.length>0">Skills selezionate <mat-icon>done</mat-icon></button>
   </div>
 </div>
-<mat-divider fxLayout="row" style="margin: 10px; border-top-color:#004a9f"></mat-divider>
+<mat-divider fxLayout="row" style="margin: 5px; border-top-color:#004a9f"></mat-divider>
     <div fxLayout="row wrap"  fxLayoutAlign="space-around center" fxFlex>
               <div  style="margin-top: 1%;" >
                 <button mat-raised-button color="warn" (click)="reset()" >Reset  <mat-icon>undo</mat-icon></button>

@@ -1,16 +1,20 @@
 
-<div  class="external" fxLayoutAlign="space-around stretch" fxLayout="column">
- <div fxFlex="3" mat-dialog-title class="title">Scheda Personaggio <br><mat-divider></mat-divider></div>
+<div  class="external" fxLayoutAlign="space-around stretch" fxLayout="column" >
+ <div fxFlex="2" mat-dialog-title class="title">Scheda Personaggio <mat-divider></mat-divider></div>
  <div fxFlex>
-  <div fxLayout="row wrap" fxLayoutAlign="space-around  stretch" fxFlex="100">
+  <div fxLayout="row wrap" fxLayoutAlign="space-around  stretch" fxFlex="100" id="MyPdf">
     <div fxLayout="column" class="generic yBar" fxFlex="50">
-      <div fxFlex="70">
+      <div fxFlex="30">
         <div class="subtitle">Info generiche <br></div>
         <div><span class="nome">Nome: </span>{{schedaPg.nome}}</div>
         <div><span class="nome">Razza: </span>{{schedaPg.razza.nome}}</div>
         <div><span class="nome">Classe: </span>{{schedaPg.classe.nome}}</div>
         <div><span class="nome">Pantheon: </span>{{schedaPg.religione.pantheon}}</div>
         <div><span class="nome">Divinità: </span>{{schedaPg.religione.nome}}</div>
+      </div>
+      <div fxFlex="40">
+        <div class="subtitle">Guid</div>
+        {{guid}}
       </div>
       <div fxFlex="30" class="stats">
         <div class="subtitle">Stats <br></div>
@@ -27,7 +31,7 @@
       </div>
     </div>
     <div fxLayout="column" fxFlex="38" class="generic">
-      <div fxFlex="100">
+      <div [fxFlex]="schedaPg.classe.nome!='Paladino' && schedaPg.classe.nome!='Chierico'  ? 100 : 70">
         <div class="subtitle">Skills</div>
         <div *ngFor="let skill of schedaPg.skills ">
           <span class="material-symbols-outlined" *ngIf="skill.idTipologiaSkill==4">
@@ -52,12 +56,17 @@
             </span>
           <span class="nome">{{skill.nome}} </span>{{skill.value}}</div>
       </div>
+      <div *ngIf="schedaPg.classe.nome==='Paladino' || schedaPg.classe.nome==='Chierico'">
+        <div class="subtitle">Info aggiuntive <br></div>
+        blablabla
+      </div>
     </div>
   </div>
   </div>
   <mat-divider ></mat-divider>
-  <div fxLayoutAlign="space-around center" fxLayout="row wrap" fxFlex="10">
-    <button mat-raised-button color="primary">Salva</button>
-    <button mat-raised-button color="primary">Chiudi</button>
+  <div fxLayoutAlign="space-around center" fxFlex="10">
+    <button mat-raised-button color="primary" (click)="exportAsPDF('MyPdf')"><span class="material-symbols-outlined">
+      download
+      </span></button>
   </div>
 </div>

@@ -4,6 +4,10 @@
 
 $my-primary: mat.define-palette(mat.$indigo-palette, 500);
 $my-accent: mat.define-palette(mat.$orange-palette,700);
+$my-success: mat.define-palette(mat.$green-palette,800);
+
+
+
 
 $my-theme: mat.define-light-theme((
  color: (

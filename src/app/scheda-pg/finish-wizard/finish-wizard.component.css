@@ -55,4 +55,8 @@ mat-divider
 .title
 {
   text-align: center;
+  color: black;
+  font-family: 'Playfair Display', serif;
+  font-weight: bold;
 }
+

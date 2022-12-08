@@ -10,6 +10,20 @@ export class Pg
   religione = new Religione();
 }
 
+export class PartialPg
+{
+  nome: string = "";
+  classe = "";
+  razza = "";
+  forza = 0;
+  destrezza= 0;
+  intelligenza= 0;
+  divinita = "";
+  pantheon = "";
+  guid = "";
+
+}
+
 export class SkillsPg
 {
   guidPg: string = "";

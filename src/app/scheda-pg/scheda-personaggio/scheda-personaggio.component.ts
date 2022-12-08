@@ -181,11 +181,11 @@ export class SchedaPersonaggioComponent implements OnInit {
   savePg()
   {
     let guid=  crypto.randomUUID();
-    // this.service.AddPg(this.schedaPg,guid);
+    this.service.AddPg(this.schedaPg,guid);
 
-    // this.schedaPg.skills.forEach(x=>{
-    //   this.service.addSkillsPg(x,guid);
-    // })
+    this.schedaPg.skills.forEach(x=>{
+      this.service.addSkillsPg(x,guid);
+    })
 
       this.openFinishWizard(guid);
       this.reset();
@@ -212,6 +212,21 @@ export class SchedaPersonaggioComponent implements OnInit {
     this.forzaForm = new FormControl(0, [Validators.required, Validators.minLength(1),Validators.maxLength(3)]);
     this.destrezzaForm = new FormControl(0, [Validators.required, Validators.minLength(1),Validators.maxLength(3)]);
     this.intelligenzaForm = new FormControl(0, [Validators.required, Validators.minLength(1),Validators.maxLength(3)]);
+  }
+
+  recuperaScheda()
+  {
+    let guid=prompt("Inserisci il guid per recuperare una scheda già compilata");
+
+    if(guid?.length==36)
+    {
+      this.service.getPg(guid).subscribe(x=>
+        {
+          this.schedaPg=x[0];
+        });
+    }
+    else
+      alert("Formato guid non valido");
   }
 
 }

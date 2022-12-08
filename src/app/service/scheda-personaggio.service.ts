@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { AngularFireDatabase } from '@angular/fire/compat/database';
 import { AngularFirestore, AngularFirestoreCollection } from '@angular/fire/compat/firestore';
 import { BehaviorSubject, Observable } from 'rxjs';
-import { Classe, Pg, Razza, Religione, Skill, SkillChecked, SpellPaladino, TipologiaSkill } from '../models/Pg';
+import { Classe, Pg, Razza, Religione, Skill, SkillChecked, SkillsPg, SpellPaladino, TipologiaSkill } from '../models/Pg';
 
 @Injectable({
   providedIn: 'root'
@@ -85,9 +85,13 @@ export class SchedaPersonaggioService {
 
   getPg(guid: string)
   {
-    this.getObservablePg(this.store.collection('PG', ref=> ref.where('guid','==',guid))) as Observable<Pg[]>;
+    return this.getObservablePg(this.store.collection('Pg', ref=> ref.where('guid','==',guid))) as Observable<Pg[]>;
   }
 
+  getSkillsPg(guid: string)
+  {
+    return this.getObservableSkillsPg(this.store.collection('SkillsPg', ref=> ref.where('guidPg','==',guid))) as Observable<SkillsPg[]>;
+  }
 
 
 
@@ -151,6 +155,14 @@ export class SchedaPersonaggioService {
   private getObservablePg = (collection: AngularFirestoreCollection<Pg>) => {
     const subject = new BehaviorSubject<Pg[]>([]);
     collection.valueChanges({ idField: 'id' }).subscribe((val: Pg[]) => {
+      subject.next(val);
+    });
+    return subject;
+  }
+
+  private getObservableSkillsPg = (collection: AngularFirestoreCollection<SkillsPg>) => {
+    const subject = new BehaviorSubject<SkillsPg[]>([]);
+    collection.valueChanges({ idField: 'id' }).subscribe((val: SkillsPg[]) => {
       subject.next(val);
     });
     return subject;

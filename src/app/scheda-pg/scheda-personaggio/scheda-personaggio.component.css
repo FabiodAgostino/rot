@@ -16,7 +16,7 @@
 
 .title
 {
-  padding: 15px;
+  padding: 5px;
   font-size: x-large;
   font-weight: bold;
   font-family: 'Playfair Display', serif;
@@ -46,4 +46,13 @@
 {
   background-color:#388E3C;
   color: white;
+}
+
+
+.material-symbols-outlined {
+  font-variation-settings:
+  'FILL' 0,
+  'wght' 400,
+  'GRAD' 0,
+  'opsz' 24
 }
