@@ -7,6 +7,7 @@ import { ModaleSkillsComponent } from '../modale-skills/modale-skills.component'
 import { ModalePaladinoComponent } from '../modale-paladino/modale-paladino.component';
 import jsPDF from 'jspdf';
 import { Router } from '@angular/router';
+import { FinishWizardComponent } from '../finish-wizard/finish-wizard.component';
 
 const changedRazza = "changed";
 const notChangedRazza= "notChanged";
@@ -19,6 +20,14 @@ const inizializeRazza = "";
 })
 export class SchedaPersonaggioComponent implements OnInit {
 
+  nomeForm = new FormControl();
+  classeForm = new FormControl();
+  razzaForm = new FormControl();
+  religioneForm = new FormControl();
+  forzaForm = new FormControl();
+  destrezzaForm = new FormControl();
+  intelligenzaForm = new FormControl();
+
   statsChecked = false;
   colorBar = "primary";
   schedaPg = new Pg();
@@ -27,22 +36,17 @@ export class SchedaPersonaggioComponent implements OnInit {
   religioni = new Array<Religione>();
   skills = new Array<Skill>();
   skillConsigliate = new Array<Skill>();
-  nomeForm = new FormControl('', [Validators.required, Validators.minLength(3)]);
-  classeForm = new FormControl(null, [Validators.required]);
-  razzaForm = new FormControl(null, [Validators.required]);
-  religioneForm = new FormControl(null, [Validators.required]);
   changeRazza = inizializeRazza;
   isDruido = false;
-  forzaForm = new FormControl(0, [Validators.required, Validators.minLength(1),Validators.maxLength(3)]);
-  destrezzaForm = new FormControl(0, [Validators.required, Validators.minLength(1),Validators.maxLength(3)]);
-  intelligenzaForm = new FormControl(0, [Validators.required, Validators.minLength(1),Validators.maxLength(3)]);
+
 
   totaleStat = 0;
 
 
-  constructor(private service: SchedaPersonaggioService, private dialog: MatDialog, private route: Router){}
+  constructor(private service: SchedaPersonaggioService, private dialog: MatDialog){}
 
   ngOnInit(): void {
+    this.resetFormControl();
     this.service.getAllRazze().subscribe(x=> this.razze=x);
   }
 
@@ -170,24 +174,44 @@ export class SchedaPersonaggioComponent implements OnInit {
   {
     const stats = this.schedaPg.stats;
     const religione = this.schedaPg.religione.nome;
-    return stats.forza!==0 && stats.destrezza!==0 && stats.intelligenza!==0 && this.nomeForm.valid && religione!=='' && this.classeForm.valid && this.razzaForm.valid && this.schedaPg.skills.length>0;
+    //return stats.forza!==0 && stats.destrezza!==0 && stats.intelligenza!==0 && this.nomeForm.valid && religione!=='' && this.classeForm.valid && this.razzaForm.valid && this.schedaPg.skills.length>0;
+    return true;
   }
 
   savePg()
   {
     let guid=  crypto.randomUUID();
-    this.service.AddPg(this.schedaPg,guid);
+    // this.service.AddPg(this.schedaPg,guid);
 
-    this.schedaPg.skills.forEach(x=>{
-      this.service.addSkillsPg(x,guid);
-    })
-    this.route.navigate(["/FinishWizardPg",{guid:guid}])
+    // this.schedaPg.skills.forEach(x=>{
+    //   this.service.addSkillsPg(x,guid);
+    // })
+
+      this.openFinishWizard(guid);
+      this.reset();
   }
 
   reset()
   {
+    this.totaleStat=0;
     this.schedaPg=new Pg();
+    this.resetFormControl();
   }
 
+  openFinishWizard(guid: string)
+  {
+    const dialog = this.dialog.open(FinishWizardComponent,{data:{pg:this.schedaPg, guid:guid}});
+  }
+
+  resetFormControl()
+  {
+    this.nomeForm = new FormControl('', [Validators.required, Validators.minLength(3)]);
+    this.classeForm = new FormControl(null, [Validators.required]);
+    this.razzaForm = new FormControl(null, [Validators.required]);
+    this.religioneForm = new FormControl(null, [Validators.required]);
+    this.forzaForm = new FormControl(0, [Validators.required, Validators.minLength(1),Validators.maxLength(3)]);
+    this.destrezzaForm = new FormControl(0, [Validators.required, Validators.minLength(1),Validators.maxLength(3)]);
+    this.intelligenzaForm = new FormControl(0, [Validators.required, Validators.minLength(1),Validators.maxLength(3)]);
+  }
 
 }

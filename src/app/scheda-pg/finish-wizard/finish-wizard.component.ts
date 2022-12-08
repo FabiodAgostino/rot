@@ -1,5 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Inject, OnInit } from '@angular/core';
+import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { ActivatedRoute } from '@angular/router';
+import { Pg } from 'src/app/models/Pg';
 
 @Component({
   selector: 'app-finish-wizard',
@@ -8,11 +10,18 @@ import { ActivatedRoute } from '@angular/router';
 })
 export class FinishWizardComponent implements OnInit  {
 
-  constructor(private _activatedRoute: ActivatedRoute){ }
+  schedaPg = new Pg();
+  guid = "";
+  constructor(public dialogRef: MatDialogRef<FinishWizardComponent>, @Inject(MAT_DIALOG_DATA)
+  public data: any)
+  {
+    this.schedaPg=data.pg;
+    this.guid = data.guid;
+
+  }
 
   ngOnInit(): void {
-    this._activatedRoute.queryParams.subscribe(params => console.log('queryParams', params['guid']));
-
+    this.schedaPg.skills=this.schedaPg.skills.sort(x=> x.idTipologiaSkill);
   }
 
 

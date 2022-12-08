@@ -1,0 +1,58 @@
+.generic
+{
+  overflow: auto;
+}
+
+.yBar
+{
+  border-right: 2px solid #004a9f;
+
+}
+
+
+.stats
+{
+  height: 100%;
+}
+
+.external
+{
+  height: calc(100vh - 100px);
+  width: calc(100vh - 300px);
+  border: 3px solid #004a9f;
+  border-radius: 10px;
+  margin: 0;
+  padding: 0;
+  overflow-y: auto;
+}
+.subtitle
+{
+  font-weight: bold;
+  color: #004a9f;
+  font-weight: bold;
+  font-family: 'Playfair Display', serif;
+  text-align: center;
+  width: 100%;
+  padding-bottom: 3%;
+}
+
+mat-divider
+{
+  border-top-color: #004a9f;
+  border-top-width: 2px;
+}
+
+
+.nome
+{
+  font-size: medium;
+  font-weight: bold;
+  font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+  color: black;
+  padding: 2%;
+}
+
+.title
+{
+  text-align: center;
+}
