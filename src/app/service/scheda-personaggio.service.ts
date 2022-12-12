@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { AngularFireDatabase } from '@angular/fire/compat/database';
 import { AngularFirestore, AngularFirestoreCollection } from '@angular/fire/compat/firestore';
 import { BehaviorSubject, Observable } from 'rxjs';
-import { Classe, Pg, Razza, Religione, Skill, SkillChecked, SkillsPg, SpellPaladino, TipologiaSkill } from '../models/Pg';
+import { Classe, PartialPg, Pg, Razza, Religione, Skill, SkillChecked, SkillsPg, SpellChierico, SpellPaladino, TipologiaSkill } from '../models/Pg';
 
 @Injectable({
   providedIn: 'root'
@@ -19,6 +19,11 @@ export class SchedaPersonaggioService {
   getSpellPaladinoFromDivinita(divinita: string)
   {
     return this.getObservableSpellPaladino(this.store.collection('SpellPaladino', ref => ref.where('religione',"==",divinita)))as Observable<SpellPaladino[]>;;
+  }
+
+  getSpellChiericoFromDivinita(divinita: string)
+  {
+    return this.getObservableSpellChierico(this.store.collection('SpellChierico', ref => ref.where('religione',"==",divinita)))as Observable<SpellChierico[]>;;
   }
 
   getAllSkills(tipologia: number = -1)
@@ -44,12 +49,12 @@ export class SchedaPersonaggioService {
 
   getAllRazze()
   {
-    return this.getObservableRazza(this.store.collection('Razza'))as Observable<Razza[]>;;
+    return this.getObservableRazza(this.store.collection('Razza'))as Observable<Razza[]>;
   }
 
   getAllTipologieSkill()
   {
-    return this.getObservableTipologia(this.store.collection('TipologiaSkill'))as Observable<TipologiaSkill[]>;;
+    return this.getObservableTipologia(this.store.collection('TipologiaSkill'))as Observable<TipologiaSkill[]>;
   }
 
   AddSkill(skill: Skill)
@@ -67,6 +72,7 @@ export class SchedaPersonaggioService {
       classe: pg.classe.nome,
       divinita: pg.religione.nome,
       pantheon: pg.religione.pantheon,
+      razza: pg.razza.nome,
       forza: pg.stats.forza,
       destrezza: pg.stats.destrezza,
       intelligenza: pg.stats.intelligenza,
@@ -79,13 +85,16 @@ export class SchedaPersonaggioService {
     this.store.collection("SkillsPg").add({
       guidPg:guidPg,
       nomeSkill: skill.nome,
-      valueSkill: skill.value
+      valueSkill: skill.value,
+      idTipologiaSkill: skill.idTipologiaSkill,
+      idSkill: skill.id
     });
   }
 
+
   getPg(guid: string)
   {
-    return this.getObservablePg(this.store.collection('Pg', ref=> ref.where('guid','==',guid))) as Observable<Pg[]>;
+    return this.getObservablePg(this.store.collection('Pg', ref=> ref.where('guid','==',guid))) as Observable<PartialPg[]>;
   }
 
   getSkillsPg(guid: string)
@@ -152,9 +161,9 @@ export class SchedaPersonaggioService {
     return subject;
   }
 
-  private getObservablePg = (collection: AngularFirestoreCollection<Pg>) => {
-    const subject = new BehaviorSubject<Pg[]>([]);
-    collection.valueChanges({ idField: 'id' }).subscribe((val: Pg[]) => {
+  private getObservablePg = (collection: AngularFirestoreCollection<PartialPg>) => {
+    const subject = new BehaviorSubject<PartialPg[]>([]);
+    collection.valueChanges({ idField: 'id' }).subscribe((val: PartialPg[]) => {
       subject.next(val);
     });
     return subject;
@@ -163,6 +172,14 @@ export class SchedaPersonaggioService {
   private getObservableSkillsPg = (collection: AngularFirestoreCollection<SkillsPg>) => {
     const subject = new BehaviorSubject<SkillsPg[]>([]);
     collection.valueChanges({ idField: 'id' }).subscribe((val: SkillsPg[]) => {
+      subject.next(val);
+    });
+    return subject;
+  }
+
+  private getObservableSpellChierico = (collection: AngularFirestoreCollection<SpellChierico>) => {
+    const subject = new BehaviorSubject<SpellChierico[]>([]);
+    collection.valueChanges({ idField: 'id' }).subscribe((val: SpellChierico[]) => {
       subject.next(val);
     });
     return subject;

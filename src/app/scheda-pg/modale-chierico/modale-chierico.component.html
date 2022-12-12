@@ -1,3 +1,11 @@
 <mat-card class="home" fxFlex="100"  fxLayout="column" >
-
-</mat-card>
+    <ul>
+      <li class="li"><b>Religione:</b> {{spellChierico.religione}}</li>
+      <b>Spells:</b>
+      <ul>
+        <li *ngFor="let spell of spellChierico?.spell">
+            {{spell}}
+        </li>
+      </ul>
+    </ul>
+  </mat-card>

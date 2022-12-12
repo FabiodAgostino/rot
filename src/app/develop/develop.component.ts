@@ -1,7 +1,9 @@
 import { Component, ElementRef, OnInit, QueryList, ViewChildren } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Classe, ClasseCheckBox, Skill, TipologiaSkill } from '../models/Pg';
+import { User } from '../models/User';
 import { SchedaPersonaggioService } from '../service/scheda-personaggio.service';
+import { UserService } from '../service/user.service';
 
 @Component({
   selector: 'app-develop',
@@ -17,7 +19,8 @@ export class DevelopComponent implements OnInit{
   idsClassiScelte = new Array<number>();
   notChecked=false;
   develop = false;
-  constructor(private service: SchedaPersonaggioService){}
+  user = new User();
+  constructor(private service: SchedaPersonaggioService, private userService: UserService){}
 
 
   ngOnInit(): void {
@@ -43,6 +46,26 @@ export class DevelopComponent implements OnInit{
   toggle(classe: Classe)
   {
     this.newSkill.classi.push(classe.nome);
+  }
+
+  checkSession()
+  {
+    this.userService.checkSession();
+  }
+
+  logout()
+  {
+    this.userService.logout();
+  }
+
+  registrati()
+  {
+    this.userService.registrati(this.user);
+  }
+
+  login()
+  {
+    this.userService.login(this.user).subscribe(x=> alert(x));
   }
 
 }

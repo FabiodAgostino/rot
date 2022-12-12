@@ -56,9 +56,26 @@
             </span>
           <span class="nome">{{skill.nome}} </span>{{skill.value}}</div>
       </div>
-      <div *ngIf="schedaPg.classe.nome==='Paladino' || schedaPg.classe.nome==='Chierico'">
+      <div *ngIf="isLoggedIn() && (schedaPg.classe.nome==='Paladino' || schedaPg.classe.nome==='Chierico')">
         <div class="subtitle">Info aggiuntive <br></div>
-        blablabla
+        <div *ngIf="schedaPg.classe.nome==='Chierico'">
+          <b>Spells:</b>
+          <ul>
+            <li *ngFor="let spell of spellsChierico?.spell">
+                {{spell}}
+            </li>
+          </ul>
+        </div>
+
+        <div *ngIf="schedaPg.classe.nome==='Paladino'">
+          <b>Aura:</b> {{spellsPaladino.aura}}<br>
+          <b>Spells:</b>
+          <ul>
+            <li *ngFor="let spell of spellsPaladino?.spell">
+                {{spell}}
+            </li>
+          </ul>
+        </div>
       </div>
     </div>
   </div>

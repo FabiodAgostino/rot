@@ -17,6 +17,7 @@ export class ModalePaladinoComponent implements OnInit {
   {
     if(data!=undefined && data!=='')
       this.religione=data;
+
   }
   ngOnInit(): void {
     this.getSpells();
@@ -24,8 +25,7 @@ export class ModalePaladinoComponent implements OnInit {
 
   getSpells()
   {
-    this.spellsPaladino.religione="";
-    this.spellsPaladino.aura="";
+
 
     if(this.religione!=undefined && this.religione!='')
       this.service.getSpellPaladinoFromDivinita(this.religione).subscribe(x=> this.spellsPaladino=x[0]);

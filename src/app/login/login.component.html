@@ -1,0 +1,24 @@
+<div class="login-container" *ngIf="!isLoggedIn()">
+    <div class="login-content">
+
+      <mat-toolbar class="login-toolbar" color="primary">
+        <span class="material-icons ank" style="color: rgb(255, 210, 48); font-size: 56px; -webkit-text-stroke-width: 0px;" routerLink="/">anchor</span>
+        </mat-toolbar>
+      <mat-card>
+          <mat-form-field>
+            <mat-icon matPrefix>person_outline</mat-icon>
+            <input autofocus type="text" matInput placeholder="Username" [(ngModel)]="user.username">
+          </mat-form-field>
+
+          <mat-form-field>
+            <mat-icon matPrefix>lock_outline</mat-icon>
+            <input type="password" autocomplete="false" matInput placeholder="Password" [(ngModel)]="user.password">
+          </mat-form-field>
+          <mat-error style="text-align:center" *ngIf="error">
+              Username o password errati.
+          </mat-error>
+          <button type="submit" mat-raised-button color="primary" (click)="login()">Login</button>
+        <div class="registrati">Registrati</div>
+      </mat-card>
+    </div>
+  </div>

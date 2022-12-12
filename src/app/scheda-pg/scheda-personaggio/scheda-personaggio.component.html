@@ -21,8 +21,8 @@
     </mat-card-title>
   </mat-card-header>
   <div fxLayout="row" fxLayoutAlign="end center" >
-  <button mat-icon-button color="primary" aria-label="Example icon button with a heart icon" (click)="openPaladino()"  [style.visibility]="schedaPg.classe.nome!=='Paladino' || schedaPg.religione.nome===''? 'hidden': 'visible'">
-        <mat-icon>info</mat-icon>
+  <button mat-icon-button color="primary" *ngIf="isLogged()" [matTooltip]="!isChierico() ? 'Info spell paladino' : 'Info spell chierico'" (click)="!isChierico() ? openPaladino() : openChierico()"  [style.visibility]="(schedaPg.classe.nome!=='Paladino' && schedaPg.classe.nome!=='Chierico') || schedaPg.religione.nome===''? 'hidden': 'visible'">
+        <mat-icon style="color:green">info</mat-icon>
     </button>
   </div>
   <div fxLayout="row wrap"  fxLayoutAlign="space-evenly center"   fxFlex>
@@ -56,9 +56,6 @@
           <mat-select color="primary" [(ngModel)]="schedaPg.classe.nome" [formControl]="classeForm" fxFlex>
             <mat-option color="primary" *ngFor="let classe of classi" [disabled]="classi.length<1" [value]="classe.nome" (click)="getReligioni();autoSetStat();">{{classe.nome}}</mat-option>
           </mat-select>
-          <mat-hint *ngIf=" religioni.length<1 ">
-            Seleziona prima una razza
-          </mat-hint>
           <mat-error *ngIf="classeForm.hasError('required') && schedaPg.classe == undefined">
             Seleziona una classe
           </mat-error>
@@ -67,8 +64,8 @@
     <div>
       <mat-form-field fxFlex.xs="100" fxFlex.sm="60" fxFlex.md="70" fxFlex.lg="100" fxFlex.xl="100">
       <mat-label>Religione</mat-label>
-      <mat-select color="primary" [(ngModel)]="schedaPg.religione" [formControl]="religioneForm" fxFlex>
-        <mat-option color="primary" *ngFor="let religione of religioni" [value]="religione" [disabled]="schedaPg.classe.nome===undefined">{{religione.nome}}</mat-option>
+      <mat-select color="primary" [(ngModel)]="schedaPg.religione.nome" [formControl]="religioneForm" fxFlex [compareWith]="compareWith">
+        <mat-option color="primary" *ngFor="let religione of religioni" [value]="religione.nome" [disabled]="schedaPg.classe.nome===undefined || religioni.length==0" >{{religione.nome}}</mat-option>
       </mat-select>
         <mat-error *ngIf="classeForm.hasError('required') && schedaPg.religione.nome == undefined">
           Seleziona una religione

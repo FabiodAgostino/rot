@@ -1,9 +1,11 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { ActivatedRoute } from '@angular/router';
-import { Pg } from 'src/app/models/Pg';
+import { Pg, SpellChierico, SpellPaladino } from 'src/app/models/Pg';
 import  jspdf from 'jspdf';
 import html2canvas from 'html2canvas';
+import { SchedaPersonaggioService } from 'src/app/service/scheda-personaggio.service';
+import { UserService } from 'src/app/service/user.service';
 
 @Component({
   selector: 'app-finish-wizard',
@@ -14,8 +16,11 @@ export class FinishWizardComponent implements OnInit  {
 
   schedaPg = new Pg();
   guid = "";
-  constructor(public dialogRef: MatDialogRef<FinishWizardComponent>, @Inject(MAT_DIALOG_DATA)
-  public data: any)
+  spellsPaladino = new SpellPaladino();
+  spellsChierico = new SpellChierico();
+
+  constructor(public dialogRef: MatDialogRef<FinishWizardComponent>, public service: SchedaPersonaggioService,@Inject(MAT_DIALOG_DATA)
+  public data: any, private userService: UserService)
   {
     this.schedaPg=data.pg;
     this.guid = data.guid;
@@ -24,6 +29,16 @@ export class FinishWizardComponent implements OnInit  {
 
   ngOnInit(): void {
     this.schedaPg.skills=this.schedaPg.skills.sort(x=> x.idTipologiaSkill);
+    this.getInfoAggiuntive();
+  }
+
+  getInfoAggiuntive()
+  {
+    switch(this.schedaPg.classe.nome)
+    {
+      case "Paladino": this.service.getSpellPaladinoFromDivinita(this.schedaPg.religione.nome).subscribe(x=> this.spellsPaladino=x[0]); break;
+      case "Chierico": this.service.getSpellChiericoFromDivinita(this.schedaPg.religione.nome).subscribe(x=> this.spellsChierico=x[0]); break;
+    }
   }
 
   exportAsPDF(div: string)
@@ -40,6 +55,11 @@ export class FinishWizardComponent implements OnInit  {
         pdf.save('RT '+this.schedaPg.nome+' schedaPersonaggio.pdf');
       });
     }
+  }
+
+  isLoggedIn()
+  {
+    return this.userService.isLoggedIn;
   }
 
 

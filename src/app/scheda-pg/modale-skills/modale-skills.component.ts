@@ -40,6 +40,7 @@ export class ModaleSkillsComponent implements OnInit {
 
   ngOnInit(): void
   {
+    console.log(this.skills)
     this.isSmartphone=this.utils.isSmartphone();
     this.reload();
   }

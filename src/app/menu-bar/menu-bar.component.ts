@@ -1,8 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { AngularFirestore, AngularFirestoreCollection, AngularFirestoreModule } from '@angular/fire/compat/firestore';
-import {  Subject } from 'rxjs';
+import { MatDialog } from '@angular/material/dialog';
+import {  interval, Subject } from 'rxjs';
+import { LoginComponent } from '../login/login.component';
 import { Classe } from '../models/Pg';
+import { User } from '../models/User';
 import { SchedaPersonaggioService } from '../service/scheda-personaggio.service';
+import { UserService } from '../service/user.service';
 
 
 @Component({
@@ -12,7 +16,7 @@ import { SchedaPersonaggioService } from '../service/scheda-personaggio.service'
 })
 export class MenuBarComponent implements OnInit {
 
-  constructor(public service: SchedaPersonaggioService){}
+  constructor(public service: SchedaPersonaggioService, public UserService: UserService, public dialog: MatDialog){}
   iFrameEmitter: Subject<string> = new Subject<string>();
   boolHome= false;
   class = new Array<Classe>();
@@ -30,6 +34,20 @@ export class MenuBarComponent implements OnInit {
 
   }
 
+  openLogin()
+  {
+    this.dialog.open(LoginComponent);
+  }
+
+  isLoggedIn()
+  {
+    return this.UserService.isLoggedIn;
+  }
+
+  logOut()
+  {
+    this.UserService.logout();
+  }
 
 }
 

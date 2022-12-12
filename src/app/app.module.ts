@@ -46,6 +46,7 @@ import {MatProgressBarModule} from '@angular/material/progress-bar';
 import { ModaleChiericoComponent } from './scheda-pg/modale-chierico/modale-chierico.component';
 import { ModalePaladinoComponent } from './scheda-pg/modale-paladino/modale-paladino.component';
 import { FinishWizardComponent } from './scheda-pg/finish-wizard/finish-wizard.component';
+import { LoginComponent } from './login/login.component';
 
 @NgModule({
   declarations: [
@@ -64,6 +65,7 @@ import { FinishWizardComponent } from './scheda-pg/finish-wizard/finish-wizard.c
     ModaleChiericoComponent,
     ModalePaladinoComponent,
     FinishWizardComponent,
+    LoginComponent,
   ],
   imports: [
     BrowserModule,

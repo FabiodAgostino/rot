@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, Validators } from '@angular/forms';
-import { Classe, Pg, Razza, Religione, Skill } from '../../models/Pg';
+import { Classe, PartialPg, Pg, Razza, Religione, Skill } from '../../models/Pg';
 import { SchedaPersonaggioService } from '../../service/scheda-personaggio.service';
 import {MatDialog, MAT_DIALOG_DATA, MatDialogRef} from '@angular/material/dialog';
 import { ModaleSkillsComponent } from '../modale-skills/modale-skills.component';
@@ -8,6 +8,8 @@ import { ModalePaladinoComponent } from '../modale-paladino/modale-paladino.comp
 import jsPDF from 'jspdf';
 import { Router } from '@angular/router';
 import { FinishWizardComponent } from '../finish-wizard/finish-wizard.component';
+import { ModaleChiericoComponent } from '../modale-chierico/modale-chierico.component';
+import { UserService } from 'src/app/service/user.service';
 
 const changedRazza = "changed";
 const notChangedRazza= "notChanged";
@@ -38,21 +40,22 @@ export class SchedaPersonaggioComponent implements OnInit {
   skillConsigliate = new Array<Skill>();
   changeRazza = inizializeRazza;
   isDruido = false;
+  isLoggedIn = false;
 
 
   totaleStat = 0;
 
 
-  constructor(private service: SchedaPersonaggioService, private dialog: MatDialog){}
+  constructor(private service: SchedaPersonaggioService, private dialog: MatDialog, private userService: UserService){}
 
   ngOnInit(): void {
     this.resetFormControl();
     this.service.getAllRazze().subscribe(x=> this.razze=x);
+    this.isLogged();
   }
 
   getReligioni()
   {
-
     if(this.schedaPg.classe.nome=='Druido')
     {
         this.service.getAllReligioni("Druidi").subscribe(x=> this.religioni=x);
@@ -76,7 +79,6 @@ export class SchedaPersonaggioComponent implements OnInit {
       }
       this.isDruido=false;
       this.changeRazza=notChangedRazza;
-      this.schedaPg.religione= new Religione();
     }
   }
 
@@ -170,12 +172,16 @@ export class SchedaPersonaggioComponent implements OnInit {
     this.dialog.open(ModalePaladinoComponent,{data:this.schedaPg.religione.nome});
   }
 
+  openChierico()
+  {
+    this.dialog.open(ModaleChiericoComponent,{data:this.schedaPg.religione.nome});
+  }
+
   checkSalva()
   {
     const stats = this.schedaPg.stats;
     const religione = this.schedaPg.religione.nome;
-    //return stats.forza!==0 && stats.destrezza!==0 && stats.intelligenza!==0 && this.nomeForm.valid && religione!=='' && this.classeForm.valid && this.razzaForm.valid && this.schedaPg.skills.length>0;
-    return true;
+    return stats.forza!==0 && stats.destrezza!==0 && stats.intelligenza!==0 && this.nomeForm.valid && religione!=='' && this.classeForm.valid && this.razzaForm.valid && this.schedaPg.skills.length>0;
   }
 
   savePg()
@@ -220,13 +226,47 @@ export class SchedaPersonaggioComponent implements OnInit {
 
     if(guid?.length==36)
     {
+      this.getClassi();
       this.service.getPg(guid).subscribe(x=>
         {
-          this.schedaPg=x[0];
+          if(x[0]?.nome!==undefined)
+              if(guid)
+                this.service.getSkillsPg(guid).subscribe(y=>{
+                    this.schedaPg = PartialPg.Convert(x[0],y);
+
+                });
+          else
+            alert("Nessuna scheda pg presente col guid inserito.");
+
         });
     }
     else
-      alert("Formato guid non valido");
+    {
+      if(guid)
+        alert("Formato guid non valido");
+    }
+      setTimeout(() => {
+        this.getReligioni();
+      }, 500);
   }
+
+  compareWith(object1: any) {
+    return object1===this.schedaPg.religione.nome;
+  }
+
+
+  isChierico()
+  {
+    return this.schedaPg.classe.nome==='Chierico';
+  }
+
+  isLogged()
+  {
+    return this.userService.isLoggedIn;
+  }
+
+
+
+
 
 }

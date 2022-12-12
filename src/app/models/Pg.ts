@@ -5,9 +5,9 @@ export class Pg
   skills = new Array<SkillChecked>();
   razza = new Razza;
   stats = new Stats();
-  divinita: string = "";
   malusMagico: number = 0;
   religione = new Religione();
+  guid: string ="";
 }
 
 export class PartialPg
@@ -22,6 +22,34 @@ export class PartialPg
   pantheon = "";
   guid = "";
 
+  static Convert(partialPg: PartialPg, skills: Array<SkillsPg>) : Pg
+  {
+    let pg = new Pg();
+
+    pg.nome=partialPg?.nome;
+    pg.stats = new Stats(partialPg?.forza,partialPg?.destrezza,partialPg?.intelligenza);
+    pg.religione = new Religione(partialPg?.divinita);
+
+    skills.forEach(x=>{
+      let skill = new SkillChecked();
+      skill.nome=x?.nomeSkill;
+      skill.value=x?.valueSkill;
+      skill.isChecked=true;
+      skill.idTipologiaSkill=x.idTipologiaSkill;
+      skill.id=x.idSkill;
+      pg.skills.push(skill);
+    });
+
+    pg.guid=partialPg?.guid;
+
+    pg.razza = new Razza(partialPg?.razza);
+
+    pg.classe = new Classe(0,partialPg?.classe);
+
+    return pg;
+  }
+
+
 }
 
 export class SkillsPg
@@ -29,14 +57,23 @@ export class SkillsPg
   guidPg: string = "";
   nomeSkill: string = "";
   valueSkill: number = 0;
+  idTipologiaSkill: number = 0;
+  idSkill: number=0;
 }
 
 export class SpellPaladino
 {
   id: number = 0;
-  religione: string ="";
+  religione: string =" ";
   spell = Array<string>();
-  aura: string = "";
+  aura: string = " ";
+}
+
+export class SpellChierico
+{
+  id: number = 0;
+  religione: string =" ";
+  spell = Array<string>();
 }
 
 export class Religione
@@ -44,12 +81,26 @@ export class Religione
   id: number = 0;
   nome: string = "";
   pantheon: string = "";
+
+  constructor(_nome?: string)
+  {
+    if(_nome)
+    {
+      this.nome=_nome;
+    }
+  }
 }
 
 export class Razza
 {
   id: number = 0;
   nome: string = "";
+
+  constructor(_nome?: string)
+  {
+    if(_nome)
+      this.nome=_nome;
+  }
 }
 export class Classe
 {
@@ -108,6 +159,16 @@ export class Stats
   forza: number = 0;
   destrezza: number = 0;
   intelligenza: number = 0;
+
+  constructor(_forza?: number, _destrezza?: number, _intelligenza?: number)
+  {
+    if(_forza && _destrezza && _intelligenza)
+    {
+      this.forza=_forza;
+      this.destrezza=_destrezza;
+      this.intelligenza=_intelligenza;
+    }
+  }
 }
 
 export class ClasseCheckBox extends Classe

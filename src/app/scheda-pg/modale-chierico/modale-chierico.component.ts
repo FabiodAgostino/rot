@@ -1,7 +1,7 @@
 import { Component, Inject, Input, OnInit } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { ModaleSkillsComponent } from '../modale-skills/modale-skills.component';
-import { SpellPaladino } from '../../models/Pg';
+import { SpellChierico, SpellPaladino } from '../../models/Pg';
 import { SchedaPersonaggioService } from '../../service/scheda-personaggio.service';
 
 @Component({
@@ -11,15 +11,24 @@ import { SchedaPersonaggioService } from '../../service/scheda-personaggio.servi
 })
 export class ModaleChiericoComponent implements OnInit {
 
-  spellsPaladino = new Array<SpellPaladino>();
+  spellChierico = new SpellChierico();
   religione = "";
-  constructor(public dialogRef: MatDialogRef<ModaleSkillsComponent>, @Inject(MAT_DIALOG_DATA)
-  public data: SpellPaladino, private service: SchedaPersonaggioService)
+  constructor(public dialogRef: MatDialogRef<ModaleChiericoComponent>, @Inject(MAT_DIALOG_DATA)
+  public data: string, private service: SchedaPersonaggioService)
   {
-    this.religione=data.religione;
+    if(data!=undefined && data!=='')
+      this.religione=data;
   }
   ngOnInit(): void {
-    this.service.getSpellPaladinoFromDivinita(this.religione).subscribe(x=> this.spellsPaladino=x);
+    this.getSpells();
+  }
+
+  getSpells()
+  {
+    this.spellChierico.religione="";
+
+    if(this.religione!=undefined && this.religione!='')
+      this.service.getSpellChiericoFromDivinita(this.religione).subscribe(x=> this.spellChierico=x[0]);
   }
 
 }
