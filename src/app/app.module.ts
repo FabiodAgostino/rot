@@ -46,7 +46,11 @@ import {MatProgressBarModule} from '@angular/material/progress-bar';
 import { ModaleChiericoComponent } from './scheda-pg/modale-chierico/modale-chierico.component';
 import { ModalePaladinoComponent } from './scheda-pg/modale-paladino/modale-paladino.component';
 import { FinishWizardComponent } from './scheda-pg/finish-wizard/finish-wizard.component';
-import { LoginComponent } from './login/login.component';
+import {MatSnackBarModule} from '@angular/material/snack-bar';
+import { LoginComponent } from './user/login/login.component';
+import { SignUpComponent } from './user/sign-up/sign-up.component';
+import {MatStepperModule} from '@angular/material/stepper';
+
 
 @NgModule({
   declarations: [
@@ -66,6 +70,7 @@ import { LoginComponent } from './login/login.component';
     ModalePaladinoComponent,
     FinishWizardComponent,
     LoginComponent,
+    SignUpComponent
   ],
   imports: [
     BrowserModule,
@@ -97,6 +102,8 @@ import { LoginComponent } from './login/login.component';
     MatDialogModule,
     MatExpansionModule,
     MatProgressBarModule,
+    MatSnackBarModule,
+    MatStepperModule
   ],
   providers: [SafePipe, MatDialog],
   bootstrap: [AppComponent],

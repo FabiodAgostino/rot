@@ -1,5 +1,6 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { Subscription, take } from 'rxjs';
 import { SpellPaladino } from '../../models/Pg';
 import { SchedaPersonaggioService } from '../../service/scheda-personaggio.service';
 
@@ -23,12 +24,17 @@ export class ModalePaladinoComponent implements OnInit {
     this.getSpells();
   }
 
+
   getSpells()
   {
-
-
-    if(this.religione!=undefined && this.religione!='')
-      this.service.getSpellPaladinoFromDivinita(this.religione).subscribe(x=> this.spellsPaladino=x[0]);
+      if(this.religione!=undefined && this.religione!='')
+      {
+      this.service.getSpellPaladinoFromDivinita(this.religione).subscribe(x=>
+        {
+          if(x.length>0)
+            this.spellsPaladino=x[0];
+        });
+     }
   }
 
 }

@@ -19,3 +19,31 @@ $my-theme: mat.define-light-theme((
 ));
 
 @include mat.all-component-themes($my-theme);
+
+
+.blue-snackbar{
+  padding: 20px !important;
+  background-color: #004a9f !important;
+  color: white !important;
+  border: 1px solid white !important;
+  border-radius: 10px !important;
+}
+
+.blue-snackbar button{
+  background-color: white !important;
+  color: #004a9f !important;
+}
+
+
+.red-snackbar{
+  padding: 20px !important;
+  background-color: #F44336 !important;
+  color: white !important;
+  border: 1px solid white !important;
+  border-radius: 10px !important;
+}
+
+.red-snackbar button{
+  background-color: white !important;
+  color: black !important;
+}

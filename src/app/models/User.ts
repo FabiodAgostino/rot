@@ -4,6 +4,8 @@ export class User
 {
     username: string ="";
     password: string = "";
+    regno: string = "";
+    nomePg: string= "";
 
     constructor(username?: string, password?: string)
     {

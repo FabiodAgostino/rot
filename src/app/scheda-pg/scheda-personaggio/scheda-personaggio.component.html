@@ -21,7 +21,7 @@
     </mat-card-title>
   </mat-card-header>
   <div fxLayout="row" fxLayoutAlign="end center" >
-  <button mat-icon-button color="primary" *ngIf="isLogged()" [matTooltip]="!isChierico() ? 'Info spell paladino' : 'Info spell chierico'" (click)="!isChierico() ? openPaladino() : openChierico()"  [style.visibility]="(schedaPg.classe.nome!=='Paladino' && schedaPg.classe.nome!=='Chierico') || schedaPg.religione.nome===''? 'hidden': 'visible'">
+  <button mat-icon-button color="primary" [matTooltip]="!isChierico() ? 'Info spell paladino' : 'Info spell chierico'" (click)="!isChierico() ? openPaladino() : openChierico()"  [style.visibility]="((schedaPg.classe.nome==='Paladino' || schedaPg.classe.nome==='Chierico') && schedaPg.religione.nome!=='' && isLogged())? 'visible': 'hidden'">
         <mat-icon style="color:green">info</mat-icon>
     </button>
   </div>
@@ -64,7 +64,7 @@
     <div>
       <mat-form-field fxFlex.xs="100" fxFlex.sm="60" fxFlex.md="70" fxFlex.lg="100" fxFlex.xl="100">
       <mat-label>Religione</mat-label>
-      <mat-select color="primary" [(ngModel)]="schedaPg.religione.nome" [formControl]="religioneForm" fxFlex [compareWith]="compareWith">
+      <mat-select color="primary" [(ngModel)]="schedaPg.religione.nome" [formControl]="religioneForm" fxFlex>
         <mat-option color="primary" *ngFor="let religione of religioni" [value]="religione.nome" [disabled]="schedaPg.classe.nome===undefined || religioni.length==0" >{{religione.nome}}</mat-option>
       </mat-select>
         <mat-error *ngIf="classeForm.hasError('required') && schedaPg.religione.nome == undefined">

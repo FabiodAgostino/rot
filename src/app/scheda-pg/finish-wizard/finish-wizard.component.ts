@@ -43,7 +43,6 @@ export class FinishWizardComponent implements OnInit  {
 
   exportAsPDF(div: string)
   {
-    console.log(div);
     let data = document.getElementById(div);
     if(data!=null)
     {

@@ -15,7 +15,8 @@ export class AppComponent implements OnInit {
 
   }
   ngOnInit(): void {
-    this.userService.checkSession()
+    var user=localStorage.getItem("user")?.toString();
+    this.userService.isLoggedIn = user===undefined ? false : true;
     const source = interval(150000);
     source.subscribe(val => this.userService.checkSession());
   }

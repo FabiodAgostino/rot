@@ -1,7 +1,9 @@
 import { DialogRef } from '@angular/cdk/dialog';
 import { Component, OnInit } from '@angular/core';
-import { User } from '../models/User';
-import { UserService } from '../service/user.service';
+import { MatDialog } from '@angular/material/dialog';
+import { User } from '../../models/User';
+import { UserService } from '../../service/user.service';
+import { SignUpComponent } from '../sign-up/sign-up.component';
 
 @Component({
   selector: 'app-login',
@@ -12,7 +14,7 @@ export class LoginComponent implements OnInit{
 
   user = new User();
   error= false;
-  constructor(private service:UserService, private dialog: DialogRef)
+  constructor(private service:UserService, private dialog: DialogRef, private modal: MatDialog)
   {
 
   }
@@ -35,5 +37,14 @@ export class LoginComponent implements OnInit{
   {
     return this.service.isLoggedIn;
   }
+
+  openRegistrati()
+  {
+    this.modal.open(SignUpComponent, {
+      width: "500px"
+    });
+  }
+
+
 
 }

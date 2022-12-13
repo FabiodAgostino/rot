@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { AngularFirestore, AngularFirestoreCollection, AngularFirestoreModule } from '@angular/fire/compat/firestore';
 import { MatDialog } from '@angular/material/dialog';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import {  interval, Subject } from 'rxjs';
-import { LoginComponent } from '../login/login.component';
+import { LoginComponent } from '../user/login/login.component';
 import { Classe } from '../models/Pg';
 import { User } from '../models/User';
 import { SchedaPersonaggioService } from '../service/scheda-personaggio.service';
@@ -48,6 +49,8 @@ export class MenuBarComponent implements OnInit {
   {
     this.UserService.logout();
   }
+
+
 
 }
 

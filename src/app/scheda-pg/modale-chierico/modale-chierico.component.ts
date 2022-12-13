@@ -28,7 +28,10 @@ export class ModaleChiericoComponent implements OnInit {
     this.spellChierico.religione="";
 
     if(this.religione!=undefined && this.religione!='')
-      this.service.getSpellChiericoFromDivinita(this.religione).subscribe(x=> this.spellChierico=x[0]);
+      this.service.getSpellChiericoFromDivinita(this.religione).subscribe(x=> {
+        if(x.length>0)
+            this.spellChierico=x[0];
+      });
   }
 
 }

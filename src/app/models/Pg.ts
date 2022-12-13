@@ -10,6 +10,17 @@ export class Pg
   guid: string ="";
 }
 
+export class Regno
+{
+  nome: string = "";
+}
+
+export class DomandaRisposta
+{
+  domanda: string ="";
+  risposta: string = "";
+}
+
 export class PartialPg
 {
   nome: string = "";
@@ -64,15 +75,15 @@ export class SkillsPg
 export class SpellPaladino
 {
   id: number = 0;
-  religione: string =" ";
+  religione: string ="";
   spell = Array<string>();
-  aura: string = " ";
+  aura: string = "";
 }
 
 export class SpellChierico
 {
   id: number = 0;
-  religione: string =" ";
+  religione: string ="";
   spell = Array<string>();
 }
 

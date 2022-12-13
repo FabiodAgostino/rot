@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import { AngularFireDatabase } from '@angular/fire/compat/database';
 import { AngularFirestore, AngularFirestoreCollection } from '@angular/fire/compat/firestore';
-import { BehaviorSubject, Observable } from 'rxjs';
-import { Classe, PartialPg, Pg, Razza, Religione, Skill, SkillChecked, SkillsPg, SpellChierico, SpellPaladino, TipologiaSkill } from '../models/Pg';
+import { BehaviorSubject, map, Observable } from 'rxjs';
+import { Classe, DomandaRisposta, PartialPg, Pg, Razza, Regno, Religione, Skill, SkillChecked, SkillsPg, SpellChierico, SpellPaladino, TipologiaSkill } from '../models/Pg';
 
 @Injectable({
   providedIn: 'root'
@@ -18,12 +18,60 @@ export class SchedaPersonaggioService {
 
   getSpellPaladinoFromDivinita(divinita: string)
   {
-    return this.getObservableSpellPaladino(this.store.collection('SpellPaladino', ref => ref.where('religione',"==",divinita)))as Observable<SpellPaladino[]>;;
+    var response= this.store.collection<SpellPaladino>('SpellPaladino', ref => ref.where('religione',"==",divinita)).valueChanges()
+      .pipe(map(collection=>{
+          return collection.map(collection=>{
+            let spell = new SpellPaladino();
+            spell.aura=collection.aura;
+            spell.religione=collection.religione;
+            spell.id=collection.id;
+            spell.spell=collection.spell;
+            return spell;
+          })
+      }))
+      return response;
   }
 
   getSpellChiericoFromDivinita(divinita: string)
   {
-    return this.getObservableSpellChierico(this.store.collection('SpellChierico', ref => ref.where('religione',"==",divinita)))as Observable<SpellChierico[]>;;
+    var response= this.store.collection<SpellChierico>('SpellChierico', ref => ref.where('religione',"==",divinita)).valueChanges()
+      .pipe(map(collection=>{
+          return collection.map(collection=>{
+            let spell = new SpellChierico();
+            spell.religione=collection.religione;
+            spell.id=collection.id;
+            spell.spell=collection.spell;
+            return spell;
+          })
+      }))
+      return response;
+  }
+
+  getRegni()
+  {
+    var response= this.store.collection<Regno>('Regno').valueChanges()
+      .pipe(map(collection=>{
+          return collection.map(collection=>{
+            let regno = new Regno();
+            regno.nome=collection.nome;
+            return regno;
+          })
+      }))
+      return response;
+  }
+
+  getDomandeRisposte()
+  {
+    var response= this.store.collection<DomandaRisposta>('DomandeRisposte').valueChanges()
+      .pipe(map(collection=>{
+          return collection.map(collection=>{
+            let dr = new DomandaRisposta();
+            dr.domanda=collection.domanda;
+            dr.risposta=collection.risposta;
+            return dr;
+          })
+      }))
+      return response;
   }
 
   getAllSkills(tipologia: number = -1)
@@ -184,5 +232,7 @@ export class SchedaPersonaggioService {
     });
     return subject;
   }
+
+
 
 }

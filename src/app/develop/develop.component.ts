@@ -31,7 +31,6 @@ export class DevelopComponent implements OnInit{
     this.service.getAllSkills().subscribe(x=> this.skills=x);
     this.service.getAllClass().subscribe(x=>{ this.classi=x});
     this.service.getAllTipologieSkill().subscribe(x=> this.tipologiaSkills=x);
-    console.log(this.newSkill)
   }
 
   SalvaSkill()
