@@ -19,6 +19,7 @@ export class DomandaRisposta
 {
   domanda: string ="";
   risposta: string = "";
+  min: number = 0;
 }
 
 export class PartialPg

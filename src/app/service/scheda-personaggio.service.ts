@@ -68,6 +68,7 @@ export class SchedaPersonaggioService {
             let dr = new DomandaRisposta();
             dr.domanda=collection.domanda;
             dr.risposta=collection.risposta;
+            dr.min=collection.min;
             return dr;
           })
       }))

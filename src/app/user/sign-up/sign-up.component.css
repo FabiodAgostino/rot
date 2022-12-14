@@ -26,8 +26,20 @@
 
   }
 
-  .domanda
+
+  .area
   {
-    width: 100%;
-    height: 30px;
+    padding: 7%;
   }
+
+  .textarea
+  {
+    resize: none;
+    text-align: center;
+    font-weight: 500;
+  }
+
+.ris
+{
+  margin-bottom: 10%;
+}

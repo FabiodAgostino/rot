@@ -262,7 +262,6 @@ export class SchedaPersonaggioComponent implements OnInit {
 
   isLogged()
   {
-    console.log(this.userService.isLoggedIn)
     return this.userService.isLoggedIn;
   }
 

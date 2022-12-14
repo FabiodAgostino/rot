@@ -33,6 +33,8 @@ export class LoginComponent implements OnInit{
     });
   }
 
+
+
   isLoggedIn()
   {
     return this.service.isLoggedIn;

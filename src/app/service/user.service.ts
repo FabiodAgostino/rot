@@ -26,7 +26,6 @@ export class UserService {
           this.addSession(user);
           localStorage.setItem("user",user.username);
           this.isLoggedIn=true;
-          console.log(this.isLoggedIn)
           subject.next(true);
           this.openSnackBar("login");
         }
@@ -37,11 +36,19 @@ export class UserService {
       return subject.asObservable();
   }
 
+  checkUser(username: string)
+  {
+    var un= this.criptMd5(username);
+    return this.store.collection('User',ref=> ref.where("username","==",un)).valueChanges();
+  }
+
   registrati(user: User)
   {
     this.store.collection("User").add({
       username: this.criptMd5(user.username),
-      password: this.criptMd5(user.password)
+      password: this.criptMd5(user.password),
+      nomePg: user.nomePg,
+      regno: user.regno,
   });
   }
 
@@ -61,9 +68,9 @@ export class UserService {
   {
     var subject = new Subject<boolean>();
     var user=localStorage.getItem("user")?.toString();
-    console.log("check session...");
     if(user!==undefined)
     {
+      console.log("check session...");
       let date = new Date();
       var dateminute = new Date(date.getTime() - 10*60000);
       var x=this.store.collection<SessioneAttiva>('SessioneAttiva',ref=> ref.where("data",">=",dateminute)).valueChanges()
@@ -110,7 +117,6 @@ export class UserService {
 
 
   openSnackBar(type: string,verticalPosition: MatSnackBarVerticalPosition = 'top', horizontalPosition: MatSnackBarHorizontalPosition = 'end') {
-
     if(type=="login")
       this._snackBar.open("Sei loggato correttamente!", 'Ok', {
         duration: 2000,
@@ -126,6 +132,22 @@ export class UserService {
         verticalPosition: verticalPosition,
         panelClass: ['red-snackbar'],
       });
+
+    if(type=="registrazioneAvvenuta")
+    this._snackBar.open("La registrazione è avvenuta con successo!", 'Ok', {
+      duration: 2000,
+      horizontalPosition: horizontalPosition,
+      verticalPosition: verticalPosition,
+      panelClass: ['green-snackbar'],
+    });
+
+    if(type=="registrazioneFallita")
+    this._snackBar.open("Hai sbagliato una o più risposte!", 'Ok', {
+      duration: 2000,
+      horizontalPosition: horizontalPosition,
+      verticalPosition: verticalPosition,
+      panelClass: ['red-snackbar'],
+    });
   }
 
 }

@@ -50,6 +50,7 @@ import {MatSnackBarModule} from '@angular/material/snack-bar';
 import { LoginComponent } from './user/login/login.component';
 import { SignUpComponent } from './user/sign-up/sign-up.component';
 import {MatStepperModule} from '@angular/material/stepper';
+import { MatFormFieldModule } from '@angular/material/form-field';
 
 
 @NgModule({
@@ -103,7 +104,8 @@ import {MatStepperModule} from '@angular/material/stepper';
     MatExpansionModule,
     MatProgressBarModule,
     MatSnackBarModule,
-    MatStepperModule
+    MatStepperModule,
+    MatFormFieldModule
   ],
   providers: [SafePipe, MatDialog],
   bootstrap: [AppComponent],

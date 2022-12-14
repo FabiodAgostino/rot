@@ -2,78 +2,112 @@
       <mat-toolbar class="login-toolbar" color="primary">
         <span class="material-icons ank" style="color: rgb(255, 210, 48); font-size: 56px; -webkit-text-stroke-width: 0px;">anchor</span>
         </mat-toolbar>
-      <mat-card>
-        <mat-stepper linear #stepper orientation="vertical" fxFlex="100" fxLayout="column">
-            <mat-step [stepControl]="firstFormGroup" [editable]="isEditable" fxLayout="row stretch" fxFlex="100">
-              <form [formGroup]="firstFormGroup" >
+      <mat-card fxFlex>
+        <mat-stepper linear #stepper orientation="vertical" fxFlex fxLayout="column">
+
+
+
+            <mat-step [stepControl]="firstFormGroup" [editable]="isEditable">
+              <form [formGroup]="firstFormGroup" fxFlex="100" fxLayout="column">
                 <ng-template matStepLabel>Credential </ng-template>
-                  <mat-form-field>
+                  <mat-form-field >
                     <mat-icon matPrefix>person_outline</mat-icon>
-                    <input autofocus type="text" matInput placeholder="Username"  formControlName="username">
+                    <input autofocus type="text" matInput placeholder="Username" #user (change)="checkUser(user.value)"  formControlName="username" fxFlex>
+                    <mat-error *ngIf="firstFormGroup.get('username')?.hasError('minlength')">
+                        L'username deve contenere almeno 4 caratteri
+                    </mat-error>
+                    <mat-error *ngIf="firstFormGroup.get('username')?.hasError('incorrect')">
+                        Username già utilizzato
+                    </mat-error>
                   </mat-form-field>
 
-                  <mat-form-field >
+                  <mat-form-field>
                     <mat-icon matPrefix>lock_outline</mat-icon>
-                    <input type="password" autocomplete="false" matInput placeholder="Password" formControlName="password" required>
+                    <input type="password" autocomplete="false" matInput placeholder="Password" formControlName="password" (change)="checkPassword()" required fxFlex>
+                    <mat-error *ngIf="firstFormGroup.get('password')?.hasError('minlength')">
+                      La password deve contenere almeno 6 caratteri
+                  </mat-error>
+                    <mat-error *ngIf="firstFormGroup.get('password')?.hasError('passwordSimilar')">
+                        Le password non corrispondono
+                    </mat-error>
                   </mat-form-field>
 
-                  <mat-form-field >
+                  <mat-form-field>
                     <mat-icon matPrefix>lock_outline</mat-icon>
-                    <input type="password" autocomplete="false" matInput placeholder="Ripeti password" formControlName="password" required>
+                    <input type="password" autocomplete="false" matInput placeholder="Ripeti password" formControlName="password2" (change)="checkPassword()" required fxFlex>
                   </mat-form-field>
                 <div>
-                  <button mat-button matStepperNext>
+                  <button mat-button matStepperNext fxFlex>
                     <span class="material-symbols-outlined arrow">
                     expand_more
                     </span></button>
                 </div>
               </form>
             </mat-step>
-            <mat-step [stepControl]="secondFormGroup" [editable]="isEditable" fxLayout="row stretch" fxFlex="100">
-              <form [formGroup]="secondFormGroup">
+
+
+
+            <mat-step [stepControl]="secondFormGroup" [editable]="isEditable" >
+              <form [formGroup]="secondFormGroup" fxFlex="100" fxLayout="column">
                 <ng-template matStepLabel>Info</ng-template>
                 <mat-form-field>
                     <mat-icon matPrefix>person_outline</mat-icon>
-                    <input autofocus type="text" matInput placeholder="Nome pg"  formControlName="nomePg">
+                    <input autofocus type="text" matInput placeholder="Nome pg"  formControlName="nomePg" fxFlex>
                 </mat-form-field>
                 <mat-form-field >
                     <mat-icon matPrefix>location_city</mat-icon>
                     <mat-label>Regno</mat-label>
-                      <mat-select color="primary" fxFlex formControlName="regno">
+                      <mat-select color="primary" fxFlex formControlName="regno" fxFlex>
                         <mat-option color="primary" *ngFor="let regno of regni" [disabled]="regni.length<1" [value]="regno.nome">{{regno.nome}}</mat-option>
                       </mat-select>
                   </mat-form-field>
                 <div>
-                  <button mat-button matStepperPrevious><span class="material-symbols-outlined arrow">
-                    expand_less
-                    </span></button><br>
-                  <button mat-button matStepperNext><span class="material-symbols-outlined arrow">
+                  <button mat-button matStepperNext fxFlex><span class="material-symbols-outlined arrow">
                     expand_more
                     </span></button>
                 </div>
               </form>
             </mat-step>
-            <mat-step fxLayout="column" fxFlex="100">
+
+
+
+            <mat-step [stepControl]="thirdFormGroup" [editable]="isEditable">
+              <form [formGroup]="thirdFormGroup" fxFlex="100" fxLayout="column">
                 <ng-template matStepLabel>Domande</ng-template>
-                <mat-form-field *ngFor="let i of dr">
-                    <textarea matInput [disabled]="true" class="domanda" fxFlex="100" fxLayout="row">{{i.domanda}}</textarea>
-                    <div style="margin:5%"></div>
-                </mat-form-field>
+                <div fxFlex class="area" *ngIf="dr.length>0">
+                  <div>
+                    <textarea matInput [readonly]="true" class="domanda" fxFlex cols="100" [style.height.px]="heightTextArea(dr[0].domanda)" class="textarea">{{dr[0].domanda}}</textarea>
+                  </div>
+                  <div>
+                    <input #ris mat-input placeholder="Risposta" class="ris" fxFlex formControlName="r1">
+                    </div>
+                  <div>
+                    <textarea matInput [readonly]="true" class="domanda" fxFlex cols="100" [style.height.px]="heightTextArea(dr[1].domanda)" class="textarea">{{dr[1].domanda}}</textarea>
+                  </div>
+                  <div>
+                    <input #ris mat-input placeholder="Risposta" class="ris" fxFlex formControlName="r2">
+                    </div>
+                  <div>
+                    <textarea matInput [readonly]="true" class="domanda" fxFlex cols="100" [style.height.px]="heightTextArea(dr[2].domanda)" class="textarea">{{dr[2].domanda}}</textarea>
+                  </div>
+                  <div>
+                  <input #ris mat-input placeholder="Risposta" class="ris" fxFlex formControlName="r3">
+                  </div>
+                </div>
                 <div>
-                    <button mat-button matStepperPrevious><span class="material-symbols-outlined arrow">
-                      expand_less
-                      </span></button><br>
-                    <button mat-button matStepperNext><span class="material-symbols-outlined arrow">
+                    <button mat-button matStepperNext fxFlex><span class="material-symbols-outlined arrow" fxFlex>
                       expand_more
                       </span></button>
                   </div>
-              </mat-step>
-            <mat-step fxFlex>
+              </form>
+            </mat-step>
+
+
+
+            <mat-step>
               <ng-template matStepLabel>Done</ng-template>
-              <p>You are now done.</p>
-              <div>
-                <button mat-button matStepperPrevious>Back</button>
-                <button mat-button (click)="stepper.reset()">Reset</button>
+              <div style="padding:5%" fxFlex>
+                <button type="submit" mat-raised-button color="primary"  (click)="salva()" fxFlex>Salva</button>
               </div>
             </mat-step>
           </mat-stepper>
