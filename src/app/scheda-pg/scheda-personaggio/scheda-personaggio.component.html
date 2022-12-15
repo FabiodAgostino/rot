@@ -21,9 +21,12 @@
     </mat-card-title>
   </mat-card-header>
   <div fxLayout="row" fxLayoutAlign="end center" >
-  <button mat-icon-button color="primary" [matTooltip]="!isChierico() ? 'Info spell paladino' : 'Info spell chierico'" (click)="!isChierico() ? openPaladino() : openChierico()"  [style.visibility]="((schedaPg.classe.nome==='Paladino' || schedaPg.classe.nome==='Chierico') && schedaPg.religione.nome!=='' && isLogged())? 'visible': 'hidden'">
+  <button mat-icon-button color="primary" [matTooltip]="!isChierico() ? 'Info spell paladino' : 'Info spell chierico'" (click)="!isChierico() ? openPaladino() : openChierico()"  [style.visibility]="((schedaPg.classe.nome==='Paladino' || schedaPg.classe.nome==='Chierico') && schedaPg.religione.nome!=='' && isRotinrim())? 'visible': 'hidden'">
         <mat-icon style="color:green">info</mat-icon>
-    </button>
+  </button>
+  <button mat-icon-button color="primary" matTooltip="Info macraggio skills" (click)="openInfoSkills()"  [style.visibility]="(infoSkills.length>0 && isRotinrim())? 'visible': 'hidden'">
+    <mat-icon style="color:#004a9f">info</mat-icon>
+  </button>
   </div>
   <div fxLayout="row wrap"  fxLayoutAlign="space-evenly center"   fxFlex>
   <div>
@@ -54,7 +57,7 @@
       <mat-form-field fxFlex.xs="100" fxFlex.sm="60" fxFlex.md="70" fxFlex.lg="100" fxFlex.xl="100">
         <mat-label>Classe</mat-label>
           <mat-select color="primary" [(ngModel)]="schedaPg.classe.nome" [formControl]="classeForm" fxFlex>
-            <mat-option color="primary" *ngFor="let classe of classi" [disabled]="classi.length<1" [value]="classe.nome" (click)="getReligioni();autoSetStat();">{{classe.nome}}</mat-option>
+            <mat-option color="primary" *ngFor="let classe of classi" [disabled]="classi.length<1" [value]="classe.nome" (click)="getReligioni();autoSetStat();getInfoSkill()">{{classe.nome}}</mat-option>
           </mat-select>
           <mat-error *ngIf="classeForm.hasError('required') && schedaPg.classe == undefined">
             Seleziona una classe

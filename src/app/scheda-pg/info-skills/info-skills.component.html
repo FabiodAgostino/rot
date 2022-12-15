@@ -1,0 +1,18 @@
+<mat-card class="home" fxFlex="100"  fxLayout="column" >
+
+  <div class="title">
+    <b>Classe: </b> <b class="blue">{{infoSkills[0].classe}}</b>
+  </div>
+  <ul *ngFor="let i of infoSkills">
+    <li class="li"><b>Skill:</b> {{i.nome}}</li><br>
+    <div *ngIf="i.info.length>0">
+      <b>Info:</b> {{i.info}} <br><br>
+  </div>
+    <b>Procedura:</b>
+      <ul *ngFor="let p of i.procedura">
+        <li class="li"> {{p}}</li>
+      </ul>
+      <br>
+      <mat-divider></mat-divider>
+  </ul>
+</mat-card>

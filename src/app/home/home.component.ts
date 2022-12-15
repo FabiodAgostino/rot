@@ -13,12 +13,13 @@ export class HomeComponent implements OnInit {
   eventsSubscription = new Subscription();
   iFrameEmitter: Subject<string> = new Subject<string>();
   @Input() events = new Observable<string>();
-
+  url: string="";
   constructor(public sanitizer: DomSanitizer, private _safePipe: SafePipe) { }
 
   ngOnInit(): void {
     this.eventsSubscription = this.events.subscribe((x) =>
     {
+      this.url=x;
         this.iFrameEmitter.next(x);
     } );
   }

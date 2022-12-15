@@ -1,6 +1,9 @@
 <mat-card class="home" fxFlex="100"  fxLayout="column" >
+  <div class="title">
+    <b class="blue">Info Spell Chierico</b>
+  </div>
     <ul>
-      <li class="li"><b>Religione:</b> {{spellChierico.religione}}</li>
+      <li class="li"><b>Religione:</b> {{spellChierico.religione}}</li><br>
       <b>Spells:</b>
       <ul>
         <li *ngFor="let spell of spellChierico?.spell">

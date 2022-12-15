@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { AngularFireDatabase } from '@angular/fire/compat/database';
 import { AngularFirestore, AngularFirestoreCollection } from '@angular/fire/compat/firestore';
 import { BehaviorSubject, map, Observable } from 'rxjs';
-import { Classe, DomandaRisposta, PartialPg, Pg, Razza, Regno, Religione, Skill, SkillChecked, SkillsPg, SpellChierico, SpellPaladino, TipologiaSkill } from '../models/Pg';
+import { Classe, DomandaRisposta, InfoSkill, PartialPg, Pg, Razza, Regno, Religione, Skill, SkillChecked, SkillsPg, SpellChierico, SpellPaladino, TipologiaSkill } from '../models/Pg';
 
 @Injectable({
   providedIn: 'root'
@@ -69,6 +69,23 @@ export class SchedaPersonaggioService {
             dr.domanda=collection.domanda;
             dr.risposta=collection.risposta;
             dr.min=collection.min;
+            return dr;
+          })
+      }))
+      return response;
+  }
+
+
+  getInfoSkill(classe: string)
+  {
+    var response= this.store.collection<InfoSkill>('InfoSkill', ref=> ref.where("classe","==",classe)).valueChanges()
+      .pipe(map(collection=>{
+          return collection.map(collection=>{
+            let dr = new InfoSkill();
+            dr.info=collection.info;
+            dr.nome=collection.nome;
+            dr.procedura=collection.procedura;
+            dr.classe=collection.classe;
             return dr;
           })
       }))

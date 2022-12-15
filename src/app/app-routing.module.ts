@@ -4,6 +4,7 @@ import { AppComponent } from './app.component';
 import { CreditsComponent } from './credits/credits.component';
 import { DevelopComponent } from './develop/develop.component';
 import { HelpComponent } from './help/help.component';
+import { HomeViewComponent } from './home-view/home-view.component';
 import { HomeComponent } from './home/home.component';
 import { FinishWizardComponent } from './scheda-pg/finish-wizard/finish-wizard.component';
 import { SchedaPersonaggioComponent } from './scheda-pg/scheda-personaggio/scheda-personaggio.component';
@@ -15,7 +16,8 @@ const routes: Routes = [
   {path: "credits",  component: CreditsComponent},
   {path: "develop",  component: DevelopComponent},
   {path: "schedaPersonaggio",  component: SchedaPersonaggioComponent},
-  {path: "FinishWizardPg",  component: FinishWizardComponent},
+  {path: "",  component: HomeViewComponent},
+
 
 
 ];

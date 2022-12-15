@@ -51,6 +51,8 @@ import { LoginComponent } from './user/login/login.component';
 import { SignUpComponent } from './user/sign-up/sign-up.component';
 import {MatStepperModule} from '@angular/material/stepper';
 import { MatFormFieldModule } from '@angular/material/form-field';
+import { HomeViewComponent } from './home-view/home-view.component';
+import { InfoSkillsComponent } from './scheda-pg/info-skills/info-skills.component';
 
 
 @NgModule({
@@ -71,7 +73,9 @@ import { MatFormFieldModule } from '@angular/material/form-field';
     ModalePaladinoComponent,
     FinishWizardComponent,
     LoginComponent,
-    SignUpComponent
+    SignUpComponent,
+    HomeViewComponent,
+    InfoSkillsComponent
   ],
   imports: [
     BrowserModule,

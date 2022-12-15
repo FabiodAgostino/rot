@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, Validators } from '@angular/forms';
-import { Classe, PartialPg, Pg, Razza, Religione, Skill } from '../../models/Pg';
+import { Classe, InfoSkill, PartialPg, Pg, Razza, Religione, Skill } from '../../models/Pg';
 import { SchedaPersonaggioService } from '../../service/scheda-personaggio.service';
 import {MatDialog, MAT_DIALOG_DATA, MatDialogRef} from '@angular/material/dialog';
 import { ModaleSkillsComponent } from '../modale-skills/modale-skills.component';
@@ -10,6 +10,8 @@ import { Router } from '@angular/router';
 import { FinishWizardComponent } from '../finish-wizard/finish-wizard.component';
 import { ModaleChiericoComponent } from '../modale-chierico/modale-chierico.component';
 import { UserService } from 'src/app/service/user.service';
+import { Utils } from 'src/app/utils/utility';
+import { InfoSkillsComponent } from '../info-skills/info-skills.component';
 
 const changedRazza = "changed";
 const notChangedRazza= "notChanged";
@@ -40,18 +42,15 @@ export class SchedaPersonaggioComponent implements OnInit {
   skillConsigliate = new Array<Skill>();
   changeRazza = inizializeRazza;
   isDruido = false;
-  isLoggedIn = false;
-
-
+  infoSkills = new Array<InfoSkill>();
   totaleStat = 0;
 
 
-  constructor(private service: SchedaPersonaggioService, private dialog: MatDialog, private userService: UserService){}
+  constructor(private service: SchedaPersonaggioService, private dialog: MatDialog, private userService: UserService, private utils: Utils){}
 
   ngOnInit(): void {
     this.resetFormControl();
     this.service.getAllRazze().subscribe(x=> this.razze=x);
-    this.isLogged();
   }
 
   getReligioni()
@@ -84,11 +83,14 @@ export class SchedaPersonaggioComponent implements OnInit {
 
   selectSkills()
   {
-    const dialog=this.dialog.open(ModaleSkillsComponent,{data: this.schedaPg});
+    const dialog=this.dialog.open(ModaleSkillsComponent,{
+      width: this.utils.isSmartphone() ? "80%" : "30%",
+      data: this.schedaPg});
 
     dialog.afterClosed().subscribe(x=>
       {
-        this.schedaPg.skills=x.data;
+        if(x?.data!==undefined)
+          this.schedaPg.skills=x?.data;
       });
   }
 
@@ -103,6 +105,23 @@ export class SchedaPersonaggioComponent implements OnInit {
   getClassi()
   {
     this.service.getAllClass().subscribe(x=> this.classi=this.filterClassi(x));
+  }
+
+  getInfoSkill()
+  {
+    this.service.getInfoSkill(this.schedaPg.classe.nome).subscribe(x=>{
+      if(x.length>0)
+        this.infoSkills=x;
+      else
+        this.infoSkills=new Array<InfoSkill>();
+    });
+  }
+
+  openInfoSkills()
+  {
+    this.dialog.open(InfoSkillsComponent,{
+      data: this.infoSkills,
+    })
   }
 
   checkForza()
@@ -263,6 +282,11 @@ export class SchedaPersonaggioComponent implements OnInit {
   isLogged()
   {
     return this.userService.isLoggedIn;
+  }
+
+  isRotinrim()
+  {
+    return this.userService.isRotinrim;
   }
 
 

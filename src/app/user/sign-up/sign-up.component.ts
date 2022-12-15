@@ -126,8 +126,7 @@ export class SignUpComponent implements OnInit {
       r.push(r1);
       r.push(r2);
       r.push(r3);
-
-      for(let i=0;i<dr.length;i++)
+      for(let i=0;i<dr?.length;i++)
        if(r[i].length>=dr[i].min &&  dr[i].risposta.toLowerCase().includes(r[i].toLowerCase()))
         check.push(true);
     }

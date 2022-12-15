@@ -4,6 +4,7 @@ import { BehaviorSubject, last, map, Observable, Subject, timestamp } from 'rxjs
 import { SessioneAttiva, User } from '../models/User';
 import { FieldValue, serverTimestamp, Timestamp } from "firebase/firestore";
 import { MatSnackBar, MatSnackBarHorizontalPosition, MatSnackBarVerticalPosition } from '@angular/material/snack-bar';
+import { Ticket } from '../models/Tickets';
 
 @Injectable({
   providedIn: 'root'
@@ -12,6 +13,7 @@ export class UserService {
 
   constructor(private store: AngularFirestore, private _snackBar:MatSnackBar) { }
   isLoggedIn: boolean = false;
+  isRotinrim: boolean = false;
 
   login(user: User)
   {
@@ -26,11 +28,13 @@ export class UserService {
           this.addSession(user);
           localStorage.setItem("user",user.username);
           this.isLoggedIn=true;
+          this.Rotinrim();
           subject.next(true);
           this.openSnackBar("login");
         }
         else
-          this.isLoggedIn=false;
+          this.logoutPartial();
+
         subject.next(false);
       });
       return subject.asObservable();
@@ -52,6 +56,33 @@ export class UserService {
   });
   }
 
+
+  Rotinrim()
+  {
+    var username=localStorage.getItem("user");
+    var subject = new Subject<boolean>();
+
+    this.store.collection('User',ref=> ref.where("username","==",username).where("regno","==","Rotiniel")).valueChanges()
+      .subscribe(x=>{
+        if(x.length>0)
+          this.isRotinrim=true;
+        else
+          this.isRotinrim=false;
+      });
+  }
+
+  SalvaTicket(ticket: Ticket)
+  {
+    this.store.collection("Ticket").add({
+      user: ticket.user,
+      messaggio: ticket.messaggio,
+      tipologia: ticket.tipologia,
+      tool: ticket.tool,
+      data: new Date()
+  });
+    this.openSnackBar("segnalazioneInviata");
+  }
+
   logout()
   {
     this.logoutPartial();
@@ -60,13 +91,13 @@ export class UserService {
 
   logoutPartial()
   {
+    this.isRotinrim=false;
     this.isLoggedIn=false;
     localStorage.removeItem("user");
   }
 
   checkSession()
   {
-    var subject = new Subject<boolean>();
     var user=localStorage.getItem("user")?.toString();
     if(user!==undefined)
     {
@@ -88,7 +119,10 @@ export class UserService {
               {
                 var sessioneAttiva=x.filter(x=> x.username===user);
                 if(sessioneAttiva.length>0)
+                {
+                  this.Rotinrim();
                   this.isLoggedIn = true;
+                }
                 else
                   this.logoutPartial()
               }
@@ -116,38 +150,44 @@ export class UserService {
 
 
 
-  openSnackBar(type: string,verticalPosition: MatSnackBarVerticalPosition = 'top', horizontalPosition: MatSnackBarHorizontalPosition = 'end') {
-    if(type=="login")
-      this._snackBar.open("Sei loggato correttamente!", 'Ok', {
-        duration: 2000,
-        horizontalPosition: horizontalPosition,
-        verticalPosition: verticalPosition,
-        panelClass: ['blue-snackbar'],
-      });
+  openSnackBar(type: string,verticalPosition: MatSnackBarVerticalPosition = 'top', horizontalPosition: MatSnackBarHorizontalPosition = 'end')
+  {
 
-    if(type=="logout")
-      this._snackBar.open("Sei sloggato correttamente!", 'Ok', {
-        duration: 2000,
-        horizontalPosition: horizontalPosition,
-        verticalPosition: verticalPosition,
-        panelClass: ['red-snackbar'],
-      });
+    switch(type)
+    {
+      case "login":
+        this.openSnack("Sei loggato correttamente!","blue-snackbar");
+        break;
 
-    if(type=="registrazioneAvvenuta")
-    this._snackBar.open("La registrazione è avvenuta con successo!", 'Ok', {
+      case "logout":
+        this.openSnack("Sei sloggato correttamente!","red-snackbar");
+        break;
+
+      case "registrazioneAvvenuta":
+        this.openSnack("La registrazione è avvenuta con successo!","green-snackbar");
+        break;
+
+      case "registrazioneFallita":
+        this.openSnack("Hai sbagliato una o più risposte!","red-snackbar");
+        break;
+
+      case "segnalazioneInviata":
+        this.openSnack("La segnalazione è stata inviata!","green-snackbar");
+        break;
+    }
+
+  }
+
+  private openSnack(testo: string, colorSnack: string,verticalPosition: MatSnackBarVerticalPosition = 'top', horizontalPosition: MatSnackBarHorizontalPosition = 'end')
+  {
+    this._snackBar.open(testo, 'Ok', {
       duration: 2000,
       horizontalPosition: horizontalPosition,
       verticalPosition: verticalPosition,
-      panelClass: ['green-snackbar'],
-    });
-
-    if(type=="registrazioneFallita")
-    this._snackBar.open("Hai sbagliato una o più risposte!", 'Ok', {
-      duration: 2000,
-      horizontalPosition: horizontalPosition,
-      verticalPosition: verticalPosition,
-      panelClass: ['red-snackbar'],
+      panelClass: colorSnack,
     });
   }
 
 }
+
+

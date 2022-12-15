@@ -73,6 +73,14 @@ export class SkillsPg
   idSkill: number=0;
 }
 
+export class InfoSkill
+{
+  nome: string = "";
+  info: string = "";
+  procedura = new Array<string>();
+  classe: string = "";
+}
+
 export class SpellPaladino
 {
   id: number = 0;

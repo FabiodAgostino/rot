@@ -1,8 +1,21 @@
-.content {
-  height: calc(100vh - 130px);
-  border-radius: 10px;
-  margin: 16px;
-  margin-left: 32px;
-  padding: 4px;
-  overflow: auto;
+a
+{
+    color: #004a9f;
+    font-weight: bold;
+}
+a:hover
+{
+    color: black;
+}
+
+
+mat-card
+{
+    border: 7px solid #004a9f;
+    border-radius: 3px;
+}
+
+mat-card-title
+{
+    color:#004a9f;
 }
