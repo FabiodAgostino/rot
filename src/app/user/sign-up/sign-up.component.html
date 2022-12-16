@@ -73,7 +73,7 @@
                 <ng-template matStepLabel>Domande</ng-template>
                 <div fxFlex class="area" *ngIf="dr.length>0">
                   <div>
-                    <textarea matInput [readonly]="true" class="domanda" fxFlex cols="100" [style.height.px]="heightTextArea(dr[0].domanda)" class="textarea">{{dr[0].domanda}}</textarea>
+                    <textarea matInput [readonly]="true"  fxFlex cols="100" [style.height.px]="heightTextArea(dr[0].domanda)" class="textarea">{{dr[0].domanda}}</textarea>
                   </div>
                   <div>
                     <input #ris mat-input placeholder="Risposta" class="ris" fxFlex formControlName="r1">

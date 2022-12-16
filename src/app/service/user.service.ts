@@ -174,6 +174,10 @@ export class UserService {
       case "segnalazioneInviata":
         this.openSnack("La segnalazione è stata inviata!","green-snackbar");
         break;
+
+      case "infoAggiuntive":
+        this.openSnack("Scarica il pdf per avere tutte le info aggiuntive.","green-snackbar", verticalPosition,horizontalPosition);
+        break;
     }
 
   }

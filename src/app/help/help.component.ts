@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { Ticket } from '../models/Tickets';
 import { UserService } from '../service/user.service';
+import { Utils } from '../utils/utility';
 
 @Component({
   selector: 'app-help',
@@ -10,7 +11,7 @@ import { UserService } from '../service/user.service';
 })
 export class HelpComponent implements OnInit {
 
-  constructor(private _formBuilder: FormBuilder, private _userService: UserService) { }
+  constructor(private _formBuilder: FormBuilder, private _userService: UserService, private _utils: Utils) { }
 
   tipologiaTicket = ["Correzione dati tool","Malfunzionamento","Consigli"];
   tools = ["Scheda personaggio","Dizionario Elfico","Enchant TM","Calendario TM","Armature infuse"];
@@ -22,6 +23,7 @@ export class HelpComponent implements OnInit {
   });
 
   ngOnInit(): void {
+    this.isSmartphone();
   }
 
   salva()
@@ -57,6 +59,16 @@ export class HelpComponent implements OnInit {
   isLoggedIn()
   {
     return this._userService.isLoggedIn;
+  }
+
+  isSmartphone()
+  {
+    return this._utils.isSmartphone();
+  }
+
+  width()
+  {
+    return this.isSmartphone() ? '100' : '50';
   }
 
 

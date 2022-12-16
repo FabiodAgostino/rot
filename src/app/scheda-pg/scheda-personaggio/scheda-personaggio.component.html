@@ -67,7 +67,7 @@
     <div>
       <mat-form-field fxFlex.xs="100" fxFlex.sm="60" fxFlex.md="70" fxFlex.lg="100" fxFlex.xl="100">
       <mat-label>Religione</mat-label>
-      <mat-select color="primary" [(ngModel)]="schedaPg.religione.nome" [formControl]="religioneForm" fxFlex>
+      <mat-select color="primary" [(ngModel)]="schedaPg.religione.nome" [formControl]="religioneForm" fxFlex >
         <mat-option color="primary" *ngFor="let religione of religioni" [value]="religione.nome" [disabled]="schedaPg.classe.nome===undefined || religioni.length==0" >{{religione.nome}}</mat-option>
       </mat-select>
         <mat-error *ngIf="classeForm.hasError('required') && schedaPg.religione.nome == undefined">
@@ -79,6 +79,7 @@
       </mat-form-field>
   </div>
 </div>
+<div [ngStyle]="spazioSmartphone()"></div>
 </mat-card>
 <mat-card fxLayout="column" fxFlex="100" class="firstForm" style="margin-top: 2%;">
   <mat-card-title>
@@ -116,11 +117,13 @@
           </mat-error>
       </mat-form-field>
     </div>
-    <mat-progress-bar  [color]="colorBar" [value]="totaleStat/2"></mat-progress-bar>
+
+    <mat-progress-bar  [color]="colorBar" [value]="totaleStat/2" [ngStyle]="spazioSmartphone()"></mat-progress-bar>
+
 </div>
 </mat-card>
 <div div fxLayout="row wrap" fxLayoutAlign="center center" >
-  <div  style="margin-top: 1%;">
+  <div  [ngStyle]="spazioSmartphone()">
     <button mat-raised-button   color="primary" (click)="selectSkills()" [disabled]="schedaPg.classe.nome===undefined" *ngIf="schedaPg.skills.length==0">Scegli skills  <mat-icon>assignment</mat-icon></button>
     <button mat-raised-button   class="green"  (click)="selectSkills()" *ngIf="schedaPg.skills.length>0">Skills selezionate <mat-icon>done</mat-icon></button>
   </div>
@@ -134,6 +137,8 @@
                 <button mat-raised-button color="primary"  [disabled]="!checkSalva()" (click)="savePg()">Salva <mat-icon>done</mat-icon></button>
               </div>
     </div>
+<div [ngStyle]="spazioSmartphone()"></div>
+
 </div>
 
 

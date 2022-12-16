@@ -84,7 +84,7 @@ export class SchedaPersonaggioComponent implements OnInit {
   selectSkills()
   {
     const dialog=this.dialog.open(ModaleSkillsComponent,{
-      width: this.utils.isSmartphone() ? "80%" : "30%",
+      width: this.utils.isSmartphone() ? "80%" : "40%",
       data: this.schedaPg});
 
     dialog.afterClosed().subscribe(x=>
@@ -121,6 +121,7 @@ export class SchedaPersonaggioComponent implements OnInit {
   {
     this.dialog.open(InfoSkillsComponent,{
       data: this.infoSkills,
+      height:this.utils.isSmartphone() ? "60%" : "",
     })
   }
 
@@ -225,7 +226,10 @@ export class SchedaPersonaggioComponent implements OnInit {
 
   openFinishWizard(guid: string)
   {
-    const dialog = this.dialog.open(FinishWizardComponent,{data:{pg:this.schedaPg, guid:guid}});
+    const dialog = this.dialog.open(FinishWizardComponent,
+      {
+        data:{pg:this.schedaPg, guid:guid, infoSkills: this.infoSkills}});
+    dialog.afterOpened().subscribe(x=> this.infoSkills= new Array<InfoSkill>());
   }
 
   resetFormControl()
@@ -287,6 +291,14 @@ export class SchedaPersonaggioComponent implements OnInit {
   isRotinrim()
   {
     return this.userService.isRotinrim;
+  }
+
+  spazioSmartphone()
+  {
+    let styles = {
+      'margin': this.utils.isSmartphone() ? '4%' : '1%',
+    };
+    return styles;
   }
 
 

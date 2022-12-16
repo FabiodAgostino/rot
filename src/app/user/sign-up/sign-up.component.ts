@@ -5,6 +5,7 @@ import { DomandaRisposta, Regno } from 'src/app/models/Pg';
 import { User } from 'src/app/models/User';
 import { SchedaPersonaggioService } from 'src/app/service/scheda-personaggio.service';
 import { UserService } from 'src/app/service/user.service';
+import { Utils } from 'src/app/utils/utility';
 
 @Component({
   selector: 'app-sign-up',
@@ -40,7 +41,7 @@ export class SignUpComponent implements OnInit {
 
   isEditable = true;
   isLinear = true;
-  constructor(private service:UserService, private dialog: DialogRef, private _formBuilder: FormBuilder, private _schedaService: SchedaPersonaggioService)
+  constructor(private service:UserService, private dialog: DialogRef, private _formBuilder: FormBuilder, private _schedaService: SchedaPersonaggioService, private _utils: Utils)
   {
 
   }
@@ -81,17 +82,18 @@ export class SignUpComponent implements OnInit {
 
   heightTextArea(domanda: string)
   {
+    let smartphone = this._utils.isSmartphone();
     if(domanda.length>=5 && domanda.length<=25)
-      return 30;
+      return !smartphone ? 23 : 40;
     if(domanda.length>25 && domanda.length<=45)
-      return 35;
+      return !smartphone ? 35 : 60;
     if(domanda.length>45 && domanda.length<=55)
-      return 40;
+      return !smartphone ? 40 : 65;
     if(domanda.length>55 && domanda.length<=60)
-      return 45;
+      return !smartphone ? 45 : 75;
     if(domanda.length>60 && domanda.length<=75)
-      return 50;
-    return domanda.length*0.63;
+    return !smartphone ? 50 : 85;
+    return !smartphone ? domanda.length*0.63 : domanda.length*1.10;
   }
 
   checkUser(username: string)

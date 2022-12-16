@@ -1,9 +1,9 @@
 
-<div  class="external" fxLayoutAlign="space-around stretch" fxLayout="column" >
+<div  class="external" fxLayoutAlign="" fxLayout="column" >
  <div fxFlex="2" mat-dialog-title class="title">Scheda Personaggio <mat-divider></mat-divider></div>
  <div fxFlex>
   <div fxLayout="row wrap" fxLayoutAlign="space-around  stretch" fxFlex="100" id="MyPdf">
-    <div fxLayout="column" class="generic yBar" fxFlex="50">
+    <div fxLayout="column" class="generic yBar" fxFlex="40">
       <div fxFlex="30">
         <div class="subtitle">Info generiche <br></div>
         <div><span class="nome">Nome: </span>{{schedaPg.nome}}</div>
@@ -30,8 +30,8 @@
             </span><span class="nome">Intelligenza: </span>{{schedaPg.stats.intelligenza}}</div>
       </div>
     </div>
-    <div fxLayout="column" fxFlex="38" class="generic">
-      <div [fxFlex]="schedaPg.classe.nome!='Paladino' && schedaPg.classe.nome!='Chierico'  ? 100 : 70">
+    <div fxLayout="column" fxFlex="60" class="generic">
+      <div fxFlex>
         <div class="subtitle">Skills</div>
         <div *ngFor="let skill of schedaPg.skills ">
           <span class="material-symbols-outlined" *ngIf="skill.idTipologiaSkill==4">
@@ -56,34 +56,125 @@
             </span>
           <span class="nome">{{skill.nome}} </span>{{skill.value}}</div>
       </div>
-      <div *ngIf="isLoggedIn() && (schedaPg.classe.nome==='Paladino' || schedaPg.classe.nome==='Chierico')">
-        <div class="subtitle">Info aggiuntive <br></div>
-        <div *ngIf="schedaPg.classe.nome==='Chierico'">
-          <b>Spells:</b>
-          <ul>
-            <li *ngFor="let spell of spellsChierico?.spell">
-                {{spell}}
-            </li>
-          </ul>
-        </div>
-
-        <div *ngIf="schedaPg.classe.nome==='Paladino'">
-          <b>Aura:</b> {{spellsPaladino.aura}}<br>
-          <b>Spells:</b>
-          <ul>
-            <li *ngFor="let spell of spellsPaladino?.spell">
-                {{spell}}
-            </li>
-          </ul>
-        </div>
-      </div>
     </div>
   </div>
   </div>
   <mat-divider ></mat-divider>
   <div fxLayoutAlign="space-around center" fxFlex="10">
-    <button mat-raised-button color="primary" (click)="exportAsPDF('MyPdf')" matTooltip="Download pdf"><span class="material-symbols-outlined">
+    <button mat-raised-button color="primary" (click)="exportAsPDF()" matTooltip="Download pdf"><span class="material-symbols-outlined">
       download
       </span></button>
   </div>
 </div>
+
+
+
+
+
+
+
+  <div id="MyPdf2" style="font-size:20px; position: absolute; bottom:1000px; width: 50%;" *ngIf="!isSmartphone()">
+    <br>
+    <div >
+      <div class="subtitle">Info aggiuntive chierico/paladino</div><br><br>
+      <div *ngIf="schedaPg.classe.nome==='Chierico'">
+        <b style="text-align:center; font-size: 17px;">Spells:</b>
+        <ul>
+          <li *ngFor="let spell of spellsChierico?.spell">
+              {{spell}}
+          </li>
+        </ul>
+      </div>
+
+      <div *ngIf="schedaPg.classe.nome==='Paladino'">
+        <b class="classe">Aura:</b> {{spellsPaladino.aura}}<br><br>
+        <b class="classe" style="text-align:center;font-size: 17px">Spells:</b>
+        <ul>
+          <li *ngFor="let spell of spellsPaladino?.spell">
+              {{spell}}
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <div id="MyPdf3" style="font-size:25px; position: absolute; bottom:900px;" *ngIf="!isSmartphone()">
+    <br>
+    <div *ngIf="infoSkills.length>0">
+      <div  class="subtitle" style="font-size:30px">Info Skills</div><br><br>
+      <div style="font-size:27px;">
+        <b>Classe: </b> <b class="blue">{{infoSkills[0].classe}}</b>
+      </div>
+      <ul *ngFor="let i of infoSkills">
+        <li class="li skill"><b>Skill:</b> {{i.nome}}</li><br>
+        <div *ngIf="i.info.length>0">
+          <b>Info:</b> <span style="line-height: 1;"> {{i.info}}</span> <br><br>
+      </div><br>
+        <b>Procedura:</b><br>
+          <ul *ngFor="let p of i.procedura">
+            <li class="li" > {{p}}</li>
+          </ul>
+          <br>
+      </ul>
+    </div>
+  </div>
+
+
+
+
+
+
+
+
+
+
+  <div id="MyPdf2" style=" position: absolute; bottom:1000px; width:200%; height:1000px" *ngIf="isSmartphone()">
+    <br>
+    <div >
+      <div class="titleSmartphone">Info aggiuntive chierico/paladino</div><br><br>
+      <div *ngIf="schedaPg.classe.nome==='Chierico'">
+        <b style="text-align:center; ">Spells:</b>
+        <ul>
+          <li *ngFor="let spell of spellsChierico?.spell">
+              {{spell}}
+          </li>
+        </ul>
+      </div>
+
+      <div *ngIf="schedaPg.classe.nome==='Paladino'">
+        <b >Aura:</b> {{spellsPaladino.aura}}<br><br>
+        <b style="text-align:center;">Spells:</b>
+        <ul>
+          <li *ngFor="let spell of spellsPaladino?.spell">
+              {{spell}}
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <div id="MyPdf3" style=" position: absolute; bottom:2000px; width:200%; height:2000px" *ngIf="isSmartphone()">
+    <br>
+    <div *ngIf="infoSkills.length>0">
+      <div  class="titleSmartphone">Info Skills</div><br><br>
+      <div>
+        <b>Classe: </b> <b class="blue">{{infoSkills[0].classe}}</b>
+      </div>
+      <ul *ngFor="let i of infoSkills">
+        <li ><b>Skill:</b> {{i.nome}}</li><br>
+        <div *ngIf="i.info.length>0">
+          <b>Info:</b> <span style="line-height: 1;"> {{i.info}}</span> <br><br>
+      </div>
+        <b>Procedura:</b><br>
+          <ul *ngFor="let p of i.procedura">
+            <li > {{p}}</li>
+          </ul>
+          <br>
+      </ul>
+    </div>
+  </div>
+
+
+
+
+

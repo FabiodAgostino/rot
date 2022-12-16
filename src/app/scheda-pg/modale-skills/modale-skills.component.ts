@@ -180,4 +180,12 @@ export class ModaleSkillsComponent implements OnInit {
     this.valueTotale=0;
     this.skillScelte= new Array<SkillChecked>();
   }
+
+  spazioSmartphone()
+  {
+    let styles = {
+      'margin-top': this.utils.isSmartphone() ? '143em' : '135em',
+    };
+    return styles;
+  }
 }
