@@ -19,6 +19,7 @@ export class SignUpComponent implements OnInit {
   regni= new Array<Regno>();
   regno = new Regno();
   dr = new Array<DomandaRisposta>();
+  strongPassword = false;
 
   firstFormGroup = this._formBuilder.group({
     username: ['', Validators.compose([Validators.minLength(4),Validators.required])],
@@ -112,6 +113,14 @@ export class SignUpComponent implements OnInit {
 
     if(p1?.valid && p2?.valid && p1.value!==p2.value)
       this.firstFormGroup.get("password")?.setErrors({'passwordSimilar': true});
+
+    if(!this.strongPassword)
+      this.firstFormGroup.get("password")?.setErrors({'passwordEasy': true});
+
+  }
+
+  onPasswordStrengthChanged(event: boolean) {
+    this.strongPassword = event;
   }
 
   salva()

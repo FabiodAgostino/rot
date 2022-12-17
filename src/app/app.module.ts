@@ -53,6 +53,7 @@ import {MatStepperModule} from '@angular/material/stepper';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { HomeViewComponent } from './home-view/home-view.component';
 import { InfoSkillsComponent } from './scheda-pg/info-skills/info-skills.component';
+import { PasswordStrenghtMeterComponent } from './password-strenght-meter/password-strenght-meter.component';
 
 
 @NgModule({
@@ -75,7 +76,8 @@ import { InfoSkillsComponent } from './scheda-pg/info-skills/info-skills.compone
     LoginComponent,
     SignUpComponent,
     HomeViewComponent,
-    InfoSkillsComponent
+    InfoSkillsComponent,
+    PasswordStrenghtMeterComponent
   ],
   imports: [
     BrowserModule,

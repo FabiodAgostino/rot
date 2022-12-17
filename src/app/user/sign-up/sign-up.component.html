@@ -33,6 +33,9 @@
                     <mat-icon matPrefix>lock_outline</mat-icon>
                     <input type="password" autocomplete="false" matInput placeholder="Ripeti password" formControlName="password2" (change)="checkPassword()" required fxFlex>
                   </mat-form-field>
+
+                  <app-password-strenght-meter [passwordToCheck]="firstFormGroup.get('password')?.value || ' '" (passwordStrength)="onPasswordStrengthChanged($event)"></app-password-strenght-meter>
+
                 <div>
                   <button mat-button matStepperNext fxFlex>
                     <span class="material-symbols-outlined arrow">
