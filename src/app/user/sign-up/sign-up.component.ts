@@ -133,7 +133,7 @@ export class SignUpComponent implements OnInit {
         check.push(true);
     }
 
-    var isOk=check.filter(x=> x==false).length>0 ? false : true;
+    var isOk=check.filter(x=> x==false)?.length>0 ? false : true;
     if(isOk)
     {
       var username=this.firstFormGroup.get("username")?.value;
