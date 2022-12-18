@@ -1,3 +1,4 @@
+<div>
 <div mat-dialog-title fxLayout="column" fxLayoutAlign="space-around">
 
   <span>Scegli le skills del tuo pg</span>
@@ -28,7 +29,7 @@
 
 
 
-<mat-dialog-content fxLayout="column" fxLayoutAlign="space-around">
+<mat-dialog-content fxLayout="column" fxLayoutAlign="space-around" [ngClass]="{'content': this.utils.isSmartphone()}">
 
 
 
@@ -120,3 +121,4 @@
       </div>
 
     </mat-toolbar-row>
+  </div>

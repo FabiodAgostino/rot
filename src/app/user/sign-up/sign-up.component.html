@@ -20,18 +20,21 @@
 
                   <mat-form-field>
                     <mat-icon matPrefix>lock_outline</mat-icon>
-                    <input type="password" autocomplete="false" matInput placeholder="Password" formControlName="password" (change)="checkPassword()" required fxFlex>
+                    <input type="password" autocomplete="false" matInput placeholder="Password" formControlName="password" required fxFlex>
                     <mat-error *ngIf="firstFormGroup.get('password')?.hasError('minlength')">
                       La password deve contenere almeno 6 caratteri
-                  </mat-error>
-                    <mat-error *ngIf="firstFormGroup.get('password')?.hasError('passwordSimilar')">
-                        Le password non corrispondono
+                    </mat-error>
+                    <mat-error *ngIf="firstFormGroup.get('password')?.hasError('passwordEasy')">
+                      La password è vulnerabile
                     </mat-error>
                   </mat-form-field>
 
                   <mat-form-field>
                     <mat-icon matPrefix>lock_outline</mat-icon>
-                    <input type="password" autocomplete="false" matInput placeholder="Ripeti password" formControlName="password2" (change)="checkPassword()" required fxFlex>
+                    <input type="password" autocomplete="false" matInput placeholder="Ripeti password" formControlName="password2" required fxFlex>
+                    <mat-error *ngIf="firstFormGroup.get('password2')?.hasError('confirmPasswordValidator')">
+                      Le password non corrispondono
+                  </mat-error>
                   </mat-form-field>
 
                   <app-password-strenght-meter [passwordToCheck]="firstFormGroup.get('password')?.value || ' '" (passwordStrength)="onPasswordStrengthChanged($event)"></app-password-strenght-meter>
@@ -71,7 +74,7 @@
 
 
 
-            <mat-step [stepControl]="thirdFormGroup" [editable]="isEditable">
+            <mat-step [stepControl]="thirdFormGroup" [editable]="isEditable" *ngIf="secondFormGroup.get('regno')?.value==='Rotiniel'">
               <form [formGroup]="thirdFormGroup" fxFlex="100" fxLayout="column">
                 <ng-template matStepLabel>Domande</ng-template>
                 <div fxFlex class="area" *ngIf="dr.length>0">

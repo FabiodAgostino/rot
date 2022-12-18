@@ -1,6 +1,6 @@
 import { DialogRef } from '@angular/cdk/dialog';
-import { Component, OnInit } from '@angular/core';
-import { FormBuilder, Validators } from '@angular/forms';
+import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { DomandaRisposta, Regno } from 'src/app/models/Pg';
 import { User } from 'src/app/models/User';
 import { SchedaPersonaggioService } from 'src/app/service/scheda-personaggio.service';
@@ -19,19 +19,24 @@ export class SignUpComponent implements OnInit {
   regni= new Array<Regno>();
   regno = new Regno();
   dr = new Array<DomandaRisposta>();
-  strongPassword = false;
+  strongPassword = true;
+
+
 
   firstFormGroup = this._formBuilder.group({
     username: ['', Validators.compose([Validators.minLength(4),Validators.required])],
     password: ['', Validators.compose([Validators.minLength(6),Validators.required])],
     password2: ['', Validators.compose([Validators.minLength(6),Validators.required])],
+  },
+  {validator: this._utils.ConfirmPasswordValidator("password", "password2")}
+  );
 
-  });
   secondFormGroup = this._formBuilder.group({
     nomePg: ['', Validators.compose([Validators.minLength(3),Validators.required])],
     regno: ['', Validators.required],
+  },
 
-  });
+  );
   thirdFormGroup = this._formBuilder.group({
     r1: ['', Validators.required],
     r2: ['', Validators.required],
@@ -40,9 +45,11 @@ export class SignUpComponent implements OnInit {
 
   });
 
+  form: FormGroup = new FormGroup({});
   isEditable = true;
   isLinear = true;
-  constructor(private service:UserService, private dialog: DialogRef, private _formBuilder: FormBuilder, private _schedaService: SchedaPersonaggioService, private _utils: Utils)
+  constructor(private service:UserService, private dialog: DialogRef, private _formBuilder: FormBuilder,
+    private _schedaService: SchedaPersonaggioService, private _utils: Utils, private cdRef:ChangeDetectorRef)
   {
 
   }
@@ -106,21 +113,11 @@ export class SignUpComponent implements OnInit {
     });
   }
 
-  checkPassword()
-  {
-    var p1=this.firstFormGroup.get("password");
-    var p2=this.firstFormGroup.get("password2");
-
-    if(p1?.valid && p2?.valid && p1.value!==p2.value)
-      this.firstFormGroup.get("password")?.setErrors({'passwordSimilar': true});
-
-    if(!this.strongPassword)
-      this.firstFormGroup.get("password")?.setErrors({'passwordEasy': true});
-
-  }
-
   onPasswordStrengthChanged(event: boolean) {
-    this.strongPassword = event;
+      if(event===false)
+        this.firstFormGroup.get("password")?.setErrors({'passwordEasy': true});
+    this.cdRef.detectChanges();
+
   }
 
   salva()

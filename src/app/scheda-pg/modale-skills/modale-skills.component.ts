@@ -13,7 +13,7 @@ import { Utils } from '../../utils/utility';
 })
 export class ModaleSkillsComponent implements OnInit {
 
-  constructor(private service: SchedaPersonaggioService, private utils: Utils, public dialogRef: MatDialogRef<ModaleSkillsComponent>, @Inject(MAT_DIALOG_DATA)
+  constructor(private service: SchedaPersonaggioService, public utils: Utils, public dialogRef: MatDialogRef<ModaleSkillsComponent>, @Inject(MAT_DIALOG_DATA)
   public data: Pg)
   {
     this.classe=data?.classe;
@@ -184,8 +184,10 @@ export class ModaleSkillsComponent implements OnInit {
   spazioSmartphone()
   {
     let styles = {
-      'margin-top': this.utils.isSmartphone() ? '143em' : '135em',
+      'margin-top': this.utils.isSmartphone() ? '150em' : '135em',
     };
     return styles;
   }
+
+
 }
