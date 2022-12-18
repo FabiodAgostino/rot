@@ -122,30 +122,36 @@ export class SignUpComponent implements OnInit {
 
   salva()
   {
-    const dr= this.dr;
-    var r = new Array<String>();
-    var r1= this.thirdFormGroup.get('r1')?.value;
-    var r2= this.thirdFormGroup.get('r2')?.value;
-    var r3= this.thirdFormGroup.get('r3')?.value;
-    let check = new Array<boolean>;
-
-    if(r1 && r2 && r3)
+    var regno = this.secondFormGroup.get("regno")?.value;
+    var isOk=true;
+    if(regno?.includes("Rotiniel"))
     {
-      r.push(r1);
-      r.push(r2);
-      r.push(r3);
-      for(let i=0;i<dr?.length;i++)
-       if(r[i].length>=dr[i].min &&  dr[i].risposta.toLowerCase().includes(r[i].toLowerCase()))
-        check.push(true);
+      const dr= this.dr;
+      var r = new Array<String>();
+      var r1= this.thirdFormGroup.get('r1')?.value;
+      var r2= this.thirdFormGroup.get('r2')?.value;
+      var r3= this.thirdFormGroup.get('r3')?.value;
+      let check = new Array<boolean>;
+
+      if(r1 && r2 && r3)
+      {
+        r.push(r1);
+        r.push(r2);
+        r.push(r3);
+        for(let i=0;i<r?.length;i++)
+        {
+        if(r[i].length>=dr[i].min &&  dr[i].risposta.toLowerCase().includes(r[i].toLowerCase()))
+          check.push(true);
+        }
+      }
+       isOk=check.filter(x=> x==true)?.length==3 ? true : false;
     }
 
-    var isOk=check.filter(x=> x==false)?.length>0 ? false : true;
     if(isOk)
     {
       var username=this.firstFormGroup.get("username")?.value;
       var password=this.firstFormGroup.get("password")?.value;
       var nomePg=this.secondFormGroup.get("nomePg")?.value;
-      var regno = this.secondFormGroup.get("regno")?.value;
 
       if(username && password && nomePg && regno)
       {

@@ -56,6 +56,9 @@
             </span>
           <span class="nome">{{skill.nome}} </span>{{skill.value}}</div>
       </div>
+      <div *ngIf="!isSmartphone() && isRotinrim()" fxFlex="10" style="text-align:center">
+          <b>Scarica il pdf per avere tutte le info aggiuntive</b>
+      </div>
     </div>
   </div>
   </div>
