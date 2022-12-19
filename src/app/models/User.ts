@@ -6,6 +6,7 @@ export class User
     password: string = "";
     regno: string = "";
     nomePg: string= "";
+    usernameNoMd5: string = "";
 
     constructor(username?: string, password?: string)
     {

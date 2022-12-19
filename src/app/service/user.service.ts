@@ -50,6 +50,7 @@ export class UserService {
   {
     this.store.collection("User").add({
       username: this.criptMd5(user.username),
+      usernameNoMd5: user.username,
       password: this.criptMd5(user.password),
       nomePg: user.nomePg,
       regno: user.regno,
