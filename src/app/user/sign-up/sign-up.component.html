@@ -6,10 +6,10 @@
         <mat-stepper linear #stepper orientation="vertical" fxFlex fxLayout="column">
             <mat-step [stepControl]="firstFormGroup" [editable]="isEditable">
               <form [formGroup]="firstFormGroup" fxFlex="100" fxLayout="column">
-                <ng-template matStepLabel>Credential </ng-template>
+                <ng-template matStepLabel>Credenziali </ng-template>
                   <mat-form-field >
                     <mat-icon matPrefix>person_outline</mat-icon>
-                    <input autofocus type="text" matInput placeholder="Username" #user (change)="checkUser(user.value)"  formControlName="username" fxFlex>
+                    <input autofocus type="text" matInput placeholder="Username" #user (change)="checkUser(user.value)"  formControlName="username" fxFlex required>
                     <mat-error *ngIf="firstFormGroup.get('username')?.hasError('minlength')">
                         L'username deve contenere almeno 4 caratteri
                     </mat-error>
@@ -108,7 +108,7 @@
 
 
             <mat-step>
-              <ng-template matStepLabel>Done</ng-template>
+              <ng-template matStepLabel>Fine</ng-template>
               <div style="padding:5%" fxFlex>
                 <button type="submit" mat-raised-button color="primary"  (click)="salva()" fxFlex>Salva</button>
               </div>

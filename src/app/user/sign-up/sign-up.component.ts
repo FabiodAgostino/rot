@@ -24,7 +24,7 @@ export class SignUpComponent implements OnInit {
 
 
   firstFormGroup = this._formBuilder.group({
-    username: ['', Validators.compose([Validators.minLength(4),Validators.required])],
+    username: ['', Validators.compose([Validators.minLength(4),Validators.maxLength(12),Validators.required])],
     password: ['', Validators.compose([Validators.minLength(6),Validators.required])],
     password2: ['', Validators.compose([Validators.minLength(6),Validators.required])],
   },

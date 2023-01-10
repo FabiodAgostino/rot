@@ -63,7 +63,7 @@ export class PasswordStrenghtMeterComponent implements OnChanges {
 
     if (password) {
       const pwdStrength = this.checkStrength(password);
-      pwdStrength === 20 ? this.passwordStrength.emit(true) : this.passwordStrength.emit(false);
+      pwdStrength >= 20 ? this.passwordStrength.emit(true) : this.passwordStrength.emit(false);
 
       const color = this.getColor(pwdStrength);
       this.setBarColors(color.index, color.color);
