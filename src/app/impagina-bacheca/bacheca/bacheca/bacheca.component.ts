@@ -57,7 +57,6 @@ export class BachecaComponent implements OnInit {
     });
     bacheche.push(frasi);
     this.bacheche=bacheche;
-    frasi.forEach(x=>{ console.log(x); console.log(x.length)})
   }
 
 
