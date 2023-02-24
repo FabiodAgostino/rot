@@ -4,15 +4,14 @@
  <div fxFlex>
   <div fxLayout="row wrap" fxLayoutAlign="space-around  stretch" fxFlex="100" id="MyPdf">
     <div fxLayout="column" class="generic yBar" fxFlex="40">
-      <div fxFlex="30">
+      <div fxFlex="25">
         <div class="subtitle">Info generiche <br></div>
         <div><span class="nome">Nome: </span>{{schedaPg.nome}}</div>
         <div><span class="nome">Razza: </span>{{schedaPg.razza.nome}}</div>
         <div><span class="nome">Classe: </span>{{schedaPg.classe.nome}}</div>
-        <div><span class="nome">Pantheon: </span>{{schedaPg.religione.pantheon}}</div>
         <div><span class="nome">Divinità: </span>{{schedaPg.religione.nome}}</div>
       </div>
-      <div fxFlex="40">
+      <div fxFlex="15">
         <div class="subtitle">Guid</div>
         {{guid}}
       </div>
@@ -28,6 +27,20 @@
           <span class="material-symbols-outlined">
             psychology
             </span><span class="nome">Intelligenza: </span>{{schedaPg.stats.intelligenza}}</div>
+      </div>
+
+      <div fxFlex="30" class="stats">
+        <div class="subtitle">Info <br></div>
+        <div><span class="material-symbols-outlined">
+          favorite
+          </span><span class="nome">HP: </span>?</div>
+        <div><span class="material-symbols-outlined">
+          bolt
+          </span><span class="nome">Stamina: </span>{{schedaPg.stats.destrezza * 0.75 + schedaPg.stats.forza * 0.25 | number:'1.0-0'}}</div>
+        <div>
+          <span class="material-symbols-outlined">
+            backpack
+            </span><span class="nome">Stone: </span>{{40 + (schedaPg.stats.forza * 3.5) | number:'1.0-0'}}</div>
       </div>
     </div>
     <div fxLayout="column" fxFlex="60" class="generic">

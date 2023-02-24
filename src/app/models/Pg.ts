@@ -8,6 +8,7 @@ export class Pg
   malusMagico: number = 0;
   religione = new Religione();
   guid: string ="";
+  utilizzatoNVolte: number = 0;
 }
 
 export class Regno
@@ -33,6 +34,8 @@ export class PartialPg
   divinita = "";
   pantheon = "";
   guid = "";
+  utilizzatoNVolte: number = 0;
+
 
   static Convert(partialPg: PartialPg, skills: Array<SkillsPg>) : Pg
   {
@@ -53,6 +56,8 @@ export class PartialPg
     });
 
     pg.guid=partialPg?.guid;
+
+    pg.utilizzatoNVolte = partialPg?.utilizzatoNVolte;
 
     pg.razza = new Razza(partialPg?.razza);
 

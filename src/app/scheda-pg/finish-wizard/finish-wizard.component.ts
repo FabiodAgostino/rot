@@ -23,6 +23,7 @@ export class FinishWizardComponent implements OnInit  {
   infoSkills = new Array<InfoSkill>();
 
 
+
   constructor(public dialogRef: MatDialogRef<FinishWizardComponent>, private cdr: ChangeDetectorRef,private renderer: Renderer2,public service: SchedaPersonaggioService,@Inject(MAT_DIALOG_DATA)
   public data: any, private userService: UserService, private _utils: Utils)
   {

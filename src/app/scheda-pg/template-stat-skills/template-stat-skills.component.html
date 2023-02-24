@@ -1,0 +1,55 @@
+
+<div class="row">
+  <div>
+    <mat-accordion *ngFor="let pg of pgPaginati">
+      <mat-expansion-panel>
+        <mat-expansion-panel-header>
+          <mat-panel-title>
+            <b>Nome:&nbsp;</b>{{pg.nome}} &nbsp;&nbsp;&nbsp;&nbsp; <b>Classe:&nbsp;</b>{{pg.classe.nome}} &nbsp;&nbsp;&nbsp;&nbsp;
+            <span class="material-symbols-outlined">
+              fitness_center
+              </span>&nbsp;<b>{{pg.stats.forza}}&nbsp;<b>&nbsp;
+                <span class="material-symbols-outlined">
+                  sprint
+                  </span>
+                  &nbsp;</b>{{pg.stats.destrezza}}&nbsp;</b>&nbsp;
+                    <span class="material-symbols-outlined">
+                      psychology
+                      </span>&nbsp;<b>{{pg.stats.intelligenza}}</b>
+        &nbsp;&nbsp;&nbsp;&nbsp;
+        Utilizzata &nbsp;<b>{{pg.utilizzatoNVolte}}</b>&nbsp; volta/e
+          </mat-panel-title>
+        </mat-expansion-panel-header>
+        <div *ngFor="let skill of pg.skills">
+          <span class="material-symbols-outlined" *ngIf="skill.idTipologiaSkill==4">
+            collections_bookmark
+            </span>
+          <span class="material-symbols-outlined" *ngIf="skill.idTipologiaSkill==5">
+            music_note
+            </span>
+          <span class="material-symbols-outlined" *ngIf="skill.idTipologiaSkill==0">
+            receipt_long
+            </span>
+          <span class="material-symbols-outlined" *ngIf="skill.idTipologiaSkill==3">
+            school
+            </span>
+          <span class="material-symbols-outlined" *ngIf="skill.idTipologiaSkill==2">
+            auto_fix
+            </span>
+          <span class="material-symbols-outlined" *ngIf="skill.idTipologiaSkill==1">
+            swords
+            </span>
+          <span>{{skill.nome}}: <b>{{skill.value}}</b></span>
+        </div>
+      </mat-expansion-panel>
+      <mat-divider></mat-divider>
+      <div>
+      </div>
+    </mat-accordion>
+    <mat-paginator
+    [length]="schedePg.length" [pageSize]="pageSize"
+    [pageSizeOptions]="[5, 10]"
+    (page)="pageEvent = $event; onPaginateChange($event)">
+  </mat-paginator>
+  </div>
+</div>

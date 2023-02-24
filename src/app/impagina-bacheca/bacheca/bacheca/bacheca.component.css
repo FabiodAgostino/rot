@@ -1,0 +1,25 @@
+.pergamena
+{
+  background-image: url("https://img.freepik.com/premium-photo/old-parchment-paper-texture-background-wallpaper_118047-11580.jpg");
+   font-family: 'Playfair Display', serif;
+   font-size: 20px;
+   letter-spacing: .0.5rem;
+   padding:10px;
+   margin: 6px;
+   border-radius: 10px;
+  text-align: center;
+
+}
+
+.pergamene
+{
+  width: 40%;
+  height: 65vh;
+  overflow-y: auto;
+}
+
+.font
+{
+  font-family: 'Playfair Display', serif;
+
+}

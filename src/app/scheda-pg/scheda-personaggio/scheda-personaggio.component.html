@@ -86,7 +86,9 @@
 </mat-card>
 <mat-card fxLayout="column" fxFlex="100" class="firstForm" style="margin-top: 2%;">
   <mat-card-title>
-    Stats
+    Stats<button mat-icon-button class="bottoneTemplate" [disabled]="schedaPg.classe.nome==null" matTooltip="Seleziona un template stat/skills predefinito" (click)="openTemplate()">
+      <mat-icon style="color:#004a9f" [ngStyle]="{color: schedaPg.classe.nome==null ? 'grey' : '#004a9f'}">search</mat-icon>
+      </button>
   </mat-card-title>
   <div>
     <section class="example-section" fxFlex fxlayout="column" style="padding-bottom:2%" [style.visibility]="schedaPg.classe.nome===undefined? 'hidden': 'visible'" >

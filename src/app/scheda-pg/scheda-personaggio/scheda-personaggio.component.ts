@@ -12,6 +12,7 @@ import { ModaleChiericoComponent } from '../modale-chierico/modale-chierico.comp
 import { UserService } from 'src/app/service/user.service';
 import { Utils } from 'src/app/utils/utility';
 import { InfoSkillsComponent } from '../info-skills/info-skills.component';
+import { TemplateStatSkillsComponent } from '../template-stat-skills/template-stat-skills.component';
 
 const changedRazza = "changed";
 const notChangedRazza= "notChanged";
@@ -206,8 +207,10 @@ export class SchedaPersonaggioComponent implements OnInit {
 
   savePg()
   {
+    var c=confirm("Vuoi salvare la scheda pg come template stat-skills di nuove schede?");
+
     let guid=  crypto.randomUUID();
-    this.service.AddPg(this.schedaPg,guid);
+    this.service.AddPg(this.schedaPg,guid, c);
 
     this.schedaPg.skills.forEach(x=>{
       this.service.addSkillsPg(x,guid);
@@ -299,6 +302,14 @@ export class SchedaPersonaggioComponent implements OnInit {
       'margin': this.utils.isSmartphone() ? '4%' : '1%',
     };
     return styles;
+  }
+
+  openTemplate()
+  {
+    this.dialog.open(TemplateStatSkillsComponent, {
+      width:"50%",
+      data: this.schedaPg.classe
+    });
   }
 
 

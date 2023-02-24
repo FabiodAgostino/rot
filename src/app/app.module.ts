@@ -54,6 +54,13 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { HomeViewComponent } from './home-view/home-view.component';
 import { InfoSkillsComponent } from './scheda-pg/info-skills/info-skills.component';
 import { PasswordStrenghtMeterComponent } from './password-strenght-meter/password-strenght-meter.component';
+import { TemplateStatSkillsComponent } from './scheda-pg/template-stat-skills/template-stat-skills.component';
+import {MatPaginatorModule} from '@angular/material/paginator';
+import {MatSortModule} from '@angular/material/sort';
+import { BachecaComponent } from './impagina-bacheca/bacheca/bacheca/bacheca.component';
+
+
+
 
 
 @NgModule({
@@ -77,7 +84,9 @@ import { PasswordStrenghtMeterComponent } from './password-strenght-meter/passwo
     SignUpComponent,
     HomeViewComponent,
     InfoSkillsComponent,
-    PasswordStrenghtMeterComponent
+    PasswordStrenghtMeterComponent,
+    TemplateStatSkillsComponent,
+    BachecaComponent,
   ],
   imports: [
     BrowserModule,
@@ -111,7 +120,10 @@ import { PasswordStrenghtMeterComponent } from './password-strenght-meter/passwo
     MatProgressBarModule,
     MatSnackBarModule,
     MatStepperModule,
-    MatFormFieldModule
+    MatFormFieldModule,
+    MatPaginatorModule,
+    MatSortModule
+
   ],
   providers: [SafePipe, MatDialog],
   bootstrap: [AppComponent],

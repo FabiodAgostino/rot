@@ -76,6 +76,8 @@ export class SchedaPersonaggioService {
   }
 
 
+
+
   getInfoSkill(classe: string)
   {
     var response= this.store.collection<InfoSkill>('InfoSkill', ref=> ref.where("classe","==",classe)).valueChanges()
@@ -131,7 +133,7 @@ export class SchedaPersonaggioService {
       idTipologiaSkill: skill.idTipologiaSkill
   });
 }
-  AddPg(pg: Pg, guid: string)
+  AddPg(pg: Pg, guid: string, salva: boolean = false)
   {
     this.store.collection("Pg").add({
       nome: pg.nome,
@@ -142,7 +144,8 @@ export class SchedaPersonaggioService {
       forza: pg.stats.forza,
       destrezza: pg.stats.destrezza,
       intelligenza: pg.stats.intelligenza,
-      guid: guid
+      guid: guid,
+      utilizzatoNVolte: salva ? 1 : 0
   });
   }
 
@@ -161,6 +164,25 @@ export class SchedaPersonaggioService {
   getPg(guid: string)
   {
     return this.getObservablePg(this.store.collection('Pg', ref=> ref.where('guid','==',guid))) as Observable<PartialPg[]>;
+  }
+
+  getSchedePgByClasse(classe: string)
+  {
+    var response= this.store.collection<PartialPg>('Pg', ref=> ref.where("classe","==",classe)).valueChanges()
+      .pipe(map(collection=>{
+          return collection.map(collection=>{
+            let dr = new PartialPg();
+            dr.nome=collection.nome;
+            dr.classe=collection.classe;
+            dr.destrezza=collection.destrezza;
+            dr.forza=collection.forza;
+            dr.intelligenza=collection.intelligenza;
+            dr.guid=collection.guid;
+            dr.utilizzatoNVolte = collection.utilizzatoNVolte;
+            return dr;
+          })
+      }))
+      return response;
   }
 
   getSkillsPg(guid: string)
