@@ -51,6 +51,9 @@ export class TemplateStatSkillsComponent implements OnInit{
             [item['guid'], item])).values()];
 
           this.pgPaginati=this.schedePg.slice(0, this.pageSize);
+          this.pgPaginati = this.pgPaginati.sort(x=> x.utilizzatoNVolte)
+          this.pgPaginati = this.pgPaginati.reverse();
+          console.log(this.pgPaginati)
         }, 500);
     }
 
@@ -65,6 +68,7 @@ export class TemplateStatSkillsComponent implements OnInit{
       console.log(pg)
       this.dialogRef.close(pg);
     }
+
 
 
 
