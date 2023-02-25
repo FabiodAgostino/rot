@@ -185,6 +185,21 @@ export class SchedaPersonaggioService {
       return response;
   }
 
+  updateSchedaPg(guid: string, value: number)
+  {
+    var pg=this.store.collection('Pg', ref=> ref.where('guid','==',guid)).valueChanges({idField: 'id'}).subscribe(x=>{
+      if(x!=null)
+        var up=this.store.collection('Pg').doc(`${x[0].id}`).set({
+          utilizzatoNVolte:value
+        },
+        {
+          merge:true
+        });
+        pg.unsubscribe();
+    }, err=> console.error("Error"));
+
+  }
+
   getSkillsPg(guid: string)
   {
     return this.getObservableSkillsPg(this.store.collection('SkillsPg', ref=> ref.where('guidPg','==',guid))) as Observable<SkillsPg[]>;

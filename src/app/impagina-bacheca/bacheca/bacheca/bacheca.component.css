@@ -17,6 +17,13 @@
   overflow-y: auto;
 }
 
+.pergameneSmarth
+{
+  width: 80%;
+  height: 65vh;
+  overflow-y: auto;
+}
+
 .font
 {
   font-family: 'Playfair Display', serif;

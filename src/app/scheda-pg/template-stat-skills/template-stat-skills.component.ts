@@ -5,6 +5,7 @@ import { MatSort, Sort } from '@angular/material/sort';
 import { map, Observable, of } from 'rxjs';
 import { Classe, PartialPg, Pg } from 'src/app/models/Pg';
 import { SchedaPersonaggioService } from 'src/app/service/scheda-personaggio.service';
+import { Utils } from 'src/app/utils/utility';
 
 @Component({
   selector: 'app-template-stat-skills',
@@ -17,12 +18,14 @@ export class TemplateStatSkillsComponent implements OnInit{
   pgPaginati = new Array<Pg>();
   pageEvent = new PageEvent();
   pageSize: number = 5;
+  isSmartphone: boolean = false;
 
   constructor(private service: SchedaPersonaggioService, public dialogRef: MatDialogRef<TemplateStatSkillsComponent>, @Inject(MAT_DIALOG_DATA)
-  public classe:  Classe) {
+  public classe:  Classe, public utils: Utils) {
 
   }
   ngOnInit(): void {
+    this.isSmartphone = this.utils.isSmartphone();
     if(this.classe.nome!=null)
       this.service.getSchedePgByClasse(this.classe.nome).subscribe(x=>
         {
@@ -55,6 +58,12 @@ export class TemplateStatSkillsComponent implements OnInit{
     onPaginateChange(data: any) {
       this.pgPaginati = this.schedePg.slice(data.pageIndex*data.pageSize,
         data.pageIndex*data.pageSize + data.pageSize);
+    }
+
+    selectTemplate(pg: Pg)
+    {
+      console.log(pg)
+      this.dialogRef.close(pg);
     }
 
 

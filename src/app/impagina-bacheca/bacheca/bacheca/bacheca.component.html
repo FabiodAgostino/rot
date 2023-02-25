@@ -12,7 +12,7 @@
     </mat-card>
   </div>
 
-  <mat-card class="pergamene" *ngIf="bacheche.length>0">
+  <mat-card class="pergamene" *ngIf="bacheche.length>0 && !isSmartphone">
     <mat-card-content>
     <div *ngFor="let b of bacheche" class="pergamena">
       <div *ngFor="let f of b">
@@ -20,5 +20,12 @@
       </div>
     </div>
   </mat-card-content>
-  </mat-card>
+</mat-card>
+
+    <div class="pergameneSmarth" *ngIf="bacheche.length>0 && isSmartphone">
+    <div *ngFor="let b of bacheche" class="pergamena">
+      <div *ngFor="let f of b">
+        <span>{{f}}</span>
+      </div>
+    </div>
   </div>

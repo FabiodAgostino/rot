@@ -1,5 +1,5 @@
 
-<div class="row">
+<div class="row" *ngIf="!isSmartphone">
   <div>
     <mat-accordion *ngFor="let pg of pgPaginati">
       <mat-expansion-panel>
@@ -41,6 +41,65 @@
             </span>
           <span>{{skill.nome}}: <b>{{skill.value}}</b></span>
         </div>
+        <br>
+        <button mat-raised-button color="primary" (click)="selectTemplate(pg)">Seleziona il Template <mat-icon>done</mat-icon></button>
+      </mat-expansion-panel>
+      <mat-divider></mat-divider>
+      <div>
+      </div>
+    </mat-accordion>
+    <mat-paginator
+    [length]="schedePg.length" [pageSize]="pageSize"
+    [pageSizeOptions]="[5, 10]"
+    (page)="pageEvent = $event; onPaginateChange($event)">
+  </mat-paginator>
+  </div>
+</div>
+
+
+
+
+
+
+
+
+<div class="row" *ngIf="isSmartphone">
+  <div>
+    <mat-accordion *ngFor="let pg of pgPaginati">
+      <mat-expansion-panel>
+        <mat-expansion-panel-header>
+          <mat-panel-title>
+            <b>{{pg.nome}}</b><br>
+          </mat-panel-title>
+        </mat-expansion-panel-header>
+        <b>F:</b>{{pg.stats.forza}} - <b>D:</b> {{pg.stats.destrezza}} - <b>I:</b> {{pg.stats.intelligenza}}<br>
+        <br>
+        Utilizzata <b>{{pg.utilizzatoNVolte}}</b> volta/e
+        <br>
+        <br>
+        <div *ngFor="let skill of pg.skills">
+          <span class="material-symbols-outlined" *ngIf="skill.idTipologiaSkill==4">
+            collections_bookmark
+            </span>
+          <span class="material-symbols-outlined" *ngIf="skill.idTipologiaSkill==5">
+            music_note
+            </span>
+          <span class="material-symbols-outlined" *ngIf="skill.idTipologiaSkill==0">
+            receipt_long
+            </span>
+          <span class="material-symbols-outlined" *ngIf="skill.idTipologiaSkill==3">
+            school
+            </span>
+          <span class="material-symbols-outlined" *ngIf="skill.idTipologiaSkill==2">
+            auto_fix
+            </span>
+          <span class="material-symbols-outlined" *ngIf="skill.idTipologiaSkill==1">
+            swords
+            </span>
+          <span>{{skill.nome}}: <b>{{skill.value}}</b></span>
+        </div>
+        <br>
+        <button mat-raised-button color="primary" (click)="selectTemplate(pg)">Seleziona il Template <mat-icon>done</mat-icon></button>
       </mat-expansion-panel>
       <mat-divider></mat-divider>
       <div>

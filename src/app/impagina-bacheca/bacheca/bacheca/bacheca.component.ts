@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Utils } from 'src/app/utils/utility';
 
 @Component({
   selector: 'app-bacheca',
@@ -7,12 +8,20 @@ import { Component, OnInit } from '@angular/core';
 })
 export class BachecaComponent implements OnInit {
 
-  shortLink: string = "";
-  loading: boolean = false; // Flag variable
   bacheche = new Array<Array<string>>();
+  isSmartphone: boolean = false;
+
+  constructor(public utils: Utils)
+  {
+
+  }
 
   ngOnInit(): void {
+    this.isSmartphone=this.utils.isSmartphone();
+
   }
+
+
 
   // On file Select
   async onChange(event: any) {
@@ -43,12 +52,14 @@ export class BachecaComponent implements OnInit {
         frase = x+" ";
       }
 
+      //ultima parola
       if(x==parole[parole.length-1])
       {
         frase = frase.substring(0,frase.lastIndexOf(" "));
         frasi.push(frase)
       }
 
+      //new bacheca
       if(frasi.length==39)
       {
         bacheche.push(frasi);

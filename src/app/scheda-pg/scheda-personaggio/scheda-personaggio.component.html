@@ -57,7 +57,7 @@
       <mat-form-field fxFlex.xs="100" fxFlex.sm="60" fxFlex.md="70" fxFlex.lg="100" fxFlex.xl="100">
         <mat-label>Classe</mat-label>
           <mat-select color="primary" [(ngModel)]="schedaPg.classe.nome" [formControl]="classeForm" fxFlex>
-            <mat-option color="primary" *ngFor="let classe of classi" [disabled]="classi.length<1" [value]="classe.nome" (click)="getReligioni();autoSetStat();getInfoSkill()">{{classe.nome}}</mat-option>
+            <mat-option color="primary" *ngFor="let classe of classi" [disabled]="classi.length<1" [value]="classe.nome" (click)="getReligioni();autoSetStat();getInfoSkill();enableButtonTemplate()">{{classe.nome}}</mat-option>
           </mat-select>
           <mat-error *ngIf="classeForm.hasError('required') && schedaPg.classe == undefined">
             Seleziona una classe
@@ -86,8 +86,8 @@
 </mat-card>
 <mat-card fxLayout="column" fxFlex="100" class="firstForm" style="margin-top: 2%;">
   <mat-card-title>
-    Stats<button mat-icon-button class="bottoneTemplate" [disabled]="schedaPg.classe.nome==null" matTooltip="Seleziona un template stat/skills predefinito" (click)="openTemplate()">
-      <mat-icon style="color:#004a9f" [ngStyle]="{color: schedaPg.classe.nome==null ? 'grey' : '#004a9f'}">search</mat-icon>
+    Stats<button mat-icon-button class="bottoneTemplate" [disabled]="schedaPg.classe.nome==null || buttonTemplate==false" matTooltip="Seleziona un template stat/skills predefinito" (click)="openTemplate()">
+      <mat-icon style="color:#004a9f" [ngStyle]="{color: schedaPg.classe.nome==null || buttonTemplate==false ? 'grey' : '#004a9f'}">search</mat-icon>
       </button>
   </mat-card-title>
   <div>

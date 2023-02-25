@@ -46,6 +46,8 @@ export class SchedaPersonaggioComponent implements OnInit {
   infoSkills = new Array<InfoSkill>();
   totaleStat = 0;
 
+  fromTemplate: boolean = false;
+  buttonTemplate: boolean = false;
 
   constructor(private service: SchedaPersonaggioService, private dialog: MatDialog, private userService: UserService, private utils: Utils){}
 
@@ -207,14 +209,22 @@ export class SchedaPersonaggioComponent implements OnInit {
 
   savePg()
   {
+    let guid=  crypto.randomUUID();
+    if(!this.fromTemplate)
+    {
     var c=confirm("Vuoi salvare la scheda pg come template stat-skills di nuove schede?");
 
-    let guid=  crypto.randomUUID();
     this.service.AddPg(this.schedaPg,guid, c);
 
     this.schedaPg.skills.forEach(x=>{
       this.service.addSkillsPg(x,guid);
     })
+  }
+  else
+  {
+    this.checkSalva();
+    this.service.updateSchedaPg(this.schedaPg.guid, this.schedaPg.utilizzatoNVolte+1);
+  }
 
       this.openFinishWizard(guid);
       this.reset();
@@ -306,11 +316,47 @@ export class SchedaPersonaggioComponent implements OnInit {
 
   openTemplate()
   {
-    this.dialog.open(TemplateStatSkillsComponent, {
-      width:"50%",
+    const dialog=this.dialog.open(TemplateStatSkillsComponent, {
+      width:this.utils.isSmartphone() ? "100%" : '50%',
       data: this.schedaPg.classe
     });
+
+    dialog.afterClosed().subscribe(x=>{
+      if(x!=null)
+      {
+        this.setTemplate(x);
+      }
+    })
   }
+
+
+  setTemplate(pg: Pg)
+  {
+    this.schedaPg.skills=pg.skills;
+    this.schedaPg.stats = pg.stats;
+    this.schedaPg.guid=pg.guid;
+    this.schedaPg.utilizzatoNVolte= pg.utilizzatoNVolte;
+    this.fromTemplate = true;
+  }
+
+  enableButtonTemplate()
+  {
+    this.service.getSchedePgByClasse(this.schedaPg.classe.nome).subscribe(x=>
+      {
+        if(x[0]?.nome!==undefined)
+        {
+          var z=x.filter(x=> x.utilizzatoNVolte>0 && x.utilizzatoNVolte!=undefined);
+          if(z.length>0)
+            this.buttonTemplate=true;
+          else
+            this.buttonTemplate=false;
+        }
+        else
+          this.buttonTemplate=false;
+      });
+  }
+
+
 
 
 
