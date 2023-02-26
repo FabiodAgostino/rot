@@ -13,14 +13,14 @@
 .pergamene
 {
   width: 40%;
-  height: 65vh;
+  max-height: 65vh;
   overflow-y: auto;
 }
 
 .pergameneSmarth
 {
   width: 80%;
-  height: 65vh;
+  max-height: 65vh;
   overflow-y: auto;
 }
 
