@@ -32,48 +32,6 @@ export class BachecaComponent implements OnInit {
      this.elabTextToBachecaMessage(text);
   }
 
-  // elabTextToBachecaMessage(text: string)
-  // {
-  //   //text=text.replace(/[\r\n]/g, " ");
-  //   var frase = "";
-  //   var frasi = new Array<string>();
-  //   var parole = text.split(" ");
-  //   var bacheche = new Array<Array<string>>();
-  //   parole = parole.filter(x=> x!="");
-  //   parole.forEach(x=>{
-  //     if(x.includes(".\r\n"))
-  //       console.log(x)
-
-  //     if((frase.length+x.length)<=32)
-  //     {
-  //       frase+=x+" ";
-  //     }
-  //     else
-  //     {
-  //       frase = frase.substring(0,frase.lastIndexOf(" "));
-  //       frasi.push(frase);
-  //       frase = x+" ";
-  //     }
-
-  //     //ultima parola
-  //     if(x==parole[parole.length-1])
-  //     {
-  //       frase = frase.substring(0,frase.lastIndexOf(" "));
-  //       frasi.push(frase)
-  //     }
-
-  //     //new bacheca
-  //     if(frasi.length==39)
-  //     {
-  //       bacheche.push(frasi);
-  //       frasi = new Array<string>();
-  //     }
-  //   });
-  //   bacheche.push(frasi);
-  //   this.bacheche=bacheche;
-  // }
-
-
   elabTextToBachecaMessage(text: string)
   {
     //text=text.replace(/[\r\n]/g, " ");
@@ -82,37 +40,21 @@ export class BachecaComponent implements OnInit {
     var parole = text.split(" ");
     var bacheche = new Array<Array<string>>();
     parole = parole.filter(x=> x!="");
-    for(let i=0;i<parole.length;i++)
-    {
-      if(parole[i].includes("undefined"))
+    parole.forEach(x=>{
+
+      if((frase.length+x.length)<=32)
       {
-        var ind = parole[i].lastIndexOf("undefined");
-        parole[i]=parole[i].substring(0,ind);
-      }
-      if(parole[i].includes("\r\n"))
-      {
-        var index=parole[i].lastIndexOf(".");
-        var subParola=parole[i].substring(0,index+1);
-        frase+=subParola;
-        frasi.push(frase);
-        frase = "";
-        var rimanenza = parole[i].substring(subParola.length,parole[i].length).replace(/[\r\n]/g, "");
-        if(rimanenza!="")
-          parole[i+1]=rimanenza+" "+parole[i+1];
-      }
-      else if((frase.length+parole[i].length)<=32)
-      {
-        frase+=parole[i]+" ";
+        frase+=x+" ";
       }
       else
       {
         frase = frase.substring(0,frase.lastIndexOf(" "));
         frasi.push(frase);
-        frase = parole[i]+" ";
+        frase = x+" ";
       }
 
       //ultima parola
-      if(i==parole.length-1)
+      if(x==parole[parole.length-1])
       {
         frase = frase.substring(0,frase.lastIndexOf(" "));
         frasi.push(frase)
@@ -124,10 +66,85 @@ export class BachecaComponent implements OnInit {
         bacheche.push(frasi);
         frasi = new Array<string>();
       }
-    };
+    });
     bacheche.push(frasi);
     this.bacheche=bacheche;
   }
+
+
+  // elabTextToBachecaMessage(text: string)
+  // {
+  //   //text=text.replace(/[\r\n]/g, " ");
+  //   var frase = "";
+  //   var frasi = new Array<string>();
+  //   var parole = text.split(" ");
+  //   parole = this.checkWords(parole);
+  //   var bacheche = new Array<Array<string>>();
+  //   parole = parole.filter(x=> x!="");
+  //   for(let i=0;i<parole.length;i++)
+  //   {
+
+
+  //     if(parole[i].includes("undefined"))
+  //     {
+  //       var ind = parole[i].lastIndexOf("undefined");
+  //       parole[i]=parole[i].substring(0,ind);
+  //     }
+  //     if(parole[i].includes("\r\n"))
+  //     {
+  //       var index=parole[i].lastIndexOf("\r\n");
+  //       var subParola=parole[i].substring(0,index+1);
+  //       frase+=subParola;
+  //       frasi.push(frase);
+  //       frase = "";
+  //       var rimanenza = parole[i].substring(subParola.length,parole[i].length).replace(/[\r\n]/g, "");
+  //       if(rimanenza!="")
+  //         parole[i+1]=rimanenza+" "+parole[i+1];
+  //     }
+  //     else if((frase.length+parole[i].length)<=32)
+  //     {
+  //       frase+=parole[i]+" ";
+  //     }
+  //     else
+  //     {
+  //       frase = frase.substring(0,frase.lastIndexOf(" "));
+  //       frasi.push(frase);
+  //       frase = parole[i]+" ";
+  //     }
+
+  //     //ultima parola
+  //     if(i==parole.length-1)
+  //     {
+  //       frase = frase.substring(0,frase.lastIndexOf(" "));
+  //       frasi.push(frase)
+  //     }
+
+  //     //new bacheca
+  //     if(frasi.length==39)
+  //     {
+  //       bacheche.push(frasi);
+  //       frasi = new Array<string>();
+  //     }
+  //   };
+  //   bacheche.push(frasi);
+  //   this.bacheche=bacheche;
+  // }
+
+  checkWords(words: Array<string>)
+  {
+    for(let i=0;i<words.length;i++)
+    {
+      if(words[i].includes("\n\r"))
+      {
+        var newWords=words[i].split("\r\n");
+        newWords = newWords.filter(x=> x!="");
+        words.splice(i,newWords.length, ...newWords)
+      }
+    }
+    return words;
+  }
+
+
 
 
 }
