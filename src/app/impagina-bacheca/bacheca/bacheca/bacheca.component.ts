@@ -112,7 +112,7 @@ export class BachecaComponent implements OnInit {
       }
 
       //ultima parola
-      if(parole[i]==parole[parole.length-1])
+      if(i==parole.length-1)
       {
         frase = frase.substring(0,frase.lastIndexOf(" "));
         frasi.push(frase)
