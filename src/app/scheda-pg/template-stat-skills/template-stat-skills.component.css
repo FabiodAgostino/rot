@@ -1,0 +1,19 @@
+.selected
+{
+  border: 3px outset #004a9f;
+}
+
+.notSelected
+{
+  border: 2px outset red;
+}
+
+.container
+{
+  max-height: 80vh;
+}
+
+.containerSmart
+{
+  max-height: 60vh;
+}

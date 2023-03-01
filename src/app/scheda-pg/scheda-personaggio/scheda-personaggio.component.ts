@@ -314,17 +314,19 @@ export class SchedaPersonaggioComponent implements OnInit {
     return styles;
   }
 
+  selezionato = -1;
   openTemplate()
   {
     const dialog=this.dialog.open(TemplateStatSkillsComponent, {
       width:this.utils.isSmartphone() ? "100%" : '50%',
-      data: this.schedaPg.classe
+      data: {Classe: this.schedaPg.classe, Selezionato: this.selezionato}
     });
 
     dialog.afterClosed().subscribe(x=>{
-      if(x!=null)
+      if(x.Pg!=null)
       {
-        this.setTemplate(x);
+        this.selezionato=x.Selezionato;
+        this.setTemplate(x.Pg);
       }
     })
   }
@@ -337,6 +339,7 @@ export class SchedaPersonaggioComponent implements OnInit {
     this.schedaPg.guid=pg.guid;
     this.schedaPg.utilizzatoNVolte= pg.utilizzatoNVolte;
     this.fromTemplate = true;
+    this.totStat();
   }
 
   enableButtonTemplate()

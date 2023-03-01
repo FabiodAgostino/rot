@@ -14,14 +14,22 @@ import { Utils } from 'src/app/utils/utility';
 })
 export class TemplateStatSkillsComponent implements OnInit{
 
+  pgToSave = new Pg();
   schedePg = new Array<Pg>();
   pgPaginati = new Array<Pg>();
   pageEvent = new PageEvent();
   pageSize: number = 5;
   isSmartphone: boolean = false;
-
+  isOpened: boolean = true;
+  selezionato: number=-1;
+  classe = new Classe();;
   constructor(private service: SchedaPersonaggioService, public dialogRef: MatDialogRef<TemplateStatSkillsComponent>, @Inject(MAT_DIALOG_DATA)
-  public classe:  Classe, public utils: Utils) {
+  public data:  any, public utils: Utils) {
+    if(data)
+    {
+      this.selezionato=data.Selezionato;
+      this.classe=data.Classe;
+    }
 
   }
   ngOnInit(): void {
@@ -46,15 +54,23 @@ export class TemplateStatSkillsComponent implements OnInit{
                 this.schedePg.push(PartialPg.Convert(z,y));
           })
         });
-        setTimeout(() => {
-          this.schedePg = [...new Map(this.schedePg.map(item =>
-            [item['guid'], item])).values()];
 
-          this.pgPaginati=this.schedePg.slice(0, this.pageSize);
-          this.pgPaginati = this.pgPaginati.sort(x=> x.utilizzatoNVolte)
-          this.pgPaginati = this.pgPaginati.reverse();
-          console.log(this.pgPaginati)
-        }, 500);
+        this.getPaginate();
+    }
+
+    getPaginate()
+    {
+      setTimeout(() => {
+        this.schedePg = [...new Map(this.schedePg.map(item =>
+          [item['guid'], item])).values()];
+
+        this.pgPaginati=this.schedePg.slice(0, this.pageSize);
+        this.pgPaginati = this.pgPaginati.sort(x=> x.utilizzatoNVolte).reverse();
+
+        this.pgPaginati.forEach(x=>{
+          x.skills=x.skills.sort(function(a, b) { return a.idTipologiaSkill > b.idTipologiaSkill ? 1 : -1});
+        })
+      }, 500);
     }
 
 
@@ -63,11 +79,21 @@ export class TemplateStatSkillsComponent implements OnInit{
         data.pageIndex*data.pageSize + data.pageSize);
     }
 
-    selectTemplate(pg: Pg)
+    selectTemplate(pg: Pg = new Pg())
     {
-      console.log(pg)
-      this.dialogRef.close(pg);
+      if(pg.nome)
+        this.dialogRef.close({Pg:pg, Selezionato: this.selezionato});
+      else
+        this.dialogRef.close({Pg:this.pgToSave, Selezionato: this.selezionato});
     }
+
+    select(pg: Pg, index: number)
+    {
+      this.selezionato=index;
+      this.pgToSave=pg;
+    }
+
+
 
 
 

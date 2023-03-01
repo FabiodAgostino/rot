@@ -34,12 +34,11 @@ export class BachecaComponent implements OnInit {
 
   elabTextToBachecaMessage(text: string)
   {
-    //text=text.replace(/[\r\n]/g, " ");
     var frase = "";
     var frasi = new Array<string>();
-    var parole = text.split(" ");
     var bacheche = new Array<Array<string>>();
-    parole = parole.filter(x=> x!="");
+    let parole = this.cleanArray(text);
+
     parole.forEach(x=>{
 
       if((frase.length+x.length)<=32)
@@ -143,6 +142,42 @@ export class BachecaComponent implements OnInit {
     }
     return words;
   }
+
+  cleanArray(text:string)
+  {
+    text=text.replace(/[\r\n]/g, " ");
+    var parole = text.split(" ");
+    parole = parole.filter(x=> x!="");
+    let paroleCopy = new Array<string>().concat(parole);
+
+    let i=0;
+    while(parole.filter(x=> x.length>32).length>0)
+    {
+      if(paroleCopy[i]?.length>=32)
+      {
+        let newParole = new Array<string>();
+        let z=0;
+        for(let u=0; u<paroleCopy[i].length/32;u++)
+        {
+          newParole.push(paroleCopy[i].substring(z,z+31))
+          z+=31;
+        }
+        paroleCopy=this.mergeArray(paroleCopy,newParole,i);
+      }
+      parole=paroleCopy;
+      i++;
+    }
+    return parole;
+  }
+
+
+   mergeArray(a:Array<string>, b:Array<string>, i=0) {
+    a=a.filter(x=> x!==a[i])
+    return a.slice(0, i).concat(b, a.slice(i));
+  }
+
+
+
 
 
 

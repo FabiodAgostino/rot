@@ -1,8 +1,12 @@
 
-<div class="row" *ngIf="!isSmartphone">
-  <div>
-    <mat-accordion *ngFor="let pg of pgPaginati">
-      <mat-expansion-panel>
+<div class="row" *ngIf="!isSmartphone" >
+  <div style="padding-bottom: 3vh;text-align:center;">
+  <u><b>Seleziona un template cliccando su una scheda personaggio</b></u>
+  </div>
+  <div class="container">
+    <mat-accordion *ngFor="let pg of pgPaginati; index as i;" multi="false">
+      <mat-expansion-panel (opened)="select(pg, i);" [ngClass]="{'':selezionato==-1, 'selected': selezionato===i , 'notSelected':selezionato!==i && selezionato!==-1}" [expanded]="selezionato==i">
+        <!--  [ngClass]="selezionato == i ? 'selected' : 'notSelected'" -->
         <mat-expansion-panel-header>
           <mat-panel-title>
             <b>Nome:&nbsp;</b>{{pg.nome}} &nbsp;&nbsp;&nbsp;&nbsp; <b>Classe:&nbsp;</b>{{pg.classe.nome}} &nbsp;&nbsp;&nbsp;&nbsp;
@@ -20,7 +24,7 @@
         Utilizzata &nbsp;<b>{{pg.utilizzatoNVolte}}</b>&nbsp; volta/e
           </mat-panel-title>
         </mat-expansion-panel-header>
-        <div *ngFor="let skill of pg.skills">
+        <div *ngFor="let skill of pg.skills" fxLayout="row">
           <span class="material-symbols-outlined" *ngIf="skill.idTipologiaSkill==4">
             collections_bookmark
             </span>
@@ -39,10 +43,9 @@
           <span class="material-symbols-outlined" *ngIf="skill.idTipologiaSkill==1">
             swords
             </span>
-          <span>{{skill.nome}}: <b>{{skill.value}}</b></span>
+          <span >{{skill.nome}}: <b>{{skill.value}}</b></span>
         </div>
         <br>
-        <button mat-raised-button color="primary" (click)="selectTemplate(pg)">Seleziona il Template <mat-icon>done</mat-icon></button>
       </mat-expansion-panel>
       <mat-divider></mat-divider>
       <div>
@@ -50,10 +53,13 @@
     </mat-accordion>
     <mat-paginator
     [length]="schedePg.length" [pageSize]="pageSize"
-    [pageSizeOptions]="[5, 10]"
+    [pageSizeOptions]="[5]"
     (page)="pageEvent = $event; onPaginateChange($event)">
   </mat-paginator>
   </div>
+  <div fxLayout="column" style="padding-top:3vh" fxLayoutAlign="space-around start">
+  <button mat-raised-button color="primary" fxLayout="row" fxFlex [disabled]="selezionato==-1" (click)="selectTemplate()" >Seleziona il Template <mat-icon>done</mat-icon></button>
+</div>
 </div>
 
 
@@ -63,7 +69,7 @@
 
 
 
-<div class="row" *ngIf="isSmartphone">
+<div class="row" *ngIf="isSmartphone" class="containerSmart">
   <div>
     <mat-accordion *ngFor="let pg of pgPaginati">
       <mat-expansion-panel>
@@ -99,7 +105,9 @@
           <span>{{skill.nome}}: <b>{{skill.value}}</b></span>
         </div>
         <br>
-        <button mat-raised-button color="primary" (click)="selectTemplate(pg)">Seleziona il Template <mat-icon>done</mat-icon></button>
+        <div fxLayout="column" style="padding-top:3vh" fxLayoutAlign="center center">
+          <button mat-raised-button  fxLayout="row" fxFlex color="primary" (click)="selectTemplate(pg)">Seleziona il Template <mat-icon>done</mat-icon></button>
+        </div>
       </mat-expansion-panel>
       <mat-divider></mat-divider>
       <div>
