@@ -1,0 +1,44 @@
+<div>
+
+  <mat-card class="cont" >
+
+
+    <mat-card-content class="content" fxFlex fxLayout="row" fxLayoutAlign="center center" >
+
+      <div  fxLayout="column" fxLayoutAlign="space-around center" fxFlex>
+        <mat-form-field fxLayout="row">
+          <mat-label>Autore</mat-label>
+          <input matInput [formControl]="macroFullForm.controls['author']" [readonly]="username" [(ngModel)]="macroFull.macro.author">
+        </mat-form-field>
+
+        <mat-form-field fxLayout="row">
+          <mat-label>Titolo</mat-label>
+          <input matInput [formControl]="macroFullForm.controls['macro']">
+        </mat-form-field>
+      </div>
+
+
+      <div fxFlex fxLayout="column" fxLayoutAlign="space-around center" fxFlex>
+          <mat-form-field appearance="fill"  fxLayout="row">
+            <mat-label>Tipologia</mat-label>
+            <mat-select [formControl]="macroFullForm.controls['tipologia']" >
+              <mat-option *ngFor="let tipologia of tipologieMacro" [value]="tipologia">
+                {{tipologia}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+
+          <mat-form-field appearance="fill"  fxLayout="row">
+            <mat-label>Tipologia</mat-label>
+            <mat-select [formControl]="macroFullForm.controls['tipologia']" >
+              <mat-option *ngFor="let tipologia of tipologieMacro" [value]="tipologia">
+                {{tipologia}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+    </div>
+
+    </mat-card-content>
+
+  </mat-card>
+</div>

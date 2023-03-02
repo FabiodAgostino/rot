@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { FormGroup } from "@angular/forms";
 import { Classe, ClasseCheckBox, Skill } from "../models/Pg";
 
+
 @Injectable({
   providedIn: 'root',
 })
@@ -32,7 +33,6 @@ export class Utils {
       }
     };
   }
-
 
 
 }

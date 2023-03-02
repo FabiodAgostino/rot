@@ -46,6 +46,11 @@ export class UserService {
     return this.store.collection('User',ref=> ref.where("username","==",un)).valueChanges();
   }
 
+  checkUserMd5(username: string)
+  {
+      return this.store.collection<User>('User',ref=> ref.where("username","==",username)).valueChanges();
+  }
+
   registrati(user: User)
   {
     this.store.collection("User").add({
@@ -96,6 +101,7 @@ export class UserService {
     this.isLoggedIn=false;
     localStorage.removeItem("user");
   }
+
 
   checkSession()
   {

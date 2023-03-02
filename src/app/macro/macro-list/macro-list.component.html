@@ -1,0 +1,135 @@
+<div fxFlex="100" fxLayout="row" fxLayoutAlign="center center" *ngIf="!utils.isSmartphone()">
+  <div fxFlex fxLayout="column" fxLayoutAlign="space-around stretch"  style="padding-top:3vh" fxFlex="70">
+    <div fxFlex="100" fxLayout="row wrap" fxLayoutAlign="space-around center" class="input">
+      <mat-form-field fxFlex="30">
+        <mat-label>Autore</mat-label>
+        <input matInput [formControl]="macroFullForm.controls['author']" (keyup)="applyFilter($event.target,'author')">
+      </mat-form-field>
+
+      <mat-form-field fxFlex="30">
+        <mat-label>Macro</mat-label>
+        <input matInput [formControl]="macroFullForm.controls['macro']" (keyup)="applyFilter($event.target,'macro')">
+      </mat-form-field>
+
+      <mat-form-field appearance="fill" fxFlex="30">
+        <mat-label>Tipologia</mat-label>
+        <mat-select [formControl]="macroFullForm.controls['tipologia']" >
+          <mat-option *ngFor="let tipologia of tipologieMacro" [value]="tipologia" (click)="applyFilter(tipologia,'tipologia')">
+            {{tipologia}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+    <mat-table [dataSource]="dataSource" fxFlex="100" fxLayout="column"  class="table"  matSort (matSortChange)="sortData($event)">
+
+      <ng-container matColumnDef="data">
+        <mat-header-cell *matHeaderCellDef> Data </mat-header-cell>
+        <mat-cell  *matCellDef="let element" > {{element.date | date: 'dd.MM.y'}} </mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="autore">
+        <mat-header-cell mat-sort-header="author" mat-header-cell *matHeaderCellDef> Autore </mat-header-cell>
+        <mat-cell *matCellDef="let element"> {{element.author}} </mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="macro" >
+        <mat-header-cell mat-sort-header="macro" mat-header-cell  *matHeaderCellDef> Macro </mat-header-cell>
+        <mat-cell *matCellDef="let element" > <div (click)="detailMacro(element.id)" class="macro">{{element.macro}}</div> </mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="like">
+        <mat-header-cell mat-sort-header="like" mat-header-cell  *matHeaderCellDef> <mat-icon class="Custom">thumb_up</mat-icon> </mat-header-cell>
+        <mat-cell *matCellDef="let element"> {{element.like}} </mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="tipologia">
+        <mat-header-cell mat-sort-header="tipologia" mat-header-cell  *matHeaderCellDef>Tipologia </mat-header-cell>
+        <mat-cell *matCellDef="let element"> {{element.tipologia}} </mat-cell>
+      </ng-container>
+
+
+      <mat-header-row  *matHeaderRowDef="displayedColumns"></mat-header-row>
+      <mat-header-row  *matRowDef="let row; columns: displayedColumns;"></mat-header-row>
+    </mat-table>
+
+    <mat-toolbar style="background-color: white;">
+      <mat-toolbar-row >
+        <button mat-icon-button (click)="insertMacro()"><mat-icon  matTooltip="Aggiungi una nuova macro" class="Custom">add_circle</mat-icon></button>
+        <div style="width: 100%; padding:0">
+        <mat-paginator class="paginator" showFirstLastButtons [pageSizeOptions]="[5, 10]" ></mat-paginator>
+        </div>
+      </mat-toolbar-row>
+    </mat-toolbar>
+
+  </div>
+
+</div>
+
+
+
+
+<div fxFlex="100" fxLayout="row" fxLayoutAlign="center center" *ngIf="utils.isSmartphone()">
+  <div fxFlex fxLayout="column" fxLayoutAlign="space-around stretch"  style="padding-top:3vh" fxFlex="100">
+    <div fxFlex="100" fxLayout="row wrap" fxLayoutAlign="space-around center" class="input">
+      <mat-form-field fxFlex="30">
+        <mat-label>Autore</mat-label>
+        <input matInput [formControl]="macroFullForm.controls['author']" (keyup)="applyFilter($event.target,'author')">
+      </mat-form-field>
+
+      <mat-form-field fxFlex="30">
+        <mat-label>Macro</mat-label>
+        <input matInput [formControl]="macroFullForm.controls['macro']" (keyup)="applyFilter($event.target,'macro')">
+      </mat-form-field>
+
+      <mat-form-field appearance="fill" fxFlex="30">
+        <mat-label>Tipologia</mat-label>
+        <mat-select [formControl]="macroFullForm.controls['tipologia']" >
+          <mat-option *ngFor="let tipologia of tipologieMacro" [value]="tipologia" (click)="applyFilter(tipologia,'tipologia')">
+            {{tipologia}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+    <mat-table [dataSource]="dataSource" fxFlex="100" fxLayout="column"  class="table"  matSort (matSortChange)="sortData($event)">
+
+      <ng-container matColumnDef="data">
+        <mat-header-cell *matHeaderCellDef > Data </mat-header-cell>
+        <mat-cell  *matCellDef="let element" > {{element.date | date: 'dd.MM.y'}} </mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="autore">
+        <mat-header-cell mat-sort-header="author" mat-header-cell *matHeaderCellDef> Autore </mat-header-cell>
+        <mat-cell *matCellDef="let element"> {{element.author}} </mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="macro" >
+        <mat-header-cell mat-sort-header="macro" mat-header-cell  *matHeaderCellDef> Macro </mat-header-cell>
+        <mat-cell *matCellDef="let element" > <div (click)="detailMacro(element.id)" class="macro">{{element.macro}}</div> </mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="like">
+        <mat-header-cell mat-sort-header="like" mat-header-cell  *matHeaderCellDef> <mat-icon class="Custom">thumb_up</mat-icon></mat-header-cell>
+        <mat-cell *matCellDef="let element"> {{element.like}} </mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="tipologia">
+        <mat-header-cell mat-sort-header="tipologia" mat-header-cell  *matHeaderCellDef>Tipo </mat-header-cell>
+        <mat-cell *matCellDef="let element"> {{element.tipologia}} </mat-cell>
+      </ng-container>
+
+
+      <mat-header-row  *matHeaderRowDef="getDisplayedColumns();"></mat-header-row>
+      <mat-header-row  *matRowDef="let row; columns: getDisplayedColumns();"></mat-header-row>
+    </mat-table>
+
+    <mat-toolbar style="background-color: white;">
+      <mat-toolbar-row >
+        <button mat-icon-button (click)="insertMacro()"><mat-icon  matTooltip="Aggiungi una nuova macro" class="Custom">add_circle</mat-icon></button>
+
+        <div style="width: 100%; padding:0">
+        <mat-paginator class="paginator" showFirstLastButtons [pageSizeOptions]="[5, 10]" ></mat-paginator>
+        </div>
+      </mat-toolbar-row>
+    </mat-toolbar>
+  </div>
+</div>

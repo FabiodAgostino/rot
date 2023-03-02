@@ -58,6 +58,10 @@ import { TemplateStatSkillsComponent } from './scheda-pg/template-stat-skills/te
 import {MatPaginatorModule} from '@angular/material/paginator';
 import {MatSortModule} from '@angular/material/sort';
 import { BachecaComponent } from './impagina-bacheca/bacheca/bacheca/bacheca.component';
+import { MacroComponent } from './macro/macro/macro.component';
+import { MacroListComponent } from './macro/macro-list/macro-list.component';
+import { MacroInsertEditComponent } from './macro/macro-insert-edit/macro-insert-edit.component';
+import {MatTableModule} from '@angular/material/table';
 
 
 
@@ -87,6 +91,9 @@ import { BachecaComponent } from './impagina-bacheca/bacheca/bacheca/bacheca.com
     PasswordStrenghtMeterComponent,
     TemplateStatSkillsComponent,
     BachecaComponent,
+    MacroComponent,
+    MacroListComponent,
+    MacroInsertEditComponent,
   ],
   imports: [
     BrowserModule,
@@ -122,7 +129,8 @@ import { BachecaComponent } from './impagina-bacheca/bacheca/bacheca/bacheca.com
     MatStepperModule,
     MatFormFieldModule,
     MatPaginatorModule,
-    MatSortModule
+    MatSortModule,
+    MatTableModule
 
   ],
   providers: [SafePipe, MatDialog],
