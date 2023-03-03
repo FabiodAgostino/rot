@@ -32,9 +32,9 @@
         <mat-cell *matCellDef="let element"> {{element.author}} </mat-cell>
       </ng-container>
 
-      <ng-container matColumnDef="macro" >
-        <mat-header-cell mat-sort-header="macro" mat-header-cell  *matHeaderCellDef> Macro </mat-header-cell>
-        <mat-cell *matCellDef="let element" > <div (click)="detailMacro(element.id)" class="macro">{{element.macro}}</div> </mat-cell>
+      <ng-container matColumnDef="title" >
+        <mat-header-cell mat-sort-header="title" mat-header-cell  *matHeaderCellDef> Titolo </mat-header-cell>
+        <mat-cell *matCellDef="let element" > <div (click)="detailMacro(element.id)" class="macro">{{element.title}}</div> </mat-cell>
       </ng-container>
 
       <ng-container matColumnDef="like">
@@ -102,9 +102,9 @@
         <mat-cell *matCellDef="let element"> {{element.author}} </mat-cell>
       </ng-container>
 
-      <ng-container matColumnDef="macro" >
-        <mat-header-cell mat-sort-header="macro" mat-header-cell  *matHeaderCellDef> Macro </mat-header-cell>
-        <mat-cell *matCellDef="let element" > <div (click)="detailMacro(element.id)" class="macro">{{element.macro}}</div> </mat-cell>
+      <ng-container matColumnDef="title" >
+        <mat-header-cell mat-sort-header="title" mat-header-cell  *matHeaderCellDef> Titolo </mat-header-cell>
+        <mat-cell *matCellDef="let element" > <div (click)="detailMacro(element.id)" class="macro">{{element.title}}</div> </mat-cell>
       </ng-container>
 
       <ng-container matColumnDef="like">

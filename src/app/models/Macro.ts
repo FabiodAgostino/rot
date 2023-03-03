@@ -1,11 +1,14 @@
+import { Timestamp } from "firebase/firestore";
+
 export class Macro
 {
-  id: number = 0;
+  guid: string = '';
   author: string ="";
   date: Date = new Date();
   title: string = "";
   like: number =0;
   tipologia: string ="";
+  dateTimeStamp : any;
 }
 
 export class MacroFull

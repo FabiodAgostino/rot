@@ -135,15 +135,23 @@ export class MacroInsertEditComponent implements OnInit{
       macro.settings=this.insertMacroSettings;
       macro.macro.author=this.macroFull.macro.author;
       const name = this.macroFullForm.get('titolo')!.value;
+
       if(name)
         macro.macro.title=name;
       macro.macro.date = new Date();
       const descrizione= this.macroFullForm.get('descrizione')!.value;
+
       if(descrizione)
         macro.descrizione=descrizione;
-      macro.macro.like=0;
+      const tipologia=this.macroFullForm.get('tipologia')?.value;
 
+      if(tipologia)
+        macro.macro.tipologia=tipologia;
+
+      macro.macro.like=0;
+      macro.macro.guid = crypto.randomUUID();
       this.service.addMacros(macro);
+      this.dialog.closeAll();
     }
   }
 

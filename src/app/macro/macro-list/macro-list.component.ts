@@ -9,27 +9,27 @@ import { MacroService } from 'src/app/service/macro.service';
 import { Utils } from 'src/app/utils/utility';
 import { MacroInsertEditComponent } from '../macro-insert-edit/macro-insert-edit.component';
 
-const ELEMENT_DATA: Macro[] = [
-  {id:0,date: new Date(), author: 'Gennaro', title:"addsadasasdasdasdasdasdas", like:5, tipologia:"Combattiva"},
-  {id:1,date: new Date(), author: 'Zeno', title:"Nuova macro figa", like:10, tipologia:"Generica"},
-  {id:2,date: new Date('2020-10-06'), author: 'Veno', title:"Nuova macro figa", like:0, tipologia:"Combattiva"},
-  {id:3,date: new Date('2021-10-06'), author: 'Veno', title:"Nonna macro figa", like:4, tipologia:"Farming risorse"},
-  {id:4,date: new Date('2019-10-06'), author: 'Credo', title:"Persa macro figa", like:2, tipologia:"Combattiva"},
-  {id:5,date: new Date('2018-10-06'), author: 'Spezio', title:"Vecchia macro figa", like:6, tipologia:"Farming risorse"},
-  {id:6,date: new Date('2020-11-06'), author: 'Nero', title:"Nuova macro brutta", like:2, tipologia:"Alza skill"},
-  {id:7,date: new Date('2020-11-06'), author: 'Nero', title:"Nuova macro brutta", like:2, tipologia:"Alza skill"},
-  {id:8,date: new Date('2020-11-06'), author: 'Nero', title:"Nuova macro brutta", like:2, tipologia:"Alza skill"},
-  {id:9,date: new Date('2020-11-06'), author: 'Nero', title:"Nuova macro brutta", like:2, tipologia:"Alza skill"},
-  {id:10,date: new Date('2020-11-06'), author: 'Nero', title:"Nuova macro brutta", like:2, tipologia:"Alza skill"},
-  {id:11,date: new Date('2020-11-06'), author: 'Nero', title:"Nuova macro brutta", like:2, tipologia:"Alza skill"},
-  {id:12,date: new Date('2020-11-06'), author: 'Nero', title:"Nuova macro brutta", like:2, tipologia:"Alza skill"},
-  {id:13,date: new Date('2020-11-06'), author: 'Nero', title:"Nuova macro brutta", like:2, tipologia:"Alza skill"},
-  {id:14,date: new Date('2020-11-06'), author: 'Nero', title:"Nuova macro brutta", like:2, tipologia:"Alza skill"},
-  {id:15,date: new Date('2020-11-06'), author: 'Nero', title:"Nuova macro brutta", like:2, tipologia:"Alza skill"},
-  {id:16,date: new Date('2020-11-06'), author: 'Nero', title:"Nuova macro brutta", like:2, tipologia:"Alza skill"},
-  {id:17,date: new Date('2020-11-06'), author: 'Nero', title:"Nuova macro brutta", like:2, tipologia:"Alza skill"},
-  {id:18,date: new Date('2020-11-06'), author: 'Nero', title:"Nuova macro brutta", like:2, tipologia:"Alza skill"},
-];
+// const ELEMENT_DATA: Macro[] = [
+//   {guid:'0',date: new Date(), author: 'Gennaro', title:"addsadasasdasdasdasdasdas", like:5, tipologia:"Combattiva"},
+//   {guid:'1',date: new Date(), author: 'Zeno', title:"Nuova macro figa", like:10, tipologia:"Generica"},
+//   {guid:'2',date: new Date('2020-10-06'), author: 'Veno', title:"Nuova macro figa", like:0, tipologia:"Combattiva"},
+//   {guid:'3',date: new Date('2021-10-06'), author: 'Veno', title:"Nonna macro figa", like:4, tipologia:"Farming risorse"},
+//   {guid:'4',date: new Date('2019-10-06'), author: 'Credo', title:"Persa macro figa", like:2, tipologia:"Combattiva"},
+//   {guid:'5',date: new Date('2018-10-06'), author: 'Spezio', title:"Vecchia macro figa", like:6, tipologia:"Farming risorse"},
+//   {guid:'6',date: new Date('2020-11-06'), author: 'Nero', title:"Nuova macro brutta", like:2, tipologia:"Alza skill"},
+//   {guid:'7',date: new Date('2020-11-06'), author: 'Nero', title:"Nuova macro brutta", like:2, tipologia:"Alza skill"},
+//   {guid:'8',date: new Date('2020-11-06'), author: 'Nero', title:"Nuova macro brutta", like:2, tipologia:"Alza skill"},
+//   {guid:'9',date: new Date('2020-11-06'), author: 'Nero', title:"Nuova macro brutta", like:2, tipologia:"Alza skill"},
+//   {guid:'10',date: new Date('2020-11-06'), author: 'Nero', title:"Nuova macro brutta", like:2, tipologia:"Alza skill"},
+//   {guid:'11',date: new Date('2020-11-06'), author: 'Nero', title:"Nuova macro brutta", like:2, tipologia:"Alza skill"},
+//   {guid:'12',date: new Date('2020-11-06'), author: 'Nero', title:"Nuova macro brutta", like:2, tipologia:"Alza skill"},
+//   {guid:'13',date: new Date('2020-11-06'), author: 'Nero', title:"Nuova macro brutta", like:2, tipologia:"Alza skill"},
+//   {guid:'14',date: new Date('2020-11-06'), author: 'Nero', title:"Nuova macro brutta", like:2, tipologia:"Alza skill"},
+//   {guid:'15',date: new Date('2020-11-06'), author: 'Nero', title:"Nuova macro brutta", like:2, tipologia:"Alza skill"},
+//   {guid:'16',date: new Date('2020-11-06'), author: 'Nero', title:"Nuova macro brutta", like:2, tipologia:"Alza skill"},
+//   {guid:'17',date: new Date('2020-11-06'), author: 'Nero', title:"Nuova macro brutta", like:2, tipologia:"Alza skill"},
+//   {guid:'18',date: new Date('2020-11-06'), author: 'Nero', title:"Nuova macro brutta", like:2, tipologia:"Alza skill"},
+// ];
 
 
 @Component({
@@ -47,8 +47,8 @@ export class MacroListComponent implements OnInit {
   });
 
   filtroData: string ="";
-  displayedColumns: string[] = ['autore', 'data','like','tipologia','macro'];
-  dataSource = new MatTableDataSource<Macro>(ELEMENT_DATA);
+  displayedColumns: string[] = ['autore', 'data','like','tipologia','title'];
+  dataSource = new MatTableDataSource<Macro>();
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
   sortedData = new Array<Macro>();
@@ -60,11 +60,15 @@ export class MacroListComponent implements OnInit {
 
   ngOnInit(): void {
     this.tipologieMacro=this.service.GetTipologieMacro();
+    this.getMacros();
     this.tipologieMacro.push('Tutte');
     this.macroFullForm.get('tipologia')?.setValue('Tutte');
   }
 
-
+getMacros()
+{
+  this.service.getMacros().subscribe(x=>this.dataSource = new MatTableDataSource<Macro>(x));
+}
 
   ngAfterViewInit() {
 
@@ -131,6 +135,9 @@ detailMacro(id:number)
 insertMacro()
 {
   const ref = this.dialogInsertEdit(-1, true);
+  ref.afterClosed().subscribe(x=>{
+    this.getMacros();
+  })
 }
 
 dialogInsertEdit(id:number = -1, insert=false)
@@ -141,6 +148,8 @@ dialogInsertEdit(id:number = -1, insert=false)
     height: this.utils.isSmartphone() ? '90vh' : '60vh',
   });
 }
+
+
 
 
 

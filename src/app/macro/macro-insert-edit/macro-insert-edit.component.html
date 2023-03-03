@@ -44,19 +44,18 @@
 
 
 
-<div *ngIf="utils.isSmartphone()"  fxFlex fxLayout="row stretch" fxLayoutAlign="center center">
-  <mat-card class="cont" fxFlex>
-    <mat-card-content class="content"  fxFlex>
-
-      <div  fxLayout="column"  fxFlex>
-        <mat-form-field fxLayout="row">
+<div *ngIf="utils.isSmartphone()"  fxLayout="column" fxLayoutAlign="space-around stretch">
+  <mat-card class="cont">
+    <mat-card-content>
+      <div  fxLayout="column"  >
+        <mat-form-field>
           <mat-label>Autore</mat-label>
-          <input matInput [readonly]="true" [formControl]="macroFullForm.controls['author']"  [ngModel]="macroFull.macro.author" fxFlex>
+          <input matInput [readonly]="true" [formControl]="macroFullForm.controls['author']"  [ngModel]="macroFull.macro.author" >
         </mat-form-field>
 
-        <mat-form-field fxLayout="row" fxFlex>
+        <mat-form-field  >
           <mat-label>Titolo</mat-label>
-          <input matInput [formControl]="macroFullForm.controls['titolo']" fxFlex>
+          <input matInput [formControl]="macroFullForm.controls['titolo']" >
         </mat-form-field>
 
         <textarea
@@ -66,10 +65,10 @@
         [formControl]="macroFullForm.controls['descrizione']"
         ></textarea>
 
-        <mat-form-field appearance="fill" fxLayout="row" fxFlex style="padding-top:2vh">
+        <mat-form-field appearance="fill"   style="padding-top:2vh" >
           <mat-label>Tipologia</mat-label>
           <mat-select [formControl]="macroFullForm.controls['tipologia']">
-            <mat-option *ngFor="let tipologia of tipologieMacro" [value]="tipologia"  fxFlex >
+            <mat-option *ngFor="let tipologia of tipologieMacro" [value]="tipologia">
               {{tipologia}}
             </mat-option>
           </mat-select>
@@ -80,7 +79,7 @@
           <div *ngFor="let i of ' '.repeat(nMacro).split(''); index as index;" fxLayout="column">
             <div style="padding-top: 2vh;">
             </div>
-              <mat-form-field appearance="fill" fxLayout="row" fxFlex>
+              <mat-form-field appearance="fill" >
                 <mat-label class="label">Settings</mat-label>
                 <mat-select [formControl]="macroFullForm.controls['settings']" >
                   <mat-option *ngFor="let macro of macroSettings" [value]="macro" (click)="addMacroToList(macro, index)"  fxFlex>
@@ -88,7 +87,7 @@
                   </mat-option>
                 </mat-select>
               </mat-form-field>
-              <mat-form-field appearance="fill" fxLayout="row" fxFlex *ngIf="insertMacroSettings[index] && insertMacroSettings[index]?.settings!.length>0" >
+              <mat-form-field appearance="fill" *ngIf="insertMacroSettings[index] && insertMacroSettings[index]?.settings!.length>0" >
                 <mat-label>{{insertMacroSettings[index].comando}}</mat-label>
                 <mat-select >
                   <mat-option *ngFor="let setting of insertMacroSettings[index]?.settings" [value]="setting"  fxFlex (click)="addMacroToListUpdate(index,setting,null)">
@@ -96,21 +95,21 @@
                   </mat-option>
                 </mat-select>
               </mat-form-field>
-              <mat-form-field fxLayout="row" *ngIf="insertMacroSettings[index] && insertMacroSettings[index]?.type=='text'" fxFlex="100">
+              <mat-form-field  *ngIf="insertMacroSettings[index] && insertMacroSettings[index]?.type=='text'">
                 <mat-label>{{insertMacroSettings[index].comando}}</mat-label>
-                <input matInput type="text" fxFlex (keyup)="addMacroToListUpdate(index,'',$event)">
+                <input matInput type="text"  (keyup)="addMacroToListUpdate(index,'',$event)">
               </mat-form-field>
 
               <div style="padding-top: 2vh;">
                   <hr>
               </div>
           </div>
-          <button mat-icon-button (click)="addMacro()"><mat-icon  matTooltip="Aggiungi una nuova macro" class="Custom">add_circle</mat-icon></button>
+            <button mat-icon-button (click)="addMacro()"><mat-icon  matTooltip="Aggiungi una nuova macro" class="Custom">add_circle</mat-icon></button>
         </div>
 
         <div style="padding-top: 2vh;">
               </div>
-        <button mat-raised-button color="primary" [disabled]="disabledButton()" (click)="saveMacro()">Salva</button>
+        <button mat-raised-button color="primary" [disabled]="disabledButton()" (click)="saveMacro()" >Salva</button>
       </div>
 
 
