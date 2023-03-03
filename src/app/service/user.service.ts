@@ -158,7 +158,7 @@ export class UserService {
 
 
 
-  openSnackBar(type: string,verticalPosition: MatSnackBarVerticalPosition = 'top', horizontalPosition: MatSnackBarHorizontalPosition = 'end')
+  openSnackBar(type: string,verticalPosition: MatSnackBarVerticalPosition = 'top', horizontalPosition: MatSnackBarHorizontalPosition = 'end', text='')
   {
 
     switch(type)
@@ -176,7 +176,7 @@ export class UserService {
         break;
 
       case "registrazioneFallita":
-        this.openSnack("Hai sbagliato una o più risposte!","red-snackbar");
+        this.openSnack(text=='' ? "Hai sbagliato una o più risposte!" : text,"red-snackbar",verticalPosition,horizontalPosition);
         break;
 
       case "segnalazioneInviata":

@@ -10,25 +10,25 @@ import { Utils } from 'src/app/utils/utility';
 import { MacroInsertEditComponent } from '../macro-insert-edit/macro-insert-edit.component';
 
 const ELEMENT_DATA: Macro[] = [
-  {id:0,date: new Date(), author: 'Gennaro', macro:"addsadasasdasdasdasdasdas", like:5, tipologia:"Combattiva"},
-  {id:1,date: new Date(), author: 'Zeno', macro:"Nuova macro figa", like:10, tipologia:"Generica"},
-  {id:2,date: new Date('2020-10-06'), author: 'Veno', macro:"Nuova macro figa", like:0, tipologia:"Combattiva"},
-  {id:3,date: new Date('2021-10-06'), author: 'Veno', macro:"Nonna macro figa", like:4, tipologia:"Farming risorse"},
-  {id:4,date: new Date('2019-10-06'), author: 'Credo', macro:"Persa macro figa", like:2, tipologia:"Combattiva"},
-  {id:5,date: new Date('2018-10-06'), author: 'Spezio', macro:"Vecchia macro figa", like:6, tipologia:"Farming risorse"},
-  {id:6,date: new Date('2020-11-06'), author: 'Nero', macro:"Nuova macro brutta", like:2, tipologia:"Alza skill"},
-  {id:7,date: new Date('2020-11-06'), author: 'Nero', macro:"Nuova macro brutta", like:2, tipologia:"Alza skill"},
-  {id:8,date: new Date('2020-11-06'), author: 'Nero', macro:"Nuova macro brutta", like:2, tipologia:"Alza skill"},
-  {id:9,date: new Date('2020-11-06'), author: 'Nero', macro:"Nuova macro brutta", like:2, tipologia:"Alza skill"},
-  {id:10,date: new Date('2020-11-06'), author: 'Nero', macro:"Nuova macro brutta", like:2, tipologia:"Alza skill"},
-  {id:11,date: new Date('2020-11-06'), author: 'Nero', macro:"Nuova macro brutta", like:2, tipologia:"Alza skill"},
-  {id:12,date: new Date('2020-11-06'), author: 'Nero', macro:"Nuova macro brutta", like:2, tipologia:"Alza skill"},
-  {id:13,date: new Date('2020-11-06'), author: 'Nero', macro:"Nuova macro brutta", like:2, tipologia:"Alza skill"},
-  {id:14,date: new Date('2020-11-06'), author: 'Nero', macro:"Nuova macro brutta", like:2, tipologia:"Alza skill"},
-  {id:15,date: new Date('2020-11-06'), author: 'Nero', macro:"Nuova macro brutta", like:2, tipologia:"Alza skill"},
-  {id:16,date: new Date('2020-11-06'), author: 'Nero', macro:"Nuova macro brutta", like:2, tipologia:"Alza skill"},
-  {id:17,date: new Date('2020-11-06'), author: 'Nero', macro:"Nuova macro brutta", like:2, tipologia:"Alza skill"},
-  {id:18,date: new Date('2020-11-06'), author: 'Nero', macro:"Nuova macro brutta", like:2, tipologia:"Alza skill"},
+  {id:0,date: new Date(), author: 'Gennaro', title:"addsadasasdasdasdasdasdas", like:5, tipologia:"Combattiva"},
+  {id:1,date: new Date(), author: 'Zeno', title:"Nuova macro figa", like:10, tipologia:"Generica"},
+  {id:2,date: new Date('2020-10-06'), author: 'Veno', title:"Nuova macro figa", like:0, tipologia:"Combattiva"},
+  {id:3,date: new Date('2021-10-06'), author: 'Veno', title:"Nonna macro figa", like:4, tipologia:"Farming risorse"},
+  {id:4,date: new Date('2019-10-06'), author: 'Credo', title:"Persa macro figa", like:2, tipologia:"Combattiva"},
+  {id:5,date: new Date('2018-10-06'), author: 'Spezio', title:"Vecchia macro figa", like:6, tipologia:"Farming risorse"},
+  {id:6,date: new Date('2020-11-06'), author: 'Nero', title:"Nuova macro brutta", like:2, tipologia:"Alza skill"},
+  {id:7,date: new Date('2020-11-06'), author: 'Nero', title:"Nuova macro brutta", like:2, tipologia:"Alza skill"},
+  {id:8,date: new Date('2020-11-06'), author: 'Nero', title:"Nuova macro brutta", like:2, tipologia:"Alza skill"},
+  {id:9,date: new Date('2020-11-06'), author: 'Nero', title:"Nuova macro brutta", like:2, tipologia:"Alza skill"},
+  {id:10,date: new Date('2020-11-06'), author: 'Nero', title:"Nuova macro brutta", like:2, tipologia:"Alza skill"},
+  {id:11,date: new Date('2020-11-06'), author: 'Nero', title:"Nuova macro brutta", like:2, tipologia:"Alza skill"},
+  {id:12,date: new Date('2020-11-06'), author: 'Nero', title:"Nuova macro brutta", like:2, tipologia:"Alza skill"},
+  {id:13,date: new Date('2020-11-06'), author: 'Nero', title:"Nuova macro brutta", like:2, tipologia:"Alza skill"},
+  {id:14,date: new Date('2020-11-06'), author: 'Nero', title:"Nuova macro brutta", like:2, tipologia:"Alza skill"},
+  {id:15,date: new Date('2020-11-06'), author: 'Nero', title:"Nuova macro brutta", like:2, tipologia:"Alza skill"},
+  {id:16,date: new Date('2020-11-06'), author: 'Nero', title:"Nuova macro brutta", like:2, tipologia:"Alza skill"},
+  {id:17,date: new Date('2020-11-06'), author: 'Nero', title:"Nuova macro brutta", like:2, tipologia:"Alza skill"},
+  {id:18,date: new Date('2020-11-06'), author: 'Nero', title:"Nuova macro brutta", like:2, tipologia:"Alza skill"},
 ];
 
 
@@ -104,7 +104,7 @@ export class MacroListComponent implements OnInit {
         case 'like':
           return this.compare(a.like, b.like, isAsc);
         case 'macro':
-          return this.compare(a.macro, b.macro, isAsc);
+          return this.compare(a.title, b.title, isAsc);
         case 'tiplogia':
           return this.compare(a.tipologia, b.tipologia, isAsc);
         default:
@@ -137,7 +137,7 @@ dialogInsertEdit(id:number = -1, insert=false)
 {
   return this.dialog.open(MacroInsertEditComponent, {
     data: {id: id, insert:insert},
-    width: this.utils.isSmartphone() ? '90vw' : '60vw',
+    width: this.utils.isSmartphone() ? '100vw' : '60vw',
     height: this.utils.isSmartphone() ? '90vh' : '60vh',
   });
 }

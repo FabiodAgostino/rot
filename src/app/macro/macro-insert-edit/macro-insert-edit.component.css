@@ -4,3 +4,32 @@
   border-radius: 5px;
 }
 
+.text-inputSmart
+{
+  resize: none;
+  height: 80px;
+  width: 55vw;
+}
+
+.customTextArea
+{
+  border:1px solid black;
+  width: 100%;
+  text-align: center;
+}
+
+.Custom
+{
+  color: #004a9f;
+}
+
+.miniSelect
+{
+  width: 10px;
+}
+
+hr
+{
+  border:2px solid #004a9f;
+}
+

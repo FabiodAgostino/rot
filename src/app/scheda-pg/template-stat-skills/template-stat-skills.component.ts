@@ -98,4 +98,5 @@ export class TemplateStatSkillsComponent implements OnInit{
 
 
 
+
 }
