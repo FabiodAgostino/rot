@@ -34,8 +34,13 @@ export class MacroSettingsFront extends MacroSettings
 
 export class MacroToInsert
 {
-  settings = new Array<MacroSettings>();
+  settings = new Array<MacroSettingsFront>();
   macro = new Macro();
+  descrizione: string = "";
+}
+
+export class MacroFirebase extends Macro
+{
   descrizione: string = "";
 }
 

@@ -104,7 +104,7 @@
 
       <ng-container matColumnDef="title" >
         <mat-header-cell mat-sort-header="title" mat-header-cell  *matHeaderCellDef> Titolo </mat-header-cell>
-        <mat-cell *matCellDef="let element" > <div (click)="detailMacro(element.id)" class="macro">{{element.title}}</div> </mat-cell>
+        <mat-cell *matCellDef="let element" > <div (click)="detailMacro(element.guid)" class="macro">{{element.title}}</div> </mat-cell>
       </ng-container>
 
       <ng-container matColumnDef="like">

@@ -36,6 +36,8 @@ export class MacroInsertEditComponent implements OnInit{
   macroSettings = new Array<MacroSettings>();
 
   insertMacroSettings = new Array<MacroSettingsFront>();
+  detailMacroSettings = new Array<MacroSettingsFront>();
+
 
   nMacro=1;
 
@@ -61,11 +63,53 @@ export class MacroInsertEditComponent implements OnInit{
     this.getMacroSettings();
     this.getMacro();
 
+    if(this.detail)
+    {
+      this.getMacro();
+    }
   }
 
   getMacro()
   {
-    this.service.getMacro(this.data.id);
+    const ref=this.service.getMacro(this.data.id).subscribe(macro=>
+      {
+        if(macro[0]?.macro.author)
+        {
+          ref.unsubscribe();
+          const ref2=this.service.getMacroSettingsUser(this.data.id).subscribe(macroSettings=>{
+            if(macroSettings.length>0)
+            {
+              ref2.unsubscribe();
+              this.setAllValue(macro[0],macroSettings);
+            }
+          })
+        }
+      });
+  }
+
+  setAllValue(macro: MacroFull, macroSettings: MacroSettingsFront[])
+  {
+    this.macroFull.macro.author=macro.macro.author;
+    this.macroFullForm.get('titolo')?.setValue(macro.macro.title);
+    this.macroFullForm.get("descrizione")?.setValue(macro.descrizione)
+    this.macroFullForm.get('tipologia')?.setValue(macro.tipologia);
+    this.detailMacroSettings=macroSettings;
+    this.nMacro= this.detailMacroSettings.length;
+  }
+
+  compareSettings(a:MacroSettings, b:MacroSettingsFront)
+  {
+    return a.comando==b.comando;
+  }
+
+  compareSottoSettings(a:MacroSettings, b:string)
+  {
+    return a.comando==b;
+  }
+
+  getSubSettings(comando: string)
+  {
+    return this.macroSettings.filter(x=> x.comando==comando)[0].settings;
   }
 
   checkUser()
