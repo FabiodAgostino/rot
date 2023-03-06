@@ -32,6 +32,7 @@ export class MacroService {
           dr.tipologia=collection.tipologia;
           dr.macro.title=collection.title;
           dr.descrizione=collection.descrizione;
+          dr.macro.utenti=collection.utenti;
           return dr;
         })
     }))
@@ -67,6 +68,7 @@ export class MacroService {
             dr.like=collection.like;
             dr.tipologia=collection.tipologia;
             dr.title=collection.title;
+            dr.utenti=collection.utenti;
             return dr;
           })
       }))
@@ -88,6 +90,35 @@ export class MacroService {
       return response;
   }
 
+  addLikeMacro(guid: string, utente: string)
+  {
+    var subject = new Subject<boolean>();
+    var pg=this.store.collection<Macro>('MacroUser', ref=> ref.where('guid','==',guid)).valueChanges({idField: 'id'}).subscribe(x=>{
+      if(x!=null && x.length>0)
+      {
+        if(x[0].utenti.includes(utente))
+        {
+          x[0].utenti=x[0].utenti.filter(u=> u!=utente);
+          x[0].like--;
+        }
+        else
+        {
+          x[0].utenti.push(utente);
+          x[0].like++;
+        }
+        var up=this.store.collection('MacroUser').doc(`${x[0].id}`).set({
+          like: x[0].like,
+          utenti: x[0].utenti
+        },
+        {
+          merge:true
+        });
+        pg.unsubscribe();
+        return subject.next(true);
+      }
+    })
+    return subject.asObservable();
+  }
 
   addMacros(macro: MacroToInsert)
   {
@@ -98,7 +129,8 @@ export class MacroService {
         descrizione: macro.descrizione,
         tipologia: macro.macro.tipologia,
         like:0,
-        guid: macro.macro.guid
+        guid: macro.macro.guid,
+        utenti: macro.macro.utenti
     });
 
     macro.settings.forEach(x=>{

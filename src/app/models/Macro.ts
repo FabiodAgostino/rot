@@ -9,6 +9,7 @@ export class Macro
   like: number =0;
   tipologia: string ="";
   dateTimeStamp : any;
+  utenti = new Array<string>();
 }
 
 export class MacroFull
@@ -43,5 +44,11 @@ export class MacroToInsert
 export class MacroFirebase extends Macro
 {
   descrizione: string = "";
+}
+
+export class MacroLike
+{
+  guid: string ="";
+  utente: string="";
 }
 

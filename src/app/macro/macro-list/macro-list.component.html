@@ -7,7 +7,7 @@
       </mat-form-field>
 
       <mat-form-field fxFlex="30">
-        <mat-label>Macro</mat-label>
+        <mat-label>Titolo</mat-label>
         <input matInput [formControl]="macroFullForm.controls['macro']" (keyup)="applyFilter($event.target,'macro')">
       </mat-form-field>
 
@@ -50,7 +50,8 @@
       <ng-container matColumnDef="likeIt">
         <mat-header-cell  *matHeaderCellDef > </mat-header-cell>
         <mat-cell *matCellDef="let row" >
-             <button mat-button matTooltip="Mi piace" *ngIf="checkThumb(row)"><mat-icon class="Custom">thumb_up</mat-icon></button>
+             <button mat-button matTooltip="Mi piace" *ngIf="checkThumb(row)" (click)="likeIt(row.guid)"><mat-icon class="Custom">thumb_up</mat-icon></button>
+             <button mat-button matTooltip="Non mi piace" *ngIf="checkIfVote(row)" (click)="likeIt(row.guid)"><mat-icon style="color:grey">thumb_up</mat-icon></button>
         </mat-cell>
       </ng-container>
 

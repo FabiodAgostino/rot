@@ -25,7 +25,6 @@ export class MacroInsertEditComponent implements OnInit{
     if(data.insert==true)
       this.insert=data.insert;
   }
-
   detail:boolean= false;
   insert:boolean = false;
   isUpdateable= false;
@@ -39,7 +38,7 @@ export class MacroInsertEditComponent implements OnInit{
   insertMacroSettings = new Array<MacroSettingsFront>();
   detailMacroSettings = new Array<MacroSettingsFront>();
 
-
+  utenteLoggato: string="";
 
   macroFullForm = new FormGroup({
     author: new FormControl(''),
@@ -59,7 +58,6 @@ export class MacroInsertEditComponent implements OnInit{
   inizializza()
   {
     this.tipologieMacro= this.service.GetTipologieMacro();
-    this.checkUser();
     this.getMacroSettings();
     this.getMacro();
 
@@ -81,6 +79,7 @@ export class MacroInsertEditComponent implements OnInit{
             {
               ref2.unsubscribe();
               this.setAllValue(macro[0],macroSettings);
+              this.checkUser();
             }
           })
         }
@@ -93,6 +92,7 @@ export class MacroInsertEditComponent implements OnInit{
     this.macroFull.macro.date=macro.macro.date;
     this.macroFull.macro.like=macro.macro.like;
     this.macroFull.macro.guid=macro.macro.guid;
+    this.macroFull.macro.utenti=macro.macro.utenti;
     this.macroFullForm.get('titolo')?.setValue(macro.macro.title);
     this.macroFullForm.get("descrizione")?.setValue(macro.descrizione)
     this.macroFullForm.get('tipologia')?.setValue(macro.tipologia);
@@ -122,10 +122,15 @@ export class MacroInsertEditComponent implements OnInit{
       const rif=this.userService.checkUserMd5(md5).subscribe(user=> {
         if(user.length>0)
         {
-          this.macroFull.macro.author = user[0].nomePg;
-          this.isUpdateable=true;
+          this.utenteLoggato=user[0].nomePg;
+          if(this.utenteLoggato===this.macroFull.macro.author)
+            this.isUpdateable=true;
+
+          if(this.insert && this.utenteLoggato!=null)
+            this.macroFull.macro.author=this.utenteLoggato;
           rif?.unsubscribe();
         }
+        rif.unsubscribe();
       });
     }
     else
@@ -135,9 +140,7 @@ export class MacroInsertEditComponent implements OnInit{
         this.userService.openSnackBar("registrazioneFallita","bottom","center","Effettua prima la login");
         setTimeout(() => {
             const rif=this.dialog.open(LoginComponent);
-            rif.afterClosed().subscribe(x=>{
-              this.checkUser();
-            })
+
         }, 500);
       }
     }
@@ -276,6 +279,30 @@ export class MacroInsertEditComponent implements OnInit{
       this.dialog.closeAll();
     }
   }
+
+  checkThumb()
+{
+  return this.detail && !this.macroFull.macro.utenti.includes(this.utenteLoggato) && this.utenteLoggato!='';
+}
+
+checkIfVote()
+{
+  return this.macroFull.macro.utenti.includes(this.utenteLoggato);
+}
+
+likeIt()
+{
+  const ref=this.service.addLikeMacro(this.macroFull.macro.guid,this.utenteLoggato).subscribe(x=>{
+    if(x)
+    {
+      this.getMacro();
+      ref.unsubscribe();
+    }
+  });
+}
+
+
+
 
 
 
