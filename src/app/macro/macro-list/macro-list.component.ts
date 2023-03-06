@@ -6,6 +6,7 @@ import { MatSort, MatSortable, Sort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { Macro, MacroFull } from 'src/app/models/Macro';
 import { MacroService } from 'src/app/service/macro.service';
+import { UserService } from 'src/app/service/user.service';
 import { Utils } from 'src/app/utils/utility';
 import { MacroInsertEditComponent } from '../macro-insert-edit/macro-insert-edit.component';
 
@@ -46,15 +47,16 @@ export class MacroListComponent implements OnInit {
     tipologia: new FormControl('')
   });
 
+  user: string ="";
   filtroData: string ="";
-  displayedColumns: string[] = ['autore', 'data','like','tipologia','title'];
+  displayedColumns: string[] = ['autore', 'data','like','tipologia','title','likeIt'];
   dataSource = new MatTableDataSource<Macro>();
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
   sortedData = new Array<Macro>();
   tipologieMacro = new Array<String>();
 
-  constructor(public utils:Utils, public service: MacroService, public dialog: MatDialog){
+  constructor(public utils:Utils, public service: MacroService, public dialog: MatDialog, private userService:UserService){
     this.sortedData = this.dataSource.data.slice();
   }
 
@@ -63,6 +65,7 @@ export class MacroListComponent implements OnInit {
     this.getMacros();
     this.tipologieMacro.push('Tutte');
     this.macroFullForm.get('tipologia')?.setValue('Tutte');
+    this.checkUser();
   }
 
 getMacros()
@@ -123,7 +126,7 @@ getMacros()
 
 getDisplayedColumns()
 {
-  return this.displayedColumns.filter(x=> x!='data');
+  return this.displayedColumns = ['autore','tipologia','title','like'];
 }
 
 detailMacro(id:number)
@@ -144,9 +147,31 @@ dialogInsertEdit(id:number = -1, insert=false)
 {
   return this.dialog.open(MacroInsertEditComponent, {
     data: {id: id, insert:insert},
-    width: this.utils.isSmartphone() ? '100vw' : '60vw',
-    height: this.utils.isSmartphone() ? '90vh' : '60vh',
+    width: this.utils.isSmartphone() ? '100vw' : '50vw',
+    height: this.utils.isSmartphone() ? '90vh' : '70vh',
   });
+}
+
+
+checkUser()
+  {
+    const md5=localStorage.getItem("user")?.toString();
+    if(md5)
+    {
+      const rif=this.userService.checkUserMd5(md5).subscribe(user=> {
+        if(user.length>0)
+        {
+          this.user = user[0].nomePg;
+          rif?.unsubscribe();
+        }
+      });
+    }
+
+  }
+
+checkThumb(row: any)
+{
+  return this.user!='' && this.user!=row.author;
 }
 
 

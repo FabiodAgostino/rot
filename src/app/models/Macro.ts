@@ -30,6 +30,7 @@ export class MacroSettings
 export class MacroSettingsFront extends MacroSettings
 {
   function: string = "";
+  index:number =0;
 }
 
 export class MacroToInsert

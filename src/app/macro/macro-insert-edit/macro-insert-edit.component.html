@@ -1,51 +1,20 @@
-<div *ngIf="!utils.isSmartphone()">
-  <mat-card class="cont" >
-    <mat-card-content class="content" fxFlex fxLayout="row wrap" fxLayoutAlign="center center" >
-
-      <div  fxLayout="column"  fxFlex>
-        <mat-form-field fxLayout="row">
-          <mat-label>Autore</mat-label>
-          <input matInput [readonly]="true" [formControl]="macroFullForm.controls['author']"  [ngModel]="macroFull.macro.author" fxFlex>
-        </mat-form-field>
-
-        <mat-form-field fxLayout="row" fxFlex>
-          <mat-label>Titolo</mat-label>
-          <input matInput [formControl]="macroFullForm.controls['titolo']" fxFlex>
-        </mat-form-field>
-
-        <textarea
-        appTextareaAutosize
-        placeholder="Descrizione..."
-        ></textarea>
-
-        <mat-form-field appearance="fill" fxLayout="row" fxFlex>
-          <mat-label>Tipologia</mat-label>
-          <mat-select [formControl]="macroFullForm.controls['tipologia']" >
-            <mat-option *ngFor="let tipologia of tipologieMacro" [value]="tipologia"  fxFlex>
-              {{tipologia}}
-            </mat-option>
-          </mat-select>
-        </mat-form-field>
-
-        <mat-form-field appearance="fill" fxLayout="row" fxFlex>
-          <mat-label>Tipologia</mat-label>
-          <mat-select [formControl]="macroFullForm.controls['tipologia']" >
-            <mat-option *ngFor="let tipologia of tipologieMacro" [value]="tipologia" fxFlex>
-              {{tipologia}}
-            </mat-option>
-          </mat-select>
-        </mat-form-field>
-      </div>
-    </mat-card-content>
-  </mat-card>
-</div>
 
 
 
 
-
-<div *ngIf="utils.isSmartphone()"  fxLayout="column" fxLayoutAlign="space-around stretch">
+<div fxLayout="column" fxLayoutAlign="space-around stretch"  >
   <mat-card class="cont">
+
+
+    <div class="edit" *ngIf="isUpdateable && detail" >
+      <button mat-mini-fab matTooltip="Elimina" color="warn" style="margin-right:1vw" (click)="deleteMacro()"><mat-icon >delete_forever</mat-icon></button>
+      <button mat-mini-fab matTooltip="Modifica" (click)="edit=true; detail=false" *ngIf="!edit"><mat-icon >edit</mat-icon></button>
+    </div>
+    <div class="edit" *ngIf="!isUpdateable && detail" >
+      <button mat-mini-fab matTooltip="Mi piace" color="primary"><mat-icon >thumb_up</mat-icon></button>
+    </div>
+
+  <!-- GENERIC -->
     <mat-card-content>
       <div  fxLayout="column"  >
         <mat-form-field>
@@ -55,52 +24,55 @@
 
         <mat-form-field  >
           <mat-label>Titolo</mat-label>
-          <input matInput [formControl]="macroFullForm.controls['titolo']" [readonly]="detail" >
+          <input matInput [formControl]="macroFullForm.controls['titolo']" [readonly]="!edit && detail" >
         </mat-form-field>
 
         <textarea
         appTextareaAutosize
         placeholder="Descrizione..."
         class="text-inputSmart"
-        [formControl]="macroFullForm.controls['descrizione']" [readonly]="detail"
+        [formControl]="macroFullForm.controls['descrizione']" [readonly]="!edit && detail"
         ></textarea>
 
         <mat-form-field appearance="fill"   style="padding-top:2vh" >
           <mat-label>Tipologia</mat-label>
           <mat-select [formControl]="macroFullForm.controls['tipologia']">
-            <mat-option *ngFor="let tipologia of tipologieMacro" [value]="tipologia" [disabled]="detail">
+            <mat-option *ngFor="let tipologia of tipologieMacro" [value]="tipologia" [disabled]="!edit && detail">
               {{tipologia}}
             </mat-option>
           </mat-select>
         </mat-form-field>
 
-        <b style="text-align: center;" *ngIf="!detail">Crea la tua macro</b>
-        <div class="customTextArea" *ngIf="!detail">
-          <div *ngFor="let i of ' '.repeat(nMacro).split(''); index as index;" fxLayout="column">
 
+        <!-- INSERIMENTO -->
+        <b style="text-align: center;" *ngIf="!edit && !detail && insert">Crea la tua macro</b>
+        <div class="customTextArea" *ngIf="!edit && !detail && insert">
+          <div *ngFor="let i of insertMacroSettings; index as index;" fxLayout="column">
             <div style="padding-top: 2vh;">
+            </div>
+            <div class="delete">
+              <button mat-icon-button (click)="eliminaMacroEdit(index)"><mat-icon  matTooltip="Elimina Macro" *ngIf="!detail">delete</mat-icon></button>
             </div>
               <mat-form-field appearance="fill" >
                 <mat-label class="label">Settings</mat-label>
-                <mat-select [formControl]="macroFullForm.controls['settings']" >
+                <mat-select  [compareWith]="compareSettings" [ngModel]="i">
                   <mat-option *ngFor="let macro of macroSettings" [value]="macro" (click)="addMacroToList(macro, index)"  fxFlex>
                     {{macro.comando}}
                   </mat-option>
                 </mat-select>
               </mat-form-field>
-              <mat-form-field appearance="fill" *ngIf="insertMacroSettings[index] && insertMacroSettings[index]?.settings!.length>0" >
-                <mat-label>{{insertMacroSettings[index].comando}}</mat-label>
+              <mat-form-field appearance="fill" *ngIf="i && i?.settings!.length>0" >
+                <mat-label>{{i.comando}}</mat-label>
                 <mat-select >
-                  <mat-option *ngFor="let setting of insertMacroSettings[index]?.settings" [value]="setting"  fxFlex (click)="addMacroToListUpdate(index,setting,null)">
+                  <mat-option *ngFor="let setting of i.settings" [value]="setting"  fxFlex (click)="addMacroToListUpdate(index,setting,null)">
                     {{setting}}
                   </mat-option>
                 </mat-select>
               </mat-form-field>
-              <mat-form-field  *ngIf="insertMacroSettings[index] && insertMacroSettings[index]?.type=='text'">
-                <mat-label>{{insertMacroSettings[index].comando}}</mat-label>
+              <mat-form-field  *ngIf="i && i?.type=='text'">
+                <mat-label>{{i.comando}}</mat-label>
                 <input matInput type="text"  (keyup)="addMacroToListUpdate(index,'',$event)">
               </mat-form-field>
-
               <div style="padding-top: 2vh;">
                   <hr>
               </div>
@@ -109,44 +81,38 @@
         </div>
 
         <div style="padding-top: 2vh;">
-              </div>
-        <button mat-raised-button color="primary" [disabled]="disabledButton()" (click)="saveMacro()" *ngIf="!detail">Salva</button>
+        </div>
+        <button mat-raised-button color="primary" [disabled]="disabledButton()" (click)="saveMacro()" *ngIf="!detail && !edit" >Salva</button>
       </div>
 
 
-
-
-
-
-
-
-
-        <div class="customTextArea" *ngIf="detail">
+      <!-- MODIFICA -->
+      <b style="width:100%;text-align: center; " *ngIf="edit && !detail && !insert">Modifica la tua macro</b>
+        <div class="customTextArea" *ngIf="edit && !detail && !insert">
           <div *ngFor="let m of detailMacroSettings; index as index;" fxLayout="column">
-
-            <div style="padding-top: 2vh;">
+            <div class="delete">
+              <button mat-icon-button (click)="eliminaMacroEdit(index)"><mat-icon  matTooltip="Elimina Macro" *ngIf="!detail">delete</mat-icon></button>
             </div>
               <mat-form-field appearance="fill" >
                 <mat-label class="label">Settings</mat-label>
                 <mat-select [compareWith]="compareSettings" [ngModel]="m">
-                  <mat-option *ngFor="let macro of macroSettings" [value]="macro" fxFlex [disabled]="detail">
+                  <mat-option *ngFor="let macro of macroSettings;" [value]="macro" fxFlex [disabled]="detail" (click)="editSettings(macro, index)">
                     {{macro.comando}}
                   </mat-option>
                 </mat-select>
               </mat-form-field>
-              <mat-form-field appearance="fill" *ngIf="m.type=='command' && m.function.length>0" >
-                <mat-label>{{m.function}}</mat-label>
-                <mat-select [compareWith]="compareSottoSettings" [ngModel]="m.function">
-                  <mat-option *ngFor="let setting of m.settings" [value]="setting"  fxFlex [disabled]="detail">
+              <mat-form-field appearance="fill" *ngIf="m.type=='command'&& m.settings.length>0" >
+              <mat-label class="label">{{m.comando}}</mat-label>
+                <mat-select [compareWith]="compareSottoSettings" [ngModel]="m.function" >
+                  <mat-option *ngFor="let setting of m.settings;" [value]="setting"  fxFlex [disabled]="detail" (click)="editSubSettings(setting, index)">
                     {{setting}}
                   </mat-option>
                 </mat-select>
               </mat-form-field>
-              <mat-form-field  *ngIf="m.type=='text' && m.function.length>0">
-                <mat-label>{{m.function}}</mat-label>
-                <input matInput type="text" [ngModel]="m.function" [readonly]="detail">
+              <mat-form-field *ngIf="m.type=='text' && m.settings.length==0">
+                <mat-label>{{m.comando}}</mat-label>
+                <input matInput type="text" [ngModel]="m.function" [readonly]="detail" (keyup)="editSubSettings($event.target,index)">
               </mat-form-field>
-
               <div style="padding-top: 2vh;">
                   <hr>
               </div>
@@ -156,8 +122,14 @@
 
         <div style="padding-top: 2vh;">
               </div>
-        <button mat-raised-button color="primary" [disabled]="disabledButton()" (click)="saveMacro()" *ngIf="!detail">Salva</button>
+        <button mat-raised-button color="accent" style="width:100%" [disabled]="disabeldEditButton()" (click)="saveMacro()" *ngIf="edit">Modifica</button>
 
+        <div class="customTextArea" *ngIf="detail && !edit && !insert" style="text-align: left;">
+          <ul *ngFor="let m of detailMacroSettings;">
+            <li *ngIf="m.function!=''"><b>{{m.comando}}:</b> {{m.function}}</li>
+            <li *ngIf="m.function==''"><b>{{m.comando}}</b></li>
+          </ul>
+        </div>
 
     </mat-card-content>
 

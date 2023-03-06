@@ -29,6 +29,7 @@ export class MacroInsertEditComponent implements OnInit{
   detail:boolean= false;
   insert:boolean = false;
   isUpdateable= false;
+  edit=false;
 
   username: string ="";
   macroFull = new MacroFull();
@@ -39,7 +40,6 @@ export class MacroInsertEditComponent implements OnInit{
   detailMacroSettings = new Array<MacroSettingsFront>();
 
 
-  nMacro=1;
 
   macroFullForm = new FormGroup({
     author: new FormControl(''),
@@ -90,11 +90,13 @@ export class MacroInsertEditComponent implements OnInit{
   setAllValue(macro: MacroFull, macroSettings: MacroSettingsFront[])
   {
     this.macroFull.macro.author=macro.macro.author;
+    this.macroFull.macro.date=macro.macro.date;
+    this.macroFull.macro.like=macro.macro.like;
+    this.macroFull.macro.guid=macro.macro.guid;
     this.macroFullForm.get('titolo')?.setValue(macro.macro.title);
     this.macroFullForm.get("descrizione")?.setValue(macro.descrizione)
     this.macroFullForm.get('tipologia')?.setValue(macro.tipologia);
-    this.detailMacroSettings=macroSettings;
-    this.nMacro= this.detailMacroSettings.length;
+    this.detailMacroSettings=macroSettings.sort(function(a, b) { return a.index > b.index ? 1 : -1});
   }
 
   compareSettings(a:MacroSettings, b:MacroSettingsFront)
@@ -102,9 +104,9 @@ export class MacroInsertEditComponent implements OnInit{
     return a.comando==b.comando;
   }
 
-  compareSottoSettings(a:MacroSettings, b:string)
+  compareSottoSettings(a:string, b:string)
   {
-    return a.comando==b;
+    return a==b;
   }
 
   getSubSettings(comando: string)
@@ -132,7 +134,10 @@ export class MacroInsertEditComponent implements OnInit{
       {
         this.userService.openSnackBar("registrazioneFallita","bottom","center","Effettua prima la login");
         setTimeout(() => {
-            this.dialog.open(LoginComponent);
+            const rif=this.dialog.open(LoginComponent);
+            rif.afterClosed().subscribe(x=>{
+              this.checkUser();
+            })
         }, 500);
       }
     }
@@ -145,8 +150,43 @@ export class MacroInsertEditComponent implements OnInit{
   }
   addMacro()
   {
-    this.nMacro++;
+    if(this.insert)
+      this.insertMacroSettings.push(new MacroSettingsFront());
+    if(this.edit)
+      this.detailMacroSettings.push(new MacroSettingsFront());
+  }
 
+  eliminaMacroEdit(index: number)
+  {
+    if (index > -1 && this.edit) {
+      this.detailMacroSettings.splice(index, 1);
+    }
+
+    if (index > -1 && this.insert) {
+      this.insertMacroSettings.splice(index, 1);
+    }
+  }
+
+  editSettings(macro: MacroSettings, index: number)
+  {
+
+    if(this.detailMacroSettings[index]?.comando==undefined)
+      this.detailMacroSettings[index]= new MacroSettingsFront();
+
+    this.detailMacroSettings[index].comando=macro.comando;
+    this.detailMacroSettings[index].type=macro.type;
+    this.detailMacroSettings[index].settings=macro.settings;
+    this.detailMacroSettings[index].function='';
+  }
+
+
+
+  editSubSettings(setting: any, index: number)
+  {
+    if (typeof setting === 'string' )
+        this.detailMacroSettings[index].function=setting;
+    else
+      this.detailMacroSettings[index].function=setting.value;
   }
 
   addMacroToList(macro:MacroSettings,index:number)
@@ -156,6 +196,7 @@ export class MacroInsertEditComponent implements OnInit{
     this.insertMacroSettings[index].comando=macro.comando;
     this.insertMacroSettings[index].settings=macro.settings;
     this.insertMacroSettings[index].type=macro.type;
+
   }
 
   addMacroToListUpdate(index:number, setting:string='',event: any)
@@ -168,21 +209,25 @@ export class MacroInsertEditComponent implements OnInit{
 
   disabledButton()
   {
-    return  this.macroFull.macro.author=='' || this.insertMacroSettings.length==0 || this.macroFullForm.get('tipologia')?.value=='' || this.macroFullForm.get('titolo')?.value=='';
+    return  this.macroFull.macro.author=='' || this.insertMacroSettings[0]==undefined || this.insertMacroSettings[0]?.comando=="" || this.macroFullForm.get('tipologia')?.value=='' || this.macroFullForm.get('titolo')?.value=='';
+  }
+
+  disabeldEditButton()
+  {
+    return  this.macroFull.macro.author=='' || this.detailMacroSettings[0]==undefined || this.detailMacroSettings[0]?.comando=="" || this.macroFullForm.get('tipologia')?.value=='' || this.macroFullForm.get('titolo')?.value=='';
   }
 
   saveMacro()
   {
-    if(!this.disabledButton())
+
+    if(!this.disabledButton() || (this.edit && !this.disabeldEditButton()))
     {
       let macro = new MacroToInsert();
-      macro.settings=this.insertMacroSettings;
       macro.macro.author=this.macroFull.macro.author;
       const name = this.macroFullForm.get('titolo')!.value;
 
       if(name)
         macro.macro.title=name;
-      macro.macro.date = new Date();
       const descrizione= this.macroFullForm.get('descrizione')!.value;
 
       if(descrizione)
@@ -192,9 +237,42 @@ export class MacroInsertEditComponent implements OnInit{
       if(tipologia)
         macro.macro.tipologia=tipologia;
 
-      macro.macro.like=0;
-      macro.macro.guid = crypto.randomUUID();
-      this.service.addMacros(macro);
+      if(this.insert)
+      {
+        macro.settings=this.orderMacro(this.insertMacroSettings);
+        macro.macro.date = new Date();
+        macro.macro.like=0;
+        macro.macro.guid = crypto.randomUUID();
+        this.service.addMacros(macro);
+      }
+      if(this.edit)
+      {
+
+        macro.settings=this.orderMacro(this.detailMacroSettings);
+        macro.macro.date = this.macroFull.macro.date;
+        macro.macro.like = this.macroFull.macro.like;
+        macro.macro.guid=this.macroFull.macro.guid;
+
+        this.service.updateMacro(macro);
+      }
+      this.dialog.closeAll();
+    }
+  }
+
+  orderMacro(array: Array<MacroSettingsFront>)
+  {
+    for(let i=0;i<array.length;i++)
+    {
+      array[i].index=i;
+    }
+    return array;
+  }
+
+  deleteMacro()
+  {
+    if(confirm("Sei sicuro di voler cancellare la macro?"))
+    {
+      this.service.deleteMacro(this.macroFull.macro.guid);
       this.dialog.closeAll();
     }
   }
