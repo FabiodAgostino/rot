@@ -94,7 +94,7 @@ export class MacroService {
   {
     var subject = new Subject<boolean>();
     var pg=this.store.collection<Macro>('MacroUser', ref=> ref.where('guid','==',guid)).valueChanges({idField: 'id'}).subscribe(x=>{
-      if(x!=null && x.length>0)
+      if(x!=null && x.length>0 && x[0].author!=utente)
       {
         if(x[0].utenti.includes(utente))
         {

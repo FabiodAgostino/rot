@@ -60,6 +60,8 @@ export class MacroInsertEditComponent implements OnInit{
     this.tipologieMacro= this.service.GetTipologieMacro();
     this.getMacroSettings();
     this.getMacro();
+    this.checkUser();
+
 
     if(this.detail)
     {
@@ -77,9 +79,9 @@ export class MacroInsertEditComponent implements OnInit{
           const ref2=this.service.getMacroSettingsUser(this.data.id).subscribe(macroSettings=>{
             if(macroSettings.length>0)
             {
-              ref2.unsubscribe();
               this.setAllValue(macro[0],macroSettings);
               this.checkUser();
+              ref2.unsubscribe();
             }
           })
         }

@@ -40,7 +40,7 @@
   <a mat-raised-button  routerLink="/" (click)="goChild('https://alatarl.github.io/ElficoTM/'); sidenav.toggle()"  class="but">Dizionario elfico</a>
   <a mat-raised-button  routerLink="/schedaPersonaggio" (click)="sidenav.toggle(); boolHome=false;"  class="but">Scheda personaggio</a>
   <a mat-raised-button  routerLink="/bacheca" (click)="sidenav.toggle(); boolHome=false;"  class="but">Paginazione Bacheche</a>
-  <a mat-raised-button  routerLink="/macro" (click)="sidenav.toggle(); boolHome=false;"  class="but">Macro</a>
+  <a mat-raised-button  routerLink="/macro" (click)="sidenav.toggle(); boolHome=false;"  class="but" *ngIf="UserService.isRotinrim">Macro Utili</a>
 
 
 

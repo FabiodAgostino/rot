@@ -31,6 +31,7 @@ export class UserService {
           this.Rotinrim();
           subject.next(true);
           this.openSnackBar("login");
+          window.location.reload();
         }
         else
           this.logoutPartial();
@@ -93,6 +94,7 @@ export class UserService {
   {
     this.logoutPartial();
     this.openSnackBar("logout");
+    window.location.reload();
   }
 
   logoutPartial()
