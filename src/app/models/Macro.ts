@@ -28,6 +28,7 @@ export class MacroSettings
   settings = new Array<string>();
   type: string ="";
   code: string ="";
+  subCode: string="";
 }
 
 export class MacroSettingsFront extends MacroSettings

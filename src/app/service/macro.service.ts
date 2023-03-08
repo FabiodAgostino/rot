@@ -87,6 +87,7 @@ export class MacroService {
             dr.settings=collection.settings;
             dr.type=collection.type;
             dr.code=collection.code;
+            dr.subCode=collection.subCode;
             return dr;
           })
       }))

@@ -74,14 +74,12 @@ export class Utils {
 
     this.macroService.getMacroSettings().subscribe(x=>{
       let macroSettings=x;
-
       array.forEach(macrosXml=>{
         let macroFull = new MacroFullFromXml();
         macroFull.macro.macro.title=macrosXml.name;
         macrosXml.action.forEach(macroXml=>{
             let macroFront= new MacroSettingsFront();
             let set=macroSettings.find(x=> x.code==macroXml.code);
-
             if(set?.settings)
               macroFront.settings=set?.settings;
 
@@ -91,9 +89,17 @@ export class Utils {
             if(set?.type)
               macroFront.type=set?.type;
 
-            let subcode=set?.settings[Number(macroXml.subcode)-1]
-            if(subcode)
-              macroFront.function = subcode;
+            let lenghtSettings=set?.settings.length;
+            if(lenghtSettings)
+              for(let i=0;i<lenghtSettings;i++)
+              {
+                if(set?.subCode!=null && macroXml.subcode==set?.subCode[i])
+                  macroFront.function =set.settings[i];
+              }
+
+            // let subcode=set?.settings[Number(macroXml.subcode)-1]
+            // if(subcode)
+            //   macroFront.function = subcode;
 
             let text = macroXml.text
             if(text)
