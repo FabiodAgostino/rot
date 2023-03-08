@@ -172,18 +172,17 @@ async openMultiInsert(event: any)
       alert("Inserisci il file macros.xml! ("+dir+")");
       return;
     }
-
-    let array=this.utils.MacrosXmlToObject(await file.text());
-    if(array.length>0)
-    {
-      this.dialog.open(MacroMultiInsertComponent, {
-        data:{macros: array},
-        width: this.utils.isSmartphone() ? '100vw' : '50vw',
-        height: this.utils.isSmartphone() ? '90vh' : '70vh',
-      });
-    }
-    else
-      alert("Nessuna macro presente nel file macros.xml!");
+    this.utils.getAllMacrosByXml(await file.text())
+    // if(array.length>0)
+    // {
+    //   this.dialog.open(MacroMultiInsertComponent, {
+    //     data:{macros: array},
+    //     width: this.utils.isSmartphone() ? '100vw' : '50vw',
+    //     height: this.utils.isSmartphone() ? '90vh' : '70vh',
+    //   });
+    // }
+    // else
+    //   alert("Nessuna macro presente nel file macros.xml!");
 }
 
 

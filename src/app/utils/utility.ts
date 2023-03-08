@@ -3,12 +3,14 @@ import { Injectable } from '@angular/core';
 import { FormGroup } from "@angular/forms";
 import { Classe, ClasseCheckBox, Skill } from "../models/Pg";
 import { NgxXml2jsonService } from 'ngx-xml2json';
+import { MacroService } from "../service/macro.service";
+import { MacroFullFromXml, MacroSettings, MacroSettingsFront } from "../models/Macro";
 
 @Injectable({
   providedIn: 'root',
 })
 export class Utils {
-  constructor(public _platform: Platform, private ngxXml2jsonService: NgxXml2jsonService)
+  constructor(public _platform: Platform, private ngxXml2jsonService: NgxXml2jsonService, private macroService: MacroService)
   {
     this.platform=_platform;
   }
@@ -65,7 +67,49 @@ export class Utils {
     return macros.filter(x=> !notReturn.includes(x.name));
   }
 
+  getAllMacrosByXml(xml: string)
+  {
+    var array= this.MacrosXmlToObject(xml);
+    var arrayMacro = new Array<MacroFullFromXml>();
+
+    this.macroService.getMacroSettings().subscribe(x=>{
+      let macroSettings=x;
+
+      array.forEach(macrosXml=>{
+        let macroFull = new MacroFullFromXml();
+        macroFull.macro.macro.title=macrosXml.name;
+        macrosXml.action.forEach(macroXml=>{
+            let macroFront= new MacroSettingsFront();
+            let set=macroSettings.find(x=> x.code==macroXml.code);
+
+            if(set?.settings)
+              macroFront.settings=set?.settings;
+
+            if(set?.comando)
+              macroFront.comando = set?.comando;
+
+            if(set?.type)
+              macroFront.type=set?.type;
+
+            let subcode=set?.settings[Number(macroXml.subcode)-1]
+            if(subcode)
+              macroFront.function = subcode;
+
+            let text = macroXml.text
+            if(text)
+              macroFront.function=text;
+
+            macroFull.settings.push(macroFront);
+        })
+        arrayMacro.push(macroFull);
+      })
+    });
+    console.log(arrayMacro)
+    return arrayMacro;
+  }
 }
+
+
 
 export class MacroXml
 {

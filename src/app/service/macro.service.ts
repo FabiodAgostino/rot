@@ -33,6 +33,7 @@ export class MacroService {
           dr.macro.title=collection.title;
           dr.descrizione=collection.descrizione;
           dr.macro.utenti=collection.utenti;
+          dr.macro.delay=collection.delay;
           return dr;
         })
     }))
@@ -69,6 +70,7 @@ export class MacroService {
             dr.tipologia=collection.tipologia;
             dr.title=collection.title;
             dr.utenti=collection.utenti;
+            dr.delay=collection.delay;
             return dr;
           })
       }))
@@ -84,6 +86,7 @@ export class MacroService {
             dr.comando=collection.comando;
             dr.settings=collection.settings;
             dr.type=collection.type;
+            dr.code=collection.code;
             return dr;
           })
       }))
@@ -130,7 +133,8 @@ export class MacroService {
         tipologia: macro.macro.tipologia,
         like:0,
         guid: macro.macro.guid,
-        utenti: macro.macro.utenti
+        utenti: macro.macro.utenti,
+        delay: macro.macro.delay
     });
 
     macro.settings.forEach(x=>{
@@ -155,6 +159,7 @@ export class MacroService {
           title: macro.macro.title,
           descrizione: macro.descrizione,
           tipologia: macro.macro.tipologia,
+          delay:macro.macro.delay
         },
         {
           merge:true

@@ -1,5 +1,5 @@
-import { Component, EventEmitter, Inject, Input, OnInit, Output, SimpleChanges } from '@angular/core';
-import { FormControl, FormGroup } from '@angular/forms';
+import { Component, ElementRef, EventEmitter, Inject, Input, OnInit, Output, SimpleChanges, ViewChild } from '@angular/core';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDialog, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { type } from 'os';
 import { Macro, MacroFull, MacroFullFromXml, MacroSettings, MacroSettingsFront, MacroToInsert } from 'src/app/models/Macro';
@@ -53,7 +53,7 @@ export class MacroInsertEditComponent implements OnInit{
     tipologia: new FormControl(''),
     settings: new FormControl(''),
     descrizione: new FormControl(''),
-
+    delay: new FormControl('0', Validators.minLength(0)),
 
   });
 
@@ -64,9 +64,8 @@ export class MacroInsertEditComponent implements OnInit{
 
 setMultiInsert()
 {
-  console.log(this.macroMultiInsert)
   this.multiInsert=true;
-  this.macroFullForm.get('titolo')?.setValue(this.macroMultiInsert!.macro.title);
+  this.macroFullForm.get('titolo')?.setValue(this.macroMultiInsert!.macro.macro.title);
   if(this.macroMultiInsert?.checked==true)
     this.edit=true;
   else
@@ -124,6 +123,7 @@ setMultiInsert()
     this.macroFullForm.get('titolo')?.setValue(macro.macro.title);
     this.macroFullForm.get("descrizione")?.setValue(macro.descrizione)
     this.macroFullForm.get('tipologia')?.setValue(macro.tipologia);
+    this.macroFullForm.get('delay')?.setValue(macro.macro.delay.toString());
     this.detailMacroSettings=macroSettings.sort(function(a, b) { return a.index > b.index ? 1 : -1});
   }
 
@@ -139,7 +139,15 @@ setMultiInsert()
 
   getSubSettings(comando: string)
   {
+
+    document.getElementById("targetRed")!.scrollIntoView({
+      behavior: "smooth",
+      block: "end",
+      inline: "nearest"
+    });
+
     return this.macroSettings.filter(x=> x.comando==comando)[0].settings;
+
   }
 
   checkUser()
@@ -185,6 +193,12 @@ setMultiInsert()
       this.insertMacroSettings.push(new MacroSettingsFront());
     if(this.edit)
       this.detailMacroSettings.push(new MacroSettingsFront());
+
+      document.getElementById("targetRed")!.scrollIntoView({
+        behavior: "smooth",
+        block: "end",
+        inline: "nearest"
+      });
   }
 
   eliminaMacroEdit(index: number)
@@ -218,6 +232,12 @@ setMultiInsert()
         this.detailMacroSettings[index].function=setting;
     else
       this.detailMacroSettings[index].function=setting.value;
+
+      document.getElementById("targetRed")!.scrollIntoView({
+        behavior: "smooth",
+        block: "nearest",
+        inline: "nearest"
+      });
   }
 
   addMacroToList(macro:MacroSettings,index:number)
@@ -240,12 +260,12 @@ setMultiInsert()
 
   disabledButton()
   {
-    return  this.macroFull.macro.author=='' || this.insertMacroSettings[0]==undefined || this.insertMacroSettings[0]?.comando=="" || this.macroFullForm.get('tipologia')?.value=='' || this.macroFullForm.get('titolo')?.value=='';
+    return  this.macroFull.macro.author=='' || this.insertMacroSettings[0]==undefined || this.insertMacroSettings[0]?.comando=="" || this.macroFullForm.get('delay')?.value=='' || this.macroFullForm.get('tipologia')?.value=='' || this.macroFullForm.get('titolo')?.value=='';
   }
 
   disabeldEditButton()
   {
-    return  this.macroFull.macro.author=='' || this.detailMacroSettings[0]==undefined || this.detailMacroSettings[0]?.comando=="" || this.macroFullForm.get('tipologia')?.value=='' || this.macroFullForm.get('titolo')?.value=='';
+    return  this.macroFull.macro.author=='' || this.detailMacroSettings[0]==undefined || this.detailMacroSettings[0]?.comando=="" ||this.macroFullForm.get('delay')?.value=='' ||  this.macroFullForm.get('tipologia')?.value=='' || this.macroFullForm.get('titolo')?.value=='';
   }
 
   saveMacro()
@@ -255,18 +275,23 @@ setMultiInsert()
     {
       let macro = new MacroToInsert();
       macro.macro.author=this.macroFull.macro.author;
-      const name = this.macroFullForm.get('titolo')!.value;
 
+      const name = this.macroFullForm.get('titolo')!.value;
       if(name)
         macro.macro.title=name;
-      const descrizione= this.macroFullForm.get('descrizione')!.value;
 
+      const descrizione= this.macroFullForm.get('descrizione')!.value;
       if(descrizione)
         macro.descrizione=descrizione;
-      const tipologia=this.macroFullForm.get('tipologia')?.value;
 
+
+      const tipologia=this.macroFullForm.get('tipologia')?.value;
       if(tipologia)
         macro.macro.tipologia=tipologia;
+
+      const delay=this.macroFullForm.get('delay')?.value;
+      if(delay)
+        macro.macro.delay=Number(delay);
 
       if(this.insert)
       {
@@ -328,6 +353,9 @@ likeIt()
     }
   });
 }
+
+
+
 
 
 

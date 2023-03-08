@@ -3,9 +3,7 @@
 
 
 <div fxLayout="column" fxLayoutAlign="space-around stretch"  >
-  <mat-card class="cont">
-
-
+  <mat-card class="cont" >
     <div class="edit" *ngIf="isUpdateable && detail" >
       <button mat-mini-fab matTooltip="Elimina" color="warn" style="margin-right:1vw" (click)="deleteMacro()"><mat-icon >delete_forever</mat-icon></button>
       <button mat-mini-fab matTooltip="Modifica" (click)="edit=true; detail=false" *ngIf="!edit"><mat-icon >edit</mat-icon></button>
@@ -17,14 +15,14 @@
       <button mat-mini-fab matTooltip="Non mi piace"  style="background-color: grey;" (click)="likeIt()"><mat-icon >thumb_up</mat-icon></button>
     </div>
 
-    <mat-card-content>
+    <mat-card-content >
 
       <!-- MULTI INSERT -->
       <div *ngIf="multiInsert">
         <div  fxLayout="column"  >
           <mat-form-field>
             <mat-label>Autore</mat-label>
-            <input matInput [readonly]="true"  [ngModel]="macroMultiInsert?.macro?.author" >
+            <input matInput [readonly]="true"  [ngModel]="macroMultiInsert?.macro?.macro?.author" >
           </mat-form-field>
 
           <mat-form-field>
@@ -68,6 +66,11 @@
           <mat-form-field  >
             <mat-label>Titolo</mat-label>
             <input matInput [formControl]="macroFullForm.controls['titolo']" [readonly]="!edit && detail" >
+          </mat-form-field>
+
+          <mat-form-field  >
+            <mat-label>Delay Macro UO</mat-label>
+            <input matInput [formControl]="macroFullForm.controls['delay']" type="number" minlength="0" min="0" [readonly]="!edit && detail" >
           </mat-form-field>
 
           <textarea
@@ -119,11 +122,11 @@
                   <hr>
               </div>
           </div>
-            <button mat-icon-button (click)="addMacro()"><mat-icon  matTooltip="Aggiungi una nuova macro" class="Custom" *ngIf="!detail">add_circle</mat-icon></button>
+            <button mat-icon-button (click)="addMacro()"  ><mat-icon  matTooltip="Aggiungi una nuova macro" class="Custom" *ngIf="!detail">add_circle</mat-icon></button>
         </div>
 
         <div style="padding-top: 2vh;">
-        </div>
+        </div >
         <button mat-raised-button color="primary" [disabled]="disabledButton()" (click)="saveMacro()" *ngIf="!detail && !edit" >Salva</button>
       </div>
 
@@ -163,7 +166,7 @@
         </div>
 
         <div style="padding-top: 2vh;">
-              </div>
+          </div>
         <button mat-raised-button color="accent" style="width:100%" [disabled]="disabeldEditButton()" (click)="saveMacro()" *ngIf="edit && !multiInsert">Modifica</button>
 
         <div class="customTextArea" *ngIf="detail && !edit && !insert" style="text-align: left;">
@@ -176,4 +179,7 @@
     </mat-card-content>
 
   </mat-card>
+</div>
+
+<div style="padding-top: 1vh; width: 100%;" id="targetRed">
 </div>

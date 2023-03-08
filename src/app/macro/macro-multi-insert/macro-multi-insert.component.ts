@@ -20,15 +20,6 @@ export class MacroMultiInsertComponent implements OnInit{
   macro = new MacroFullFromXml;
   index: number =0;
   ngOnInit(): void {
-    let macro = new MacroFullFromXml();
-    macro.macro.title='Ciao'
-
-    let macro2 = new MacroFullFromXml();
-    macro2.macro.title='Come'
-
-    let macro3 = new MacroFullFromXml();
-    macro3.macro.title='Stai'
-    this.macros.push(macro,macro2,macro3);
 
     this.macro= this.macros[0];
   }

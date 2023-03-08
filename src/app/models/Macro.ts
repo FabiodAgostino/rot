@@ -10,6 +10,7 @@ export class Macro
   tipologia: string ="";
   dateTimeStamp : any;
   utenti = new Array<string>();
+  delay: number =0;
 }
 
 export class MacroFull
@@ -26,6 +27,7 @@ export class MacroSettings
   comando: string ="";
   settings = new Array<string>();
   type: string ="";
+  code: string ="";
 }
 
 export class MacroSettingsFront extends MacroSettings
@@ -52,7 +54,9 @@ export class MacroLike
   utente: string="";
 }
 
-export class MacroFullFromXml extends MacroToInsert
+export class MacroFullFromXml
 {
   checked: boolean=true;
+  settings = new Array<MacroSettingsFront>();
+  macro = new MacroFull();
 }
