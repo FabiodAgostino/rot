@@ -63,6 +63,9 @@
     <mat-toolbar style="background-color: white;">
       <mat-toolbar-row >
         <button mat-icon-button (click)="insertMacro()"><mat-icon  matTooltip="Aggiungi una nuova macro" class="Custom">add_circle</mat-icon></button>
+        <button mat-icon-button (click)="fileInput.click()"><mat-icon  matTooltip="Importa file macros.xml" class="Custom">add_to_photos</mat-icon></button>
+          <input type="file" (change)="openMultiInsert($event)" hidden #fileInput type="file" id="file" accept=".xml">
+
         <div style="width: 100%; padding:0">
         <mat-paginator class="paginator" showFirstLastButtons [pageSizeOptions]="[5, 10]" ></mat-paginator>
         </div>

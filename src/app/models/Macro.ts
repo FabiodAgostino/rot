@@ -52,3 +52,7 @@ export class MacroLike
   utente: string="";
 }
 
+export class MacroFullFromXml extends MacroToInsert
+{
+  checked: boolean=true;
+}

@@ -62,6 +62,7 @@ import { MacroComponent } from './macro/macro/macro.component';
 import { MacroListComponent } from './macro/macro-list/macro-list.component';
 import { MacroInsertEditComponent } from './macro/macro-insert-edit/macro-insert-edit.component';
 import {MatTableModule} from '@angular/material/table';
+import { MacroMultiInsertComponent } from './macro/macro-multi-insert/macro-multi-insert.component';
 
 
 
@@ -94,6 +95,7 @@ import {MatTableModule} from '@angular/material/table';
     MacroComponent,
     MacroListComponent,
     MacroInsertEditComponent,
+    MacroMultiInsertComponent,
   ],
   imports: [
     BrowserModule,

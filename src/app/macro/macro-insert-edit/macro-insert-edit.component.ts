@@ -1,8 +1,8 @@
-import { Component, Inject, OnInit } from '@angular/core';
+import { Component, EventEmitter, Inject, Input, OnInit, Output, SimpleChanges } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { MatDialog, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { type } from 'os';
-import { Macro, MacroFull, MacroSettings, MacroSettingsFront, MacroToInsert } from 'src/app/models/Macro';
+import { Macro, MacroFull, MacroFullFromXml, MacroSettings, MacroSettingsFront, MacroToInsert } from 'src/app/models/Macro';
 import { User } from 'src/app/models/User';
 import { MacroService } from 'src/app/service/macro.service';
 import { UserService } from 'src/app/service/user.service';
@@ -19,12 +19,19 @@ export class MacroInsertEditComponent implements OnInit{
   constructor(public utils: Utils, public service: MacroService, @Inject(MAT_DIALOG_DATA)
   public data:  any, public userService: UserService, public dialog: MatDialog)
   {
-    if(data.id!=-1)
-      this.detail=true;
+    if(data)
+    {
+      if(data.id!=-1)
+        this.detail=true;
 
-    if(data.insert==true)
-      this.insert=data.insert;
+      if(data.insert==true)
+        this.insert=data.insert;
+    }
   }
+  @Input() macroMultiInsert?:MacroFullFromXml;
+  @Output() editMacro = new EventEmitter<MacroFullFromXml>();
+  multiInsert:boolean = false;
+
   detail:boolean= false;
   insert:boolean = false;
   isUpdateable= false;
@@ -50,6 +57,24 @@ export class MacroInsertEditComponent implements OnInit{
 
   });
 
+  ngOnChanges(changes: SimpleChanges) {
+  if(this.macroMultiInsert)
+    this.setMultiInsert();
+}
+
+setMultiInsert()
+{
+  console.log(this.macroMultiInsert)
+  this.multiInsert=true;
+  this.macroFullForm.get('titolo')?.setValue(this.macroMultiInsert!.macro.title);
+  if(this.macroMultiInsert?.checked==true)
+    this.edit=true;
+  else
+    this.edit=false;
+
+  this.editMacro.emit(this.macroMultiInsert);
+}
+
   ngOnInit(): void {
     this.inizializza();
 
@@ -57,15 +82,16 @@ export class MacroInsertEditComponent implements OnInit{
 
   inizializza()
   {
-    this.tipologieMacro= this.service.GetTipologieMacro();
-    this.getMacroSettings();
-    this.getMacro();
-    this.checkUser();
-
-
-    if(this.detail)
+    if(!this.macroMultiInsert)
     {
+      this.tipologieMacro= this.service.GetTipologieMacro();
+      this.getMacroSettings();
       this.getMacro();
+      this.checkUser();
+
+
+      if(this.detail)
+        this.getMacro();
     }
   }
 

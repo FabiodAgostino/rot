@@ -9,6 +9,7 @@ import { MacroService } from 'src/app/service/macro.service';
 import { UserService } from 'src/app/service/user.service';
 import { Utils } from 'src/app/utils/utility';
 import { MacroInsertEditComponent } from '../macro-insert-edit/macro-insert-edit.component';
+import { MacroMultiInsertComponent } from '../macro-multi-insert/macro-multi-insert.component';
 
 
 @Component({
@@ -39,7 +40,7 @@ export class MacroListComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.tipologieMacro=this.service.GetTipologieMacro();
+    this.tipologieMacro=this.service.GetTipologieMacro().slice();
     this.getMacros();
     this.tipologieMacro.push('Tutte');
     this.macroFullForm.get('tipologia')?.setValue('Tutte');
@@ -160,6 +161,29 @@ checkIfVote(row: any)
 likeIt(guid: string)
 {
   this.service.addLikeMacro(guid,this.user);
+}
+
+async openMultiInsert(event: any)
+{
+    var file= event.target.files[0];
+    if(file.name!="macros.xml")
+    {
+      var dir= "The Miracle/Data/Profiles/nomeAccount/The Miracle 3/nomePg/macros.xml";
+      alert("Inserisci il file macros.xml! ("+dir+")");
+      return;
+    }
+
+    let array=this.utils.MacrosXmlToObject(await file.text());
+    if(array.length>0)
+    {
+      this.dialog.open(MacroMultiInsertComponent, {
+        data:{macros: array},
+        width: this.utils.isSmartphone() ? '100vw' : '50vw',
+        height: this.utils.isSmartphone() ? '90vh' : '70vh',
+      });
+    }
+    else
+      alert("Nessuna macro presente nel file macros.xml!");
 }
 
 

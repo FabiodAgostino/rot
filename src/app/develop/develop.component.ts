@@ -4,6 +4,7 @@ import { Classe, ClasseCheckBox, Skill, TipologiaSkill } from '../models/Pg';
 import { User } from '../models/User';
 import { SchedaPersonaggioService } from '../service/scheda-personaggio.service';
 import { UserService } from '../service/user.service';
+import { Utils } from '../utils/utility';
 
 @Component({
   selector: 'app-develop',
@@ -20,7 +21,7 @@ export class DevelopComponent implements OnInit{
   notChecked=false;
   develop = false;
   user = new User();
-  constructor(private service: SchedaPersonaggioService, private userService: UserService){}
+  constructor(private service: SchedaPersonaggioService, private userService: UserService, private utils: Utils){}
 
 
   ngOnInit(): void {
@@ -67,4 +68,9 @@ export class DevelopComponent implements OnInit{
     this.userService.login(this.user).subscribe(x=> alert(x));
   }
 
+  area = "";
+  goText()
+  {
+    this.utils.MacrosXmlToObject(this.area);
+  }
 }
