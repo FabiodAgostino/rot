@@ -22,25 +22,25 @@
         <div  fxLayout="column"  >
           <mat-form-field>
             <mat-label>Autore</mat-label>
-            <input matInput [readonly]="true"  [ngModel]="macroMultiInsert?.macro?.macro?.author" >
+            <input matInput [readonly]="true"  [(ngModel)]="this.macroMultiInsert!.macro.macro.author" >
           </mat-form-field>
 
           <mat-form-field>
             <mat-label>Titolo</mat-label>
-            <input matInput [formControl]="macroFullForm.controls['titolo']" [readonly]="!macroMultiInsert?.checked" >
+            <input matInput [formControl]="macroFullForm.controls['titolo']" [readonly]="!macroMultiInsert?.checked" (keyup)="editMultiInsert()">
           </mat-form-field>
 
           <textarea
           appTextareaAutosize
           placeholder="Descrizione..."
           class="text-inputSmart"
-          [formControl]="macroFullForm.controls['descrizione']" [readonly]="!macroMultiInsert?.checked"
+          [formControl]="macroFullForm.controls['descrizione']" [readonly]="!macroMultiInsert?.checked" (keyup)="editMultiInsert()"
           ></textarea>
 
           <mat-form-field appearance="fill"   style="padding-top:2vh" >
             <mat-label>Tipologia</mat-label>
-            <mat-select [formControl]="macroFullForm.controls['tipologia']">
-              <mat-option *ngFor="let tipologia of tipologieMacro" [value]="tipologia" [disabled]="!macroMultiInsert?.checked">
+            <mat-select [ngModel]="this.macroMultiInsert!.macro.tipologia" [compareWith]="compareSettings">
+              <mat-option *ngFor="let tipologia of tipologieMacro" [value]="tipologia" [disabled]="!macroMultiInsert?.checked" (click)="editMultiInsert()">
                 {{tipologia}}
               </mat-option>
             </mat-select>

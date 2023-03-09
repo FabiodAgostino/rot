@@ -5,6 +5,13 @@ import { Classe, ClasseCheckBox, Skill } from "../models/Pg";
 import { NgxXml2jsonService } from 'ngx-xml2json';
 import { MacroService } from "../service/macro.service";
 import { MacroFullFromXml, MacroSettings, MacroSettingsFront } from "../models/Macro";
+import { Subject } from "rxjs";
+
+const SUBCODE = [{"macro":"NW","subcode":"1"},{"macro":"N","subcode":"2"},{"macro":"NE","subcode":"3"},{"macro":"E","subcode":"4"},{"macro":"SE","subcode":"5"},{"macro":"S","subcode":"6"},{"macro":"SW","subcode":"7"},{"macro":"W","subcode":"8"},{"macro":"Anatomia","subcode":"21"},{"macro":"Zoologia","subcode":"22"},{"macro":"Addomesticare","subcode":"23"},{"macro":"OsservareArmi","subcode":"24"},{"macro":"Sbirciare","subcode":"25"},{"macro":"AdorareTM","subcode":"26"},{"macro":"ScovareNascondigli","subcode":"27"},
+{"macro":"Infuriarsi","subcode":"28"},{"macro":"PercezioneMagica","subcode":"29"},{"macro":"AnalizzareCorpi","subcode":"30"},{"macro":"Nascondersi","subcode":"31"},{"macro":"GodersiTM","subcode":"32"},{"macro":"Religione","subcode":"33"},
+{"macro":"IdentificareOggetti","subcode":"34"},{"macro":"Meditare","subcode":"35"},{"macro":"Calmare","subcode":"36"},{"macro":"Avvelenare","subcode":"37"},{"macro":"Istigare","subcode":"38"},{"macro":"DisarmareTrappole","subcode":"39"},
+{"macro":"AscoltareSpiriti","subcode":"40"},{"macro":"Rubare","subcode":"41"},{"macro":"MuoversiSilenziosamente","subcode":"42"},{"macro":"RingraziareTM","subcode":"43"},{"macro":"SeguireTracce","subcode":"44"},{"macro":"LeftHand","subcode":"45"},
+{"macro":"RightHand","subcode":"46"},{"macro":"Hostile","subcode":"193"},{"macro":"Party","subcode":"194"},{"macro":"Mobile","subcode":"195"}]
 
 @Injectable({
   providedIn: 'root',
@@ -69,6 +76,7 @@ export class Utils {
 
   getAllMacrosByXml(xml: string)
   {
+    var subject = new Subject<Array<MacroFullFromXml>>();
     var array= this.MacrosXmlToObject(xml);
     var arrayMacro = new Array<MacroFullFromXml>();
 
@@ -80,38 +88,34 @@ export class Utils {
         macrosXml.action.forEach(macroXml=>{
             let macroFront= new MacroSettingsFront();
             let set=macroSettings.find(x=> x.code==macroXml.code);
-            if(set?.settings)
-              macroFront.settings=set?.settings;
+            if(set!==undefined)
+            {
+              if(set?.settings)
+                macroFront.settings=set?.settings;
 
-            if(set?.comando)
-              macroFront.comando = set?.comando;
+              if(set?.comando)
+                macroFront.comando = set?.comando;
 
-            if(set?.type)
-              macroFront.type=set?.type;
+              if(set?.type)
+                macroFront.type=set?.type;
 
-            let lenghtSettings=set?.settings.length;
-            if(lenghtSettings)
-              for(let i=0;i<lenghtSettings;i++)
-              {
-                if(set?.subCode!=null && macroXml.subcode==set?.subCode[i])
-                  macroFront.function =set.settings[i];
-              }
+              if(macroXml.subcode!='0')
+                macroFront.function=SUBCODE.filter(x=> x.subcode===macroXml.subcode)[0].macro;
 
-            // let subcode=set?.settings[Number(macroXml.subcode)-1]
-            // if(subcode)
-            //   macroFront.function = subcode;
+              let text = macroXml.text
+              if(text)
+                macroFront.function=text;
 
-            let text = macroXml.text
-            if(text)
-              macroFront.function=text;
-
-            macroFull.settings.push(macroFront);
+              macroFull.settings.push(macroFront);
+            }
         })
-        arrayMacro.push(macroFull);
+        if(macroFull.macro.macro.title!='')
+          arrayMacro.push(macroFull);
       })
+      subject.next(arrayMacro);
+
     });
-    console.log(arrayMacro)
-    return arrayMacro;
+    return subject.asObservable();
   }
 }
 

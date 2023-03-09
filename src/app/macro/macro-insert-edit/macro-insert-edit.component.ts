@@ -66,31 +66,47 @@ setMultiInsert()
 {
   this.multiInsert=true;
   this.macroFullForm.get('titolo')?.setValue(this.macroMultiInsert!.macro.macro.title);
+  this.macroFullForm.get('descrizione')?.setValue(this.macroMultiInsert!.macro.descrizione);
+  const tipologia= this.macroFullForm.get('tipologia')?.setValue(this.macroMultiInsert!.macro.tipologia);
+
+
+
   if(this.macroMultiInsert?.checked==true)
     this.edit=true;
   else
     this.edit=false;
+}
+
+editMultiInsert()
+{
+  const descrizione= this.macroFullForm.get('descrizione')?.value;
+  if(descrizione)
+    this.macroMultiInsert!.macro.descrizione = descrizione;
+
+  const titolo= this.macroFullForm.get('titolo')?.value;
+  if(titolo)
+    this.macroMultiInsert!.macro.macro.title = titolo;
+
+  const tipologia= this.macroFullForm.get('tipologia')?.value;
+  if(tipologia)
+    this.macroMultiInsert!.macro.macro.tipologia = tipologia;
 
   this.editMacro.emit(this.macroMultiInsert);
 }
 
   ngOnInit(): void {
     this.inizializza();
-
   }
 
   inizializza()
   {
+    this.tipologieMacro= this.service.GetTipologieMacro();
     if(!this.macroMultiInsert)
     {
-      this.tipologieMacro= this.service.GetTipologieMacro();
+      this.checkUser();
       this.getMacroSettings();
       this.getMacro();
-      this.checkUser();
 
-
-      if(this.detail)
-        this.getMacro();
     }
   }
 
@@ -105,7 +121,6 @@ setMultiInsert()
             if(macroSettings.length>0)
             {
               this.setAllValue(macro[0],macroSettings);
-              this.checkUser();
               ref2.unsubscribe();
             }
           })

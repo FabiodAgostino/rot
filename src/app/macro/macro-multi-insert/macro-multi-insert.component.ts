@@ -1,6 +1,7 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MacroFull, MacroFullFromXml } from 'src/app/models/Macro';
+import { UserService } from 'src/app/service/user.service';
 import { MacroXml } from 'src/app/utils/utility';
 
 @Component({
@@ -10,18 +11,17 @@ import { MacroXml } from 'src/app/utils/utility';
 })
 export class MacroMultiInsertComponent implements OnInit{
 
-  constructor(@Inject(MAT_DIALOG_DATA) public data:  any)
+  constructor(@Inject(MAT_DIALOG_DATA) public data:  any, private userService: UserService)
   {
     if(data.macros!=null)
-      this.macrosXml=data.macros;
+      this.macros=data.macros;
   }
-  macrosXml = new Array<MacroXml>();
   macros = new Array<MacroFullFromXml>();
   macro = new MacroFullFromXml;
   index: number =0;
   ngOnInit(): void {
-
     this.macro= this.macros[0];
+    this.checkUser();
   }
 
   changeScheda(rightLeft: string)
@@ -37,6 +37,27 @@ export class MacroMultiInsertComponent implements OnInit{
   resetMacro()
   {
     this.macro = Object.assign({},this.macro);
+  }
+
+  checkUser()
+  {
+    const md5=localStorage.getItem("user")?.toString();
+    if(md5)
+    {
+      const rif=this.userService.checkUserMd5(md5).subscribe(user=> {
+        if(user.length>0)
+        {
+          this.macros.forEach(x=> x.macro.macro.author=user[0].nomePg)
+          rif?.unsubscribe();
+        }
+        rif.unsubscribe();
+      });
+    }
+  }
+
+  setMacro($event: MacroFullFromXml)
+  {
+    this.macro=$event;
   }
 
 
