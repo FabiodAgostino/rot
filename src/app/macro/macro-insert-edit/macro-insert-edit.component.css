@@ -4,6 +4,12 @@
   border-radius: 5px;
 }
 
+.panel
+{
+  height: 45vh;
+  overflow-y: auto;
+}
+
 .text-inputSmart
 {
   resize: none;

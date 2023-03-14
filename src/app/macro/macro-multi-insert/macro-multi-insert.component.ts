@@ -1,6 +1,7 @@
 import { Component, Inject, OnInit } from '@angular/core';
-import { MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { MacroFull, MacroFullFromXml } from 'src/app/models/Macro';
+import { MatDialog, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { MacroFull, MacroFullFromXml, MacroSettingsFront, MacroToInsert } from 'src/app/models/Macro';
+import { MacroService } from 'src/app/service/macro.service';
 import { UserService } from 'src/app/service/user.service';
 import { MacroXml } from 'src/app/utils/utility';
 
@@ -11,7 +12,7 @@ import { MacroXml } from 'src/app/utils/utility';
 })
 export class MacroMultiInsertComponent implements OnInit{
 
-  constructor(@Inject(MAT_DIALOG_DATA) public data:  any, private userService: UserService)
+  constructor(@Inject(MAT_DIALOG_DATA) public data:  any, private userService: UserService, private service: MacroService, public dialog: MatDialog)
   {
     if(data.macros!=null)
       this.macros=data.macros;
@@ -73,8 +74,34 @@ export class MacroMultiInsertComponent implements OnInit{
   {
     if(!this.checkAllMacro())
     {
-      alert();
+      let arrayToSave= this.macros.filter(x=> x.checked==true);
+
+      arrayToSave.forEach(y=>{
+        let macroToInsert= new MacroToInsert();
+
+        macroToInsert.descrizione=y.macro.descrizione;
+        macroToInsert.macro.author=y.macro.macro.author;
+        macroToInsert.macro.delay=y.macro.macro.delay;
+        macroToInsert.macro.tipologia=y.macro.tipologia;
+        macroToInsert.macro.title=y.macro.macro.title;
+        macroToInsert.macro.date = new Date();
+        macroToInsert.macro.like=0;
+        macroToInsert.macro.guid = crypto.randomUUID();
+        macroToInsert.settings=this.orderMacro(y.settings);
+
+        this.service.addMacros(macroToInsert);
+      })
     }
+    this.dialog.closeAll();
+  }
+
+  orderMacro(array: Array<MacroSettingsFront>)
+  {
+    for(let i=0;i<array.length;i++)
+    {
+      array[i].index=i;
+    }
+    return array;
   }
 
   checkAllMacro()
@@ -84,7 +111,7 @@ export class MacroMultiInsertComponent implements OnInit{
     this.macros.forEach(fullMacro=>{
       if(fullMacro.checked)
       {
-        flag =  fullMacro.macro.macro.author=='' || fullMacro.settings[0]==undefined || fullMacro.macro.macro.delay<0 || fullMacro.macro.tipologia=='' || fullMacro.macro.macro.title=='';
+        flag =  fullMacro.macro.macro.author=='' || fullMacro.settings[0]==undefined || fullMacro.macro.macro.delay<0 || fullMacro.macro.tipologia=='' || fullMacro.macro.macro.title.length==0;
         if(flag)
           invalid=flag;
       }

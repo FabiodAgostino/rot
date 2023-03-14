@@ -43,6 +43,10 @@ export class Utils {
     };
   }
 
+  capitalizeFirstLetter(string: string) {
+    return string.charAt(0).toUpperCase() + string.slice(1);
+}
+
   MacrosXmlToObject(xml: string)
   {
     const parser = new DOMParser();

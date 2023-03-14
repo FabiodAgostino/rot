@@ -7,6 +7,7 @@ import { MatTableDataSource } from '@angular/material/table';
 import { Macro, MacroFull } from 'src/app/models/Macro';
 import { MacroService } from 'src/app/service/macro.service';
 import { UserService } from 'src/app/service/user.service';
+import { LoginComponent } from 'src/app/user/login/login.component';
 import { Utils } from 'src/app/utils/utility';
 import { MacroInsertEditComponent } from '../macro-insert-edit/macro-insert-edit.component';
 import { MacroMultiInsertComponent } from '../macro-multi-insert/macro-multi-insert.component';
@@ -163,6 +164,23 @@ likeIt(guid: string)
   this.service.addLikeMacro(guid,this.user);
 }
 
+fileInput()
+{
+  if(this.user=='' || this.user==null)
+    {
+      this.userService.openSnackBar("registrazioneFallita","bottom","center","Effettua prima la login");
+      setTimeout(() => {
+          const rif=this.dialog.open(LoginComponent);
+          rif.afterClosed().subscribe(x=>{
+            if(x)
+              document.getElementById("fileInput")?.click();
+          })
+      }, 500);
+      return;
+    }
+    document.getElementById("fileInput")?.click();
+}
+
 async openMultiInsert(event: any)
 {
     var file= event.target.files[0];
@@ -172,6 +190,7 @@ async openMultiInsert(event: any)
       alert("Inserisci il file macros.xml! ("+dir+")");
       return;
     }
+
     const ref=this.utils.getAllMacrosByXml(await file.text()).subscribe(array=>{
       if(array.length>0)
       {

@@ -69,6 +69,8 @@ setMultiInsert()
   this.multiInsert=true;
   this.macroFullForm.get('titolo')?.setValue(this.macroMultiInsert!.macro.macro.title);
   this.macroFullForm.get('descrizione')?.setValue(this.macroMultiInsert!.macro.descrizione);
+  this.macroFullForm.get('delay')?.setValue(this.macroMultiInsert!.macro.macro.delay.toString());
+
   const tipologia= this.macroFullForm.get('tipologia')?.value;
   if(tipologia=='')
     this.macroFullForm.get('tipologia')?.setValue('');
@@ -79,15 +81,18 @@ setMultiInsert()
     this.edit=false;
 }
 
-editMultiInsert()
+editMultiInsert(event:any=null)
 {
   const descrizione= this.macroFullForm.get('descrizione')?.value;
   if(descrizione)
     this.macroMultiInsert!.macro.descrizione = descrizione;
 
   const titolo= this.macroFullForm.get('titolo')?.value;
-  if(titolo)
+  if(titolo!=null)
     this.macroMultiInsert!.macro.macro.title = titolo;
+
+    if(event && event.target.value!=null)
+      this.macroMultiInsert!.macro.macro.delay = Number(event.target.value);
 
   this.editMacro.emit(this.macroMultiInsert);
 }
@@ -189,7 +194,10 @@ editMultiInsert()
         this.userService.openSnackBar("registrazioneFallita","bottom","center","Effettua prima la login");
         setTimeout(() => {
             const rif=this.dialog.open(LoginComponent);
-
+            rif.afterClosed().subscribe(x=>{
+              if(x)
+                this.checkUser();
+            })
         }, 500);
       }
     }

@@ -1,6 +1,6 @@
 import { DialogRef } from '@angular/cdk/dialog';
 import { Component, OnInit } from '@angular/core';
-import { MatDialog } from '@angular/material/dialog';
+import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { User } from '../../models/User';
 import { UserService } from '../../service/user.service';
 import { SignUpComponent } from '../sign-up/sign-up.component';
@@ -14,7 +14,7 @@ export class LoginComponent implements OnInit{
 
   user = new User();
   error= false;
-  constructor(private service:UserService, private dialog: DialogRef, private modal: MatDialog)
+  constructor(private service:UserService, private dialog: MatDialogRef<LoginComponent>, private modal: MatDialog)
   {
 
   }
@@ -25,11 +25,13 @@ export class LoginComponent implements OnInit{
   login()
   {
     var u = Object.assign({}, this.user);
-    this.service.login(u).subscribe(x=>{
+    const ref=this.service.login(u).subscribe(x=>{
       if(x)
-        this.dialog.close();
+        this.dialog.close(x);
       else
         this.error=true;
+
+      ref.unsubscribe();
     });
   }
 

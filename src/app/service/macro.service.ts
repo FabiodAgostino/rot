@@ -4,6 +4,7 @@ import { AngularFirestore, AngularFirestoreCollection } from '@angular/fire/comp
 import { Timestamp } from 'firebase/firestore';
 import { BehaviorSubject, last, map, Observable, Subject, timestamp } from 'rxjs';
 import { Macro, MacroFirebase, MacroFull, MacroSettings, MacroSettingsFront, MacroToInsert } from '../models/Macro';
+import { Utils } from '../utils/utility';
 
 const TIPOLOGIA_MACRO: string[] = ["Combattiva","Alza skill","Farming risorse","Generica"];
 
@@ -19,6 +20,10 @@ export class MacroService {
   {
     return TIPOLOGIA_MACRO;
   }
+
+  private capitalizeFirstLetter(string: string) {
+    return string.charAt(0).toUpperCase() + string.slice(1);
+}
 
   getMacro(guid: string)
   {
@@ -128,9 +133,9 @@ export class MacroService {
   {
       this.store.collection("MacroUser").add({
         author: macro.macro.author,
-        title: macro.macro.title,
+        title: this.capitalizeFirstLetter(macro.macro.title),
         dateTimeStamp: macro.macro.date,
-        descrizione: macro.descrizione,
+        descrizione:this.capitalizeFirstLetter(macro.descrizione),
         tipologia: macro.macro.tipologia,
         like:0,
         guid: macro.macro.guid,

@@ -3,7 +3,7 @@
 
 
 <div fxLayout="column" fxLayoutAlign="space-around stretch"  >
-  <mat-card class="cont" [ngStyle]="{ 'border-color': this.macroMultiInsert && !this.macroMultiInsert.checked ? 'grey' : ''}">
+  <mat-card class="cont" [ngStyle]="{ 'border-color': this.macroMultiInsert && !this.macroMultiInsert.checked ? 'grey' : ''}" [ngClass]="{'cont panel': multiInsert }">
     <div class="edit" *ngIf="isUpdateable && detail" >
       <button mat-mini-fab matTooltip="Elimina" color="warn" style="margin-right:1vw" (click)="deleteMacro()"><mat-icon >delete_forever</mat-icon></button>
       <button mat-mini-fab matTooltip="Modifica" (click)="edit=true; detail=false" *ngIf="!edit"><mat-icon >edit</mat-icon></button>
@@ -30,6 +30,11 @@
             <input matInput [formControl]="macroFullForm.controls['titolo']" [readonly]="!macroMultiInsert?.checked" (keyup)="editMultiInsert()">
           </mat-form-field>
 
+          <mat-form-field  >
+            <mat-label>Delay MacroUO</mat-label>
+            <input matInput [formControl]="macroFullForm.controls['delay']" type="number" minlength="0" min="0" (change)="editMultiInsert($event)" [readonly]="!macroMultiInsert?.checked" >
+          </mat-form-field>
+
           <textarea
           appTextareaAutosize
           placeholder="Descrizione..."
@@ -44,6 +49,9 @@
                 {{tipologia}}
               </mat-option>
             </mat-select>
+            <mat-error *ngIf="macroMultiInsert!.macro.tipologia==''">
+              Seleziona una tipologia
+            </mat-error>
           </mat-form-field>
         </div>
 
@@ -69,7 +77,7 @@
           </mat-form-field>
 
           <mat-form-field  >
-            <mat-label>Delay Macro UO</mat-label>
+            <mat-label>Delay MacroUO</mat-label>
             <input matInput [formControl]="macroFullForm.controls['delay']" type="number" minlength="0" min="0" [readonly]="!edit && detail" >
           </mat-form-field>
 
