@@ -56,7 +56,9 @@ export class MacroInsertEditComponent implements OnInit{
     delay: new FormControl('0', Validators.minLength(0)),
 
   });
-
+  ngOnInit(): void {
+    this.inizializza();
+  }
   ngOnChanges(changes: SimpleChanges) {
   if(this.macroMultiInsert)
     this.setMultiInsert();
@@ -67,9 +69,9 @@ setMultiInsert()
   this.multiInsert=true;
   this.macroFullForm.get('titolo')?.setValue(this.macroMultiInsert!.macro.macro.title);
   this.macroFullForm.get('descrizione')?.setValue(this.macroMultiInsert!.macro.descrizione);
-  const tipologia= this.macroFullForm.get('tipologia')?.setValue(this.macroMultiInsert!.macro.tipologia);
-
-
+  const tipologia= this.macroFullForm.get('tipologia')?.value;
+  if(tipologia=='')
+    this.macroFullForm.get('tipologia')?.setValue('');
 
   if(this.macroMultiInsert?.checked==true)
     this.edit=true;
@@ -87,25 +89,20 @@ editMultiInsert()
   if(titolo)
     this.macroMultiInsert!.macro.macro.title = titolo;
 
-  const tipologia= this.macroFullForm.get('tipologia')?.value;
-  if(tipologia)
-    this.macroMultiInsert!.macro.macro.tipologia = tipologia;
-
   this.editMacro.emit(this.macroMultiInsert);
 }
 
-  ngOnInit(): void {
-    this.inizializza();
-  }
+
 
   inizializza()
   {
     this.tipologieMacro= this.service.GetTipologieMacro();
     if(!this.macroMultiInsert)
     {
-      this.checkUser();
       this.getMacroSettings();
       this.getMacro();
+      if(this.insert)
+        this.checkUser();
 
     }
   }
@@ -120,6 +117,7 @@ editMultiInsert()
           const ref2=this.service.getMacroSettingsUser(this.data.id).subscribe(macroSettings=>{
             if(macroSettings.length>0)
             {
+              this.checkUser();
               this.setAllValue(macro[0],macroSettings);
               ref2.unsubscribe();
             }
@@ -140,11 +138,12 @@ editMultiInsert()
     this.macroFullForm.get('tipologia')?.setValue(macro.tipologia);
     this.macroFullForm.get('delay')?.setValue(macro.macro.delay.toString());
     this.detailMacroSettings=macroSettings.sort(function(a, b) { return a.index > b.index ? 1 : -1});
+
   }
 
   compareSettings(a:MacroSettings, b:MacroSettingsFront)
   {
-    return a.comando==b.comando;
+    return a.comando===b.comando;
   }
 
   compareSottoSettings(a:string, b:string)
@@ -179,7 +178,6 @@ editMultiInsert()
 
           if(this.insert && this.utenteLoggato!=null)
             this.macroFull.macro.author=this.utenteLoggato;
-          rif?.unsubscribe();
         }
         rif.unsubscribe();
       });

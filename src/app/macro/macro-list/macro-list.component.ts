@@ -172,7 +172,6 @@ async openMultiInsert(event: any)
       alert("Inserisci il file macros.xml! ("+dir+")");
       return;
     }
-
     const ref=this.utils.getAllMacrosByXml(await file.text()).subscribe(array=>{
       if(array.length>0)
       {
@@ -186,6 +185,7 @@ async openMultiInsert(event: any)
       else
         alert("Nessuna macro presente nel file macros.xml!");
       });
+      event.target.value = null;
 
 }
 

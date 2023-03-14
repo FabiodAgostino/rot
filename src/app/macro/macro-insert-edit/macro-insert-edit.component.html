@@ -3,7 +3,7 @@
 
 
 <div fxLayout="column" fxLayoutAlign="space-around stretch"  >
-  <mat-card class="cont" >
+  <mat-card class="cont" [ngStyle]="{ 'border-color': this.macroMultiInsert && !this.macroMultiInsert.checked ? 'grey' : ''}">
     <div class="edit" *ngIf="isUpdateable && detail" >
       <button mat-mini-fab matTooltip="Elimina" color="warn" style="margin-right:1vw" (click)="deleteMacro()"><mat-icon >delete_forever</mat-icon></button>
       <button mat-mini-fab matTooltip="Modifica" (click)="edit=true; detail=false" *ngIf="!edit"><mat-icon >edit</mat-icon></button>
@@ -39,7 +39,7 @@
 
           <mat-form-field appearance="fill"   style="padding-top:2vh" >
             <mat-label>Tipologia</mat-label>
-            <mat-select [ngModel]="this.macroMultiInsert!.macro.tipologia" [compareWith]="compareSettings">
+            <mat-select [(ngModel)]="this.macroMultiInsert!.macro.tipologia">
               <mat-option *ngFor="let tipologia of tipologieMacro" [value]="tipologia" [disabled]="!macroMultiInsert?.checked" (click)="editMultiInsert()">
                 {{tipologia}}
               </mat-option>
@@ -169,7 +169,7 @@
           </div>
         <button mat-raised-button color="accent" style="width:100%" [disabled]="disabeldEditButton()" (click)="saveMacro()" *ngIf="edit && !multiInsert">Modifica</button>
 
-        <div class="customTextArea" *ngIf="detail && !edit && !insert" style="text-align: left;">
+        <div class="customTextArea" *ngIf="detail && !edit && !insert && !multiInsert" style="text-align: left;">
           <ul *ngFor="let m of detailMacroSettings;">
             <li *ngIf="m.function!=''"><b>{{m.comando}}:</b> {{m.function}}</li>
             <li *ngIf="m.function==''"><b>{{m.comando}}</b></li>
