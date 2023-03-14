@@ -196,8 +196,8 @@ async openMultiInsert(event: any)
       {
       this.dialog.open(MacroMultiInsertComponent, {
         data:{macros: array},
-        width: this.utils.isSmartphone() ? '100vw' : '50vw',
-        height: this.utils.isSmartphone() ? '90vh' : '70vh',
+        width: this.utils.isSmartphone() ? '100vw' : '45vw',
+        height: this.utils.isSmartphone() ? '90vh' : '74vh',
       });
       ref.unsubscribe();
       }

@@ -16,6 +16,13 @@
   </div>
 </div>
 <app-macro-insert-edit [multiInsert]="true" [macroMultiInsert]="macro" (editMacro)="setMacro($event)" class="panel"></app-macro-insert-edit>
-<div style="width:100%; text-align:center">
-<button mat-raised-button color="primary" (click)="saveAll()" [disabled]="checkAllMacro()">Salva</button>
+<div fxLayout="row" fxLayoutAlign="space-between center" >
+<h6>*Per salvare le macro selezionate ricorda di valorizzare il campo "tipologia" <br/>
+*Per rendere la tua macro facilmente ricercabile dalle un titolo semplice, esplicativo e breve</h6>
+
+  <div >
+  <button mat-raised-button color="primary" (click)="saveAll()" [disabled]="checkAllMacro()">Salva</button>
+  </div>
 </div>
+
+
