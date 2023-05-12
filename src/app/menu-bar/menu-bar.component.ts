@@ -8,6 +8,7 @@ import { Classe } from '../models/Pg';
 import { User } from '../models/User';
 import { SchedaPersonaggioService } from '../service/scheda-personaggio.service';
 import { UserService } from '../service/user.service';
+import { Router } from '@angular/router';
 
 
 @Component({
@@ -17,7 +18,7 @@ import { UserService } from '../service/user.service';
 })
 export class MenuBarComponent implements OnInit {
 
-  constructor(public service: SchedaPersonaggioService, public UserService: UserService, public dialog: MatDialog){}
+  constructor(public service: SchedaPersonaggioService, public UserService: UserService, public dialog: MatDialog, public router: Router){}
   iFrameEmitter: Subject<string> = new Subject<string>();
   boolHome= false;
   class = new Array<Classe>();
@@ -37,7 +38,7 @@ export class MenuBarComponent implements OnInit {
 
   openLogin()
   {
-    this.dialog.open(LoginComponent);
+    window.location.href='https://discord.com/api/oauth2/authorize?client_id=1106594210242625579&redirect_uri=https%3A%2F%2Ffabiodagostino.github.io%2Frot%2F&response_type=code&scope=identify%20connections%20guilds';
   }
 
   isLoggedIn()

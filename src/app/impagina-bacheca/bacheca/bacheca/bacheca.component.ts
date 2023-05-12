@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { UserService } from 'src/app/service/user.service';
 import { Utils } from 'src/app/utils/utility';
 
 @Component({
@@ -11,14 +12,13 @@ export class BachecaComponent implements OnInit {
   bacheche = new Array<Array<string>>();
   isSmartphone: boolean = false;
 
-  constructor(public utils: Utils)
+  constructor(public utils: Utils, private service: UserService)
   {
 
   }
 
   ngOnInit(): void {
     this.isSmartphone=this.utils.isSmartphone();
-
   }
 
 

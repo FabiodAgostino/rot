@@ -63,6 +63,12 @@ import { MacroListComponent } from './macro/macro-list/macro-list.component';
 import { MacroInsertEditComponent } from './macro/macro-insert-edit/macro-insert-edit.component';
 import {MatTableModule} from '@angular/material/table';
 import { MacroMultiInsertComponent } from './macro/macro-multi-insert/macro-multi-insert.component';
+import { OAuthModule, OAuthStorage } from 'angular-oauth2-oidc';
+import { CookieService } from 'ngx-cookie-service';
+import { HttpClient, HttpClientModule } from '@angular/common/http';
+
+
+
 
 
 
@@ -132,10 +138,20 @@ import { MacroMultiInsertComponent } from './macro/macro-multi-insert/macro-mult
     MatFormFieldModule,
     MatPaginatorModule,
     MatSortModule,
-    MatTableModule
+    MatTableModule,
+    OAuthModule.forRoot({
+      resourceServer: {
+        allowedUrls: ['https://discord.com/api'],
+        sendAccessToken: true,
+      },
+    }),
+    HttpClientModule,
 
   ],
-  providers: [SafePipe, MatDialog],
+  providers: [SafePipe, MatDialog,HttpClient,
+    CookieService,
+    { provide: OAuthStorage, useValue: localStorage },
+  ],
   bootstrap: [AppComponent],
   schemas: [
     CUSTOM_ELEMENTS_SCHEMA,

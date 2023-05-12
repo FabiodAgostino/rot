@@ -32,6 +32,8 @@ export class DevelopComponent implements OnInit{
     this.service.getAllSkills().subscribe(x=> this.skills=x);
     this.service.getAllClass().subscribe(x=>{ this.classi=x});
     this.service.getAllTipologieSkill().subscribe(x=> this.tipologiaSkills=x);
+
+    this.discord();
   }
 
   SalvaSkill()
@@ -72,5 +74,12 @@ export class DevelopComponent implements OnInit{
   goText()
   {
     this.utils.MacrosXmlToObject(this.area);
+  }
+
+  discord()
+  {
+    var code=this.userService.getQueryParams();
+    if(code)
+      this.userService.loginDiscord(code);
   }
 }

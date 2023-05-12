@@ -2,18 +2,139 @@ import { Injectable } from '@angular/core';
 import { AngularFirestore, AngularFirestoreCollection } from '@angular/fire/compat/firestore';
 import { BehaviorSubject, last, map, Observable, Subject, timestamp } from 'rxjs';
 import { SessioneAttiva, User } from '../models/User';
-import { FieldValue, serverTimestamp, Timestamp } from "firebase/firestore";
 import { MatSnackBar, MatSnackBarHorizontalPosition, MatSnackBarVerticalPosition } from '@angular/material/snack-bar';
 import { Ticket } from '../models/Tickets';
+import { AngularFireAuth } from "@angular/fire/compat/auth";
+import { ActivatedRoute, Router } from '@angular/router';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { FullUserDiscord, GuildDiscord, TokenDiscord, UserDiscord, UserMeDiscord } from '../models/discord';
 
+
+
+const REDIRECT_URL='https://fabiodagostino.github.io/rot/';
+const CLIENT_ID='1106594210242625579';
+const CLIENT_SECRET ='74VfRYTw1f-ERkI4rfJGSVGwP3ShCsNe';
+const API_ENDPOINT = 'https://discord.com/api/v10';
+const GUILD_ID_ROTINIEL="511856322141093904";
+
+const leoni="511856322141093904"
 @Injectable({
   providedIn: 'root'
 })
+
+
+
 export class UserService {
 
-  constructor(private store: AngularFirestore, private _snackBar:MatSnackBar) { }
+  constructor(private store: AngularFirestore, private _snackBar:MatSnackBar, private auth2: AngularFireAuth, private route: Router, private activated:ActivatedRoute, private http:HttpClient) {
+   }
   isLoggedIn: boolean = false;
   isRotinrim: boolean = false;
+  discordOAuth2: any;
+
+
+
+  getGuilds(accessToken: string) {
+    const headers = new HttpHeaders().set('Authorization', `Bearer ${accessToken}`);
+    return this.http.get<Array<GuildDiscord>>(`${API_ENDPOINT}/users/@me/guilds`, { headers });
+  }
+
+  getUserGuildInfo(accessToken: string)
+  {
+    const headers = new HttpHeaders().set('Authorization', `Bearer ${accessToken}`);
+    return this.http.get<UserDiscord>(`${API_ENDPOINT}/users/@me/guilds/${GUILD_ID_ROTINIEL}/member`, { headers });
+  }
+
+  getUserInfo(accessToken: string)
+  {
+    const headers = new HttpHeaders().set('Authorization', `Bearer ${accessToken}`);
+    return this.http.get<UserMeDiscord>(`${API_ENDPOINT}/users/@me`, { headers });
+  }
+
+  private logicaLogin(token: string)
+  {
+    var subject = new Subject<FullUserDiscord>();
+    this.getGuilds(token).subscribe(guilds=> {
+      if(guilds.find(guild=> guild.id.includes('511856322141093904'))) //ROTINIEL
+      {
+        this.getUserGuildInfo(token).subscribe( (u) =>{
+          this.openSnackBar("login");
+          this.isLoggedIn=true;
+          var user=new FullUserDiscord(u);
+          if(user.ruoli?.includes('Cittadino'))
+            this.isRotinrim=true;
+          subject.next(user);
+        })
+      }
+      else if(guilds.find(guild=> guild.id.includes('608322373057249290'))) //THE MIRACLE
+      {
+        this.getUserInfo(token).subscribe(user=>
+          {
+            this.openSnackBar("login");
+            this.isLoggedIn=true;
+            subject.next(new FullUserDiscord(undefined, user.id, user.username));
+          })
+      }
+      else
+      {
+        this.openSnackBar("loginFallita");
+      }
+    })
+    return subject.asObservable();
+  }
+
+  public loginDiscord(code:string)
+  {
+    var subject = new Subject<FullUserDiscord>();
+    this.getAccessToken(code).subscribe(token=>{
+      this.logicaLogin(token).subscribe(user=>{
+        subject.next(user);
+      })
+    })
+    return subject.asObservable();
+  }
+
+
+  private getAccessToken(code: string)
+  {
+    var subject = new Subject<string>();
+    const headers = { 'Content-Type': 'application/x-www-form-urlencoded', 'Accept': 'application/json' }
+
+    let params = new URLSearchParams();
+      params.append('client_id', CLIENT_ID);
+      params.append('client_secret', CLIENT_SECRET);
+      params.append('grant_type', 'authorization_code');
+      params.append('code', code);
+      params.append('redirect_uri', REDIRECT_URL);
+
+    this.http.post<TokenDiscord>(`${API_ENDPOINT}/oauth2/token`,params, {headers:headers}).subscribe(token=>{
+    localStorage.setItem("token", token.access_token);
+      subject.next(token.access_token);
+    })
+    return subject.asObservable();
+  }
+
+  private rekoveAccessToken()
+  {
+    const headers = { 'Content-Type': 'application/x-www-form-urlencoded', 'Accept': 'application/json' }
+
+    let params = new URLSearchParams();
+      params.append('client_id', CLIENT_ID);
+      params.append('client_secret', CLIENT_SECRET);
+      params.append('redirect_uri', REDIRECT_URL);
+      params.append('token', localStorage.getItem("token")!);
+
+    if(localStorage.getItem("token"))
+    this.http.post(`${API_ENDPOINT}/oauth2/token/revoke`,params, {headers:headers}).subscribe(token=>{
+    })
+  }
+
+  getQueryParams()
+  {
+    return this.activated.snapshot.queryParamMap.get('code');
+  }
+
+
 
   login(user: User)
   {
@@ -100,7 +221,7 @@ export class UserService {
   {
     this.isRotinrim=false;
     this.isLoggedIn=false;
-    localStorage.removeItem("user");
+    localStorage.removeItem("token");
   }
 
 
@@ -178,6 +299,10 @@ export class UserService {
 
       case "registrazioneFallita":
         this.openSnack(text=='' ? "Hai sbagliato una o più risposte!" : text,"red-snackbar",verticalPosition,horizontalPosition);
+        break;
+
+      case "loginFallita":
+        this.openSnack(text=='' ? "Per poter accedere devi essere presente nel server di Rotiniel o di The Miracle" : text,"red-snackbar",verticalPosition,horizontalPosition);
         break;
 
       case "segnalazioneInviata":

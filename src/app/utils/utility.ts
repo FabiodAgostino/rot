@@ -6,6 +6,7 @@ import { NgxXml2jsonService } from 'ngx-xml2json';
 import { MacroService } from "../service/macro.service";
 import { MacroFullFromXml, MacroSettings, MacroSettingsFront } from "../models/Macro";
 import { Subject } from "rxjs";
+import { roleCostants } from "./constants";
 
 const SUBCODE = [{"macro":"NW","subcode":"1"},{"macro":"N","subcode":"2"},{"macro":"NE","subcode":"3"},{"macro":"E","subcode":"4"},{"macro":"SE","subcode":"5"},{"macro":"S","subcode":"6"},{"macro":"SW","subcode":"7"},{"macro":"W","subcode":"8"},{"macro":"Anatomia","subcode":"21"},{"macro":"Zoologia","subcode":"22"},{"macro":"Addomesticare","subcode":"23"},{"macro":"OsservareArmi","subcode":"24"},{"macro":"Sbirciare","subcode":"25"},{"macro":"AdorareTM","subcode":"26"},{"macro":"ScovareNascondigli","subcode":"27"},
 {"macro":"Infuriarsi","subcode":"28"},{"macro":"PercezioneMagica","subcode":"29"},{"macro":"AnalizzareCorpi","subcode":"30"},{"macro":"Nascondersi","subcode":"31"},{"macro":"GodersiTM","subcode":"32"},{"macro":"Religione","subcode":"33"},
@@ -46,6 +47,8 @@ export class Utils {
   capitalizeFirstLetter(string: string) {
     return string.charAt(0).toUpperCase() + string.slice(1);
 }
+
+
 
   MacrosXmlToObject(xml: string)
   {
@@ -145,6 +148,24 @@ export class ActionXml
     this.subcode=subcode;
     this.subMenuType=subMenuType;
     this.text = text ? text : '';
+  }
+}
+
+export class RolesDiscord
+{
+  static getRuoliFromRoles(roles: string[])
+  {
+    var ruoli = new Array<string>();
+    roles.forEach(x=>{
+      switch(x)
+      {
+        case roleCostants.cittadino: ruoli.push('Cittadino'); break;
+        case roleCostants.regnante: ruoli.push('Regnante'); break;
+        case roleCostants.valinrim: ruoli.push('Valinrim'); break;
+        case roleCostants.zingaro: ruoli.push('Ceorita'); break;
+      }
+    })
+    return ruoli;
   }
 }
 

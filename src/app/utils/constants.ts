@@ -8,3 +8,15 @@ export const MoltiplicatoreStat = {
   guerriero:1.68
 
 } as const;
+
+
+
+
+
+export const roleCostants = {
+  regnante:'511948559902572554',
+  cittadino:'511946618682081281',
+  valinrim:'710160889990348820',
+  zingaro:'1079385953765949480'
+} as const;
+
