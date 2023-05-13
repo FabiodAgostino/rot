@@ -14,11 +14,11 @@
 <div fxFlex="96">
   Rotiniel Tools
 </div>
-<button mat-icon-button  fxFlex="4" matTooltip="Login" (click)="openLogin()" *ngIf="!isLoggedIn()">
+<button mat-icon-button  fxFlex="4" matTooltip="Login" (click)="openLogin()" *ngIf="!isLoggedIn">
   <span class="material-icons">discord</span>
 </button>
 
-<button mat-icon-button  fxFlex="4" matTooltip="Logout" (click)="logOut()" *ngIf="isLoggedIn()">
+<button mat-icon-button  fxFlex="4" matTooltip="Logout" (click)="logOut()" *ngIf="isLoggedIn">
   <span class="material-symbols-outlined">
     person_off
     </span>
@@ -38,13 +38,20 @@
   <a mat-raised-button  routerLink="/" (click)="goChild('https://alatarl.github.io/ElficoTM/'); sidenav.toggle()"  class="but">Dizionario elfico</a>
   <a mat-raised-button  routerLink="/schedaPersonaggio" (click)="sidenav.toggle(); boolHome=false;"  class="but">Scheda personaggio</a>
   <a mat-raised-button  routerLink="/bacheca" (click)="sidenav.toggle(); boolHome=false;"  class="but">Paginazione Bacheche</a>
-  <a mat-raised-button  routerLink="/macro" (click)="sidenav.toggle(); boolHome=false;"  class="but" *ngIf="UserService.isRotinrim">Macro Utili</a>
+  <a mat-raised-button  routerLink="/macro" (click)="sidenav.toggle(); boolHome=false;"  class="but">Macro Utili</a>
 
 
 
 
     <mat-divider></mat-divider>
-    <button mat-raised-button class="menu-button" routerLink="/help" (click)="sidenav.toggle(); boolHome=false;" *ngIf="isLoggedIn()">
+
+    <button mat-raised-button class="menu-button" routerLink="/news" (click)="sidenav.toggle(); boolHome=false;">
+      <mat-icon>newspaper</mat-icon>
+      <span>News</span>
+    </button>
+
+
+    <button mat-raised-button class="menu-button" routerLink="/help" (click)="sidenav.toggle(); boolHome=false;" *ngIf="isLoggedIn">
       <mat-icon>help</mat-icon>
       <span>Help</span>
     </button>
@@ -53,6 +60,7 @@
       <mat-icon>info</mat-icon>
       <span>Credits</span>
     </button>
+
   </mat-sidenav>
   <app-home [events]="iFrameEmitter.asObservable()" *ngIf="boolHome"></app-home>
   <router-outlet *ngIf="!boolHome"></router-outlet>

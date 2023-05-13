@@ -11,9 +11,9 @@
   <mat-card-content >
     <form [formGroup]="firstFormGroup" fxFlex fxLayout="column" fxLayoutAlign="center" >
 
-        <mat-form-field appearance="fill"  *ngIf="!isLoggedIn()">
+        <mat-form-field appearance="fill"  *ngIf="!isLoggedIn">
             <mat-label>User</mat-label>
-            <input matInput type="text" formControlName="user">
+            <input matInput type="text" formControlName="user" readonly="true">
         </mat-form-field>
 
         <mat-form-field appearance="fill" >
@@ -48,7 +48,7 @@
 
           <button mat-raised-button color="primary" (click)="salva()"
         [style.visibility]="(firstFormGroup.get('tool')?.valid || firstFormGroup.get('tipologia')?.value===tipologiaTicket[1]) ? 'visible' : 'hidden'"
-        [disabled]="firstFormGroup.get('ticket')?.invalid"
+        [disabled]="firstFormGroup.get('ticket')?.invalid || firstFormGroup.get('user')?.invalid"
         >Invia</button>
     </form>
 

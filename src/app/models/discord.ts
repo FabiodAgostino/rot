@@ -6,6 +6,7 @@ export class TokenDiscord {
   refresh_token: string;
   scope: string;
   token_type: string;
+  expires: Date = new Date();
 
   constructor(
     token: string,
@@ -88,7 +89,7 @@ export class UserDiscord {
 
 export class FullUserDiscord
 {
-  constructor(user?: UserDiscord, id?:string, username?:string)
+  constructor(token: TokenDiscord,user?: UserDiscord, id?:string, username?:string)
   {
     if(user)
     {
@@ -101,13 +102,19 @@ export class FullUserDiscord
     {
       this.id=id;
       this.username=username;
+      this.ruoli = [];
     }
+    this.token=token;
 
   }
   id?: string;
   username?: string;
   ruoli?: string[];
   roles?: string[];
+  interno: boolean=false;
+  token: TokenDiscord;
+  lastExpiresToken: any;
+  serverAutenticazione?: string;
 }
 
 export class PartialUserDiscord {

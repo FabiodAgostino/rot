@@ -3,14 +3,13 @@ import { AngularFirestore, AngularFirestoreCollection, AngularFirestoreModule } 
 import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import {  interval, Subject } from 'rxjs';
-import { LoginComponent } from '../user/login/login.component';
 import { Classe } from '../models/Pg';
-import { User } from '../models/User';
 import { SchedaPersonaggioService } from '../service/scheda-personaggio.service';
 import { UserService } from '../service/user.service';
 import { Router } from '@angular/router';
 
-
+const LOGIN_DISCORD_LOCALE='https://discord.com/api/oauth2/authorize?client_id=1106594210242625579&redirect_uri=http%3A%2F%2Flocalhost%3A4200%2F&response_type=code&scope=identify%20connections%20guilds'
+const LOGIN_DISCORD ='https://discord.com/api/oauth2/authorize?client_id=1106594210242625579&redirect_uri=https%3A%2F%2Ffabiodagostino.github.io%2Frot%2F&response_type=code&scope=identify%20connections%20guilds'
 @Component({
   selector: 'app-menu-bar',
   templateUrl: './menu-bar.component.html',
@@ -23,9 +22,13 @@ export class MenuBarComponent implements OnInit {
   boolHome= false;
   class = new Array<Classe>();
   develop= false;
+  isLoggedIn: boolean=false;
    ngOnInit() {
     const config = require("../../environments/version.json");
     this.develop=config.develop;
+    this.UserService.isLoggedInObs.subscribe(x=>{
+      this.isLoggedIn=x;
+    });
   }
 
   goChild(url: string)
@@ -38,12 +41,8 @@ export class MenuBarComponent implements OnInit {
 
   openLogin()
   {
-    window.location.href='https://discord.com/api/oauth2/authorize?client_id=1106594210242625579&redirect_uri=https%3A%2F%2Ffabiodagostino.github.io%2Frot%2F&response_type=code&scope=identify%20connections%20guilds';
-  }
-
-  isLoggedIn()
-  {
-    return this.UserService.isLoggedIn;
+    localStorage.setItem("lastUrl",this.router.url);
+    window.location.href= this.develop ? LOGIN_DISCORD_LOCALE : LOGIN_DISCORD;
   }
 
   logOut()

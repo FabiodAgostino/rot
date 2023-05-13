@@ -10,6 +10,7 @@ import { BachecaComponent } from './impagina-bacheca/bacheca/bacheca/bacheca.com
 import { MacroComponent } from './macro/macro/macro.component';
 import { FinishWizardComponent } from './scheda-pg/finish-wizard/finish-wizard.component';
 import { SchedaPersonaggioComponent } from './scheda-pg/scheda-personaggio/scheda-personaggio.component';
+import { NewsComponent } from './news/news.component';
 
 const routes: Routes = [
 
@@ -20,6 +21,7 @@ const routes: Routes = [
   {path: "schedaPersonaggio",  component: SchedaPersonaggioComponent},
   {path: "bacheca",  component: BachecaComponent},
   {path: "macro",  component: MacroComponent},
+  {path: "news",  component: NewsComponent},
   {path: "",  component: HomeViewComponent},
 
 

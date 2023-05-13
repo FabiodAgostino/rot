@@ -7,10 +7,11 @@ import { MatTableDataSource } from '@angular/material/table';
 import { Macro, MacroFull } from 'src/app/models/Macro';
 import { MacroService } from 'src/app/service/macro.service';
 import { UserService } from 'src/app/service/user.service';
-import { LoginComponent } from 'src/app/user/login/login.component';
 import { Utils } from 'src/app/utils/utility';
 import { MacroInsertEditComponent } from '../macro-insert-edit/macro-insert-edit.component';
 import { MacroMultiInsertComponent } from '../macro-multi-insert/macro-multi-insert.component';
+import { Subject } from 'rxjs';
+import { ActivatedRoute } from '@angular/router';
 
 
 @Component({
@@ -35,29 +36,41 @@ export class MacroListComponent implements OnInit {
   @ViewChild(MatSort) sort!: MatSort;
   sortedData = new Array<Macro>();
   tipologieMacro = new Array<String>();
+  isLoggedIn:boolean=false;
 
-  constructor(public utils:Utils, public service: MacroService, public dialog: MatDialog, private userService:UserService){
-    this.sortedData = this.dataSource.data.slice();
+  constructor(public utils:Utils, public service: MacroService, public dialog: MatDialog, private userService:UserService, private activated:ActivatedRoute){
   }
 
   ngOnInit(): void {
-    this.tipologieMacro=this.service.GetTipologieMacro().slice();
     this.getMacros();
-    this.tipologieMacro.push('Tutte');
-    this.macroFullForm.get('tipologia')?.setValue('Tutte');
-    this.checkUser();
+    this.userService.isLoggedInObs.subscribe(x=>{
+      this.isLoggedIn=x;
+      this.checkUser();
+      this.getLink();
+    })
+      this.tipologieMacro=this.service.GetTipologieMacro().slice();
+      this.tipologieMacro.push('Tutte');
+      this.macroFullForm.get('tipologia')?.setValue('Tutte');
   }
 
-getMacros()
-{
-      this.service.getMacros().subscribe(x=>{this.dataSource = new MatTableDataSource<Macro>(x);this.sortedData = this.dataSource.data.slice();});
-}
-
-  ngAfterViewInit() {
-
-    this.dataSource.paginator = this.paginator;
-    this.dataSource.sort = this.sort;
+  getLink()
+  {
+    const guid=this.activated.snapshot.queryParamMap.get('link');
+    if(guid)
+      this.detailMacro(guid);
   }
+
+
+  getMacros()
+  {
+        this.service.getMacros().subscribe(x=>{
+          this.dataSource = new MatTableDataSource<Macro>(x);
+          this.sortedData = this.dataSource.data.slice();
+          this.dataSource.paginator = this.paginator;
+          this.dataSource.sort = this.sort;
+        });
+  }
+
 
 
   applyFilter(x:any, y:string)
@@ -109,7 +122,7 @@ getDisplayedColumns()
   return this.displayedColumns = ['autore','tipologia','title','like'];
 }
 
-detailMacro(id:number)
+detailMacro(id:any)
 {
   const ref = this.dialogInsertEdit(id, false);
 }
@@ -117,46 +130,45 @@ detailMacro(id:number)
 
 insertMacro()
 {
+  if(!this.user)
+  {
+    this.userService.openSnackBar("registrazioneFallita","bottom","center","Effettua prima la login");
+    return;
+  }
+
+
   const ref = this.dialogInsertEdit(-1, true);
   ref.afterClosed().subscribe(x=>{
     this.getMacros();
   })
 }
 
-dialogInsertEdit(id:number = -1, insert=false)
+dialogInsertEdit(id:any = -1, insert=false)
 {
-  return this.dialog.open(MacroInsertEditComponent, {
-    data: {id: id, insert:insert},
-    width: this.utils.isSmartphone() ? '100vw' : '50vw',
-    height: this.utils.isSmartphone() ? '90vh' : '70vh',
-  });
+    return this.dialog.open(MacroInsertEditComponent, {
+      data: {id: id, insert:insert},
+      width: this.utils.isSmartphone() ? '100vw' : '50vw',
+      height: this.utils.isSmartphone() ? '90vh' : '70vh',
+    });
 }
 
 
 checkUser()
   {
-    const md5=localStorage.getItem("user")?.toString();
-    if(md5)
-    {
-      const rif=this.userService.checkUserMd5(md5).subscribe(user=> {
-        if(user.length>0)
-        {
-          this.user = user[0].nomePg;
-          rif?.unsubscribe();
-        }
-      });
-    }
+    const user= this.userService.userLoggato;
+    if(user)
+      this.user = user.username!;
 
   }
 
 checkThumb(row: any)
 {
-  return this.user!='' && this.user!=row.author && !row.utenti.includes(this.user);
+  return this.isLoggedIn && this.user!='' && this.user!=row.author && !row.utenti.includes(this.user);
 }
 
 checkIfVote(row: any)
 {
-  return row.utenti.includes(this.user);
+  return row.utenti.includes(this.user) && this.isLoggedIn;
 }
 
 likeIt(guid: string)
@@ -169,13 +181,6 @@ fileInput()
   if(this.user=='' || this.user==null)
     {
       this.userService.openSnackBar("registrazioneFallita","bottom","center","Effettua prima la login");
-      setTimeout(() => {
-          const rif=this.dialog.open(LoginComponent);
-          rif.afterClosed().subscribe(x=>{
-            if(x)
-              document.getElementById("fileInput")?.click();
-          })
-      }, 500);
       return;
     }
     document.getElementById("fileInput")?.click();

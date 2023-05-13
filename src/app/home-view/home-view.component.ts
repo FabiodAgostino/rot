@@ -33,7 +33,11 @@ export class HomeViewComponent implements OnInit {
         },
         queryParamsHandling: 'merge'
       })
+      const lastUrl=localStorage.getItem("lastUrl");
+        if(lastUrl)
+          this.router.navigate([lastUrl]);
       this.userService.loginDiscord(code).subscribe(user=>{
+
       });
     }
 

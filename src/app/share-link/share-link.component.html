@@ -1,0 +1,16 @@
+<div class="modal-container">
+  <h2 class="modal-title">Link di condivisione</h2>
+  <div class="modal-content">
+    <p class="link-label">Il link di condivisione è:</p>
+    <div class="link-container">
+      <input type="text" [value]="shareLink" readonly class="link-input">
+      <button mat-icon-button class="copy-button" [matTooltip]="copyTooltipText" [class.copy]="showCopyIcon" [class.done]="!showCopyIcon">
+        <mat-icon *ngIf="!showCopyIcon" [@copyIconTransition]="'copy'">content_copy</mat-icon>
+        <mat-icon *ngIf="showCopyIcon" [@copyIconTransition]="'done'" class="done-icon">done</mat-icon>
+      </button>
+    </div>
+  </div>
+  <div class="modal-actions">
+    <button mat-raised-button color="primary" (click)="closeModal()">Chiudi</button>
+  </div>
+</div>

@@ -44,6 +44,23 @@ export class Utils {
     };
   }
 
+  compareDates(targetDate:any) {
+    const currentDate= new Date(Date.now());
+    const millisecondi = Math.floor(targetDate.nanoseconds / 1000000);
+    const millisecondiTotali = (targetDate.seconds * 1000) + millisecondi;
+
+    const dataFinale = new Date(millisecondiTotali);
+
+    if (currentDate > dataFinale)
+      return true;
+    return false;
+  }
+
+  addMillisecondsToCurrentDate(milliseconds:number) {
+    const targetDate = new Date(Date.now() + milliseconds);
+    return targetDate;
+  }
+
   capitalizeFirstLetter(string: string) {
     return string.charAt(0).toUpperCase() + string.slice(1);
 }
@@ -163,6 +180,7 @@ export class RolesDiscord
         case roleCostants.regnante: ruoli.push('Regnante'); break;
         case roleCostants.valinrim: ruoli.push('Valinrim'); break;
         case roleCostants.zingaro: ruoli.push('Ceorita'); break;
+        case roleCostants.senatore: ruoli.push('Regnante'); break;
       }
     })
     return ruoli;

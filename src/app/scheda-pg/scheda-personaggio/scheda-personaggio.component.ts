@@ -210,21 +210,21 @@ export class SchedaPersonaggioComponent implements OnInit {
   savePg()
   {
     let guid=  crypto.randomUUID();
-    if(!this.fromTemplate)
+    var c=confirm("Vuoi salvare la scheda pg in modo da poterla recuperare con il codice guid o utilizzarla come template di stat-skills?");
+    if(c)
     {
-    var c=confirm("Vuoi salvare la scheda pg come template stat-skills di nuove schede?");
+      this.service.AddPg(this.schedaPg,guid, c);
 
-    this.service.AddPg(this.schedaPg,guid, c);
+      this.schedaPg.skills.forEach(x=>{
+        this.service.addSkillsPg(x,guid);
+      })
+    }
 
-    this.schedaPg.skills.forEach(x=>{
-      this.service.addSkillsPg(x,guid);
-    })
-  }
-  else
-  {
-    this.checkSalva();
-    this.service.updateSchedaPg(this.schedaPg.guid, this.schedaPg.utilizzatoNVolte+1);
-  }
+    if(this.fromTemplate)
+    {
+      this.checkSalva();
+      this.service.updateSchedaPg(this.schedaPg.guid, this.schedaPg.utilizzatoNVolte+1);
+    }
 
       this.openFinishWizard(guid);
       this.reset();
@@ -296,10 +296,7 @@ export class SchedaPersonaggioComponent implements OnInit {
     return this.schedaPg.classe.nome==='Chierico';
   }
 
-  isLogged()
-  {
-    return this.userService.isLoggedIn;
-  }
+
 
   isRotinrim()
   {

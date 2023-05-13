@@ -1,5 +1,5 @@
 import { Component, NO_ERRORS_SCHEMA, OnInit } from '@angular/core';
-import { interval } from 'rxjs';
+import { Observable, interval } from 'rxjs';
 import { UserService } from './service/user.service';
 
 @Component({
@@ -14,13 +14,11 @@ export class AppComponent implements OnInit {
   {
 
   }
-  ngOnInit(): void {
-    // var user=localStorage.getItem("user")?.toString();
-    // this.userService.isLoggedIn = user===undefined ? false : true;
-    // this.userService.Rotinrim();
-    // const source = interval(150000);
-    // source.subscribe(val => this.userService.checkSession());
+
+    ngOnInit(): void {
+
   }
 }
+
 
 

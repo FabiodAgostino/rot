@@ -1,12 +1,13 @@
-import { Component, ElementRef, EventEmitter, Inject, Input, OnInit, Output, SimpleChanges, ViewChild } from '@angular/core';
+import { Component, ElementRef, EventEmitter, Inject, Input, OnInit, Output, Renderer2, SimpleChanges, ViewChild } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDialog, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { ActivatedRoute, Router } from '@angular/router';
 import { type } from 'os';
 import { Macro, MacroFull, MacroFullFromXml, MacroSettings, MacroSettingsFront, MacroToInsert } from 'src/app/models/Macro';
-import { User } from 'src/app/models/User';
 import { MacroService } from 'src/app/service/macro.service';
 import { UserService } from 'src/app/service/user.service';
-import { LoginComponent } from 'src/app/user/login/login.component';
+import { ShareLinkComponent } from 'src/app/share-link/share-link.component';
+import { roleNames } from 'src/app/utils/constants';
 import { Utils } from 'src/app/utils/utility';
 
 @Component({
@@ -17,7 +18,7 @@ import { Utils } from 'src/app/utils/utility';
 export class MacroInsertEditComponent implements OnInit{
 
   constructor(public utils: Utils, public service: MacroService, @Inject(MAT_DIALOG_DATA)
-  public data:  any, public userService: UserService, public dialog: MatDialog)
+  public data:  any, public userService: UserService, public dialog: MatDialog, private activated: ActivatedRoute, private router: Router)
   {
     if(data)
     {
@@ -58,11 +59,29 @@ export class MacroInsertEditComponent implements OnInit{
   });
   ngOnInit(): void {
     this.inizializza();
+    this.removeLink();
   }
+
+  removeLink()
+  {
+    const link = this.activated.snapshot.queryParamMap.get('link');
+    if(link)
+    {
+      this.router.navigate([], {
+        queryParams: {
+          'link': null,
+        },
+        queryParamsHandling: 'merge'
+      })
+    }
+
+  }
+
   ngOnChanges(changes: SimpleChanges) {
   if(this.macroMultiInsert)
     this.setMultiInsert();
 }
+
 
 setMultiInsert()
 {
@@ -122,7 +141,6 @@ editMultiInsert(event:any=null)
           const ref2=this.service.getMacroSettingsUser(this.data.id).subscribe(macroSettings=>{
             if(macroSettings.length>0)
             {
-              this.checkUser();
               this.setAllValue(macro[0],macroSettings);
               ref2.unsubscribe();
             }
@@ -143,7 +161,7 @@ editMultiInsert(event:any=null)
     this.macroFullForm.get('tipologia')?.setValue(macro.tipologia);
     this.macroFullForm.get('delay')?.setValue(macro.macro.delay.toString());
     this.detailMacroSettings=macroSettings.sort(function(a, b) { return a.index > b.index ? 1 : -1});
-
+    this.checkUser();
   }
 
   compareSettings(a:MacroSettings, b:MacroSettingsFront)
@@ -171,35 +189,15 @@ editMultiInsert(event:any=null)
 
   checkUser()
   {
-    const md5=localStorage.getItem("user")?.toString();
-    if(md5)
+    const user= this.userService.userLoggato;
+    if(user)
     {
-      const rif=this.userService.checkUserMd5(md5).subscribe(user=> {
-        if(user.length>0)
-        {
-          this.utenteLoggato=user[0].nomePg;
-          if(this.utenteLoggato===this.macroFull.macro.author)
+          this.utenteLoggato=user.username!;
+          if(user.username===this.macroFull.macro.author || user.ruoli?.includes(roleNames.regnante))
             this.isUpdateable=true;
 
           if(this.insert && this.utenteLoggato!=null)
             this.macroFull.macro.author=this.utenteLoggato;
-        }
-        rif.unsubscribe();
-      });
-    }
-    else
-    {
-      if(this.insert)
-      {
-        this.userService.openSnackBar("registrazioneFallita","bottom","center","Effettua prima la login");
-        setTimeout(() => {
-            const rif=this.dialog.open(LoginComponent);
-            rif.afterClosed().subscribe(x=>{
-              if(x)
-                this.checkUser();
-            })
-        }, 500);
-      }
     }
 
   }
@@ -374,6 +372,22 @@ likeIt()
     }
   });
 }
+
+share( )
+{
+  const macro= this.macroFull.macro;
+  const baseUrl = window.location.href;
+
+    const queryParams = new URLSearchParams();
+    queryParams.set('link', macro.guid);
+
+    const shareUrl = `${baseUrl}?${queryParams.toString()}`;
+    this.dialog.open(ShareLinkComponent, {
+      width: '500px',
+      data: {
+        link: shareUrl
+      }
+    });}
 
 
 

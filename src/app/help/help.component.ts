@@ -14,16 +14,22 @@ export class HelpComponent implements OnInit {
   constructor(private _formBuilder: FormBuilder, private _userService: UserService, private _utils: Utils) { }
 
   tipologiaTicket = ["Correzione dati tool","Malfunzionamento","Consigli"];
-  tools = ["Scheda personaggio","Dizionario Elfico","Enchant TM","Calendario TM","Armature infuse"];
+  tools = ["Scheda personaggio","Dizionario Elfico","Enchant TM","Calendario TM","Armature infuse", "Macro Utili"];
   firstFormGroup = this._formBuilder.group({
-    user: [''],
+    user: ['', Validators.required],
     tipologia: ['', Validators.required],
     tool: [''],
     ticket:['', Validators.compose([Validators.minLength(20),Validators.required])],
   });
+  isLoggedIn: boolean=false;
 
   ngOnInit(): void {
     this.isSmartphone();
+    this._userService.isLoggedInObs.subscribe(x=>{
+      this.isLoggedIn=x;
+      if(!this.isLoggedIn)
+        this._userService.openSnackBar("effettuaLogin")
+    })
   }
 
   salva()
@@ -44,9 +50,9 @@ export class HelpComponent implements OnInit {
         var u= this.firstFormGroup.get('user')?.value;
         var u2= localStorage.getItem("user");
 
-        if(!this.isLoggedIn() && u)
+        if(!this.isLoggedIn && u)
            ticket.user = u;
-        if(this.isLoggedIn() && u2)
+        if(this.isLoggedIn && u2)
           ticket.user = u2;
 
         this._userService.SalvaTicket(ticket);
@@ -56,10 +62,6 @@ export class HelpComponent implements OnInit {
     }
   }
 
-  isLoggedIn()
-  {
-    return this._userService.isLoggedIn;
-  }
 
   isSmartphone()
   {

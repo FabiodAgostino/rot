@@ -50,18 +50,11 @@ export class MacroMultiInsertComponent implements OnInit{
 
   checkUser()
   {
-    const md5=localStorage.getItem("user")?.toString();
-    if(md5)
-    {
-      const rif=this.userService.checkUserMd5(md5).subscribe(user=> {
-        if(user.length>0)
-        {
-          this.macros.forEach(x=> x.macro.macro.author=user[0].nomePg)
-          rif?.unsubscribe();
-        }
-        rif.unsubscribe();
-      });
-    }
+    const user= this.userService.userLoggato;
+    if(user)
+          this.macros.forEach(x=> x.macro.macro.author=user.username!)
+    else
+      this.userService.openSnackBar("registrazioneFallita","bottom","center","Effettua prima la login");
   }
 
   setMacro($event: MacroFullFromXml)

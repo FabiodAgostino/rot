@@ -105,12 +105,6 @@ export class FinishWizardComponent implements OnInit  {
   }
 
 
-
-  isLoggedIn()
-  {
-    return this.userService.isLoggedIn;
-  }
-
   isSmartphone()
   {
     return this._utils.isSmartphone();

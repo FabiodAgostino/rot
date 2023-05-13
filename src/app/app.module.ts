@@ -1,4 +1,4 @@
-import { NgModule, CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA } from '@angular/core';
+import { NgModule, CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA, APP_INITIALIZER } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 
 import { AppRoutingModule } from './app-routing.module';
@@ -47,8 +47,6 @@ import { ModaleChiericoComponent } from './scheda-pg/modale-chierico/modale-chie
 import { ModalePaladinoComponent } from './scheda-pg/modale-paladino/modale-paladino.component';
 import { FinishWizardComponent } from './scheda-pg/finish-wizard/finish-wizard.component';
 import {MatSnackBarModule} from '@angular/material/snack-bar';
-import { LoginComponent } from './user/login/login.component';
-import { SignUpComponent } from './user/sign-up/sign-up.component';
 import {MatStepperModule} from '@angular/material/stepper';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { HomeViewComponent } from './home-view/home-view.component';
@@ -66,6 +64,10 @@ import { MacroMultiInsertComponent } from './macro/macro-multi-insert/macro-mult
 import { OAuthModule, OAuthStorage } from 'angular-oauth2-oidc';
 import { CookieService } from 'ngx-cookie-service';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
+import { AppInitializerService } from './service/appInitializer.service';
+import { ShareLinkComponent } from './share-link/share-link.component';
+import { ClipboardModule } from '@angular/cdk/clipboard';
+import { NewsComponent } from './news/news.component';
 
 
 
@@ -91,8 +93,6 @@ import { HttpClient, HttpClientModule } from '@angular/common/http';
     ModaleChiericoComponent,
     ModalePaladinoComponent,
     FinishWizardComponent,
-    LoginComponent,
-    SignUpComponent,
     HomeViewComponent,
     InfoSkillsComponent,
     PasswordStrenghtMeterComponent,
@@ -102,6 +102,8 @@ import { HttpClient, HttpClientModule } from '@angular/common/http';
     MacroListComponent,
     MacroInsertEditComponent,
     MacroMultiInsertComponent,
+    ShareLinkComponent,
+    NewsComponent,
   ],
   imports: [
     BrowserModule,
@@ -146,11 +148,20 @@ import { HttpClient, HttpClientModule } from '@angular/common/http';
       },
     }),
     HttpClientModule,
+    ClipboardModule,
+    BrowserAnimationsModule
 
   ],
   providers: [SafePipe, MatDialog,HttpClient,
     CookieService,
     { provide: OAuthStorage, useValue: localStorage },
+    AppInitializerService,
+    {
+      provide: APP_INITIALIZER,
+      useFactory: (appInitializer: AppInitializerService) => () => appInitializer.initializeApp(),
+      deps: [AppInitializerService],
+      multi: true
+    }
   ],
   bootstrap: [AppComponent],
   schemas: [
