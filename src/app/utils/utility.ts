@@ -7,6 +7,7 @@ import { MacroService } from "../service/macro.service";
 import { MacroFullFromXml, MacroSettings, MacroSettingsFront } from "../models/Macro";
 import { Subject } from "rxjs";
 import { roleCostants } from "./constants";
+import { ActivatedRoute, Router, UrlSegment } from "@angular/router";
 
 const SUBCODE = [{"macro":"NW","subcode":"1"},{"macro":"N","subcode":"2"},{"macro":"NE","subcode":"3"},{"macro":"E","subcode":"4"},{"macro":"SE","subcode":"5"},{"macro":"S","subcode":"6"},{"macro":"SW","subcode":"7"},{"macro":"W","subcode":"8"},{"macro":"Anatomia","subcode":"21"},{"macro":"Zoologia","subcode":"22"},{"macro":"Addomesticare","subcode":"23"},{"macro":"OsservareArmi","subcode":"24"},{"macro":"Sbirciare","subcode":"25"},{"macro":"AdorareTM","subcode":"26"},{"macro":"ScovareNascondigli","subcode":"27"},
 {"macro":"Infuriarsi","subcode":"28"},{"macro":"PercezioneMagica","subcode":"29"},{"macro":"AnalizzareCorpi","subcode":"30"},{"macro":"Nascondersi","subcode":"31"},{"macro":"GodersiTM","subcode":"32"},{"macro":"Religione","subcode":"33"},
@@ -18,7 +19,7 @@ const SUBCODE = [{"macro":"NW","subcode":"1"},{"macro":"N","subcode":"2"},{"macr
   providedIn: 'root',
 })
 export class Utils {
-  constructor(public _platform: Platform, private ngxXml2jsonService: NgxXml2jsonService, private macroService: MacroService)
+  constructor(public _platform: Platform, private ngxXml2jsonService: NgxXml2jsonService, private macroService: MacroService, private activatedRoute:ActivatedRoute, private route:Router)
   {
     this.platform=_platform;
   }
@@ -42,6 +43,28 @@ export class Utils {
         matchingControl?.setErrors(null);
       }
     };
+  }
+
+  navigateOutAdmin()
+  {
+    const currentPath = this.getCurrentPath();
+    const allowedPaths = ['/admin', '/utenti', '/tickets', '/flussoDati', '/aggiungiNews'];
+    if (allowedPaths.includes(currentPath!)) {
+      this.route.navigate(['/']);
+    }
+  }
+  getCurrentPath(): string {
+    let currentRoute = this.activatedRoute.snapshot;
+    while (currentRoute.firstChild) {
+      currentRoute = currentRoute.firstChild;
+    }
+
+    return this.getFullPath(currentRoute.url);
+  }
+
+  getFullPath(urlSegments: UrlSegment[]): string {
+    const pathSegments = urlSegments.map(segment => segment.path);
+    return `/${pathSegments.join('/')}`;
   }
 
   compareDates(targetDate:any) {
@@ -97,6 +120,8 @@ export class Utils {
     let notReturn = ["Paperdoll","Options","Journal","Backpack","Radar","Bow","Salute"];
     return macros.filter(x=> !notReturn.includes(x.name));
   }
+
+
 
   getAllMacrosByXml(xml: string)
   {

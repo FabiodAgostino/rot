@@ -1,0 +1,72 @@
+<div  fxFlex="100" fxLayout="row" fxLayoutAlign="center center" >
+<div class="table-container" fxFlex fxLayout="column" fxLayoutAlign="space-around stretch"  style="padding-top:3vh" fxFlex="70">
+  <div class="table-controls" fxLayout="row" fxLayoutAlign="center center">
+    <div fxFlex="100" fxLayout="row wrap" fxLayoutAlign="space-around center">
+      <mat-form-field appearance="outline">
+        <mat-label>Filtro per User</mat-label>
+        <input matInput (input)="applyFilter($event.target, 'username')">
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Filtro per Data</mat-label>
+        <input matInput (input)="applyFilter($event.target, 'lastExpiresToken')">
+      </mat-form-field>
+    </div>
+
+  </div>
+    <table mat-table [dataSource]="dataSource" matSort fxFlex="100">
+      <!-- Columns -->
+      <ng-container matColumnDef="id">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Id</th>
+        <td mat-cell *matCellDef="let user">{{ user.id }}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="username">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Username</th>
+        <td mat-cell *matCellDef="let user">{{ user.username }}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="lastExpiresToken">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Last Expires Token</th>
+        <td mat-cell *matCellDef="let user">{{ user.lastExpiresToken | timestampToDate | date: 'dd/MM/yy HH:mm:ss' }}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="serverAutenticazione">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Server Autenticazione</th>
+        <td mat-cell *matCellDef="let user">{{ user.serverAutenticazione }}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="ruoli">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Ruoli</th>
+        <td mat-cell *matCellDef="let user">{{ user.ruoli?.join(', ') }}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="status">
+        <th mat-header-cell *matHeaderCellDef>Status</th>
+        <td mat-cell *matCellDef="let user">
+          <mat-icon [matTooltip]="isUserActive(user.lastExpiresToken) ? 'Loggato' : 'Non loggato'"
+                    [ngStyle]="{ color: isUserActive(user.lastExpiresToken) ? 'green' : 'gray' }">
+            {{ isUserActive(user.lastExpiresToken) ? 'circle' : 'highlight_off' }}
+          </mat-icon>
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="actions">
+        <th mat-header-cell *matHeaderCellDef>Actions</th>
+        <td mat-cell *matCellDef="let user">
+          <button mat-icon-button color="primary" (click)="editUser(user.id)">
+            <mat-icon>edit</mat-icon>
+          </button>
+          <button mat-icon-button color="warn" (click)="deleteUser(user.id)">
+            <mat-icon>delete</mat-icon>
+          </button>
+        </td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+    </table>
+  <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
+
+  </div>
+</div>

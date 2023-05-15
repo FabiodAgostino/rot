@@ -4,14 +4,15 @@ import { BehaviorSubject, last, map, Observable, Subject, timestamp } from 'rxjs
 import { MatSnackBar, MatSnackBarHorizontalPosition, MatSnackBarVerticalPosition } from '@angular/material/snack-bar';
 import { Ticket } from '../models/Tickets';
 import { AngularFireAuth } from "@angular/fire/compat/auth";
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, ActivatedRouteSnapshot, Router, RouterStateSnapshot, UrlTree } from '@angular/router';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { FullUserDiscord, GuildDiscord, TokenDiscord, UserDiscord, UserMeDiscord } from '../models/discord';
 import { Utils } from '../utils/utility';
 
 
 const REDIRECT_URL_LOCALE='http://localhost:4200/';
-
+const CLIENT_ID_LOCALE='960448858926768148'
+const CLIENT_SECRET_LOCALE ='nQw62DUdZc5DaaYEZ6CB7IyqgtFqUnHY';
 
 const REDIRECT_URL='https://fabiodagostino.github.io/rot/';
 const CLIENT_ID='1106594210242625579';
@@ -27,21 +28,42 @@ const GUILD_ID_ROTINIEL="511856322141093904";
 
 export class UserService {
 
-  constructor(private store: AngularFirestore, private _snackBar:MatSnackBar, private activated:ActivatedRoute, private http:HttpClient, private utils:Utils) {
+  constructor(private store: AngularFirestore, private _snackBar:MatSnackBar, private activated:ActivatedRoute, private http:HttpClient, private utils:Utils, private route:Router) {
 
     const config = require("../../environments/version.json");
     this.develop=config.develop;
+    if(this.develop)
+    {
+      this.redirectUrl=REDIRECT_URL_LOCALE;
+      this.clientId=CLIENT_ID_LOCALE;
+      this.clientSecret=CLIENT_SECRET_LOCALE;
+    }
+    else
+    {
+      this.redirectUrl=REDIRECT_URL;
+      this.clientId=CLIENT_ID;
+      this.clientSecret=CLIENT_SECRET;
+    }
    }
 
 
   isRotinrim: boolean = false;
   userLoggato?: FullUserDiscord;
   develop: boolean=false;
+  redirectUrl: string='';
+  clientId:string='';
+  clientSecret:string=''
 
   private loggedIn = new BehaviorSubject<boolean>(false);
 
+  private regnanteIn = new BehaviorSubject<boolean>(false);
+
   get isLoggedInObs() {
     return this.loggedIn.asObservable();
+  }
+
+  get isRegnanteInObs() {
+    return this.regnanteIn.asObservable();
   }
 
 
@@ -112,6 +134,10 @@ export class UserService {
       this.isRotinrim=true;
       u.interno=true;
     }
+    if(u.ruoli?.includes('Regnante'))
+    {
+      this.regnanteIn.next(true);
+    }
     return u;
   }
 
@@ -135,11 +161,11 @@ export class UserService {
     const headers = { 'Content-Type': 'application/x-www-form-urlencoded', 'Accept': 'application/json' }
 
     let params = new URLSearchParams();
-      params.append('client_id', CLIENT_ID);
-      params.append('client_secret', CLIENT_SECRET);
+      params.append('client_id', this.clientId);
+      params.append('client_secret', this.clientSecret);
       params.append('grant_type', 'authorization_code');
       params.append('code', code);
-      params.append('redirect_uri', this.develop? REDIRECT_URL_LOCALE : REDIRECT_URL);
+      params.append('redirect_uri', this.redirectUrl);
 
     this.http.post<TokenDiscord>(`${API_ENDPOINT}/oauth2/token`,params, {headers:headers}).subscribe(token=>{
       token.expires = this.utils.addMillisecondsToCurrentDate(token.expires_in);
@@ -155,9 +181,9 @@ export class UserService {
     const headers = { 'Content-Type': 'application/x-www-form-urlencoded', 'Accept': 'application/json' }
 
     let params = new URLSearchParams();
-      params.append('client_id', CLIENT_ID);
-      params.append('client_secret', CLIENT_SECRET);
-      params.append('redirect_uri', REDIRECT_URL);
+      params.append('client_id', this.clientId);
+      params.append('client_secret', this.clientSecret);
+      params.append('redirect_uri', this.redirectUrl);
       params.append('token', localStorage.getItem("token")!);
 
     if(localStorage.getItem("token"))
@@ -180,7 +206,7 @@ export class UserService {
       if(x.length>0)
       {
         this.store.collection('User').doc(`${x[0].id}`).set({
-          lastExpiresToken:user.token.expires,
+          lastExpiresToken:user.token!.expires,
           ruoli: user.ruoli
         },
         {
@@ -199,7 +225,7 @@ export class UserService {
     this.store.collection("User").add({
       username: user.username,
       roles: user.ruoli,
-      lastExpiresToken: user.token.expires,
+      lastExpiresToken: user.token!.expires,
       id: user.id,
       serverAutenticazione: user.serverAutenticazione
   });
@@ -216,6 +242,21 @@ export class UserService {
         if(x.length==1)
         {
           subject.next(x[0]);
+          sub.unsubscribe();
+        }
+      });
+    return subject.asObservable();
+  }
+
+  getUsers()
+  {
+    var subject = new Subject<Array<FullUserDiscord>>();
+
+    var sub=this.store.collection<FullUserDiscord>('User').valueChanges()
+      .subscribe(x=>{
+        if(x.length>0)
+        {
+          subject.next(x);
           sub.unsubscribe();
         }
       });
@@ -253,6 +294,9 @@ export class UserService {
           this.loggedIn.next(true)
           if(this.userLoggato.ruoli?.includes('Cittadino'))
             this.isRotinrim=true;
+
+          if(this.userLoggato.ruoli?.includes('Regnante'))
+            this.regnanteIn.next(true);
         }
         else
           this.logoutPartial();
@@ -274,9 +318,11 @@ export class UserService {
   {
     this.isRotinrim=false;
     this.loggedIn.next(false)
+    this.regnanteIn.next(false)
     this.userLoggato=undefined;
     localStorage.removeItem("token");
     localStorage.removeItem("idUser");
+    this.utils.navigateOutAdmin();
   }
 
 
@@ -334,6 +380,17 @@ export class UserService {
       panelClass: colorSnack,
     });
   }
+
+  canActivateAdmin(
+    route: ActivatedRouteSnapshot,
+    state: RouterStateSnapshot
+  ): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
+
+    return this.isLoggedInObs.pipe(
+      map((isLoggedIn) => isLoggedIn && this.userLoggato?.ruoli?.includes('Regnante') ? true : this.route.parseUrl('/'))
+    );
+  }
+
 
 }
 

@@ -45,7 +45,7 @@ export class MacroInsertEditComponent implements OnInit{
 
   insertMacroSettings = new Array<MacroSettingsFront>();
   detailMacroSettings = new Array<MacroSettingsFront>();
-
+  isRegnante: boolean=false;
   utenteLoggato: string="";
 
   macroFullForm = new FormGroup({
@@ -198,6 +198,9 @@ editMultiInsert(event:any=null)
 
           if(this.insert && this.utenteLoggato!=null)
             this.macroFull.macro.author=this.utenteLoggato;
+
+          if(this.macroFull.macro.author!=user.username && user.ruoli?.includes(roleNames.regnante))
+            this.isRegnante=true;
     }
 
   }

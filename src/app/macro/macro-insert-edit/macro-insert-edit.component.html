@@ -9,12 +9,23 @@
       <button mat-mini-fab matTooltip="Elimina" color="warn" style="margin-right:1vw" (click)="deleteMacro()"><mat-icon >delete_forever</mat-icon></button>
       <button mat-mini-fab matTooltip="Modifica" (click)="edit=true; detail=false" *ngIf="!edit"><mat-icon >edit</mat-icon></button>
       <button mat-mini-fab matTooltip="Condividi" style="margin-left:1vw" color="primary" (click)="share()"><mat-icon>share</mat-icon></button>
+
+      <span class="edit" *ngIf="isRegnante && detail && checkThumb()" style="margin-right:1vw;" >
+        <button mat-mini-fab matTooltip="Mi piace" color="primary" (click)="likeIt()"><mat-icon >thumb_up</mat-icon></button>
+      </span>
+
+      <span class="edit" *ngIf="isRegnante && detail && checkIfVote()" style="margin-right:1vw;">
+        <button mat-mini-fab matTooltip="Non mi piace"  style="background-color: grey;" (click)="likeIt()"><mat-icon >thumb_up</mat-icon></button>
+      </span>
     </div>
+
+
+
     <div class="edit" *ngIf="!isUpdateable && detail && checkThumb()" >
       <button mat-mini-fab matTooltip="Mi piace" color="primary" (click)="likeIt()"><mat-icon >thumb_up</mat-icon></button>
       <button mat-mini-fab matTooltip="Condividi" style="margin-left:1vw" color="primary" (click)="share()"><mat-icon>share</mat-icon></button>
-
     </div>
+
     <div class="edit" *ngIf="!isUpdateable && detail && checkIfVote()" >
       <button mat-mini-fab matTooltip="Non mi piace"  style="background-color: grey;" (click)="likeIt()"><mat-icon >thumb_up</mat-icon></button>
       <button mat-mini-fab matTooltip="Condividi" style="margin-left:1vw" color="primary" (click)="share()"><mat-icon>share</mat-icon></button>

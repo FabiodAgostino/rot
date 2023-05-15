@@ -112,7 +112,7 @@ export class FullUserDiscord
   ruoli?: string[];
   roles?: string[];
   interno: boolean=false;
-  token: TokenDiscord;
+  token?: TokenDiscord;
   lastExpiresToken: any;
   serverAutenticazione?: string;
 }

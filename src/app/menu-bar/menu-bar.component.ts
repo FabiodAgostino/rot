@@ -8,7 +8,7 @@ import { SchedaPersonaggioService } from '../service/scheda-personaggio.service'
 import { UserService } from '../service/user.service';
 import { Router } from '@angular/router';
 
-const LOGIN_DISCORD_LOCALE='https://discord.com/api/oauth2/authorize?client_id=1106594210242625579&redirect_uri=http%3A%2F%2Flocalhost%3A4200%2F&response_type=code&scope=identify%20connections%20guilds'
+const LOGIN_DISCORD_LOCALE='https://discord.com/api/oauth2/authorize?client_id=960448858926768148&redirect_uri=http%3A%2F%2Flocalhost%3A4200%2F&response_type=code&scope=identify%20connections%20guilds'
 const LOGIN_DISCORD ='https://discord.com/api/oauth2/authorize?client_id=1106594210242625579&redirect_uri=https%3A%2F%2Ffabiodagostino.github.io%2Frot%2F&response_type=code&scope=identify%20connections%20guilds'
 @Component({
   selector: 'app-menu-bar',
@@ -23,12 +23,14 @@ export class MenuBarComponent implements OnInit {
   class = new Array<Classe>();
   develop= false;
   isLoggedIn: boolean=false;
+  isRegnante: boolean=false;
    ngOnInit() {
     const config = require("../../environments/version.json");
     this.develop=config.develop;
     this.UserService.isLoggedInObs.subscribe(x=>{
       this.isLoggedIn=x;
     });
+    this.regnanteIn();
   }
 
   goChild(url: string)
@@ -48,6 +50,19 @@ export class MenuBarComponent implements OnInit {
   logOut()
   {
     this.UserService.logout();
+  }
+
+  goAdmin()
+  {
+    this.router.navigate(['/admin'])
+  }
+
+  regnanteIn()
+  {
+    this.UserService.isRegnanteInObs.subscribe(x=>{
+      console.log(x)
+      this.isRegnante=x;
+    })
   }
 
 

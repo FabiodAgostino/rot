@@ -1,0 +1,29 @@
+.table-container {
+  align-items: center;
+}
+
+
+
+
+mat-form-field {
+  margin-right: 10px;
+}
+
+.mat-table-container {
+  overflow: auto;
+}
+
+
+.semaforo {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+}
+
+.active {
+  background-color: green;
+}
+
+.inactive {
+  background-color: gray;
+}

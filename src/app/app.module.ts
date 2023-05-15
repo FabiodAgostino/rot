@@ -68,6 +68,13 @@ import { AppInitializerService } from './service/appInitializer.service';
 import { ShareLinkComponent } from './share-link/share-link.component';
 import { ClipboardModule } from '@angular/cdk/clipboard';
 import { NewsComponent } from './news/news.component';
+import { AdminComponent } from './admin-components/admin/admin.component';
+import { TicketsComponent } from './admin-components/tickets/tickets.component';
+import { UtentiComponent } from './admin-components/utenti/utenti.component';
+import { FlussoDatiComponent } from './admin-components/flusso-dati/flusso-dati.component';
+import { AggiungiNewsComponent } from './admin-components/aggiungi-news/aggiungi-news.component';
+import { TimestampToDatePipe } from './utils/timestamp-to-date.pipe';
+import { RoleGuard } from './service/roleGuard';
 
 
 
@@ -104,6 +111,12 @@ import { NewsComponent } from './news/news.component';
     MacroMultiInsertComponent,
     ShareLinkComponent,
     NewsComponent,
+    AdminComponent,
+    TicketsComponent,
+    UtentiComponent,
+    FlussoDatiComponent,
+    AggiungiNewsComponent,
+    TimestampToDatePipe,
   ],
   imports: [
     BrowserModule,
@@ -161,7 +174,8 @@ import { NewsComponent } from './news/news.component';
       useFactory: (appInitializer: AppInitializerService) => () => appInitializer.initializeApp(),
       deps: [AppInitializerService],
       multi: true
-    }
+    },
+    RoleGuard
   ],
   bootstrap: [AppComponent],
   schemas: [
