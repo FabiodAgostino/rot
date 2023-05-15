@@ -1,7 +1,8 @@
-<div  fxFlex="100" fxLayout="row" fxLayoutAlign="center center" >
+<div fxLayoutAlign="center center">
 <div class="table-container" fxFlex fxLayout="column" fxLayoutAlign="space-around stretch"  style="padding-top:3vh" fxFlex="70">
   <div class="table-controls" fxLayout="row" fxLayoutAlign="center center">
-    <div fxFlex="100" fxLayout="row wrap" fxLayoutAlign="space-around center">
+    <div fxLayout="column" fxLayoutAlign="center center">
+      <div fxLayout="row wrap">
       <mat-form-field appearance="outline">
         <mat-label>Filtro per User</mat-label>
         <input matInput (input)="applyFilter($event.target, 'username')">
@@ -11,6 +12,7 @@
         <mat-label>Filtro per Data</mat-label>
         <input matInput (input)="applyFilter($event.target, 'lastExpiresToken')">
       </mat-form-field>
+    </div>
     </div>
 
   </div>
@@ -63,10 +65,9 @@
         </td>
       </ng-container>
 
-      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-      <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+      <tr mat-header-row *matHeaderRowDef="getDisplayedColumns();"></tr>
+      <tr mat-row *matRowDef="let row; columns: getDisplayedColumns();"></tr>
     </table>
-  <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
-
+  <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons ></mat-paginator>
   </div>
 </div>

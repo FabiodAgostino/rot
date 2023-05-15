@@ -8,6 +8,7 @@ import { MacroFullFromXml, MacroSettings, MacroSettingsFront } from "../models/M
 import { Subject } from "rxjs";
 import { roleCostants } from "./constants";
 import { ActivatedRoute, Router, UrlSegment } from "@angular/router";
+import { Timestamp } from "firebase/firestore";
 
 const SUBCODE = [{"macro":"NW","subcode":"1"},{"macro":"N","subcode":"2"},{"macro":"NE","subcode":"3"},{"macro":"E","subcode":"4"},{"macro":"SE","subcode":"5"},{"macro":"S","subcode":"6"},{"macro":"SW","subcode":"7"},{"macro":"W","subcode":"8"},{"macro":"Anatomia","subcode":"21"},{"macro":"Zoologia","subcode":"22"},{"macro":"Addomesticare","subcode":"23"},{"macro":"OsservareArmi","subcode":"24"},{"macro":"Sbirciare","subcode":"25"},{"macro":"AdorareTM","subcode":"26"},{"macro":"ScovareNascondigli","subcode":"27"},
 {"macro":"Infuriarsi","subcode":"28"},{"macro":"PercezioneMagica","subcode":"29"},{"macro":"AnalizzareCorpi","subcode":"30"},{"macro":"Nascondersi","subcode":"31"},{"macro":"GodersiTM","subcode":"32"},{"macro":"Religione","subcode":"33"},
@@ -77,6 +78,14 @@ export class Utils {
     if (currentDate > dataFinale)
       return true;
     return false;
+  }
+
+  getFromTimeStamp(timeStamp: Timestamp)
+  {
+    const millisecondi = Math.floor(timeStamp?.nanoseconds / 1000000);
+    const millisecondiTotali = (timeStamp?.seconds * 1000) + millisecondi;
+
+    return new Date(millisecondiTotali);
   }
 
   addMillisecondsToCurrentDate(milliseconds:number) {
@@ -210,5 +219,94 @@ export class RolesDiscord
     })
     return ruoli;
   }
+}
+
+export class Chart
+{
+  static getGiorni()
+  {
+    const today = new Date();
+    const lastWeek = new Date(today.getFullYear(), today.getMonth(), today.getDate() - 7);
+    const days = [];
+    for (let i = lastWeek.getDate(); i <= today.getDate(); i++) {
+      const date = new Date(lastWeek.getFullYear(), lastWeek.getMonth(), i);
+      const formattedDate = `${date.getDate()}/${date.getMonth() + 1}`;
+      days.push(formattedDate);
+    }
+    return days;
+  }
+
+  static getMesi()
+  {
+    const today = new Date();
+    const months = [];
+    const monthNames = [
+      'Gennaio', 'Febbraio', 'Marzo', 'Aprile', 'Maggio', 'Giugno',
+      'Luglio', 'Agosto', 'Settembre', 'Ottobre', 'Novembre', 'Dicembre'
+    ];
+    for (let i = 11; i >= 0; i--) {
+      const month = new Date(today.getFullYear(), today.getMonth() - i, 1);
+      const formattedMonth = `${monthNames[month.getMonth()]} ${month.getFullYear()}`;
+      months.push(formattedMonth);
+    }
+    return months;
+  }
+
+  static getGiorniNumber()
+  {
+    const today = new Date();
+    const lastWeek = new Date(today.getFullYear(), today.getMonth(), today.getDate() - 7);
+    const days = [];
+    for (let i = lastWeek.getDate(); i <= today.getDate(); i++) {
+      const date = new Date(lastWeek.getFullYear(), lastWeek.getMonth(), i).getDate();
+      days.push(date);
+    }
+    return days;
+  }
+
+  static getMesiNumber()
+  {
+    const today = new Date();
+    const months = [];
+    for (let i = 11; i >= 0; i--) {
+      const month = new Date(today.getFullYear(), today.getMonth() - i, 1).getMonth();
+      months.push(month);
+    }
+    return months;
+  }
+
+  static occorrenzeMesi(months: Array<number>)
+  {
+    const mesiOrdinati=this.getMesiNumber();
+    var arrayDaRitornare = new Array<number>();
+    mesiOrdinati.forEach(x=>{
+      const occorrenze = months.filter(y=> y==x).length;
+      arrayDaRitornare.push(occorrenze);
+    })
+    return arrayDaRitornare;
+  }
+
+  static occorrenzeGiorni(dates: Array<Date>)
+  {
+    const days = dates.filter(x=> x.getMonth()==new Date().getMonth()).map(x=> x.getDate());
+    var arrayDaRitornare = new Array<number>();
+
+    const giorniOrdinati=this.getGiorniNumber();
+    giorniOrdinati.forEach(x=>{
+      const occorrenze = days.filter(y=> y==x).length;
+      arrayDaRitornare.push(occorrenze);
+    })
+    return arrayDaRitornare;
+  }
+
+  static occorrenzeServer(servers: Array<string>)
+  {
+    var arrayDaRitornare = new Array<number>();
+
+    arrayDaRitornare.push(servers.filter(x=> x.toLowerCase()=='the miracle shard').length);
+    arrayDaRitornare.push(servers.filter(x=> x.toLowerCase()!='the miracle shard').length);
+    return arrayDaRitornare;
+  }
+
 }
 

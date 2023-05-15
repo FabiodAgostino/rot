@@ -61,8 +61,6 @@ import { MacroListComponent } from './macro/macro-list/macro-list.component';
 import { MacroInsertEditComponent } from './macro/macro-insert-edit/macro-insert-edit.component';
 import {MatTableModule} from '@angular/material/table';
 import { MacroMultiInsertComponent } from './macro/macro-multi-insert/macro-multi-insert.component';
-import { OAuthModule, OAuthStorage } from 'angular-oauth2-oidc';
-import { CookieService } from 'ngx-cookie-service';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { AppInitializerService } from './service/appInitializer.service';
 import { ShareLinkComponent } from './share-link/share-link.component';
@@ -75,8 +73,8 @@ import { FlussoDatiComponent } from './admin-components/flusso-dati/flusso-dati.
 import { AggiungiNewsComponent } from './admin-components/aggiungi-news/aggiungi-news.component';
 import { TimestampToDatePipe } from './utils/timestamp-to-date.pipe';
 import { RoleGuard } from './service/roleGuard';
-
-
+import { NgChartsModule } from 'ng2-charts';
+import { BaseChartDirective } from 'ng2-charts';
 
 
 
@@ -154,20 +152,13 @@ import { RoleGuard } from './service/roleGuard';
     MatPaginatorModule,
     MatSortModule,
     MatTableModule,
-    OAuthModule.forRoot({
-      resourceServer: {
-        allowedUrls: ['https://discord.com/api'],
-        sendAccessToken: true,
-      },
-    }),
     HttpClientModule,
     ClipboardModule,
-    BrowserAnimationsModule
+    BrowserAnimationsModule,
+    NgChartsModule
 
   ],
   providers: [SafePipe, MatDialog,HttpClient,
-    CookieService,
-    { provide: OAuthStorage, useValue: localStorage },
     AppInitializerService,
     {
       provide: APP_INITIALIZER,

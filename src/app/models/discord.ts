@@ -115,6 +115,7 @@ export class FullUserDiscord
   token?: TokenDiscord;
   lastExpiresToken: any;
   serverAutenticazione?: string;
+  registratoDate: any;
 }
 
 export class PartialUserDiscord {

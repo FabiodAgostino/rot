@@ -227,7 +227,8 @@ export class UserService {
       roles: user.ruoli,
       lastExpiresToken: user.token!.expires,
       id: user.id,
-      serverAutenticazione: user.serverAutenticazione
+      serverAutenticazione: user.serverAutenticazione,
+      registratoDate: new Date
   });
   }
 
@@ -241,6 +242,7 @@ export class UserService {
       .subscribe(x=>{
         if(x.length==1)
         {
+          x[0].registratoDate  = new Date(x[0].registratoDate.seconds * 1000);
           subject.next(x[0]);
           sub.unsubscribe();
         }
@@ -256,6 +258,9 @@ export class UserService {
       .subscribe(x=>{
         if(x.length>0)
         {
+          x = x.map(y=>{
+            return {...y, registratoDate: this.utils.getFromTimeStamp(y.registratoDate)}
+          });
           subject.next(x);
           sub.unsubscribe();
         }
@@ -297,6 +302,8 @@ export class UserService {
 
           if(this.userLoggato.ruoli?.includes('Regnante'))
             this.regnanteIn.next(true);
+
+          x.registratoDate  = new Date(x.registratoDate.seconds * 1000);
         }
         else
           this.logoutPartial();

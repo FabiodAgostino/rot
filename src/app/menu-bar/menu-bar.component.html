@@ -14,7 +14,7 @@
 <div fxFlex="96">
   Rotiniel Tools
 </div>
-<button mat-icon-button  fxFlex="4" matTooltip="Admin" (click)="goAdmin()" *ngIf="isRegnante">
+<button mat-icon-button  fxFlex="4" matTooltip="Admin" (click)="goAdmin()" *ngIf="isRegnante" [ngStyle]="isSmartphone ? { 'margin-right': '6vw' } : { '': '' }">
   <span class="material-symbols-outlined">
     <mat-icon style="color:gold">admin_panel_settings</mat-icon>
     </span>

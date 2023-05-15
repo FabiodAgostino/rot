@@ -5,6 +5,7 @@ import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { FullUserDiscord, TokenDiscord } from 'src/app/models/discord';
 import { UserService } from 'src/app/service/user.service';
+import { Utils } from 'src/app/utils/utility';
 
 @Component({
   selector: 'app-utenti',
@@ -16,11 +17,11 @@ export class UtentiComponent {
   userForm: FormGroup;
   dataSource: MatTableDataSource<FullUserDiscord>;
   displayedColumns: string[] = ['id', 'username', 'lastExpiresToken', 'serverAutenticazione', 'ruoli', 'actions', 'status'];
-
+  isSmartphone: boolean=false;
   @ViewChild(MatSort, { static: true }) sort!: MatSort;
   @ViewChild(MatPaginator, { static: true }) paginator!: MatPaginator;
 
-  constructor(private userService: UserService) {
+  constructor(private userService: UserService, private utils:Utils) {
     this.userForm = new FormGroup({
       id: new FormControl(),
       username: new FormControl(),
@@ -35,7 +36,9 @@ export class UtentiComponent {
       this.dataSource.data = x;
       this.dataSource.paginator = this.paginator;
       this.dataSource.sort = this.sort;
+      console.log(x)
     });
+    this.isSmartphone=this.utils.isSmartphone();
   }
 
   applyFilter(filterValue: any, key: string): void {
@@ -89,6 +92,14 @@ export class UtentiComponent {
     const timeDifference = currentTime.getTime() - tokenExpirationDate.getTime();
     const minutesDifference = Math.floor(timeDifference / 1000 / 60);
     return minutesDifference <= 10;
+  }
+
+  getDisplayedColumns()
+  {
+    if(this.isSmartphone)
+      return ['username', 'lastExpiresToken', 'ruoli', 'actions', 'status'];
+    else
+      return ['id', 'username', 'lastExpiresToken', 'serverAutenticazione', 'ruoli', 'actions', 'status'];
   }
 
 }
