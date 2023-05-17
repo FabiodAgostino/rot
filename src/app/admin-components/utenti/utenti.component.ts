@@ -36,7 +36,6 @@ export class UtentiComponent {
       this.dataSource.data = x;
       this.dataSource.paginator = this.paginator;
       this.dataSource.sort = this.sort;
-      console.log(x)
     });
     this.isSmartphone=this.utils.isSmartphone();
   }
@@ -59,8 +58,10 @@ export class UtentiComponent {
     alert("Non ancora implementato");
   }
 
-  deleteUser(id: number): void {
-    alert("Non ancora implementato");
+  deleteUser(user: FullUserDiscord): void {
+    const c=confirm("Con questa funzionalità si revocherà permanentemente il token d'accesso all'utente e non potrà più accedere tramite il suo account discord, sei sicuro di voler continuare?");
+    if(c)
+      this.userService.updateUser(user);
   }
 
   sortData(event: any): void {

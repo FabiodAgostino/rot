@@ -63,7 +63,6 @@ export class MenuBarComponent implements OnInit {
   regnanteIn()
   {
     this.UserService.isRegnanteInObs.subscribe(x=>{
-      console.log(x)
       this.isRegnante=x;
     })
   }

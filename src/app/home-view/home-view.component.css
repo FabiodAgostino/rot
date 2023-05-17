@@ -3,3 +3,11 @@
   border: 7px solid #004a9f;
   border-radius: 3px;
 }
+
+.mappaTm
+{
+  background-image: url('ardania-crop.jpg');
+  background-repeat: no-repeat;
+  border: 2.5px solid #004a9f;
+  border-radius: 3px;
+}

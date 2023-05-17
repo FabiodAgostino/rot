@@ -1,0 +1,96 @@
+:host {
+  display: block;
+}
+
+.table-container {
+  margin: 20px;
+  max-width: 100%;
+  overflow: auto;
+}
+
+
+
+.preview-cell {
+  width: 300px;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.actions-cell {
+  width: 100px;
+  text-align: center;
+}
+
+
+.message-container {
+  width: auto;
+  height: auto;
+  overflow: auto;
+}
+
+.message-content {
+  white-space: nowrap;
+  overflow: auto;
+  text-overflow: ellipsis;
+}
+
+tr.example-detail-row {
+  height: 0;
+}
+
+
+tr.example-element-row:not(.example-expanded-row):hover {
+  background: whitesmoke;
+
+}
+
+tr.example-element-row:not(.example-expanded-row):active {
+  background: #efefef;
+}
+
+.example-element-row td {
+  border-bottom-width: 0;
+}
+
+.example-element-detail {
+  overflow: hidden;
+  display: flex;
+}
+
+.element-description
+{
+  margin-top: 2vh;
+  padding-bottom: 3vh;
+  width: 100%;
+
+}
+
+.status-icon {
+  font-size: 24px;
+}
+
+.green-icon {
+  color: green;
+}
+
+.red-icon {
+  color: red;
+}
+
+.button-container
+{
+  margin-top: 2vh;
+  text-align: end;
+}
+
+
+.bold-header {
+  font-weight: bold;
+}
+
+.bold-text {
+  font-weight: bold;
+  color: #004a9f; /* Inserisci qui il colore desiderato */
+}
+

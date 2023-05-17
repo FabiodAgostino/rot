@@ -1,4 +1,5 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { ChartOptions } from 'chart.js';
 import { Subject } from 'rxjs';
 import { UserService } from 'src/app/service/user.service';
 import { Chart, Utils } from 'src/app/utils/utility';
@@ -13,10 +14,11 @@ export class FlussoDatiComponent implements OnInit {
   registrationMesiCounts= new Array<number>();
   registrationGiorniCounts= new Array<number>();
   serverCounts= new Array<number>();
-  constructor(private userService:UserService)
+  constructor(private userService:UserService, private utils:Utils)
   {
-
+    this.isSmpartphone=this.utils.isSmartphone();
   }
+  isSmpartphone: boolean=false;
   monthlyData:any []=[];
   weeklyData:any []=[];
   serverData:any []=[];
@@ -24,12 +26,22 @@ export class FlussoDatiComponent implements OnInit {
   months: string[] = Chart.getMesi();
   weeks: string[] = Chart.getGiorni();
   server: string[] = ['The Miracle Shard','Rotiniel'];
-  chartOptions: any = {
-    responsive: true
+  public chartOptions: ChartOptions = {
+    responsive: true,
+    scales: {
+      y: {
+        beginAtZero: true,
+        ticks: {
+          stepSize: 1
+        }
+      }
+    }
   };
+
+
   chartType: string = 'bar';
   selectedTab: string = 'monthly';
-  title: string='';
+  title: string='Registrazioni Mensili';
   changeChartType(type: string): void {
     this.selectedTab = type;
 
@@ -40,8 +52,6 @@ export class FlussoDatiComponent implements OnInit {
       case 'server': this.chartType='pie'; this.title='Autenticazioni Server';break;
     }
   }
-
-
 
 
   ngOnInit(): void {
@@ -73,13 +83,6 @@ export class FlussoDatiComponent implements OnInit {
     })
     return subject.asObservable();
   }
-
-
-
-
-
-
-
 
 
 

@@ -21,8 +21,7 @@ export class RoleGuard implements CanActivate {
         if (isLoggedIn && this.userService.userLoggato?.ruoli?.includes(requiredRole)) {
           return true;
         } else {
-          // Reindirizza a una pagina di accesso non autorizzato
-          return this.router.parseUrl('/unauthorized');
+          return this.router.parseUrl('/');
         }
       })
     );

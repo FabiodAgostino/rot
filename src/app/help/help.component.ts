@@ -16,7 +16,7 @@ export class HelpComponent implements OnInit {
   tipologiaTicket = ["Correzione dati tool","Malfunzionamento","Consigli"];
   tools = ["Scheda personaggio","Dizionario Elfico","Enchant TM","Calendario TM","Armature infuse", "Macro Utili"];
   firstFormGroup = this._formBuilder.group({
-    user: ['', Validators.required],
+    user: [''],
     tipologia: ['', Validators.required],
     tool: [''],
     ticket:['', Validators.compose([Validators.minLength(20),Validators.required])],
@@ -48,12 +48,12 @@ export class HelpComponent implements OnInit {
       {
         var ticket = new Ticket(r1,r2,r3);
         var u= this.firstFormGroup.get('user')?.value;
-        var u2= localStorage.getItem("user");
+        const u2= this._userService.userLoggato?.username;
 
         if(!this.isLoggedIn && u)
            ticket.user = u;
         if(this.isLoggedIn && u2)
-          ticket.user = u2;
+          ticket.user=u2;
 
         this._userService.SalvaTicket(ticket);
 

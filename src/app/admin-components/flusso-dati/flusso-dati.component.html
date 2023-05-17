@@ -1,4 +1,4 @@
-<div class="chart-container" fxLayout="row" fxLayoutAlign="center center">
+<div class="chart-container" fxLayout="row" fxLayoutAlign="center center"  *ngIf="!isSmpartphone">
   <div class="chart-card" fxFlex="50">
     <mat-card>
       <mat-card-header>
@@ -25,6 +25,46 @@
                   [chartType]="chartType"></canvas>
         </div>
         <div class="chart" *ngIf="selectedTab === 'server'">
+          <canvas baseChart
+                  [datasets]="serverData"
+                  [labels]="server"
+                  [options]="chartOptions"
+                  [chartType]="chartType"></canvas>
+        </div>
+      </mat-card-content>
+    </mat-card>
+  </div>
+</div>
+
+
+
+<div class="chart-container" fxLayout="column" fxLayoutAlign="center center" *ngIf="isSmpartphone">
+  <div class="chart-card" fxFlex="100">
+    <mat-card>
+      <mat-card-header>
+        <mat-card-title>{{title}}</mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+        <div class="chart-buttons">
+          <button mat-raised-button color="primary" (click)="changeChartType('monthly')" style="margin:2px">Mensile</button>
+          <button mat-raised-button color="primary" (click)="changeChartType('days')" style="margin:2px">Settimanale</button>
+          <button mat-raised-button color="primary" (click)="changeChartType('server')" style="margin:2px">Dati server</button>
+        </div>
+        <div class="chart" fxLayout="column" fxLayoutAlign="center center" *ngIf="selectedTab === 'monthly'">
+          <canvas baseChart
+                  [datasets]="monthlyData"
+                  [labels]="months"
+                  [options]="chartOptions"
+                  [chartType]="chartType"></canvas>
+        </div>
+        <div class="chart" fxLayout="column" fxLayoutAlign="center center" *ngIf="selectedTab === 'days'">
+          <canvas baseChart
+                  [datasets]="weeklyData"
+                  [labels]="weeks"
+                  [options]="chartOptions"
+                  [chartType]="chartType"></canvas>
+        </div>
+        <div class="chart" fxLayout="column" fxLayoutAlign="center center" *ngIf="selectedTab === 'server'">
           <canvas baseChart
                   [datasets]="serverData"
                   [labels]="server"

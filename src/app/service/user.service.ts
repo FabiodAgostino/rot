@@ -176,7 +176,7 @@ export class UserService {
 
 
 
-  private rekoveAccessToken()
+  rekoveAccessToken(token: string)
   {
     const headers = { 'Content-Type': 'application/x-www-form-urlencoded', 'Accept': 'application/json' }
 
@@ -184,7 +184,7 @@ export class UserService {
       params.append('client_id', this.clientId);
       params.append('client_secret', this.clientSecret);
       params.append('redirect_uri', this.redirectUrl);
-      params.append('token', localStorage.getItem("token")!);
+      params.append('token', token);
 
     if(localStorage.getItem("token"))
     this.http.post(`${API_ENDPOINT}/oauth2/token/revoke`,params, {headers:headers}).subscribe(token=>{
@@ -212,6 +212,39 @@ export class UserService {
         {
           merge:true
         });
+      }
+      else
+        this.registrati(user);
+    sub.unsubscribe();
+    });
+    return subject.asObservable();
+  }
+
+  updateUser(user: FullUserDiscord, revoke:boolean=false)
+  {
+    var subject = new Subject<boolean>();
+    var sub=this.store.collection('User',ref=> ref.where("username","==",user.username)).valueChanges({idField: 'id'})
+    .subscribe(x=>{
+      if(x.length>0)
+      {
+        if(revoke)
+        {
+          this.store.collection('User').doc(`${x[0].id}`).set({
+            revokeToken: Date.now()
+          },
+          {
+            merge:true
+          });
+
+          this.rekoveAccessToken(user.token?.access_token!);
+        }
+        this.store.collection('User').doc(`${x[0].id}`).set({
+        },
+        {
+          merge:true
+        });
+
+
       }
       else
         this.registrati(user);
@@ -275,9 +308,50 @@ export class UserService {
       messaggio: ticket.messaggio,
       tipologia: ticket.tipologia,
       tool: ticket.tool,
-      data: new Date()
+      corretto: false,
+      data: new Date(),
+      id: crypto.randomUUID()
   });
     this.openSnackBar("segnalazioneInviata");
+  }
+
+  getTickets()
+  {
+    var subject = new Subject<Array<Ticket>>();
+
+    var sub=this.store.collection<Ticket>('Ticket').valueChanges()
+      .subscribe(x=>{
+        if(x.length>0)
+        {
+          x = x.map(y=>{
+            return {...y, data: this.utils.getFromTimeStamp(y.data)}
+          });
+          subject.next(x);
+          sub.unsubscribe();
+        }
+      });
+    return subject.asObservable();
+  }
+
+  updateTickets(ticket:Ticket)
+  {
+    console.log(ticket)
+    var subject = new Subject<boolean>();
+    var sub=this.store.collection('Ticket',ref=> ref.where("id","==",ticket.id)).valueChanges({idField: 'id'})
+    .subscribe(x=>{
+      if(x.length>0)
+      {
+        this.store.collection('Ticket').doc(`${x[0].id}`).set({
+          corretto: ticket.corretto
+        },
+        {
+          merge:true
+        });
+
+      }
+    sub.unsubscribe();
+    });
+    return subject.asObservable();
   }
 
   isLogged()
