@@ -37,7 +37,6 @@ export class HomeViewComponent implements OnInit {
         if(lastUrl)
           this.router.navigate([lastUrl]);
       this.userService.loginDiscord(code).subscribe(user=>{
-
       });
     }
 

@@ -16,7 +16,7 @@ const CLIENT_SECRET_LOCALE ='nQw62DUdZc5DaaYEZ6CB7IyqgtFqUnHY';
 
 const REDIRECT_URL='https://fabiodagostino.github.io/rot/';
 const CLIENT_ID='1106594210242625579';
-const CLIENT_SECRET ='74VfRYTw1f-ERkI4rfJGSVGwP3ShCsNe';
+const CLIENT_SECRET ='RIZz7vBghyPRJJKSLj32UL95iyygc2_9';
 const API_ENDPOINT = 'https://discord.com/api/v10';
 const GUILD_ID_ROTINIEL="511856322141093904";
 
@@ -258,6 +258,7 @@ export class UserService {
     this.store.collection("User").add({
       username: user.username,
       roles: user.ruoli,
+      ruoli: user.ruoli,
       lastExpiresToken: user.token!.expires,
       id: user.id,
       serverAutenticazione: user.serverAutenticazione,
@@ -335,7 +336,6 @@ export class UserService {
 
   updateTickets(ticket:Ticket)
   {
-    console.log(ticket)
     var subject = new Subject<boolean>();
     var sub=this.store.collection('Ticket',ref=> ref.where("id","==",ticket.id)).valueChanges({idField: 'id'})
     .subscribe(x=>{
