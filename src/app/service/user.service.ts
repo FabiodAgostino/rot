@@ -94,6 +94,7 @@ export class UserService {
       if(guilds.find(guild=> guild.id.includes('511856322141093904'))) //ROTINIEL
       {
         this.getUserGuildInfo(token.access_token).subscribe( (u) =>{
+          console.log(u)
           const user= this.okLogin(token, "Rotiniel",u);
           subject.next(user);
         },
@@ -128,7 +129,6 @@ export class UserService {
     this.openSnackBar("login");
     this.loggedIn.next(true);
     localStorage.setItem("idUser",u.id!);
-
     if(u.ruoli?.includes('Cittadino'))
     {
       this.isRotinrim=true;
@@ -207,7 +207,8 @@ export class UserService {
       {
         this.store.collection('User').doc(`${x[0].id}`).set({
           lastExpiresToken:user.token!.expires,
-          ruoli: user.ruoli
+          ruoli: user.ruoli,
+          roles: user.ruoli
         },
         {
           merge:true
