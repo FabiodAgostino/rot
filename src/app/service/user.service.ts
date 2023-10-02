@@ -94,7 +94,6 @@ export class UserService {
       if(guilds.find(guild=> guild.id.includes('511856322141093904'))) //ROTINIEL
       {
         this.getUserGuildInfo(token.access_token).subscribe( (u) =>{
-          console.log(u)
           const user= this.okLogin(token, "Rotiniel",u);
           subject.next(user);
         },
