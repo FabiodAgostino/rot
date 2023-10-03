@@ -25,6 +25,10 @@
             "main": "src/main.ts",
             "polyfills": "src/polyfills.ts",
             "tsConfig": "tsconfig.app.json",
+            "allowedCommonJsDependencies": [
+              "stream",
+              "timers"
+            ],
             "assets": [
               "src/favicon.ico",
               "src/assets"
@@ -94,6 +98,10 @@
             "polyfills": "src/polyfills.ts",
             "tsConfig": "tsconfig.spec.json",
             "karmaConfig": "karma.conf.js",
+            "allowedCommonJsDependencies": [
+              "stream",
+              "timers"
+            ],
             "assets": [
               "src/favicon.ico",
               "src/assets"
@@ -108,6 +116,5 @@
         }
       }
     }
-  },
-  "defaultProject": "newprova4"
+  }
 }

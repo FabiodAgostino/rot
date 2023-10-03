@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormControl, Validators } from '@angular/forms';
 import { Classe, InfoSkill, PartialPg, Pg, Razza, Religione, Skill } from '../../models/Pg';
 import { SchedaPersonaggioService } from '../../service/scheda-personaggio.service';
-import {MatDialog, MAT_DIALOG_DATA, MatDialogRef} from '@angular/material/dialog';
+import { MatDialog, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { ModaleSkillsComponent } from '../modale-skills/modale-skills.component';
 import { ModalePaladinoComponent } from '../modale-paladino/modale-paladino.component';
 import jsPDF from 'jspdf';

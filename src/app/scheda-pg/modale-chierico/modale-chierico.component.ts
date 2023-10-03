@@ -1,5 +1,5 @@
 import { Component, Inject, Input, OnInit } from '@angular/core';
-import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { MatDialog, MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { ModaleSkillsComponent } from '../modale-skills/modale-skills.component';
 import { SpellChierico, SpellPaladino } from '../../models/Pg';
 import { SchedaPersonaggioService } from '../../service/scheda-personaggio.service';

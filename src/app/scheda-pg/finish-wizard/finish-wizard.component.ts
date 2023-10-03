@@ -1,5 +1,5 @@
 import { ChangeDetectorRef, Component, Inject, OnInit, Renderer2 } from '@angular/core';
-import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { MatDialog, MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { ActivatedRoute } from '@angular/router';
 import { InfoSkill, Pg, SpellChierico, SpellPaladino } from 'src/app/models/Pg';
 import  jspdf, { jsPDF } from 'jspdf';

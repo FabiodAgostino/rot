@@ -1,5 +1,5 @@
 import { Component, Inject, OnInit } from '@angular/core';
-import { MatDialog, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MacroFull, MacroFullFromXml, MacroSettingsFront, MacroToInsert } from 'src/app/models/Macro';
 import { MacroService } from 'src/app/service/macro.service';
 import { UserService } from 'src/app/service/user.service';

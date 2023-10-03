@@ -12,54 +12,51 @@ import { MatNativeDateModule } from '@angular/material/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatIconModule } from '@angular/material/icon';
-import {MatSidenavModule} from '@angular/material/sidenav';
-import {MatButtonModule} from '@angular/material/button';
+import { MatSidenavModule } from '@angular/material/sidenav';
+import { MatButtonModule } from '@angular/material/button';
 import { MatDividerModule } from '@angular/material/divider';
 import { HelpComponent } from './help/help.component';
-import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { SafePipe } from 'src/environments/selfPipe';
 import { OverlayModule } from '@angular/cdk/overlay';
 import { ProgressSpinnerComponent } from './progress-spinner/progress-spinner.component';
 import { IframeGeneratorComponent } from './iframe-generator/iframe-generator.component';
 import { CreditsComponent } from './credits/credits.component';
-import { FooterComponent } from './footer/footer.component';
-import { FlexLayoutModule } from '@angular/flex-layout';
-import {PlatformModule} from '@angular/cdk/platform';
-import {MatTooltipModule} from '@angular/material/tooltip';
+import { PlatformModule } from '@angular/cdk/platform';
+import { MatTooltipModule } from '@angular/material/tooltip';
 import { environment } from "../environments/environment";
 import { AngularFireModule } from "@angular/fire/compat";
 import { AngularFireAuthModule } from "@angular/fire/compat/auth";
 import { AngularFireStorageModule } from '@angular/fire/compat/storage';
 import { AngularFirestoreModule } from '@angular/fire/compat/firestore';
-import { AngularFireDatabaseModule  } from '@angular/fire/compat/database';
+import { AngularFireDatabaseModule } from '@angular/fire/compat/database';
 import { DevelopComponent } from './develop/develop.component';
-import {MatSelectModule} from '@angular/material/select';
-import {MatInputModule} from '@angular/material/input';
-import {MatCheckboxModule} from '@angular/material/checkbox';
-import {MatCardModule} from '@angular/material/card';
+import { MatSelectModule } from '@angular/material/select';
+import { MatInputModule } from '@angular/material/input';
+import { MatCheckboxModule } from '@angular/material/checkbox';
+import { MatCardModule } from '@angular/material/card';
 import { SchedaPersonaggioComponent } from './scheda-pg/scheda-personaggio/scheda-personaggio.component';
 import { ModaleSkillsComponent } from './scheda-pg/modale-skills/modale-skills.component';
-import { MatDialog } from '@angular/material/dialog';
-import {MatDialogModule} from '@angular/material/dialog';
-import {MatExpansionModule} from '@angular/material/expansion';
-import {MatProgressBarModule} from '@angular/material/progress-bar';
+import { MatDialog, MatDialogModule } from '@angular/material/dialog';
+import { MatExpansionModule } from '@angular/material/expansion';
+import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { ModaleChiericoComponent } from './scheda-pg/modale-chierico/modale-chierico.component';
 import { ModalePaladinoComponent } from './scheda-pg/modale-paladino/modale-paladino.component';
 import { FinishWizardComponent } from './scheda-pg/finish-wizard/finish-wizard.component';
-import {MatSnackBarModule} from '@angular/material/snack-bar';
-import {MatStepperModule} from '@angular/material/stepper';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { MatStepperModule } from '@angular/material/stepper';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { HomeViewComponent } from './home-view/home-view.component';
 import { InfoSkillsComponent } from './scheda-pg/info-skills/info-skills.component';
 import { PasswordStrenghtMeterComponent } from './password-strenght-meter/password-strenght-meter.component';
 import { TemplateStatSkillsComponent } from './scheda-pg/template-stat-skills/template-stat-skills.component';
-import {MatPaginatorModule} from '@angular/material/paginator';
-import {MatSortModule} from '@angular/material/sort';
+import { MatPaginatorModule } from '@angular/material/paginator';
+import { MatSortModule } from '@angular/material/sort';
 import { BachecaComponent } from './impagina-bacheca/bacheca/bacheca/bacheca.component';
 import { MacroComponent } from './macro/macro/macro.component';
 import { MacroListComponent } from './macro/macro-list/macro-list.component';
 import { MacroInsertEditComponent } from './macro/macro-insert-edit/macro-insert-edit.component';
-import {MatTableModule} from '@angular/material/table';
+import { MatTableModule } from '@angular/material/table';
 import { MacroMultiInsertComponent } from './macro/macro-multi-insert/macro-multi-insert.component';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { AppInitializerService } from './service/appInitializer.service';
@@ -74,12 +71,7 @@ import { AggiungiNewsComponent } from './admin-components/aggiungi-news/aggiungi
 import { TimestampToDatePipe } from './utils/timestamp-to-date.pipe';
 import { RoleGuard } from './service/roleGuard';
 import { NgChartsModule } from 'ng2-charts';
-import { BaseChartDirective } from 'ng2-charts';
-
-
-
-
-
+import { FooterComponent } from './footer/footer.component';
 
 @NgModule({
   declarations: [
@@ -131,8 +123,6 @@ import { BaseChartDirective } from 'ng2-charts';
     MatButtonModule,
     MatProgressSpinnerModule,
     OverlayModule,
-    MatProgressSpinnerModule,
-    FlexLayoutModule,
     PlatformModule,
     MatTooltipModule,
     AngularFireModule.initializeApp(environment.firebaseConfig),
@@ -156,9 +146,11 @@ import { BaseChartDirective } from 'ng2-charts';
     ClipboardModule,
     BrowserAnimationsModule,
     NgChartsModule
-
   ],
-  providers: [SafePipe, MatDialog,HttpClient,
+  providers: [
+    SafePipe,
+    MatDialog,
+    HttpClient,
     AppInitializerService,
     {
       provide: APP_INITIALIZER,
@@ -173,6 +165,5 @@ import { BaseChartDirective } from 'ng2-charts';
     CUSTOM_ELEMENTS_SCHEMA,
     NO_ERRORS_SCHEMA
   ]
-
 })
 export class AppModule { }

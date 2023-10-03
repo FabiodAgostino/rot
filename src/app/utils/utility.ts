@@ -2,7 +2,7 @@ import { Platform } from "@angular/cdk/platform"
 import { Injectable } from '@angular/core';
 import { FormGroup } from "@angular/forms";
 import { Classe, ClasseCheckBox, Skill } from "../models/Pg";
-import { NgxXml2jsonService } from 'ngx-xml2json';
+import * as xml2js from 'xml2js';
 import { MacroService } from "../service/macro.service";
 import { MacroFullFromXml, MacroSettings, MacroSettingsFront } from "../models/Macro";
 import { Subject } from "rxjs";
@@ -20,7 +20,7 @@ const SUBCODE = [{"macro":"NW","subcode":"1"},{"macro":"N","subcode":"2"},{"macr
   providedIn: 'root',
 })
 export class Utils {
-  constructor(public _platform: Platform, private ngxXml2jsonService: NgxXml2jsonService, private macroService: MacroService, private activatedRoute:ActivatedRoute, private route:Router)
+  constructor(public _platform: Platform, private macroService: MacroService, private activatedRoute:ActivatedRoute, private route:Router)
   {
     this.platform=_platform;
   }
@@ -97,13 +97,24 @@ export class Utils {
     return string.charAt(0).toUpperCase() + string.slice(1);
 }
 
-
+convertXmlToJson(xmlData: string) {
+  const parser = new xml2js.Parser();
+  parser.parseString(xmlData, (err, result) => {
+    if (err) {
+      console.error('Error parsing XML:', err);
+      return null;
+    } else {
+      return JSON.stringify(result, null, 2);
+    }
+  });
+}
 
   MacrosXmlToObject(xml: string)
   {
-    const parser = new DOMParser();
-    const newXml = parser.parseFromString(xml, 'text/xml');
-    const obj = this.ngxXml2jsonService.xmlToJson(newXml);
+    const parser = new xml2js.Parser();
+    const xmlDoc = new DOMParser().parseFromString(xml, 'text/xml');
+    const xmlString = new XMLSerializer().serializeToString(xmlDoc);
+    var obj=this.convertXmlToJson(xmlString);
     var array=((obj as any).macros.macro as Array<any>);
 
     let macros = new Array<MacroXml>();
