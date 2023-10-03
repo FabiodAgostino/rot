@@ -72,6 +72,7 @@ import { TimestampToDatePipe } from './utils/timestamp-to-date.pipe';
 import { RoleGuard } from './service/roleGuard';
 import { NgChartsModule } from 'ng2-charts';
 import { FooterComponent } from './footer/footer.component';
+import { NgxSkeletonLoaderModule } from 'ngx-skeleton-loader';
 
 @NgModule({
   declarations: [
@@ -145,7 +146,8 @@ import { FooterComponent } from './footer/footer.component';
     HttpClientModule,
     ClipboardModule,
     BrowserAnimationsModule,
-    NgChartsModule
+    NgChartsModule,
+    NgxSkeletonLoaderModule
   ],
   providers: [
     SafePipe,

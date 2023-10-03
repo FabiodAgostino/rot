@@ -314,7 +314,8 @@ export class SchedaPersonaggioComponent implements OnInit {
   openTemplate()
   {
     const dialog=this.dialog.open(TemplateStatSkillsComponent, {
-      width:this.utils.isSmartphone() ? "100%" : '50%',
+      width:this.utils.isSmartphone() ? "100%" : '60%',
+      height:"53%",
       data: {Classe: this.schedaPg.classe, Selezionato: this.selezionato}
     });
 

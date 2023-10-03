@@ -53,6 +53,7 @@ export class FinishWizardComponent implements OnInit  {
     let data = document.getElementById("MyPdf");
     let data2 = (this.spellsChierico.spell.length>0 || this.spellsPaladino.spell.length>0) && this.isRotinrim() ? document.getElementById("MyPdf2") : null;
     let data3 = this.infoSkills.length>0 && this.isRotinrim() ? document.getElementById("MyPdf3") : null;
+    console.log(data)
     if(data!=null)
     {
         html2canvas(data).then(canvas => {

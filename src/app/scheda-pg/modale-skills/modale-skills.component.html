@@ -1,82 +1,65 @@
-<div>
 <div mat-dialog-title="" class="flex justify-around content-stretch items-stretch flex-col">
-
   <span>Scegli le skills del tuo pg</span>
-
-
-
   <div style="margin-top: 0.5em;">
-
     <mat-progress-bar mode="determinate" [color]="valueTotale<=1200 ? 'primary' : 'warn'" [value]="valueTotale/12"></mat-progress-bar>
-
   </div>
-
-
-
   <div fxlayout="column" style="margin-top: 0.5em;" class="flex-1">
-
     <h4>Totale skills selezionate: <u [style.color]="valueTotale>1200 ? 'red' : '#004a9f'">{{valueTotale}}</u>/1200</h4>
-
   </div>
-
   <section class="example-section flex-1" fxlayout="column">
-
     <mat-checkbox class="example-margin" color="primary" (change)="setAll($event)" style="margin-left: 12px;">Applica skills consigliate</mat-checkbox>
-
   </section>
-
 </div>
 
 
 
-<mat-dialog-content [ngClass]="{'content': this.utils.isSmartphone()}" class="flex justify-around content-stretch items-stretch flex-col">
-
-
-
-
-
-
-    <div class="home flex flex-col flex-1" >
-            <div class="skills flex flex-col">
-              <li *ngFor="let lavorativa of skillsComplessive">
-                <div class="flex-1">
-              <button mat-raised-button (click)="setSkill(lavorativa)" class="skill flex-1" [color]="lavorativa.isChecked ? 'primary' : 'white'">
-                <span class="material-symbols-outlined">
-                  {{getIcon(lavorativa.idTipologiaSkill)}}
+<mat-dialog-content class="flex justify-around content-stretch items-stretch flex-col">
+  <div class="home flex flex-col flex-1">
+    <div class="skills flex flex-col" *ngIf="skillsComplessive!=null && skillsComplessive!.length>0">
+      <li *ngFor="let lavorativa of skillsComplessive">
+        <div class="flex-1">
+          <div class="flex items-center"> 
+            <button
+              mat-raised-button
+              (click)="setSkill(lavorativa)"
+              class="skill flex-1"
+              [class.w-full]="!lavorativa.isChecked"
+              [class.w-80]="lavorativa.isChecked"
+              [color]="lavorativa.isChecked ? 'primary' : 'white'"
+            >
+              <span class="material-symbols-outlined" [ngClass]="{'simbolo': lavorativa.isChecked}">
+                {{getIcon(lavorativa.idTipologiaSkill)}}
+              </span>
+                <span>                {{lavorativa.nome}}
                 </span>
-               
-
-                {{lavorativa.nome}}  </button>
-
-                <input *ngIf="lavorativa.isChecked" class="value basis-[30%]" matInput="" type="number" [(ngModel)]="lavorativa.value" placeholder="Valore skill" (keyup)="checkNumber(lavorativa)"/>
-
-           </div>
-
-          </li>
-
+            </button>
+            <input
+              *ngIf="lavorativa.isChecked"
+              class="value w-10"
+              matInput
+              type="number"
+              [(ngModel)]="lavorativa.value"
+              placeholder="Valore skill"
+              (keyup)="checkNumber(lavorativa)"
+              style=" min-width: 0;"
+            />
+          </div>
         </div>
-
+      </li>
     </div>
-
-
-
-  </mat-dialog-content>
-
-
-
-    <mat-toolbar-row class="flex justify-around content-center items-center flex-row">
-
-      <div style="margin-top: 1%;">
-
-        <button mat-raised-button="" *ngIf="expanded" color="warn" (click)="reset()">Reset  <mat-icon>undo</mat-icon></button>
-
-      </div>
-
-      <div style="margin-top: 1%;">
-
-        <button mat-raised-button="" *ngIf="expanded" color="primary" [disabled]="valueTotale>1200" (click)="salvaSkills()">Salva <mat-icon>done</mat-icon></button>
-
-      </div>
-
-    </mat-toolbar-row>
+    <div *ngIf="skillsComplessive==null || skillsComplessive!.length==0">
+      <ngx-skeleton-loader count="30" appearance="line" [theme]="{ 
+        height: '4.5vh',
+        border: '1px solid white'
+      }"></ngx-skeleton-loader>
+    </div>
   </div>
+</mat-dialog-content>
+<mat-toolbar-row class="flex justify-around content-center items-center flex-row">
+  <div style="margin-top: 1%;">
+    <button mat-raised-button="" *ngIf="expanded" color="warn" (click)="reset()">Reset  <mat-icon>undo</mat-icon></button>
+  </div>
+  <div style="margin-top: 1%;">
+    <button mat-raised-button="" *ngIf="expanded" color="primary" [disabled]="valueTotale>1200" (click)="salvaSkills()">Salva <mat-icon>done</mat-icon></button>
+  </div>
+</mat-toolbar-row>

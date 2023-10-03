@@ -38,4 +38,10 @@ input[type=number]::-webkit-outer-spin-button {
 
 li {list-style-type: none;}
 
+@media (max-width: 350px) {
+  .simbolo {
+    display: none;
+  }
+}
+
 
