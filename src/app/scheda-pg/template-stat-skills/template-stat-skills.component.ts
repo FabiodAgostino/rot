@@ -1,8 +1,6 @@
 import { Component, Inject, OnChanges, OnInit, SimpleChanges, ViewChild } from '@angular/core';
 import { MatDialog, MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
-import { MatSort, Sort } from '@angular/material/sort';
-import { map, Observable, of } from 'rxjs';
 import { Classe, PartialPg, Pg } from 'src/app/models/Pg';
 import { SchedaPersonaggioService } from 'src/app/service/scheda-personaggio.service';
 import { Utils } from 'src/app/utils/utility';

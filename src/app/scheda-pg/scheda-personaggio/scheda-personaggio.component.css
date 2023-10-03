@@ -62,3 +62,47 @@
   position: relative;
   bottom: 2px;
 }
+
+::ng-deep .mdc-text-field--filled:not(.mdc-text-field--disabled) {
+  font-size: 12px;
+  background-color: white !important;
+  height: 6vh;
+}
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Firefox */
+input[type=number] {
+  -moz-appearance: textfield;
+}
+
+/* ::ng-deep .mdc-text-field--filled:not(.mdc-text-field--disabled):hover {
+  background-color: white !important;
+} */
+
+/* 
+
+
+
+
+::ng-deep .mdc-text-field--filled:not(.mdc-text-field--disabled):focus {
+  background-color: white !important;
+}
+
+::ng-deep .mdc-text-field--focused
+{
+  background-color: white !important;
+  width: 7vw;
+  font-size: small;
+}
+
+::ng-deep mat-select-content:hover, ::ng-deep mat-select-content:focus
+{
+  background-color: white;
+} */
+
+

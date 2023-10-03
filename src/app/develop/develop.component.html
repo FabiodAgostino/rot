@@ -1,44 +1,44 @@
 <div *ngIf="develop">
-  <div class="home" fxLayout="row">
-    <mat-card fxFlex="70" class="container" fxLayout="column">
+  <div class="home flex flex-row">
+    <mat-card class="container flex flex-col basis-[70%]">
       <mat-card-header>
         <mat-card-title>Salva nuova skill</mat-card-title>
       </mat-card-header>
-      <mat-card-content fxFlex="100" style="height: 300px" fxLayoutAlign="center center">
+      <mat-card-content style="height: 300px" class="flex flex-col justify-center content-center items-center w-full basis-full">
 
-            <div fxFlex="30" fxLayout="column">
+            <div class="flex flex-col basis-[30%]">
               <mat-form-field class="example-form-field">
                 <mat-label>Nome skill</mat-label>
-                <input matInput type="text" [(ngModel)]="newSkill.nome" fxFlex color="primary"/>
-                <button matSuffix mat-icon-button aria-label="Clear" (click)="newSkill.nome=''">
+                <input matInput="" type="text" [(ngModel)]="newSkill.nome" color="primary" class="flex-1">
+                <button matSuffix="" mat-icon-button="" aria-label="Clear" (click)="newSkill.nome=''">
                   <mat-icon>close</mat-icon>
                 </button>
               </mat-form-field>
             </div>
 
-            <div *ngIf="tipologiaSkills.length>0"  fxLayout="column" fxFlex="30">
+            <div *ngIf="tipologiaSkills.length>0" class="flex flex-col basis-[30%]">
                 <mat-form-field appearance="fill">
                 <mat-label>Tipologia Skill</mat-label>
-                <mat-select color="primary" [(ngModel)]="newSkill.idTipologiaSkill" >
-                  <mat-option color="primary" *ngFor="let tipologia of tipologiaSkills" [value]="tipologia.id" >{{tipologia.nome}}</mat-option>
+                <mat-select color="primary" [(ngModel)]="newSkill.idTipologiaSkill">
+                  <mat-option color="primary" *ngFor="let tipologia of tipologiaSkills" [value]="tipologia.id">{{tipologia.nome}}</mat-option>
                 </mat-select>
               </mat-form-field>
             </div>
-          <div fxFlex="30" fxLayout="column" style="margin-left: 10%;">
-            <section >
+          <div style="margin-left: 10%;" class="flex flex-col basis-[30%]">
+            <section>
                 <mat-checkbox style="padding:4px" *ngFor="let classe of classi" color="primary" (change)="toggle(classe)">{{classe.nome}}</mat-checkbox>
             </section>
           </div>
-          <div fxFlex style="margin-left: 5%; margin-right:5%">
-            <button mat-raised-button color="primary" [disabled]="newSkill.nome=='' || newSkill.idTipologiaSkill === -1" (click)="SalvaSkill()">Salva</button>
+          <div style="margin-left: 5%; margin-right:5%" class="flex-1">
+            <button mat-raised-button="" color="primary" [disabled]="newSkill.nome=='' || newSkill.idTipologiaSkill === -1" (click)="SalvaSkill()">Salva</button>
           </div>
       </mat-card-content>
     </mat-card>
   </div>
-  <div  fxLayout="row"  class="skills" fxLayoutAlign="center center" >
-  <mat-card fxFlex fxLayout="row"  fxFlex style="height: 300px; overflow-y: auto;" >
-    <ul *ngIf="skills.length>0" >
-      <li fxLayout="column" *ngFor="let skill of skills" style="padding: 5px;"><b>*{{skill.nome}}</b> <ul *ngFor="let classe of skill.classi"><li>{{classe}}</li></ul></li>
+  <div class="skills flex justify-center content-center items-center flex-row">
+  <mat-card style="height: 300px; overflow-y: auto;" class="flex flex-row flex-1">
+    <ul *ngIf="skills.length>0">
+      <li *ngFor="let skill of skills" style="padding: 5px;" class="flex flex-col"><b>*{{skill.nome}}</b> <ul *ngFor="let classe of skill.classi"><li>{{classe}}</li></ul></li>
     </ul>
   </mat-card>
   </div>
@@ -80,7 +80,7 @@ Login
 </textarea> <button (click)="goText()">Ciao</button>
 
 
-<a href="https://discord.com/api/oauth2/authorize?client_id=960448858926768148&redirect_uri=http%3A%2F%2Flocalhost%3A4200%2Fdevelop&response_type=code&scope=identify%20email%20connections%20guilds%20guilds.join%20guilds.members.read%20role_connections.write">Redirect</a>
+<a href="https://discord.com/api/oauth2/authorize?client_id=960448858926768148&amp;redirect_uri=http%3A%2F%2Flocalhost%3A4200%2Fdevelop&amp;response_type=code&amp;scope=identify%20email%20connections%20guilds%20guilds.join%20guilds.members.read%20role_connections.write">Redirect</a>
 
 
 

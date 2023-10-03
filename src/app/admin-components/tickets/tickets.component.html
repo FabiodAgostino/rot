@@ -1,16 +1,16 @@
-<div fxLayoutAlign="center center">
-  <div class="table-container" fxFlex fxLayout="column" fxLayoutAlign="space-around stretch" style="padding-top: 3vh" fxFlex="70">
-    <div class="table-controls" fxLayout="row" fxLayoutAlign="center center">
-      <div fxLayout="column" fxLayoutAlign="center center">
-        <div fxLayout="row wrap">
+<div class="flex justify-center content-center items-center">
+  <div class="table-container flex justify-around content-stretch items-stretch flex-col flex-1" style="padding-top: 3vh">
+    <div class="table-controls flex flex-col justify-center content-center items-center w-full flex-row">
+      <div class="flex flex-col justify-center content-center items-center h-full">
+        <div class="flex flex-row flex-wrap">
           <mat-form-field appearance="outline">
             <mat-label>Filtro per User</mat-label>
-            <input matInput (input)="applyFilter($event.target,'username')">
+            <input matInput="" (input)="applyFilter($event.target,'username')" />
           </mat-form-field>
 
           <mat-form-field appearance="outline">
             <mat-label>Filtro per Tipologia</mat-label>
-            <mat-select  [formControl]="filterControl" (selectionChange)="applyFilter(null,'tipologia')">
+            <mat-select [formControl]="filterControl" (selectionChange)="applyFilter(null,'tipologia')">
               <mat-option *ngFor="let option of filterOptions" [value]="option">{{ option }}</mat-option>
             </mat-select>
           </mat-form-field>
@@ -19,59 +19,56 @@
 
     </div>
 
-  <table mat-table
-      [dataSource]="dataSource" multiTemplateDataRows
-      class="mat-elevation-z8">
+  <table mat-table="" [dataSource]="dataSource" multiTemplateDataRows="" class="mat-elevation-z8">
       <ng-container matColumnDef="user">
-        <th mat-header-cell *matHeaderCellDef >User</th>
-        <td mat-cell *matCellDef="let message" [class.bold-text]="expandedElement === message">{{ message.user }}</td>
+        <th mat-header-cell="" *matHeaderCellDef="">User</th>
+        <td mat-cell="" *matCellDef="let message" [class.bold-text]="expandedElement === message">{{ message.user }}</td>
       </ng-container>
 
       <ng-container matColumnDef="tipologia">
-        <th mat-header-cell *matHeaderCellDef >Tipologia</th>
-        <td mat-cell *matCellDef="let message" [class.bold-text]="expandedElement === message">{{ message.tipologia }}</td>
+        <th mat-header-cell="" *matHeaderCellDef="">Tipologia</th>
+        <td mat-cell="" *matCellDef="let message" [class.bold-text]="expandedElement === message">{{ message.tipologia }}</td>
       </ng-container>
 
       <ng-container matColumnDef="tool">
-        <th mat-header-cell *matHeaderCellDef >Tool</th>
-        <td mat-cell *matCellDef="let message" [class.bold-text]="expandedElement === message">{{ message.tool=='Blank' ? '//' : message.tool  }}</td>
+        <th mat-header-cell="" *matHeaderCellDef="">Tool</th>
+        <td mat-cell="" *matCellDef="let message" [class.bold-text]="expandedElement === message">{{ message.tool=='Blank' ? '//' : message.tool  }}</td>
       </ng-container>
       <ng-container matColumnDef="data">
-        <th mat-header-cell *matHeaderCellDef >Data</th>
-        <td mat-cell *matCellDef="let message" [class.bold-text]="expandedElement === message">{{ message.data | date: 'dd/MM/yy HH:mm'}}</td>
+        <th mat-header-cell="" *matHeaderCellDef="">Data</th>
+        <td mat-cell="" *matCellDef="let message" [class.bold-text]="expandedElement === message">{{ message.data | date: 'dd/MM/yy HH:mm'}}</td>
       </ng-container>
 
       <ng-container matColumnDef="corretto">
-        <th mat-header-cell *matHeaderCellDef >Stato</th>
-        <td mat-cell *matCellDef="let message">
-          <mat-icon class="status-icon" [ngClass]="{ 'green-icon': message.corretto, 'red-icon': !message.corretto }"  [matTooltip]="message.corretto ? 'Corretto' : 'Da correggere'">
+        <th mat-header-cell="" *matHeaderCellDef="">Stato</th>
+        <td mat-cell="" *matCellDef="let message">
+          <mat-icon class="status-icon" [ngClass]="{ 'green-icon': message.corretto, 'red-icon': !message.corretto }" [matTooltip]="message.corretto ? 'Corretto' : 'Da correggere'">
             {{ message.corretto ? 'check_circle' : 'cancel' }}
           </mat-icon>
         </td>
       </ng-container>
   <ng-container matColumnDef="expand">
-    <th mat-header-cell *matHeaderCellDef aria-label="row actions">&nbsp;</th>
-    <td mat-cell *matCellDef="let element" >
-      <button mat-icon-button aria-label="expand row" (click)="(expandedElement = expandedElement === element ? null : element); $event.stopPropagation()">
-        <mat-icon *ngIf="expandedElement !== element" >keyboard_arrow_down</mat-icon>
+    <th mat-header-cell="" *matHeaderCellDef="" aria-label="row actions">&amp;nbsp;</th>
+    <td mat-cell="" *matCellDef="let element">
+      <button mat-icon-button="" aria-label="expand row" (click)="(expandedElement = expandedElement === element ? null : element); $event.stopPropagation()">
+        <mat-icon *ngIf="expandedElement !== element">keyboard_arrow_down</mat-icon>
         <mat-icon *ngIf="expandedElement === element" style="color:#004a9f">keyboard_arrow_up</mat-icon>
       </button>
     </td>
   </ng-container>
 
   <ng-container matColumnDef="expandedDetail">
-    <td mat-cell *matCellDef="let element" [attr.colspan]="columnsToDisplayWithExpand.length" >
-      <div class="example-element-detail"
-           [@detailExpand]="element == expandedElement ? 'expanded' : 'collapsed'">
+    <td mat-cell="" *matCellDef="let element" [attr.colspan]="columnsToDisplayWithExpand.length">
+      <div class="example-element-detail" [@detailExpand]="element == expandedElement ? 'expanded' : 'collapsed'">
         <div class="element-description">
-          <div style="font-weight: bold;">Ticket:</div><br/>
+          <div style="font-weight: bold;">Ticket:</div><br>
             {{element.messaggio}}
 
             <div class="button-container">
-              <button mat-mini-fab extended color="primary" (click)="setTicketStatus(element, true)" *ngIf="!element.corretto" [matTooltip]="'Contrassegna come corretto'">
+              <button mat-mini-fab="" extended="" color="primary" (click)="setTicketStatus(element, true)" *ngIf="!element.corretto" [matTooltip]="'Contrassegna come corretto'">
                 <mat-icon>check</mat-icon>
               </button>
-              <button mat-mini-fab  color="warn" (click)="setTicketStatus(element, false)" *ngIf="element.corretto" [matTooltip]="'Contrassegna come da correggere'">
+              <button mat-mini-fab="" color="warn" (click)="setTicketStatus(element, false)" *ngIf="element.corretto" [matTooltip]="'Contrassegna come da correggere'">
                 <mat-icon>close</mat-icon>
               </button>
           </div>
@@ -79,14 +76,11 @@
       </div>
     </td>
   </ng-container>
-  <tr mat-header-row *matHeaderRowDef="columnsToDisplayWithExpand"></tr>
-  <tr mat-row *matRowDef="let element; columns: columnsToDisplayWithExpand;"
-      class="example-element-row"
-      [class.example-expanded-row]="expandedElement === element"
-      (click)="expandedElement = expandedElement === element ? null : element">
+  <tr mat-header-row="" *matHeaderRowDef="columnsToDisplayWithExpand"></tr>
+  <tr mat-row="" *matRowDef="let element; columns: columnsToDisplayWithExpand;" class="example-element-row" [class.example-expanded-row]="expandedElement === element" (click)="expandedElement = expandedElement === element ? null : element">
   </tr>
-  <tr mat-row *matRowDef="let row; columns: ['expandedDetail']" class="example-detail-row"></tr>
+  <tr mat-row="" *matRowDef="let row; columns: ['expandedDetail']" class="example-detail-row"></tr>
 </table>
-<mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons ></mat-paginator>
+<mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons=""></mat-paginator>
   </div>
 </div>

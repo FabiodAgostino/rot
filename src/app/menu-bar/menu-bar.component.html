@@ -1,30 +1,24 @@
 
 <mat-toolbar class="mat-elevation-z8">
-  <button
-    mat-icon-button
-    *ngIf="sidenav.mode === 'over'"
-    (click)="sidenav.toggle(); "
-  >
+  <button mat-icon-button="" *ngIf="sidenav.mode === 'over'" (click)="sidenav.toggle(); ">
     <mat-icon *ngIf="!sidenav.opened"> menu </mat-icon>
     <mat-icon *ngIf="sidenav.opened"> close </mat-icon>
   </button>
-  &nbsp;
 <span class="material-icons ank" style="color: rgb(255, 210, 48); font-size: 56px; -webkit-text-stroke-width: 0px;" routerLink="/" (click)="boolHome=false;">anchor</span>
-&nbsp;
-<div fxFlex="96">
+<div class="basis-[96%]">
   Rotiniel Tools
 </div>
-<button mat-icon-button  fxFlex="4" matTooltip="Admin" (click)="goAdmin()" *ngIf="isRegnante" [ngStyle]="isSmartphone ? { 'margin-right': '6vw' } : { '': '' }">
+<button mat-icon-button="" matTooltip="Admin" (click)="goAdmin()" *ngIf="isRegnante" [ngStyle]="isSmartphone ? { 'margin-right': '6vw' } : { '': '' }" class="basis-[4%]">
   <span class="material-symbols-outlined">
     <mat-icon style="color:gold">admin_panel_settings</mat-icon>
     </span>
 </button>
 
-<button mat-icon-button  fxFlex="4" matTooltip="Login" (click)="openLogin()" *ngIf="!isLoggedIn">
+<button mat-icon-button="" matTooltip="Login" (click)="openLogin()" *ngIf="!isLoggedIn" class="basis-[4%]">
   <span class="material-icons">discord</span>
 </button>
 
-<button mat-icon-button  fxFlex="4" matTooltip="Logout" (click)="logOut()" *ngIf="isLoggedIn">
+<button mat-icon-button="" matTooltip="Logout" (click)="logOut()" *ngIf="isLoggedIn" class="basis-[4%]">
   <span class="material-symbols-outlined">
     person_off
     </span>
@@ -38,31 +32,31 @@
     <mat-divider></mat-divider>
 
 
-  <a mat-raised-button routerLink="/" (click)="goChild('https://bitmed.github.io/tmarmor/'); sidenav.toggle()"  class="but">Infondere armature</a>
-  <a mat-raised-button  routerLink="/" (click)="goChild('https://bitmed.github.io/tmenchant/'); sidenav.toggle()" class="but">TM Enchant</a>
-  <a mat-raised-button  routerLink="/" (click)="goChild('https://alatarl.github.io/CalendarioTM/'); sidenav.toggle()"  class="but">Calendario TM</a>
-  <a mat-raised-button  routerLink="/" (click)="goChild('https://alatarl.github.io/ElficoTM/'); sidenav.toggle()"  class="but">Dizionario elfico</a>
-  <a mat-raised-button  routerLink="/schedaPersonaggio" (click)="sidenav.toggle(); boolHome=false;"  class="but">Scheda personaggio</a>
-  <a mat-raised-button  routerLink="/bacheca" (click)="sidenav.toggle(); boolHome=false;"  class="but">Paginazione Bacheche</a>
-  <a mat-raised-button  routerLink="/macro" (click)="sidenav.toggle(); boolHome=false;"  class="but">Macro Utili</a>
+  <a mat-raised-button="" routerLink="/" (click)="goChild('https://bitmed.github.io/tmarmor/'); sidenav.toggle()" class="but">Infondere armature</a>
+  <a mat-raised-button="" routerLink="/" (click)="goChild('https://bitmed.github.io/tmenchant/'); sidenav.toggle()" class="but">TM Enchant</a>
+  <a mat-raised-button="" routerLink="/" (click)="goChild('https://alatarl.github.io/CalendarioTM/'); sidenav.toggle()" class="but">Calendario TM</a>
+  <a mat-raised-button="" routerLink="/" (click)="goChild('https://alatarl.github.io/ElficoTM/'); sidenav.toggle()" class="but">Dizionario elfico</a>
+  <a mat-raised-button="" routerLink="/schedaPersonaggio" (click)="sidenav.toggle(); boolHome=false;" class="but">Scheda personaggio</a>
+  <a mat-raised-button="" routerLink="/bacheca" (click)="sidenav.toggle(); boolHome=false;" class="but">Paginazione Bacheche</a>
+  <a mat-raised-button="" routerLink="/macro" (click)="sidenav.toggle(); boolHome=false;" class="but">Macro Utili</a>
 
 
 
 
     <mat-divider></mat-divider>
 
-    <button mat-raised-button class="menu-button" routerLink="/news" (click)="sidenav.toggle(); boolHome=false;">
+    <button mat-raised-button="" class="menu-button" routerLink="/news" (click)="sidenav.toggle(); boolHome=false;">
       <mat-icon>newspaper</mat-icon>
       <span>News</span>
     </button>
 
 
-    <button mat-raised-button class="menu-button" routerLink="/help" (click)="sidenav.toggle(); boolHome=false;" *ngIf="isLoggedIn">
+    <button mat-raised-button="" class="menu-button" routerLink="/help" (click)="sidenav.toggle(); boolHome=false;" *ngIf="isLoggedIn">
       <mat-icon>help</mat-icon>
       <span>Help</span>
     </button>
 
-    <button mat-raised-button class="menu-button" routerLink="/credits" (click)="sidenav.toggle(); boolHome=false;">
+    <button mat-raised-button="" class="menu-button" routerLink="/credits" (click)="sidenav.toggle(); boolHome=false;">
       <mat-icon>info</mat-icon>
       <span>Credits</span>
     </button>

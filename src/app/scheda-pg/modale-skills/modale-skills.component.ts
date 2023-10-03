@@ -189,5 +189,26 @@ export class ModaleSkillsComponent implements OnInit {
     return styles;
   }
 
+  getIcon(idTipologiaSkill:string): string
+  {
+
+    switch (idTipologiaSkill) {
+      case 0:
+        return "receipt_long";
+      case 1:
+        return "swords";
+      case 2:
+        return "auto_fix";
+      case 3:
+        return "school";
+      case 4:
+        return "collections_bookmark";
+      case 5:
+        return "music_note";
+      default:
+        return "";
+    }
+  }
+
 
 }

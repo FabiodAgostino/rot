@@ -1,30 +1,30 @@
 
-<div class="row" *ngIf="!isSmartphone" >
+<div class="row" *ngIf="!isSmartphone">
   <div style="padding-bottom: 3vh;text-align:center;">
   <u><b>Seleziona un template cliccando su una scheda personaggio</b></u>
   </div>
   <div class="container">
     <mat-accordion *ngFor="let pg of pgPaginati; index as i;" multi="false">
-      <mat-expansion-panel (opened)="select(pg, i);" [ngClass]="{'':selezionato==-1, 'selected': selezionato===i , 'notSelected':selezionato!==i && selezionato!==-1}" [expanded]="selezionato==i">
+      <mat-expansion-panel (opened)="select(pg, i);" [ngClass]="{'':selezionato==-1, 'selected': selezionato===i , 'notSelected':selezionato!==i &amp;&amp; selezionato!==-1}" [expanded]="selezionato==i">
         <!--  [ngClass]="selezionato == i ? 'selected' : 'notSelected'" -->
         <mat-expansion-panel-header>
           <mat-panel-title>
-            <b>Nome:&nbsp;</b>{{pg.nome}} &nbsp;&nbsp;&nbsp;&nbsp; <b>Classe:&nbsp;</b>{{pg.classe.nome}} &nbsp;&nbsp;&nbsp;&nbsp;
+            <b>Nome:&amp;nbsp;</b>{{pg.nome}} &amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; <b>Classe:&amp;nbsp;</b>{{pg.classe.nome}} &amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;
             <span class="material-symbols-outlined">
               fitness_center
-              </span>&nbsp;<b>{{pg.stats.forza}}&nbsp;<b>&nbsp;
+              </span>&amp;nbsp;<b>{{pg.stats.forza}}&amp;nbsp;<b>&amp;nbsp;
                 <span class="material-symbols-outlined">
                   sprint
                   </span>
-                  &nbsp;</b>{{pg.stats.destrezza}}&nbsp;</b>&nbsp;
+                  &amp;nbsp;</b>{{pg.stats.destrezza}}&amp;nbsp;</b>&amp;nbsp;
                     <span class="material-symbols-outlined">
                       psychology
-                      </span>&nbsp;<b>{{pg.stats.intelligenza}}</b>
-        &nbsp;&nbsp;&nbsp;&nbsp;
-        Utilizzata &nbsp;<b>{{pg.utilizzatoNVolte}}</b>&nbsp; volta/e
+                      </span>&amp;nbsp;<b>{{pg.stats.intelligenza}}</b>
+        &amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;
+        Utilizzata &amp;nbsp;<b>{{pg.utilizzatoNVolte}}</b>&amp;nbsp; volta/e
           </mat-panel-title>
         </mat-expansion-panel-header>
-        <div *ngFor="let skill of pg.skills" fxLayout="row">
+        <div *ngFor="let skill of pg.skills" class="flex flex-row">
           <span class="material-symbols-outlined" *ngIf="skill.idTipologiaSkill==4">
             collections_bookmark
             </span>
@@ -43,22 +43,19 @@
           <span class="material-symbols-outlined" *ngIf="skill.idTipologiaSkill==1">
             swords
             </span>
-          <span >{{skill.nome}}: <b>{{skill.value}}</b></span>
+          <span>{{skill.nome}}: <b>{{skill.value}}</b></span>
         </div>
         <br>
-      </mat-expansion-panel>
+      <br></mat-expansion-panel>
       <mat-divider></mat-divider>
       <div>
       </div>
     </mat-accordion>
-    <mat-paginator
-    [length]="schedePg.length" [pageSize]="pageSize"
-    [pageSizeOptions]="[5]"
-    (page)="pageEvent = $event; onPaginateChange($event)">
+    <mat-paginator [length]="schedePg.length" [pageSize]="pageSize" [pageSizeOptions]="[5]" (page)="pageEvent = $event; onPaginateChange($event)">
   </mat-paginator>
   </div>
-  <div fxLayout="column" style="padding-top:3vh" fxLayoutAlign="space-around start">
-  <button mat-raised-button color="primary" fxLayout="row" fxFlex [disabled]="selezionato==-1" (click)="selectTemplate()" >Seleziona il Template <mat-icon>done</mat-icon></button>
+  <div style="padding-top:3vh" class="flex justify-around content-start items-start flex-col">
+  <button mat-raised-button="" color="primary" [disabled]="selezionato==-1" (click)="selectTemplate()" class="flex flex-row flex-1">Seleziona il Template <mat-icon>done</mat-icon></button>
 </div>
 </div>
 
@@ -69,14 +66,14 @@
 
 
 
-<div class="row" *ngIf="isSmartphone" class="containerSmart">
+<div class="row" *ngIf="isSmartphone">
   <div>
     <mat-accordion *ngFor="let pg of pgPaginati">
       <mat-expansion-panel>
         <mat-expansion-panel-header>
           <mat-panel-title>
             <b>{{pg.nome}}</b><br>
-          </mat-panel-title>
+          <br></mat-panel-title>
         </mat-expansion-panel-header>
         <b>F:</b>{{pg.stats.forza}} - <b>D:</b> {{pg.stats.destrezza}} - <b>I:</b> {{pg.stats.intelligenza}}<br>
         <br>
@@ -105,18 +102,15 @@
           <span>{{skill.nome}}: <b>{{skill.value}}</b></span>
         </div>
         <br>
-        <div fxLayout="column" style="padding-top:3vh" fxLayoutAlign="center center">
-          <button mat-raised-button  fxLayout="row" fxFlex color="primary" (click)="selectTemplate(pg)">Seleziona il Template <mat-icon>done</mat-icon></button>
+        <div style="padding-top:3vh" class="flex justify-center content-center items-center flex-col">
+          <button mat-raised-button="" color="primary" (click)="selectTemplate(pg)" class="flex flex-row flex-1">Seleziona il Template <mat-icon>done</mat-icon></button>
         </div>
       </mat-expansion-panel>
       <mat-divider></mat-divider>
       <div>
       </div>
     </mat-accordion>
-    <mat-paginator
-    [length]="schedePg.length" [pageSize]="pageSize"
-    [pageSizeOptions]="[5, 10]"
-    (page)="pageEvent = $event; onPaginateChange($event)">
+    <mat-paginator [length]="schedePg.length" [pageSize]="pageSize" [pageSizeOptions]="[5, 10]" (page)="pageEvent = $event; onPaginateChange($event)">
   </mat-paginator>
   </div>
 </div>

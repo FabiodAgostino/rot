@@ -5,7 +5,6 @@ import { SchedaPersonaggioService } from '../../service/scheda-personaggio.servi
 import { MatDialog, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { ModaleSkillsComponent } from '../modale-skills/modale-skills.component';
 import { ModalePaladinoComponent } from '../modale-paladino/modale-paladino.component';
-import jsPDF from 'jspdf';
 import { Router } from '@angular/router';
 import { FinishWizardComponent } from '../finish-wizard/finish-wizard.component';
 import { ModaleChiericoComponent } from '../modale-chierico/modale-chierico.component';

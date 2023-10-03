@@ -1,37 +1,35 @@
-
-<div fxLayout="column" fxFlex>
-  <div fxLayout="row" fxLayoutAlign="center center" class="title">
+<div class="flex flex-col flex-1">
+  <div class="title flex justify-center content-center items-center w-full flex-row">
     Scheda Personaggio
-    <button mat-icon-button matTooltip="Recupera una scheda già compilata" (click)="recuperaScheda()">
+    <button mat-icon-button="" matTooltip="Recupera una scheda già compilata" (click)="recuperaScheda()">
       <span class="material-symbols-outlined" style="color:green">
         downloading
         </span>
     </button>
   </div>
-  <div fxLayout="row" fxLayoutAlign="space-around center" style="text-align:center; margin-bottom: 10px">
+  <div style="text-align:center; margin-bottom: 10px" class="flex justify-around content-center items-center w-full flex-row">
     <b>Compila il form e scarica il pdf con tutte le caratteristiche del tuo pg!</b>
   </div>
-  <mat-divider fxLayout="row" style="border-top-color:#004a9f"></mat-divider>
+  <mat-divider style="border-top-color:#004a9f" class="flex flex-row"></mat-divider>
 
-<div style="padding: 8px;"></div>
-<mat-card fxLayout="column" fxFlex="100" class="firstForm">
+<mat-card class="firstForm flex flex-col basis-full" style="margin-top: 2%;">
   <mat-card-header>
     <mat-card-title>
       Info generiche
     </mat-card-title>
   </mat-card-header>
-  <div fxLayout="row" fxLayoutAlign="end center" >
-  <button mat-icon-button color="primary" [matTooltip]="!isChierico() ? 'Info spell paladino' : 'Info spell chierico'" (click)="!isChierico() ? openPaladino() : openChierico()"  [style.visibility]="((schedaPg.classe.nome==='Paladino' || schedaPg.classe.nome==='Chierico') && schedaPg.religione.nome!=='' && isRotinrim())? 'visible': 'hidden'">
+  <div [style.display]="((schedaPg.classe.nome==='Paladino' || schedaPg.classe.nome==='Chierico') && schedaPg.religione.nome!=='' && isRotinrim())? 'block': 'none'">
+  <button  mat-icon-button="" color="primary" [matTooltip]="!isChierico() ? 'Info spell paladino' : 'Info spell chierico'" (click)="!isChierico() ? openPaladino() : openChierico()" [style.visibility]="((schedaPg.classe.nome==='Paladino' || schedaPg.classe.nome==='Chierico') && schedaPg.religione.nome!=='' && isRotinrim())? 'visible': 'hidden'">
         <mat-icon style="color:green">info</mat-icon>
   </button>
-  <button mat-icon-button color="primary" matTooltip="Info macraggio skills" (click)="openInfoSkills()"  [style.visibility]="(infoSkills.length>0 && isRotinrim())? 'visible': 'hidden'">
+  <button mat-icon-button="" color="primary" matTooltip="Info macraggio skills" (click)="openInfoSkills()" [style.visibility]="(infoSkills.length>0 &amp;&amp; isRotinrim())? 'visible': 'hidden'">
     <mat-icon style="color:#004a9f">info</mat-icon>
   </button>
   </div>
-  <div fxLayout="row wrap"  fxLayoutAlign="space-evenly center"   fxFlex>
+  <div class="flex justify-evenly content-center items-center w-full flex-row flex-wrap flex-1">
   <div>
-      <mat-form-field fxFlex.xs="100" fxFlex.sm="60" fxFlex.md="70" fxFlex.lg="100" fxFlex.xl="100">
-        <input type="text" matInput [(ngModel)]="schedaPg.nome" [formControl]="nomeForm" placeholder="Nome pg" fxFlex>
+      <mat-form-field>
+        <input matInput type="text" [(ngModel)]="schedaPg.nome" [formControl]="nomeForm" placeholder="Nome pg" class="flex-1" >
           <mat-error *ngIf="nomeForm.hasError('required')">
             Aggiungi il nome del PG
           </mat-error>
@@ -41,39 +39,39 @@
       </mat-form-field>
   </div>
   <div>
-    <mat-form-field fxFlex.xs="100" fxFlex.sm="60" fxFlex.md="70" fxFlex.lg="100" fxFlex.xl="100">
-    <mat-label>Razza</mat-label>
-    <mat-select color="primary" [(ngModel)]="schedaPg.razza.nome" [formControl]="razzaForm" fxFlex >
+    <mat-form-field>
+    <mat-label style="font-size: 12px">Razza</mat-label>
+    <mat-select color="primary" [(ngModel)]="schedaPg.razza.nome" [formControl]="razzaForm" class="flex-1" >
       <mat-option color="primary" *ngFor="let razza of razze" [value]="razza.nome" (click)="changeRazza='changed';getReligioni(); getClassi()">{{razza.nome}}</mat-option>
     </mat-select>
-      <mat-error *ngIf="classeForm.hasError('required') && schedaPg.razza == undefined">
+      <mat-error *ngIf="classeForm.hasError('required') &amp;&amp; schedaPg.razza == undefined">
         Seleziona una razza
       </mat-error>
     </mat-form-field>
 </div>
   </div>
-  <div fxLayout="row wrap" fxLayoutAlign="space-evenly center"   fxFlex>
+  <div class="flex justify-evenly content-center items-center w-full flex-row flex-wrap flex-1">
     <div>
-      <mat-form-field fxFlex.xs="100" fxFlex.sm="60" fxFlex.md="70" fxFlex.lg="100" fxFlex.xl="100">
-        <mat-label>Classe</mat-label>
-          <mat-select color="primary" [(ngModel)]="schedaPg.classe.nome" [formControl]="classeForm" fxFlex>
+      <mat-form-field >
+        <mat-label style="font-size: 12px">Classe</mat-label>
+          <mat-select color="primary" [(ngModel)]="schedaPg.classe.nome" [formControl]="classeForm" class="flex-1">
             <mat-option color="primary" *ngFor="let classe of classi" [disabled]="classi.length<1" [value]="classe.nome" (click)="getReligioni();autoSetStat();getInfoSkill();enableButtonTemplate()">{{classe.nome}}</mat-option>
           </mat-select>
-          <mat-error *ngIf="classeForm.hasError('required') && schedaPg.classe == undefined">
+          <mat-error *ngIf="classeForm.hasError('required') &amp;&amp; schedaPg.classe == undefined">
             Seleziona una classe
           </mat-error>
-          <mat-error *ngIf="classeForm.hasError('required') && schedaPg.razza.nome == ''">
+          <mat-error *ngIf="classeForm.hasError('required') &amp;&amp; schedaPg.razza.nome == ''">
             Seleziona prima una razza
           </mat-error>
       </mat-form-field>
     </div>
     <div>
-      <mat-form-field fxFlex.xs="100" fxFlex.sm="60" fxFlex.md="70" fxFlex.lg="100" fxFlex.xl="100">
-      <mat-label>Religione</mat-label>
-      <mat-select color="primary" [(ngModel)]="schedaPg.religione.nome" [formControl]="religioneForm" fxFlex >
-        <mat-option color="primary" *ngFor="let religione of religioni" [value]="religione.nome" [disabled]="schedaPg.classe.nome===undefined || religioni.length==0" >{{religione.nome}}</mat-option>
+      <mat-form-field>
+      <mat-label style="font-size: 12px">Religione</mat-label>
+      <mat-select color="primary" [(ngModel)]="schedaPg.religione.nome" [formControl]="religioneForm" class="flex-1">
+        <mat-option color="primary" *ngFor="let religione of religioni" [value]="religione.nome" [disabled]="schedaPg.classe.nome===undefined || religioni.length==0">{{religione.nome}}</mat-option>
       </mat-select>
-        <mat-error *ngIf="classeForm.hasError('required') && schedaPg.religione.nome == undefined">
+        <mat-error *ngIf="classeForm.hasError('required') &amp;&amp; schedaPg.religione.nome == undefined">
           Seleziona una religione
         </mat-error>
         <mat-hint *ngIf="schedaPg.classe.nome===undefined || schedaPg.classe.nome===undefined ">
@@ -82,68 +80,78 @@
       </mat-form-field>
   </div>
 </div>
-<div [ngStyle]="spazioSmartphone()"></div>
+
+
 </mat-card>
-<mat-card fxLayout="column" fxFlex="100" class="firstForm" style="margin-top: 2%;">
+<mat-card class="firstForm flex flex-col basis-full" style="margin-top: 2%;">
   <mat-card-title>
-    Stats<button mat-icon-button class="bottoneTemplate" [disabled]="schedaPg.classe.nome==null || buttonTemplate==false" matTooltip="Seleziona un template stat/skills predefinito" (click)="openTemplate()">
+    Stats
+    <button mat-icon-button="" class="bottoneTemplate" [disabled]="schedaPg.classe.nome==null || buttonTemplate==false" matTooltip="Seleziona un template stat/skills predefinito" (click)="openTemplate()">
       <mat-icon style="color:#004a9f" [ngStyle]="{color: schedaPg.classe.nome==null || buttonTemplate==false ? 'grey' : '#004a9f'}">search</mat-icon>
-      </button>
+    </button>
   </mat-card-title>
   <div>
-    <section class="example-section" fxFlex fxlayout="column" style="padding-bottom:2%" [style.visibility]="schedaPg.classe.nome===undefined? 'hidden': 'visible'" >
-      <mat-checkbox  class="example-margin" color="primary" [(ngModel)]="statsChecked"(change)="autoSetStat()">Applica stats consigliate</mat-checkbox>
+    <section class="example-section flex-1" fxlayout="column"  [style.visibility]="schedaPg.classe.nome===undefined? 'hidden': 'visible'">
+      <mat-checkbox class="example-margin" color="primary" [(ngModel)]="statsChecked" (change)="autoSetStat()">Applica stats consigliate</mat-checkbox>
     </section>
   </div>
-  <div fxLayout="row wrap" fxLayoutAlign="space-evenly center"   fxFlex>
-    <div>
-      <mat-form-field fxFlex.xs="100" fxFlex.sm="60" fxFlex.md="70" fxFlex.lg="100" fxFlex.xl="100">
-        <input type="number" matInput [(ngModel)]="schedaPg.stats.forza" [formControl]="forzaForm" placeholder="Forza" fxFlex (keyup)="checkForza()">
-          <mat-error *ngIf="forzaForm.hasError('required')">
-            Aggiungi la forza del pg
-          </mat-error>
+
+  <div class="grid grid-cols-1 lg:grid-cols-3  content-center">
+    <div class=" lg:grid-cols-3 mx-auto">
+      <mat-form-field>
+        <input type="number" matInput [(ngModel)]="schedaPg.stats.forza" [formControl]="forzaForm" placeholder="Forza" (keyup)="checkForza()" class="flex-1" />
+        <mat-error *ngIf="forzaForm.hasError('required')">
+          Aggiungi la forza del pg
+        </mat-error>
+        <mat-label>Forza</mat-label>
       </mat-form-field>
     </div>
 
-    <div>
-      <mat-form-field fxFlex.xs="100" fxFlex.sm="60" fxFlex.md="70" fxFlex.lg="100" fxFlex.xl="100">
-        <input type="number" matInput [(ngModel)]="schedaPg.stats.destrezza" [formControl]="destrezzaForm" placeholder="Destrezza" fxFlex (keyup)="checkDestrezza()">
-          <mat-error *ngIf="destrezzaForm.hasError('required')">
-            Aggiungi la destrezza del pg
-          </mat-error>
+    <div class=" lg:grid-cols-3 mx-auto">
+      <mat-form-field >
+        <input type="number" matInput [(ngModel)]="schedaPg.stats.destrezza" [formControl]="destrezzaForm" placeholder="Destrezza" (keyup)="checkDestrezza()" class="flex-2" />
+        <mat-error *ngIf="destrezzaForm.hasError('required')">
+          Aggiungi la destrezza del pg
+        </mat-error>
+        <mat-label>Destrezza</mat-label>
       </mat-form-field>
     </div>
 
-    <div>
-      <mat-form-field fxFlex.xs="100" fxFlex.sm="60" fxFlex.md="70" fxFlex.lg="100" fxFlex.xl="100">
-        <input type="number" matInput [(ngModel)]="schedaPg.stats.intelligenza" [formControl]="intelligenzaForm" placeholder="Intelligenza" fxFlex (keyup)="checkIntelligenza()">
-          <mat-error *ngIf="intelligenzaForm.hasError('required')">
-            Aggiungi l'intelligenza del pg
-          </mat-error>
+    <div class="lg:grid-cols-3 mx-auto">
+      <mat-form-field>
+        <input type="number" [(ngModel)]="schedaPg.stats.intelligenza" [formControl]="intelligenzaForm" placeholder="Intelligenza" (keyup)="checkIntelligenza()" class="flex-1" matInput>
+        <mat-error *ngIf="intelligenzaForm.hasError('required')">
+          Aggiungi l'intelligenza del pg
+        </mat-error>
+        <mat-label>Intelligenza</mat-label>
       </mat-form-field>
     </div>
+  </div>
 
-    <mat-progress-bar  [color]="colorBar" [value]="totaleStat/2" [ngStyle]="spazioSmartphone()"></mat-progress-bar>
-
-</div>
+  <mat-progress-bar [color]="colorBar" [value]="totaleStat/2" [ngStyle]="spazioSmartphone()"></mat-progress-bar>
 </mat-card>
-<div div fxLayout="row wrap" fxLayoutAlign="center center" >
-  <div  [ngStyle]="spazioSmartphone()">
-    <button mat-raised-button   color="primary" (click)="selectSkills()" [disabled]="schedaPg.classe.nome===undefined" *ngIf="schedaPg.skills.length==0">Scegli skills  <mat-icon>assignment</mat-icon></button>
-    <button mat-raised-button   class="green"  (click)="selectSkills()" *ngIf="schedaPg.skills.length>0">Skills selezionate <mat-icon>done</mat-icon></button>
+<div div class="flex justify-center content-center items-center w-full flex-row flex-wrap">
+  <div [ngStyle]="spazioSmartphone()">
+    <button mat-raised-button="" color="primary" (click)="selectSkills()" [disabled]="schedaPg.classe.nome===undefined" *ngIf="schedaPg.skills.length==0">Scegli skills  <mat-icon>assignment</mat-icon></button>
+    <button mat-raised-button="" class="green" (click)="selectSkills()" *ngIf="schedaPg.skills.length>0">Skills selezionate <mat-icon>done</mat-icon></button>
   </div>
 </div>
-<mat-divider fxLayout="row" style="margin: 5px; border-top-color:#004a9f"></mat-divider>
-    <div fxLayout="row wrap"  fxLayoutAlign="space-around center" fxFlex>
-              <div  style="margin-top: 1%;" >
-                <button mat-raised-button color="warn" (click)="reset()" >Reset  <mat-icon>undo</mat-icon></button>
+<mat-divider style="margin: 2px; border-top-color:#004a9f" class="flex flex-row"></mat-divider>
+    <div class="flex justify-around content-center items-center w-full flex-row flex-wrap flex-1">
+              <div style="margin-top: 1%;">
+                <button mat-raised-button="" color="warn" (click)="reset()">Reset  <mat-icon>undo</mat-icon></button>
               </div>
-              <div style="margin-top: 1%;" >
-                <button mat-raised-button color="primary"  [disabled]="!checkSalva()" (click)="savePg()">Salva <mat-icon>done</mat-icon></button>
+              <div style="margin-top: 1%;">
+                <button mat-raised-button="" color="primary" [disabled]="!checkSalva()" (click)="savePg()">Salva <mat-icon>done</mat-icon></button>
               </div>
     </div>
 <div [ngStyle]="spazioSmartphone()"></div>
+</div> 
 
-</div>
+
+
+
+
+
 
 

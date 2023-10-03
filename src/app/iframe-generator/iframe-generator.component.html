@@ -1,9 +1,9 @@
-<div fxFlex>
-  <div  class="content mat-elevation-z8" style="overflow: hidden;" fxFlex>
-    <div fxFlex>
-      <a href="{{urlIFrame}}" target="_blank" mat-icon-button color="primary" class="vaiAlSito" *ngIf="urlIFrame!=='' && !isLoading" ><mat-icon matTooltip="Vai al sito">home</mat-icon></a>
+<div class="flex-1">
+  <div class="content mat-elevation-z8 flex-1" style="overflow: hidden;">
+    <div class="flex-1">
+      <a href="{{urlIFrame}}" target="_blank" mat-icon-button="" color="primary" class="vaiAlSito" *ngIf="urlIFrame!=='' &amp;&amp; !isLoading"><mat-icon matTooltip="Vai al sito">home</mat-icon></a>
     </div>
   <app-progress-spinner *ngIf="isLoading"></app-progress-spinner>
-  <iframe frameBorder="0"  [hidden]="urlIFrame!='' && isLoading" class="iframe" [src]="urlIFrame | safe" ></iframe>
+  <iframe frameBorder="0" [hidden]="urlIFrame!='' &amp;&amp; isLoading" class="iframe" [src]="urlIFrame | safe"></iframe>
   </div>
 </div>

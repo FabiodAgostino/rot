@@ -1,5 +1,5 @@
-<div fxLayout="column" fxFlex  fxLayoutAlign="space-evenly center" >
-  <div  fxFlex style="padding:1%">
+<div class="flex justify-evenly content-center items-center flex-col flex-1">
+  <div style="padding:1%" class="flex-1">
     <mat-card style="text-align:center">
       <div *ngIf="bacheche.length==0">
         <b>
@@ -12,7 +12,7 @@
     </mat-card>
   </div>
 
-  <mat-card class="pergamene" *ngIf="bacheche.length>0 && !isSmartphone">
+  <mat-card class="pergamene" *ngIf="bacheche.length>0 &amp;&amp; !isSmartphone">
     <mat-card-content>
     <div *ngFor="let b of bacheche" class="pergamena">
       <div *ngFor="let f of b">
@@ -22,7 +22,7 @@
   </mat-card-content>
 </mat-card>
 
-    <div class="pergameneSmarth" *ngIf="bacheche.length>0 && isSmartphone">
+    <div class="pergameneSmarth" *ngIf="bacheche.length>0 &amp;&amp; isSmartphone">
     <div *ngFor="let b of bacheche" class="pergamena">
       <div *ngFor="let f of b">
         <span>{{f}}</span>
@@ -30,3 +30,4 @@
     </div>
   </div>
 
+</div>
