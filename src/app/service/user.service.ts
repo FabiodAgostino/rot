@@ -14,7 +14,7 @@ const REDIRECT_URL_LOCALE='http://localhost:4200/';
 const CLIENT_ID_LOCALE='960448858926768148'
 const CLIENT_SECRET_LOCALE ='nQw62DUdZc5DaaYEZ6CB7IyqgtFqUnHY';
 
-const REDIRECT_URL='http://localhost:4200/';
+const REDIRECT_URL='https://fabiodagostino.github.io/rot/';
 const CLIENT_ID='1106594210242625579';
 const CLIENT_SECRET ='RIZz7vBghyPRJJKSLj32UL95iyygc2_9';
 const API_ENDPOINT = 'https://discord.com/api/v10';
