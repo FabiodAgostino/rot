@@ -458,7 +458,7 @@ export class UserService {
       duration: 2000,
       horizontalPosition: horizontalPosition,
       verticalPosition: verticalPosition,
-      panelClass: colorSnack,
+      panelClass: colorSnack
     });
   }
 

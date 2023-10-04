@@ -32,6 +32,8 @@ export class DevelopComponent implements OnInit{
     this.service.getAllTipologieSkill().subscribe(x=> this.tipologiaSkills=x);
 
     this.discord();
+    this.userService.openSnackBar("login");
+
   }
 
   SalvaSkill()
