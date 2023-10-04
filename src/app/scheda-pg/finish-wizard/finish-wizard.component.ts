@@ -3,11 +3,14 @@ import { MatDialog, MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dial
 import { ActivatedRoute } from '@angular/router';
 import { InfoSkill, Pg, SpellChierico, SpellPaladino } from 'src/app/models/Pg';
 import  jspdf, { jsPDF } from 'jspdf';
-import html2canvas from 'html2canvas';
+import * as _html2canvas from "html2canvas";
 import { SchedaPersonaggioService } from 'src/app/service/scheda-personaggio.service';
 import { UserService } from 'src/app/service/user.service';
 import { Subject } from 'rxjs';
 import { Utils } from 'src/app/utils/utility';
+
+
+const html2canvas: any = _html2canvas;
 
 @Component({
   selector: 'app-finish-wizard',
@@ -50,13 +53,14 @@ export class FinishWizardComponent implements OnInit  {
 
   exportAsPDF()
   {
+
     let data = document.getElementById("MyPdf");
     let data2 = (this.spellsChierico.spell.length>0 || this.spellsPaladino.spell.length>0) && this.isRotinrim() ? document.getElementById("MyPdf2") : null;
     let data3 = this.infoSkills.length>0 && this.isRotinrim() ? document.getElementById("MyPdf3") : null;
     console.log(data)
     if(data!=null)
     {
-        html2canvas(data).then(canvas => {
+        html2canvas(data).then((canvas: HTMLCanvasElement) => {
         const contentDataURL = canvas.toDataURL('image/png')  // 'image/jpeg' for lower quality output.
         //let pdf = new jspdf('l', 'cm', 'a4'); //Generates PDF in landscape mode
         let pdf = new jspdf('p', 'cm', 'a4');
@@ -85,8 +89,9 @@ export class FinishWizardComponent implements OnInit  {
 
   canvas(element: HTMLElement, pdf: jsPDF)
   {
+    
     let subject = new Subject<jspdf>();
-    html2canvas(element).then(canvas => {
+    html2canvas(element).then((canvas: HTMLCanvasElement) => {
       pdf.addPage();
       const imgProps= pdf.getImageProperties(canvas);
       const pdfWidth = pdf.internal.pageSize.getWidth();

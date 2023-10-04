@@ -47,12 +47,17 @@ export class SchedaPersonaggioComponent implements OnInit {
 
   fromTemplate: boolean = false;
   buttonTemplate: boolean = false;
+  isFirstLoad:boolean = false;
 
   constructor(private service: SchedaPersonaggioService, private dialog: MatDialog, private userService: UserService, private utils: Utils){}
 
   ngOnInit(): void {
     this.resetFormControl();
-    this.service.getAllRazze().subscribe(x=> this.razze=x);
+    this.isFirstLoad = false;
+    this.service.getAllRazze().subscribe(x=>{
+      this.razze=x;
+      this.isFirstLoad=true;
+    });
   }
 
   getReligioni()
@@ -66,18 +71,24 @@ export class SchedaPersonaggioComponent implements OnInit {
 
     if(this.schedaPg.classe.nome!=='Druido' && (this.changeRazza==changedRazza|| this.changeRazza==inizializeRazza) || this.isDruido)
     {
+      this.schedaPg.razza.nome;
+      var tipoRazza = "";
+      this.isFirstLoad = false;
       switch(this.schedaPg.razza.nome)
       {
         case("Quenya"):
         case("Telero"):
-        case("Sindar"): this.service.getAllReligioni("Elfico").subscribe(x=> this.religioni=x); break;
-        case("Umano comune"): this.service.getAllReligioni("Umano").subscribe(x=> this.religioni=x); break;
-        case("Nordico"): this.service.getAllReligioni("Nordico").subscribe(x=> this.religioni=x); break;
-        case("Nano"): this.service.getAllReligioni("Nanico").subscribe(x=> this.religioni=x); break;
-        case("Tremecciano"): this.service.getAllReligioni("Tremecciano").subscribe(x=> this.religioni=x); break;
-        case("Qwaylar"): this.service.getAllReligioni("Qwaylar").subscribe(x=> this.religioni=x); break;
-        case("Mezz'elfo"): this.service.getAllReligioni().subscribe(x=> this.religioni=x);break;
+        case("Sindar"): tipoRazza ="Elfico"; break;
+        case("Umano comune"): tipoRazza ="Umano"; break;
+        case("Nano"): tipoRazza ="Nanico"; break;
+        case("Nordico"):
+        case("Tremecciano"): 
+        case("Qwaylar"): tipoRazza =this.schedaPg.razza.nome; break;
+        case("Mezz'elfo"): break;
+        default: console.error("Errore nel recupero delle religioni per razza");
       }
+      this.service.getAllReligioni(tipoRazza).subscribe(x=> {this.religioni=x; this.isFirstLoad=true;});
+
       this.isDruido=false;
       this.changeRazza=notChangedRazza;
     }
@@ -106,16 +117,19 @@ export class SchedaPersonaggioComponent implements OnInit {
 
   getClassi()
   {
-    this.service.getAllClass().subscribe(x=> this.classi=this.filterClassi(x));
+    this.isFirstLoad=false;
+    this.service.getAllClass().subscribe(x=> {this.classi=this.filterClassi(x); this.isFirstLoad=true;});
   }
 
   getInfoSkill()
   {
+    this.isFirstLoad=false;
     this.service.getInfoSkill(this.schedaPg.classe.nome).subscribe(x=>{
       if(x.length>0)
         this.infoSkills=x;
       else
         this.infoSkills=new Array<InfoSkill>();
+      this.isFirstLoad=true;
     });
   }
 
@@ -258,7 +272,7 @@ export class SchedaPersonaggioComponent implements OnInit {
   recuperaScheda()
   {
     let guid=prompt("Inserisci il guid per recuperare una scheda già compilata");
-
+    this.isFirstLoad=false;
     if(guid?.length==36)
     {
       this.getClassi();
@@ -268,10 +282,13 @@ export class SchedaPersonaggioComponent implements OnInit {
               if(guid)
                 this.service.getSkillsPg(guid).subscribe(y=>{
                     this.schedaPg = PartialPg.Convert(x[0],y);
-
+                    this.isFirstLoad=true;
                 });
           else
+          {
             alert("Nessuna scheda pg presente col guid inserito.");
+            this.isFirstLoad=true;
+          }
 
         });
     }

@@ -97,58 +97,61 @@ export class Utils {
     return string.charAt(0).toUpperCase() + string.slice(1);
 }
 
-convertXmlToJson(xmlData: string) {
-  const parser = new xml2js.Parser();
-  parser.parseString(xmlData, (err, result) => {
-    if (err) {
-      console.error('Error parsing XML:', err);
-      return null;
-    } else {
-      return JSON.stringify(result, null, 2);
-    }
+convertXmlToJson(xml: string): Promise<any> {
+  return new Promise((resolve, reject) => {
+    const parser = new xml2js.Parser();
+    parser.parseString(xml, (err, result) => {
+      if (err) {
+        console.error('Errore durante la conversione XML in JSON:', err);
+        reject(err);
+      } else {
+        resolve(result);
+      }
+    });
   });
 }
 
-  MacrosXmlToObject(xml: string)
+  async MacrosXmlToObject(xml: string) : Promise<Array<MacroXml>>
   {
-    const parser = new xml2js.Parser();
+    return new Promise<Array<MacroXml>>(async (resolve, reject) => {
     const xmlDoc = new DOMParser().parseFromString(xml, 'text/xml');
     const xmlString = new XMLSerializer().serializeToString(xmlDoc);
-    var obj=this.convertXmlToJson(xmlString);
+    var obj= await this.convertXmlToJson(xmlString);
     var array=((obj as any).macros.macro as Array<any>);
-
     let macros = new Array<MacroXml>();
     array.forEach(x=>{
+      
       let macro = new MacroXml();
-      macro.name=x["@attributes"].name;
-      let actions=(x.actions['action'] as Array<any>);
-
+      macro.name=x.$.name;
+      let actions=(x.actions[0].action as Array<any>);
       if(actions.length===undefined)
       {
-        var act=(actions as any)["@attributes"];
+        var act=(actions as any)["attributes"];
         macro.action.push(new ActionXml(act.code, act.subcode, act.submenutype,act.text ? act.text : null));
       }
       else
       {
         actions.forEach(acti=>{
-          var act=acti["@attributes"];
-          macro.action.push(new ActionXml(act.code, act.subcode, act.submenutype,act.text ? act.text : null));
+          var actionObject=acti.$;
+          macro.action.push(new ActionXml(actionObject.code, actionObject.subcode, actionObject.submenutype,actionObject.text ? actionObject.text : null));
         })
       }
       macros.push(macro);
     })
     let notReturn = ["Paperdoll","Options","Journal","Backpack","Radar","Bow","Salute"];
-    return macros.filter(x=> !notReturn.includes(x.name));
+    resolve(macros.filter(x=> !notReturn.includes(x.name)));
+  });
   }
 
 
 
-  getAllMacrosByXml(xml: string)
+  async getAllMacrosByXml(xml: string)
   {
     var subject = new Subject<Array<MacroFullFromXml>>();
-    var array= this.MacrosXmlToObject(xml);
-    var arrayMacro = new Array<MacroFullFromXml>();
+    const array = await this.MacrosXmlToObject(xml);
+    console.log(array);
 
+    var arrayMacro = new Array<MacroFullFromXml>();
     this.macroService.getMacroSettings().subscribe(x=>{
       let macroSettings=x;
       array.forEach(macrosXml=>{

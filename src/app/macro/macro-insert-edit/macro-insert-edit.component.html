@@ -3,35 +3,35 @@
 
 
 <div class="flex justify-around content-stretch items-stretch flex-col">
-  <mat-card class="cont" [ngStyle]="{ 'border-color': this.macroMultiInsert &amp;&amp; !this.macroMultiInsert.checked ? 'grey' : ''}" [ngClass]="{'cont panel': multiInsert }">
+  <mat-card class="cont" [ngStyle]="{ 'border-color': this.macroMultiInsert && !this.macroMultiInsert.checked ? 'grey' : ''}" [ngClass]="{'cont panel': multiInsert }" *ngIf="isFirstLoad">
 
-    <div class="edit" *ngIf="isUpdateable &amp;&amp; detail">
-      <button mat-mini-fab="" matTooltip="Elimina" color="warn" style="margin-right:1vw" (click)="deleteMacro()"><mat-icon>delete_forever</mat-icon></button>
-      <button mat-mini-fab="" matTooltip="Modifica" (click)="edit=true; detail=false" *ngIf="!edit"><mat-icon>edit</mat-icon></button>
-      <button mat-mini-fab="" matTooltip="Condividi" style="margin-left:1vw" color="primary" (click)="share()"><mat-icon>share</mat-icon></button>
+    <div class="edit" *ngIf="isUpdateable && detail">
+      <button mat-mini-fab matTooltip="Elimina" color="warn" style="margin-right:1vw" (click)="deleteMacro()"><mat-icon>delete_forever</mat-icon></button>
+      <button mat-mini-fab style="background-color: rgb(234, 108, 34);" matTooltip="Modifica" (click)="edit=true; detail=false" *ngIf="!edit"><mat-icon>edit</mat-icon></button>
+      <button mat-mini-fab matTooltip="Condividi" style="margin-left:1vw" color="primary" (click)="share()"><mat-icon>share</mat-icon></button>
 
-      <span class="edit" *ngIf="isRegnante &amp;&amp; detail &amp;&amp; checkThumb()" style="margin-right:1vw;">
-        <button mat-mini-fab="" matTooltip="Mi piace" color="primary" (click)="likeIt()"><mat-icon>thumb_up</mat-icon></button>
+      <span class="edit" *ngIf="isRegnante && detail && checkThumb()" style="margin-right:1vw;">
+        <button mat-mini-fab matTooltip="Mi piace" color="primary" (click)="likeIt()"><mat-icon>thumb_up</mat-icon></button>
       </span>
 
-      <span class="edit" *ngIf="isRegnante &amp;&amp; detail &amp;&amp; checkIfVote()" style="margin-right:1vw;">
-        <button mat-mini-fab="" matTooltip="Non mi piace" style="background-color: grey;" (click)="likeIt()"><mat-icon>thumb_up</mat-icon></button>
+      <span class="edit" *ngIf="isRegnante && detail && checkIfVote()" style="margin-right:1vw;">
+        <button mat-mini-fab matTooltip="Non mi piace" style="background-color: grey;" (click)="likeIt()"><mat-icon>thumb_up</mat-icon></button>
       </span>
     </div>
 
 
 
-    <div class="edit" *ngIf="!isUpdateable &amp;&amp; detail &amp;&amp; checkThumb()">
+    <div class="edit" *ngIf="!isUpdateable && detail && checkThumb()">
       <button mat-mini-fab="" matTooltip="Mi piace" color="primary" (click)="likeIt()"><mat-icon>thumb_up</mat-icon></button>
       <button mat-mini-fab="" matTooltip="Condividi" style="margin-left:1vw" color="primary" (click)="share()"><mat-icon>share</mat-icon></button>
     </div>
 
-    <div class="edit" *ngIf="!isUpdateable &amp;&amp; detail &amp;&amp; checkIfVote()">
+    <div class="edit" *ngIf="!isUpdateable && detail && checkIfVote()">
       <button mat-mini-fab="" matTooltip="Non mi piace" style="background-color: grey;" (click)="likeIt()"><mat-icon>thumb_up</mat-icon></button>
       <button mat-mini-fab="" matTooltip="Condividi" style="margin-left:1vw" color="primary" (click)="share()"><mat-icon>share</mat-icon></button>
     </div>
 
-    <div *ngIf="!utenteLoggato &amp;&amp; detail &amp;&amp; !multiInsert" class="edit">
+    <div *ngIf="!utenteLoggato && detail && !multiInsert" class="edit">
       <button mat-mini-fab="" matTooltip="Condividi" style="margin-left:1vw" color="primary" (click)="share()"><mat-icon>share</mat-icon></button>
     </div>
 
@@ -88,28 +88,28 @@
 
           <mat-form-field>
             <mat-label>Titolo</mat-label>
-            <input matInput="" [formControl]="macroFullForm.controls['titolo']" [readonly]="!edit &amp;&amp; detail">
+            <input matInput="" [formControl]="macroFullForm.controls['titolo']" [readonly]="!edit && detail">
           </mat-form-field>
 
           <mat-form-field>
             <mat-label>Delay MacroUO</mat-label>
-            <input matInput="" [formControl]="macroFullForm.controls['delay']" type="number" minlength="0" min="0" [readonly]="!edit &amp;&amp; detail">
+            <input matInput="" [formControl]="macroFullForm.controls['delay']" type="number" minlength="0" min="0" [readonly]="!edit && detail">
           </mat-form-field>
 
-          <textarea appTextareaAutosize="" placeholder="Descrizione..." class="text-inputSmart" [formControl]="macroFullForm.controls['descrizione']" [readonly]="!edit &amp;&amp; detail"></textarea>
+          <textarea appTextareaAutosize="" placeholder="Descrizione..." class="text-inputSmart" [formControl]="macroFullForm.controls['descrizione']" [readonly]="!edit && detail"></textarea>
 
           <mat-form-field appearance="fill" style="padding-top:2vh">
             <mat-label>Tipologia</mat-label>
             <mat-select [formControl]="macroFullForm.controls['tipologia']">
-              <mat-option *ngFor="let tipologia of tipologieMacro" [value]="tipologia" [disabled]="!edit &amp;&amp; detail">
+              <mat-option *ngFor="let tipologia of tipologieMacro" [value]="tipologia" [disabled]="!edit && detail">
                 {{tipologia}}
               </mat-option>
             </mat-select>
           </mat-form-field>
 
         <!-- INSERIMENTO -->
-        <b style="text-align: center;" *ngIf="!edit &amp;&amp; !detail &amp;&amp; insert &amp;&amp; !multiInsert">Crea la tua macro</b>
-        <div class="customTextArea" *ngIf="!edit &amp;&amp; !detail &amp;&amp; insert">
+        <b style="text-align: center;" *ngIf="!edit && !detail && insert && !multiInsert">Crea la tua macro</b>
+        <div class="customTextArea" *ngIf="!edit && !detail && insert">
           <div *ngFor="let i of insertMacroSettings; index as index;" class="flex flex-col">
             <div style="padding-top: 2vh;">
             </div>
@@ -124,7 +124,7 @@
                   </mat-option>
                 </mat-select>
               </mat-form-field>
-              <mat-form-field appearance="fill" *ngIf="i &amp;&amp; i?.settings!.length>0">
+              <mat-form-field appearance="fill" *ngIf="i && i?.settings!.length>0">
                 <mat-label>{{i.comando}}</mat-label>
                 <mat-select>
                   <mat-option *ngFor="let setting of i.settings" [value]="setting" (click)="addMacroToListUpdate(index,setting,null)" class="flex-1">
@@ -132,7 +132,7 @@
                   </mat-option>
                 </mat-select>
               </mat-form-field>
-              <mat-form-field *ngIf="i &amp;&amp; i?.type=='text'">
+              <mat-form-field *ngIf="i && i?.type=='text'">
                 <mat-label>{{i.comando}}</mat-label>
                 <input matInput="" type="text" (keyup)="addMacroToListUpdate(index,'',$event)">
               </mat-form-field>
@@ -145,13 +145,13 @@
 
         <div style="padding-top: 2vh;">
         </div>
-        <button mat-raised-button="" color="primary" [disabled]="disabledButton()" (click)="saveMacro()" *ngIf="!detail &amp;&amp; !edit">Salva</button>
+        <button mat-raised-button="" color="primary" [disabled]="disabledButton()" (click)="saveMacro()" *ngIf="!detail && !edit">Salva</button>
       </div>
 
 
       <!-- MODIFICA -->
-      <b style="width:100%;text-align: center; " *ngIf="edit &amp;&amp; !detail &amp;&amp; !insert &amp;&amp; !multiInsert">Modifica la tua macro</b>
-        <div class="customTextArea" *ngIf="edit &amp;&amp; !detail &amp;&amp; !insert">
+      <b style="width:100%;text-align: center; " *ngIf="edit && !detail && !insert && !multiInsert">Modifica la tua macro</b>
+        <div class="customTextArea" *ngIf="edit && !detail && !insert">
           <div *ngFor="let m of detailMacroSettings; index as index;" class="flex flex-col">
             <div class="delete">
               <button mat-icon-button="" (click)="eliminaMacroEdit(index)"><mat-icon matTooltip="Elimina Macro" *ngIf="!detail">remove_circle</mat-icon></button>
@@ -164,7 +164,7 @@
                   </mat-option>
                 </mat-select>
               </mat-form-field>
-              <mat-form-field appearance="fill" *ngIf="m.type=='command'&amp;&amp; m.settings.length>0">
+              <mat-form-field appearance="fill" *ngIf="m.type=='command'&& m.settings.length>0">
               <mat-label class="label">{{m.comando}}</mat-label>
                 <mat-select [compareWith]="compareSottoSettings" [ngModel]="m.function">
                   <mat-option *ngFor="let setting of m.settings;" [value]="setting" [disabled]="detail" (click)="editSubSettings(setting, index)" class="flex-1">
@@ -172,7 +172,7 @@
                   </mat-option>
                 </mat-select>
               </mat-form-field>
-              <mat-form-field *ngIf="m.type=='text' &amp;&amp; m.settings.length==0">
+              <mat-form-field *ngIf="m.type=='text' && m.settings.length==0">
                 <mat-label>{{m.comando}}</mat-label>
                 <input matInput="" type="text" [ngModel]="m.function" [readonly]="detail" (keyup)="editSubSettings($event.target,index)">
               </mat-form-field>
@@ -185,9 +185,9 @@
 
         <div style="padding-top: 2vh;">
           </div>
-        <button mat-raised-button="" color="accent" style="width:100%" [disabled]="disabeldEditButton()" (click)="saveMacro()" *ngIf="edit &amp;&amp; !multiInsert">Modifica</button>
+        <button mat-raised-button style="width:100%; background-color: rgb(234, 108, 34);color: white;" [disabled]="disabeldEditButton()" (click)="saveMacro()" *ngIf="edit && !multiInsert">Modifica</button>
 
-        <div class="customTextArea" *ngIf="detail &amp;&amp; !edit &amp;&amp; !insert &amp;&amp; !multiInsert" style="text-align: left;">
+        <div class="customTextArea" *ngIf="detail && !edit && !insert && !multiInsert" style="text-align: left;">
           <ul *ngFor="let m of detailMacroSettings;">
             <li *ngIf="m.function!=''"><b>{{m.comando}}:</b> {{m.function}}</li>
             <li *ngIf="m.function==''"><b>{{m.comando}}</b></li>
@@ -196,6 +196,33 @@
 
     </mat-card-content>
 
+  </mat-card>
+  <mat-card class="cont" *ngIf="!isFirstLoad">
+    <div class="edit">
+      <ngx-skeleton-loader count="3" appearance="circle"></ngx-skeleton-loader>
+
+      <span class="edit" style="margin-right:1vw;">
+        <ngx-skeleton-loader count="1" appearance="circle"></ngx-skeleton-loader>
+      </span>
+    </div>
+
+    <div class="flex flex-col">
+        <ngx-skeleton-loader count="3" appearance="line" [theme]="{ 
+          height: '6vh',
+        }"></ngx-skeleton-loader>
+
+        <ngx-skeleton-loader count="1" appearance="line" [theme]="{ 
+          height: '15vh',
+        }"></ngx-skeleton-loader>
+        
+        <ngx-skeleton-loader count="1" appearance="line" [theme]="{ 
+          height: '6vh',
+        }"></ngx-skeleton-loader>
+
+        <ngx-skeleton-loader count="1" appearance="line" [theme]="{ 
+          height: '15vh',
+        }"></ngx-skeleton-loader>
+    </div>
   </mat-card>
 </div>
 

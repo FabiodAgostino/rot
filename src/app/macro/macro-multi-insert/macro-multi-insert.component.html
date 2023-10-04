@@ -1,4 +1,4 @@
-
+<div style="padding:15px;">
 <section>
   <mat-checkbox [color]="checkedMacros()" [(ngModel)]="checkAll" (change)="setAllChecked($event.checked)">
     <b>Seleziona tutto</b>
@@ -23,6 +23,7 @@
   <div>
   <button mat-raised-button="" color="primary" (click)="saveAll()" [disabled]="checkAllMacro()">Salva</button>
   </div>
+</div>
 </div>
 
 

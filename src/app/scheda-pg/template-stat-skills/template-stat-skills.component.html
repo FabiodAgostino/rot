@@ -1,6 +1,7 @@
 <div class="row">
-  <div style="padding-bottom: 3vh;text-align:center; color: #004a9f;">
-  Seleziona un template cliccando su una scheda personaggio
+  <div style="padding-bottom: 3vh;text-align:center; color: #004a9f;font-weight: bold;
+  padding-top: 5px;">
+   Seleziona un template cliccando su una scheda personaggio
   </div>
   <div class="container" *ngIf="pgPaginati!=null && pgPaginati!.length>0">
     <mat-accordion *ngFor="let pg of pgPaginati; index as i;" multi="false">

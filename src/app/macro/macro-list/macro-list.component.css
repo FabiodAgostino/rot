@@ -27,3 +27,15 @@ mat-header-cell
   font-weight: 700;
 }
 
+/* Stile predefinito per la tabella (massima larghezza) */
+.tableWidth {
+  width: 100%; /* Larghezza massima su schermi più piccoli */
+}
+
+/* Media query per schermi più grandi di 500px */
+@media screen and (min-width: 650px) {
+  .tableWidth {
+    width: 70%; /* Larghezza del 70% su schermi più grandi */
+  }
+}
+

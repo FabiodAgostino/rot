@@ -23,3 +23,7 @@
     display: none;
   }
 }
+
+::ng-deep.mat-mdc-dialog-surface.mdc-dialog__surface {
+  padding: 15px;
+}

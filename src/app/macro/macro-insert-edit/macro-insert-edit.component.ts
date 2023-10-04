@@ -32,7 +32,7 @@ export class MacroInsertEditComponent implements OnInit{
   @Input() macroMultiInsert?:MacroFullFromXml;
   @Output() editMacro = new EventEmitter<MacroFullFromXml>();
   multiInsert:boolean = false;
-
+  isFirstLoad:boolean = false;
   detail:boolean= false;
   insert:boolean = false;
   isUpdateable= false;
@@ -85,6 +85,7 @@ export class MacroInsertEditComponent implements OnInit{
 
 setMultiInsert()
 {
+  this.isFirstLoad=true;
   this.multiInsert=true;
   this.macroFullForm.get('titolo')?.setValue(this.macroMultiInsert!.macro.macro.title);
   this.macroFullForm.get('descrizione')?.setValue(this.macroMultiInsert!.macro.descrizione);
@@ -123,11 +124,11 @@ editMultiInsert(event:any=null)
     this.tipologieMacro= this.service.GetTipologieMacro();
     if(!this.macroMultiInsert)
     {
+      this.isFirstLoad=false;
       this.getMacroSettings();
       this.getMacro();
       if(this.insert)
         this.checkUser();
-
     }
   }
 
@@ -146,6 +147,7 @@ editMultiInsert(event:any=null)
             }
           })
         }
+        this.isFirstLoad=true;
       });
   }
 

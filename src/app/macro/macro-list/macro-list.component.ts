@@ -119,7 +119,8 @@ export class MacroListComponent implements OnInit {
 
 getDisplayedColumns()
 {
-  return this.displayedColumns = ['autore','tipologia','title','like'];
+    var columnsSmartphone = ['autore','tipologia','title','like'];
+    return this.utils.isSmartphone() ? columnsSmartphone : this.displayedColumns;
 }
 
 detailMacro(id:any)
@@ -196,7 +197,7 @@ async openMultiInsert(event: any)
       return;
     }
 
-    const ref=this.utils.getAllMacrosByXml(await file.text()).subscribe(array=>{
+    const ref=(await this.utils.getAllMacrosByXml(await file.text())).subscribe(array=>{
       if(array.length>0)
       {
       this.dialog.open(MacroMultiInsertComponent, {

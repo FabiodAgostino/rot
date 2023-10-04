@@ -12,17 +12,17 @@
   </div>
   <mat-divider style="border-top-color:#004a9f" class="flex flex-row"></mat-divider>
 
-<mat-card class="firstForm flex flex-col basis-full" style="margin-top: 2%;">
+<mat-card class="firstForm paddingFirstForm flex flex-col basis-full" style="margin-top: 2%;">
   <mat-card-header>
     <mat-card-title>
       Info generiche
     </mat-card-title>
   </mat-card-header>
-  <div [style.display]="((schedaPg.classe.nome==='Paladino' || schedaPg.classe.nome==='Chierico') && schedaPg.religione.nome!=='' && isRotinrim())? 'block': 'none'">
+  <div style="text-align: right;" [style.display]="((schedaPg.classe.nome==='Paladino' || schedaPg.classe.nome==='Chierico' || infoSkills.length>0) && isRotinrim())? 'block': 'none'">
   <button  mat-icon-button="" color="primary" [matTooltip]="!isChierico() ? 'Info spell paladino' : 'Info spell chierico'" (click)="!isChierico() ? openPaladino() : openChierico()" [style.visibility]="((schedaPg.classe.nome==='Paladino' || schedaPg.classe.nome==='Chierico') && schedaPg.religione.nome!=='' && isRotinrim())? 'visible': 'hidden'">
         <mat-icon style="color:green">info</mat-icon>
   </button>
-  <button mat-icon-button="" color="primary" matTooltip="Info macraggio skills" (click)="openInfoSkills()" [style.visibility]="(infoSkills.length>0 &amp;&amp; isRotinrim())? 'visible': 'hidden'">
+  <button mat-icon-button="" color="primary" matTooltip="Info macraggio skills" (click)="openInfoSkills()" [style.visibility]="(infoSkills.length>0 && isRotinrim())? 'visible': 'hidden'">
     <mat-icon style="color:#004a9f">info</mat-icon>
   </button>
   </div>
@@ -52,7 +52,7 @@
   </div>
   <div class="flex justify-evenly content-center items-center w-full flex-row flex-wrap flex-1">
     <div>
-      <mat-form-field >
+      <mat-form-field>
         <mat-label style="font-size: 12px">Classe</mat-label>
           <mat-select color="primary" [(ngModel)]="schedaPg.classe.nome" [formControl]="classeForm" class="flex-1">
             <mat-option color="primary" *ngFor="let classe of classi" [disabled]="classi.length<1" [value]="classe.nome" (click)="getReligioni();autoSetStat();getInfoSkill();enableButtonTemplate()">{{classe.nome}}</mat-option>
@@ -83,11 +83,11 @@
 
 
 </mat-card>
-<mat-card class="firstForm flex flex-col basis-full" style="margin-top: 2%;">
+<mat-card class="firstForm paddingFirstForm flex flex-col basis-full" style="margin-top: 2%;">
   <mat-card-title>
     Stats
     <button mat-icon-button="" class="bottoneTemplate" [disabled]="schedaPg.classe.nome==null || buttonTemplate==false" matTooltip="Seleziona un template stat/skills predefinito" (click)="openTemplate()">
-      <mat-icon style="color:#004a9f" [ngStyle]="{color: schedaPg.classe.nome==null || buttonTemplate==false ? 'grey' : '#004a9f'}">search</mat-icon>
+      <mat-icon style="color:#004a9f; position: relative; top:10px;" [ngStyle]="{color: schedaPg.classe.nome==null || buttonTemplate==false ? 'grey' : '#004a9f'}">search</mat-icon>
     </button>
   </mat-card-title>
   <div>
@@ -154,4 +154,4 @@
 
 
 
-
+<app-progress-spinner *ngIf="!isFirstLoad"></app-progress-spinner>

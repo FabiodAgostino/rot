@@ -11,3 +11,16 @@
   border: 2.5px solid #004a9f;
   border-radius: 3px;
 }
+
+
+.width {
+  width: 100%; /* Larghezza massima su schermi più piccoli */
+  padding:20px;
+}
+
+/* Media query per schermi più grandi di 500px */
+@media screen and (min-width: 650px) {
+  .width {
+    width: 50%; /* Larghezza del 70% su schermi più grandi */
+  }
+}
