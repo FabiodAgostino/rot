@@ -3,6 +3,7 @@ mat-card
     border: 2px solid #004a9f;
     border-radius: 3px;
     margin: 3%;
+    padding: 20px;
 }
 
 mat-card-title

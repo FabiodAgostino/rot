@@ -11,8 +11,8 @@ import { Utils } from '../utils/utility';
 
 
 const REDIRECT_URL_LOCALE='http://localhost:4200/';
-const CLIENT_ID_LOCALE='960448858926768148'
-const CLIENT_SECRET_LOCALE ='nQw62DUdZc5DaaYEZ6CB7IyqgtFqUnHY';
+const CLIENT_ID_LOCALE='1106594210242625579'
+const CLIENT_SECRET_LOCALE ='RIZz7vBghyPRJJKSLj32UL95iyygc2_9';
 
 const REDIRECT_URL='https://fabiodagostino.github.io/rot/';
 const CLIENT_ID='1106594210242625579';
@@ -53,6 +53,7 @@ export class UserService {
   redirectUrl: string='';
   clientId:string='';
   clientSecret:string=''
+
 
   private loggedIn = new BehaviorSubject<boolean>(false);
 
@@ -128,7 +129,7 @@ export class UserService {
     this.openSnackBar("login");
     this.loggedIn.next(true);
     localStorage.setItem("idUser",u.id!);
-    if(u.ruoli?.includes('Cittadino'))
+    if(u.ruoli?.includes('Cittadino') || u.ruoli?.includes('Valinrim') || u.ruoli?.includes('Ceorita'))
     {
       this.isRotinrim=true;
       u.interno=true;
@@ -371,7 +372,7 @@ export class UserService {
           }
           this.userLoggato=x;
           this.loggedIn.next(true)
-          if(this.userLoggato.ruoli?.includes('Cittadino'))
+          if(this.userLoggato.ruoli?.includes('Cittadino') || this.userLoggato.ruoli?.includes('Valinrim') || this.userLoggato.ruoli?.includes('Ceorita'))
             this.isRotinrim=true;
 
           if(this.userLoggato.ruoli?.includes('Regnante'))

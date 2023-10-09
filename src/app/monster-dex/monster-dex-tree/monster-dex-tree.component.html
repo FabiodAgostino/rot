@@ -1,0 +1,38 @@
+
+
+
+<div style="background-color: white;">
+  <mat-form-field>
+    <input matInput type="text" [(ngModel)]="filterText" placeholder="Filtra per nome o razza" class="flex-1" (change)="matchesFilter()">
+  </mat-form-field>
+</div>
+
+
+<div class="tree " *ngIf="isFirstLoad">
+  <mat-tree [dataSource]="dataSource" [treeControl]="treeControl" >
+    <mat-tree-node *matTreeNodeDef="let node" matTreeNodePadding>
+      <button mat-icon-button disabled></button>
+      <span (click)="renderImage(node)" class="name">{{node.name}}</span>
+    </mat-tree-node>
+    <mat-tree-node *matTreeNodeDef="let node; when: hasChild" matTreeNodePadding>
+      <button mat-icon-button matTreeNodeToggle>
+        <mat-icon class="mat-icon-rtl-mirror">
+          {{treeControl.isExpanded(node) ? 'expand_more' : 'chevron_right'}}
+        </mat-icon>
+      </button>
+      {{node.name}} 
+      <!-- <label for="fileInput" style="color:#004a9f; padding-left:4px" class="custom-file-upload">
+        <mat-icon style="color:#004a9f" style="transform: scale(0.9)">library_add</mat-icon>
+      </label>
+      <input type="file" id="fileInput" accept=".jpg, .jpeg, .png" (change)="caricaFile($event, node)" style="display:none;" [multiple]="true"> -->
+    </mat-tree-node>
+  </mat-tree>
+</div>
+<div class="flex justify-center items-center">
+  <mat-progress-spinner *ngIf="!isFirstLoad"
+          class="example-margin"
+          color='primary'
+          mode="indeterminate"
+          style="padding-top:20px; height: 20vh;">
+  </mat-progress-spinner>
+</div>

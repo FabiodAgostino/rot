@@ -205,12 +205,16 @@ export class SchedaPersonaggioComponent implements OnInit {
 
   openPaladino()
   {
-    this.dialog.open(ModalePaladinoComponent,{data:this.schedaPg.religione.nome});
+    this.dialog.open(ModalePaladinoComponent,{data:this.schedaPg.religione.nome,
+      width:this.utils.isSmartphone() ? "100%" : '60%',
+      height:"33%",});
   }
 
   openChierico()
   {
-    this.dialog.open(ModaleChiericoComponent,{data:this.schedaPg.religione.nome});
+    this.dialog.open(ModaleChiericoComponent,{data:this.schedaPg.religione.nome,
+      width:this.utils.isSmartphone() ? "100%" : '60%',
+      height:"33%",});
   }
 
   checkSalva()

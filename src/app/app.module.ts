@@ -73,6 +73,12 @@ import { RoleGuard } from './service/roleGuard';
 import { NgChartsModule } from 'ng2-charts';
 import { FooterComponent } from './footer/footer.component';
 import { NgxSkeletonLoaderModule } from 'ngx-skeleton-loader';
+import { MonsterDexViewComponent } from './monster-dex/monster-dex-view/monster-dex-view.component';
+import { MonsterDexTreeComponent } from './monster-dex/monster-dex-tree/monster-dex-tree.component';
+import {MatTreeModule} from '@angular/material/tree';
+import { CdkTreeModule } from '@angular/cdk/tree';
+
+
 
 @NgModule({
   declarations: [
@@ -108,6 +114,8 @@ import { NgxSkeletonLoaderModule } from 'ngx-skeleton-loader';
     FlussoDatiComponent,
     AggiungiNewsComponent,
     TimestampToDatePipe,
+    MonsterDexViewComponent,
+    MonsterDexTreeComponent
   ],
   imports: [
     BrowserModule,
@@ -147,7 +155,11 @@ import { NgxSkeletonLoaderModule } from 'ngx-skeleton-loader';
     ClipboardModule,
     BrowserAnimationsModule,
     NgChartsModule,
-    NgxSkeletonLoaderModule
+    NgxSkeletonLoaderModule,
+    BrowserModule,
+    MatTreeModule,
+    MatButtonModule,
+    MatIconModule
   ],
   providers: [
     SafePipe,

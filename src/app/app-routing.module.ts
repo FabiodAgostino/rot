@@ -17,6 +17,8 @@ import { FlussoDatiComponent } from './admin-components/flusso-dati/flusso-dati.
 import { AggiungiNewsComponent } from './admin-components/aggiungi-news/aggiungi-news.component';
 import { UtentiComponent } from './admin-components/utenti/utenti.component';
 import { RoleGuard } from './service/roleGuard';
+import { MonsterDexViewComponent } from './monster-dex/monster-dex-view/monster-dex-view.component';
+import { MonsterDexTreeComponent } from './monster-dex/monster-dex-tree/monster-dex-tree.component';
 
 const routes: Routes = [
 
@@ -25,6 +27,7 @@ const routes: Routes = [
   {path: "credits",  component: CreditsComponent},
   {path: "develop",  component: DevelopComponent},
   {path: "schedaPersonaggio",  component: SchedaPersonaggioComponent},
+  {path: "monsterDex",  component: MonsterDexViewComponent},
   {path: "bacheca",  component: BachecaComponent},
   {path: "macro",  component: MacroComponent},
   {path: "news",  component: NewsComponent},

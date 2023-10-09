@@ -1,0 +1,63 @@
+<div>
+    <div class="title flex justify-center content-center items-center w-full flex-row">
+        MonsterDex
+      </div>
+      <div style="text-align:center; margin-bottom: 10px" class="flex justify-around content-center items-center w-full flex-row">
+        <b>Esplora le resistenze dei mob presenti su TM</b>
+      </div>
+      <mat-divider style="border-top-color:#004a9f" class="flex flex-row"></mat-divider>
+</div>
+<div class="mt-10 h-6/6 flex flex-col md:flex-row items-center w-5/6 mx-auto">
+    <div class="w-full md:w-3/6 containers container" style=" overflow: auto;">
+        <div class="flex-row sticky-top">
+            <div class="subtitle  flex justify-center content-center items-center w-full flex-row" >
+              Seleziona una razza e scegli un mob
+            </div>
+            <mat-divider style="border-top-color:#004a9f; margin-left: 2vw;margin-right: 3vw;" class="flex flex-row"></mat-divider>
+          </div>
+        <app-monster-dex-tree (renderImmagine)="renderImage($event)"></app-monster-dex-tree>
+    </div>
+
+    <div class="w-full md:w-3/6 containers" style=" overflow: auto; height: 70vh; padding-top:3vh">
+        <div class="titoloImmagine">
+            <b>{{node?.name}}</b>
+            <mat-progress-bar [style.visibility]="!imageLoaded && node!=null ? 'visible' : 'hidden'"  mode="indeterminate" style="padding-left:20px"
+            ></mat-progress-bar>
+        </div>
+        <div>
+            <div class="flex items-center justify-center eyeButton">
+                <button class="text-blue-600 justify-right" [style.visibility]="imageLoaded ? 'visible' : 'hidden'" (click)="openModal()">
+                    <i class="far fa-eye"><mat-icon>remove_red_eye</mat-icon></i>
+                </button>
+            </div>
+            <div class="immagine" *ngIf="node!=null" (click)="openModal()">
+                <img src="{{node.url}}" class=" image-overlay mx-auto  transition-opacity duration-300 hover:opacity-70" [style.width.px]="desiredWidth" [style.height.px]="desiredHeight" [ngClass]="imageLoaded || isFirstLoad ? 'resistenze' : '' " (load)="imageLoaded= true; isFirstLoad=true;">
+                </div>
+            </div>
+        </div>
+</div>
+
+
+
+
+
+<ng-template #myModal>
+    <div class="modal">
+        <mat-card class="w-auto sm:w-full">
+            <b style="padding:10px; color:#004a9f;">{{ node?.name }}</b>
+            <mat-card-content class="d-flex">
+                <mat-progress-bar [style.visibility]="!imageTemplate && node!=null ? 'visible' : 'hidden'"  mode="indeterminate"
+                ></mat-progress-bar>
+                <div class="w-auto sm:w-full d-flex justify-center" style="padding-top:22px; padding-bottom:22px;">
+                    <img mat-card-image src="{{ modalImageUrl }}" alt="Immagine" clss="imgTemplate" (load)="imageTemplate= true; "[style.width.px]="desiredWidth" [style.height.px]="desiredHeight">
+                </div>
+            </mat-card-content>
+            <div class="modal-footer closeModal">
+                <button mat-button type="button" color="primary" id="closeModal"  (click)="closeModal()">Chiudi</button>
+            </div>
+        </mat-card>
+    </div>
+</ng-template>
+
+
+  
