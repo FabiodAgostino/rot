@@ -149,7 +149,6 @@ convertXmlToJson(xml: string): Promise<any> {
   {
     var subject = new Subject<Array<MacroFullFromXml>>();
     const array = await this.MacrosXmlToObject(xml);
-    console.log(array);
 
     var arrayMacro = new Array<MacroFullFromXml>();
     this.macroService.getMacroSettings().subscribe(x=>{

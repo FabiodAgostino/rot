@@ -92,10 +92,12 @@ export class UserService {
   {
     var subject = new Subject<FullUserDiscord>();
     this.getGuilds(token.access_token).subscribe(guilds=> {
-      if(guilds.find(guild=> guild.id.includes('511856322141093904'))) //ROTINIEL
+      var guildRot = guilds.find(guild=> guild.id.includes('511856322141093904'));
+      var guildTm = guilds.find(guild=> guild.id.includes('608322373057249290'));
+      if(guildRot) //ROTINIEL
       {
         this.getUserGuildInfo(token.access_token).subscribe( (u) =>{
-          const user= this.okLogin(token, "Rotiniel",u);
+          const user= this.okLogin(token, "Rotiniel",u,undefined,undefined,guildRot?.id, guildRot?.name);
           subject.next(user);
         },
         (error)=>
@@ -106,11 +108,11 @@ export class UserService {
           })
         })
       }
-      else if(guilds.find(guild=> guild.id.includes('608322373057249290'))) //THE MIRACLE
+      else if(guildTm) //THE MIRACLE
       {
         this.getUserInfo(token.access_token).subscribe(u=>
           {
-            subject.next(this.okLogin(token, "The Miracle Shard",undefined,u.id,u.username));
+            subject.next(this.okLogin(token, "The Miracle Shard",undefined,u.id,u.username,guildTm?.id,guildTm?.name));
           })
       }
       else
@@ -121,9 +123,19 @@ export class UserService {
     return subject.asObservable();
   }
 
-  okLogin( token: TokenDiscord, serverAutenticazione:string, user?: UserDiscord, idUser?: string, username?:string, )
+  okLogin( token: TokenDiscord, serverAutenticazione:string, user?: UserDiscord, idUser?: string, username?:string, guildId?:string, guildName?:string)
   {
     const u= new FullUserDiscord(token,user, idUser, username);
+    if(u.ruoli?.includes('Cittadino') || u.ruoli?.includes('Valinrim') || u.ruoli?.includes('Ceorita'))
+    {
+      u.guildId=guildId;
+      u.guildName=guildName;
+    }
+    else
+    {
+      u.guildId="";
+      u.guildName="";
+    }
     u.serverAutenticazione=serverAutenticazione;
     this.checkUser(u).subscribe()
     this.openSnackBar("login");
@@ -208,7 +220,9 @@ export class UserService {
         this.store.collection('User').doc(`${x[0].id}`).set({
           lastExpiresToken:user.token!.expires,
           ruoli: user.ruoli,
-          roles: user.ruoli
+          roles: user.ruoli,
+          guildId: user.guildId,
+          guildName: user.guildName
         },
         {
           merge:true
@@ -263,7 +277,9 @@ export class UserService {
       lastExpiresToken: user.token!.expires,
       id: user.id,
       serverAutenticazione: user.serverAutenticazione,
-      registratoDate: new Date
+      registratoDate: new Date,
+      guildId: user.guildId,
+      guildName: user.guildName
   });
   }
 
@@ -470,6 +486,16 @@ export class UserService {
 
     return this.isLoggedInObs.pipe(
       map((isLoggedIn) => isLoggedIn && this.userLoggato?.ruoli?.includes('Regnante') ? true : this.route.parseUrl('/'))
+    );
+  }
+
+  canActivateUser(
+    route: ActivatedRouteSnapshot,
+    state: RouterStateSnapshot
+  ): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
+
+    return this.isLoggedInObs.pipe(
+      map((isLoggedIn) => isLoggedIn ? true : this.route.parseUrl('/'))
     );
   }
 

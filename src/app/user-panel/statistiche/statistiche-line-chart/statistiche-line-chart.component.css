@@ -1,0 +1,8 @@
+
+
+canvas#MyChart {
+    display: block;
+    box-sizing: border-box;
+    height: 214px;
+    width: 535px;
+}

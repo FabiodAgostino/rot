@@ -1,0 +1,50 @@
+<div class="flex justify-center items-center mt-4" >
+    <div class="container grid grid-cols-6 gap-4" >
+      <div class="col-start-2 col-span-4">
+      <input type="month" [(ngModel)]="selectedDate" (change)="onDateChange()" class="datepicker">
+    </div>
+      <div class="col-start-2 col-span-4" style="padding:30px; border:2px outset #004a9f;">
+          <div class="row" >
+            <div class="filter">
+              <mat-form-field class="ml-1 fieldSmartphone">
+                <mat-label style="font-size: 12px">Dungeon</mat-label>
+                <mat-select color="primary"  class="flex-1" [(ngModel)]="selectedDungeon.name" >
+                  <mat-option color="primary" *ngFor="let dungeon of dungeons" [value]="dungeon.name" (click)="change()">{{dungeon.emoji +" "+dungeon.name}}</mat-option>
+                </mat-select>
+              </mat-form-field>
+              <mat-form-field class="ml-1 fieldSmartphone" (click)="notAviable()">
+                <mat-label style="font-size: 12px">Tipo grafico</mat-label>
+                <mat-select color="primary"  class="flex-1" [(ngModel)]="selectedGrafico" [disabled]="utils.isSmartphone()">
+                  <mat-option color="primary" *ngFor="let grafico of tipoGrafico" [value]="grafico">{{grafico}}</mat-option>
+                </mat-select>
+              </mat-form-field>
+              <mat-form-field class="ml-1 fieldSmartphone" *ngIf="selectedGrafico!=='Timeline'">
+                <mat-label style="font-size: 12px">Filtro grafico</mat-label>
+                <mat-select color="primary"  class="flex-1" [(ngModel)]="selectedFiltro" >
+                  <mat-option color="primary" *ngFor="let filtro of filtriGrafico" [value]="filtro">{{filtro}}</mat-option>
+                </mat-select>
+              </mat-form-field>
+            </div>
+            <div class="grafici mt-4" >
+              <div class="expanding-container center-content displayLarge " [ngStyle]="{ 'justify-content': selectedGrafico === 'Lineare' ? 'center' : 'left' }">
+                <div style="max-height: 350px; max-width: 70%;">
+                  <app-statistiche-timeline [items]="arrayStatistiche" *ngIf="selectedGrafico=='Timeline'" (openModal)="goToOpenModal($event)"></app-statistiche-timeline>
+                  <div *ngIf="selectedGrafico=='Lineare'" >
+                    <app-statistiche-line-chart [items]="arrayStatistiche" [filtro]="selectedFiltro" *ngIf="!utils.isSmartphone()" (openModal)="goToOpenModal($event)">
+                    </app-statistiche-line-chart>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+      </div>
+    </div>
+  </div>
+
+
+  <div style="margin-top:5vh; background-color: white;" class="display">
+    <app-statistiche-timeline [items]="arrayStatistiche" *ngIf="selectedGrafico=='Timeline'"></app-statistiche-timeline>
+      <div *ngIf="selectedGrafico=='Lineare'" >
+        <app-statistiche-line-chart [items]="arrayStatistiche" [filtro]="selectedFiltro" *ngIf=" utils.isSmartphone()" (openModal)="goToOpenModal($event)"></app-statistiche-line-chart>
+    </div>
+  </div>

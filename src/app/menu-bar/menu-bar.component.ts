@@ -8,6 +8,7 @@ import { SchedaPersonaggioService } from '../service/scheda-personaggio.service'
 import { UserService } from '../service/user.service';
 import { Router } from '@angular/router';
 import { Utils } from '../utils/utility';
+import {MatMenuModule} from '@angular/material/menu';
 
 const LOGIN_DISCORD_LOCALE='https://discord.com/api/oauth2/authorize?client_id=1106594210242625579&redirect_uri=http%3A%2F%2Flocalhost%3A4200%2F&response_type=code&scope=identify%20guilds%20connections%20guilds.members.read'
 const LOGIN_DISCORD ='https://discord.com/api/oauth2/authorize?client_id=1106594210242625579&redirect_uri=https%3A%2F%2Ffabiodagostino.github.io%2Frot%2F&response_type=code&scope=identify%20guilds%20connections%20guilds.members.read'
@@ -59,6 +60,12 @@ export class MenuBarComponent implements OnInit {
   {
     this.router.navigate(['/admin'])
   }
+
+  goStatistiche()
+  {
+    this.router.navigate(['/statistiche-view'])
+  }
+
 
   regnanteIn()
   {

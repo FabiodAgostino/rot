@@ -57,7 +57,6 @@ export class MonsterDexTreeComponent implements OnInit {
 
   upload(node:FlatNode)
   {
-    console.log(node)
   }
 
   caricaFile(event: any, node: MonsterNode): void {
@@ -67,7 +66,6 @@ export class MonsterDexTreeComponent implements OnInit {
       {
         this.driveService.uploadFile(fileList[i] as Blob,node.id ).subscribe(x=>
           {
-            console.log(x)
           });
       }
     }

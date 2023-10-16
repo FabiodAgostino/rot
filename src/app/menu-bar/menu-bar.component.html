@@ -8,6 +8,25 @@
 <div class="basis-[96%]">
   Rotiniel Tools
 </div>
+<button mat-icon-button="" matTooltip="User" [matMenuTriggerFor]="menu" *ngIf="isLoggedIn" [ngStyle]="isSmartphone ? { 'margin-right': '6vw' } : { '': '' }" class="basis-[4%]">
+  <span class="material-symbols-outlined">
+    <mat-icon style="color:whitesmoke">account_circle</mat-icon>
+    </span>
+  <mat-menu #menu="matMenu">
+    <button mat-menu-item [routerLink]="'/statistiche-view'" (click)=" boolHome=false;">
+      <mat-icon>trending_up</mat-icon>
+      <span>Statistiche</span>
+    </button>
+    <button mat-menu-item disabled>
+      <mat-icon>settings</mat-icon>
+      <span>Impostazioni</span>
+    </button>
+    <button mat-menu-item disabled>
+      <mat-icon>reorder</mat-icon>
+      <span>Altro</span>
+    </button>
+  </mat-menu>
+</button>
 <button mat-icon-button="" matTooltip="Admin" (click)="goAdmin()" *ngIf="isRegnante" [ngStyle]="isSmartphone ? { 'margin-right': '6vw' } : { '': '' }" class="basis-[4%]">
   <span class="material-symbols-outlined">
     <mat-icon style="color:gold">admin_panel_settings</mat-icon>
@@ -18,7 +37,7 @@
   <span class="material-icons">discord</span>
 </button>
 
-<button mat-icon-button="" matTooltip="Logout" (click)="logOut()" *ngIf="isLoggedIn" class="basis-[4%]">
+<button mat-icon-button="" matTooltip="Logout" [routerLink]="'/'" (click)="logOut()" *ngIf="isLoggedIn" class="basis-[4%]">
   <span class="material-symbols-outlined">
     person_off
     </span>
@@ -40,6 +59,7 @@
   <a mat-raised-button="" routerLink="/bacheca" (click)="sidenav.toggle(); boolHome=false;" class="but"><span class="but">Paginazione Bacheche</span></a>
   <a mat-raised-button="" routerLink="/macro" (click)="sidenav.toggle(); boolHome=false;" class="but"><span class="but">Macro Utili</span></a>
   <a mat-raised-button="" routerLink="/monsterDex" (click)="sidenav.toggle(); boolHome=false;" class="but"><span class="but">MonsterDex</span></a>
+
 
 
 

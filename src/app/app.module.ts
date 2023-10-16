@@ -77,6 +77,14 @@ import { MonsterDexViewComponent } from './monster-dex/monster-dex-view/monster-
 import { MonsterDexTreeComponent } from './monster-dex/monster-dex-tree/monster-dex-tree.component';
 import {MatTreeModule} from '@angular/material/tree';
 import { CdkTreeModule } from '@angular/cdk/tree';
+import { MatMenuModule } from '@angular/material/menu';
+import { StatisticheViewComponent } from './user-panel/statistiche/statistiche-view/statistiche-view.component';
+import { RoleGuardUtente } from './service/roleGuardUtente';
+import { StatisticheTimelineComponent } from './user-panel/statistiche/statistiche-timeline/statistiche-timeline.component';
+import { StatisticheLineChartComponent } from './user-panel/statistiche/statistiche-line-chart/statistiche-line-chart.component';
+import { ModaleStatisticheComponent } from './user-panel/statistiche/modale-statistiche/modale-statistiche.component';
+
+
 
 
 
@@ -115,7 +123,11 @@ import { CdkTreeModule } from '@angular/cdk/tree';
     AggiungiNewsComponent,
     TimestampToDatePipe,
     MonsterDexViewComponent,
-    MonsterDexTreeComponent
+    MonsterDexTreeComponent,
+    StatisticheViewComponent,
+    StatisticheTimelineComponent,
+    StatisticheLineChartComponent,
+    ModaleStatisticheComponent,
   ],
   imports: [
     BrowserModule,
@@ -159,7 +171,8 @@ import { CdkTreeModule } from '@angular/cdk/tree';
     BrowserModule,
     MatTreeModule,
     MatButtonModule,
-    MatIconModule
+    MatIconModule,
+    MatMenuModule,
   ],
   providers: [
     SafePipe,
@@ -172,7 +185,8 @@ import { CdkTreeModule } from '@angular/cdk/tree';
       deps: [AppInitializerService],
       multi: true
     },
-    RoleGuard
+    RoleGuard,
+    RoleGuardUtente
   ],
   bootstrap: [AppComponent],
   schemas: [

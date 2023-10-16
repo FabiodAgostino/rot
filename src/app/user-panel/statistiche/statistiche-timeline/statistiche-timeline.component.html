@@ -1,0 +1,16 @@
+<mat-horizontal-stepper linear [style]="'width:'+getWidth()+'vw;'" *ngIf="items!.length >0" class="compContainer">
+    <ng-container *ngFor="let item of items; let i = index">
+      <mat-step [completed]="true" >
+        <ng-template matStepLabel >
+          <div class="stepper-header-overlay" (click)="openModal.emit(item)" title="{{item.destination}}"></div>
+         {{ item.date.getDate() +"/"+ (item.date.getMonth()+1)}}
+        </ng-template>
+      </mat-step>
+    </ng-container>
+  </mat-horizontal-stepper>
+  <div *ngIf="items!.length==0" class="h-24 w-96">
+    <ngx-skeleton-loader count="1" appearance="line" [theme]="{ 
+      height: '6vh',
+      width:'100vw'
+    }"></ngx-skeleton-loader>
+  </div>

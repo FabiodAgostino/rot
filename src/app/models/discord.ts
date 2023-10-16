@@ -117,6 +117,8 @@ export class FullUserDiscord
   serverAutenticazione?: string;
   registratoDate: any;
   revokeToken: any;
+  guildId?:string;
+  guildName?:string;
 }
 
 export class PartialUserDiscord {

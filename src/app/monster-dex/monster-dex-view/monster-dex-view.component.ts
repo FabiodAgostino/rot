@@ -40,7 +40,6 @@ export class MonsterDexViewComponent {
     image.onload = () => {
       const originalWidth = image.width;
       const originalHeight = image.height;
-      console.log(originalWidth)
       // Verifica le dimensioni e applica le dimensioni desiderate
       if (originalWidth > originalHeight) {
         this.desiredHeight = 450;
