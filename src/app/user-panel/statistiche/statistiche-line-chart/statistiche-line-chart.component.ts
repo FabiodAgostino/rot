@@ -1,9 +1,10 @@
 import { AfterViewInit, Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges, ViewChild } from '@angular/core';
-import { Chart, ChartConfiguration, LineController, LineElement, PointElement, LinearScale, Title, CategoryScale} from 'chart.js' 
+import { Chart, ChartConfiguration, LineController, LineElement, PointElement, LinearScale, Title, CategoryScale, Tooltip} from 'chart.js' 
 import { Statistiche } from 'src/app/models/Statistiche';
 import { Interaction } from 'chart.js';
+import { Utils } from 'src/app/utils/utility';
 
-Chart.register(LineController, LineElement, PointElement, LinearScale, Title, CategoryScale);
+Chart.register(LineController, LineElement, PointElement, LinearScale, Title, CategoryScale, Tooltip);
 var index;
 @Component({
   selector: 'app-statistiche-line-chart',
@@ -30,7 +31,7 @@ export class StatisticheLineChartComponent implements AfterViewInit{
     this.changeValoriFiltro();
     this.createChart();
   }
-  constructor() {
+  constructor(public utils:Utils) {
   }
   ngAfterViewInit() {
 
@@ -45,14 +46,13 @@ export class StatisticheLineChartComponent implements AfterViewInit{
     {
       this.chart.destroy();
     }
-    let labels= this.items?.map(x=> x.date.getDate() + "/" +  (x.date.getMonth()+1));
 
     this.chart = new Chart("MyChart", {
       type: 'line', //this denotes tha type of chart
       data: {// values on X-Axis
 	       datasets: [
           {
-            label: "Sales",
+            label: this.filtro,
             data:this.valoriGrafico,
             backgroundColor: 'blue',
 
@@ -60,6 +60,11 @@ export class StatisticheLineChartComponent implements AfterViewInit{
         ]
       },
       options: {
+        plugins: {
+          tooltip: {
+            enabled:true
+          }
+        },
         aspectRatio:2.5,
         scales: {
           y: {
@@ -76,7 +81,6 @@ export class StatisticheLineChartComponent implements AfterViewInit{
     });
     if(this.valoriGrafico?.map(valore=> valore.y)?.every(x=> x==0))
     {
-      labels=[];
       this.chart.destroy();
       return;
     }
@@ -84,7 +88,6 @@ export class StatisticheLineChartComponent implements AfterViewInit{
 
   changeValoriFiltro()
   {
-
     switch(this.filtro)
     {
       case "Fama": this.valoriGrafico = this.items!.map(statistica => {
@@ -101,6 +104,10 @@ export class StatisticheLineChartComponent implements AfterViewInit{
       }); break;
       case "Frammenti": this.valoriGrafico = this.items!.map(statistica => {
         return new ValoriGrafico(statistica.frammenti!, new Date(statistica.date), statistica.guid);
+      }); break;
+      case "Tempo": this.valoriGrafico = this.items!.map(statistica => {
+        const minuti = statistica.tempo?.hours!*60+statistica.tempo?.minutes!;
+        return new ValoriGrafico(minuti!, new Date(statistica.date), statistica.guid);
       }); break;
     }
   }

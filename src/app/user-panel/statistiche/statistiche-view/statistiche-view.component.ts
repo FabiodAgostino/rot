@@ -30,7 +30,7 @@ export class StatisticheViewComponent implements OnInit {
   arrayStatistiche = new Array<Statistiche>();
   arrayAllStatistiche = new Array<Statistiche>();
   tipoGrafico = ["Timeline","Lineare"];
-  filtriGrafico = ["Fama","Monete","Frammenti","Sangue","Nuclei"]
+  filtriGrafico = ["Fama","Monete","Frammenti","Sangue","Nuclei","Tempo"]
   selectedGrafico = "Timeline";
   selectedFiltro:string = "Fama";
   statistica = new Statistiche();
@@ -78,7 +78,7 @@ export class StatisticheViewComponent implements OnInit {
     }
     else
     {
-      const response = this.statisticheService.getMedie(item.guid!, item.destination!).subscribe(x=>{
+      const response = this.statisticheService.getMedie(item.guildId!, item.destination!).subscribe(x=>{
         this.arrayMedie.push(x);
         const fullStatistica=new FullStatistica(item,x);
         this.openModal(fullStatistica);

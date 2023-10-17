@@ -15,7 +15,6 @@ export class RoleGuardUtente  {
     ): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
       return this.userService.isLoggedInObs.pipe(
         map((isLoggedIn) => {
-          console.log(isLoggedIn)
           if (isLoggedIn ) {
             return true;
           } else {

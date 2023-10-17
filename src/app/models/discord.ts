@@ -89,23 +89,16 @@ export class UserDiscord {
 
 export class FullUserDiscord
 {
-  constructor(token: TokenDiscord,user?: UserDiscord, id?:string, username?:string)
+  constructor(user?: UserDiscord, guildId?:string, guildName?:string, token?:TokenDiscord,ruoli?:string[])
   {
-    if(user)
-    {
-      this.id=user.user.id;
-      this.username=user.user.username;
-      this.ruoli = RolesDiscord.getRuoliFromRoles(user.roles);
-      this.roles=user.roles;
-    }
-    else
-    {
-      this.id=id;
-      this.username=username;
-      this.ruoli = [];
-    }
-    this.token=token;
-
+      this.id=user!.user.id;
+      this.username=user!.user.username;
+      this.ruoli = ruoli;
+      this.roles=user!.roles;
+      this.guildId = guildId;
+      this.guildName = guildName;
+      this.serverAutenticazione = guildName;
+      this.token=token;
   }
   id?: string;
   username?: string;
@@ -171,4 +164,29 @@ export interface UserMeDiscord {
   email:             string;
   verified:          boolean;
 }
+
+export class RuoloDiscord {
+
+  constructor(id?: string, name?: string, color?: number) {
+  }
+}
+
+export class ServerDiscord
+{
+  constructor(public id?:string, public name?:string, public date?:any) {
+  }
+}
+
+export class RuoloTipoRuolo
+{
+  constructor(public guildId?:string, public role?:string, public tipoRuolo?:string, public idRole?:string) {
+  }
+}
+
+export class FullServerDiscord implements ServerDiscord
+{
+  constructor(public ruoli?: RuoloTipoRuolo[],public id?:string, public name?:string, public date?:any) {
+  }
+}
+
 

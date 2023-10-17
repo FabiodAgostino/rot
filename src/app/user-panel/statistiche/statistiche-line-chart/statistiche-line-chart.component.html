@@ -1,3 +1,5 @@
-<div class="chart-container">
+<div class="chart-container" [style.position]="!utils.isSmartphone() ? 'relative' : ''"
+[style.height]="!utils.isSmartphone() ? '40vh' : ''"
+[style.width]="!utils.isSmartphone() ? '52vw' : ''">
   <canvas  id="MyChart">{{ chart }}</canvas>
 </div>

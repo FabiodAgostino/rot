@@ -17,7 +17,6 @@ export class StatisticheService {
 
 
   getCacciaOrganizzataTempoLoot(idGuild: string, mese: number, anno: number) {
-    idGuild="1161008990872936588";
     const inizioMeseTimestamp = new Date(anno, mese - 1, 1).getTime();
   
     const fineMeseTimestamp = new Date(anno, mese, 0, 23, 59, 59, 999).getTime();
@@ -56,7 +55,6 @@ export class StatisticheService {
 
 
   getMedie(idGuild: string,dungeon:string): Observable<MedieStatistiche> {
-    idGuild = "1161008990872936588";
     return this.store
       .collection<MedieStatistiche>('CacciaOrganizzataTempoLoot', (ref) =>
         ref

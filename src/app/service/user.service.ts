@@ -1,13 +1,15 @@
 import { Injectable } from '@angular/core';
 import { AngularFirestore, AngularFirestoreCollection } from '@angular/fire/compat/firestore';
-import { BehaviorSubject, last, map, Observable, Subject, timestamp } from 'rxjs';
+import { BehaviorSubject, forkJoin, last, map, Observable, Subject, timestamp } from 'rxjs';
 import { MatSnackBar, MatSnackBarHorizontalPosition, MatSnackBarVerticalPosition } from '@angular/material/snack-bar';
 import { Ticket } from '../models/Tickets';
 import { AngularFireAuth } from "@angular/fire/compat/auth";
 import { ActivatedRoute, ActivatedRouteSnapshot, Router, RouterStateSnapshot, UrlTree } from '@angular/router';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { FullUserDiscord, GuildDiscord, TokenDiscord, UserDiscord, UserMeDiscord } from '../models/discord';
+import { FullServerDiscord, FullUserDiscord, GuildDiscord, RuoloDiscord, RuoloTipoRuolo, ServerDiscord, TokenDiscord, UserDiscord, UserMeDiscord } from '../models/discord';
 import { Utils } from '../utils/utility';
+import { switchMap } from 'rxjs/operators';
+import { MatDialog } from '@angular/material/dialog';
 
 
 const REDIRECT_URL_LOCALE='http://localhost:4200/';
@@ -28,7 +30,7 @@ const GUILD_ID_ROTINIEL="511856322141093904";
 
 export class UserService {
 
-  constructor(private store: AngularFirestore, private _snackBar:MatSnackBar, private activated:ActivatedRoute, private http:HttpClient, private utils:Utils, private route:Router) {
+  constructor(private store: AngularFirestore, private _snackBar:MatSnackBar, private activated:ActivatedRoute, private http:HttpClient, private utils:Utils, private route:Router, private matDialog:MatDialog) {
 
     const config = require("../../environments/version.json");
     this.develop=config.develop;
@@ -82,66 +84,101 @@ export class UserService {
     return this.http.get<UserDiscord>(`${API_ENDPOINT}/users/@me/guilds/${GUILD_ID_ROTINIEL}/member`, { headers });
   }
 
+  getUserGuildInfoById(accessToken: string, idGuild:string)
+  {
+    const headers = new HttpHeaders().set('Authorization', `Bearer ${accessToken}`);
+    return this.http.get<UserDiscord>(`${API_ENDPOINT}/users/@me/guilds/${idGuild}/member`, { headers });
+  }
+
   getUserInfo(accessToken: string)
   {
     const headers = new HttpHeaders().set('Authorization', `Bearer ${accessToken}`);
     return this.http.get<UserMeDiscord>(`${API_ENDPOINT}/users/@me`, { headers });
   }
 
+  getGuildRoles(guildId: string, accessToken: string)
+   {
+    const headers = new HttpHeaders().set('Authorization', `Bearer ${accessToken}`);
+    return this.http.get<RuoloDiscord>(`${API_ENDPOINT}/guilds/${guildId}/roles`, { headers });
+  }
+
+  getServersDiscord() {
+    return this.store.collection<ServerDiscord>('ServerDiscord').valueChanges().pipe(
+      switchMap(servers => {
+        return this.store.collection<RuoloTipoRuolo>('RuoloTipoRuolo').valueChanges().pipe(
+          map(ruoliTipoRuolo => {
+            const risultatoUnione = servers.map(server => {
+              const ruoli = ruoliTipoRuolo.filter(ruolo => ruolo.guildId === server.id);
+              return new FullServerDiscord(ruoli, server.id, server.name, server.date);
+            });
+            return risultatoUnione;
+          })
+        );
+      })
+    );
+  }
+
   private logicaLogin(token: TokenDiscord)
   {
+    //qui avrai sicuramente problemi perché non stai considerando che un utente può essere presente in diversi server con ruolo mappato. Sarebbe il caso di fare una modale per scegliere il server
     var subject = new Subject<FullUserDiscord>();
     this.getGuilds(token.access_token).subscribe(guilds=> {
-      var guildRot = guilds.find(guild=> guild.id.includes('511856322141093904'));
-      var guildTm = guilds.find(guild=> guild.id.includes('608322373057249290'));
-      if(guildRot) //ROTINIEL
-      {
-        this.getUserGuildInfo(token.access_token).subscribe( (u) =>{
-          const user= this.okLogin(token, "Rotiniel",u,undefined,undefined,guildRot?.id, guildRot?.name);
-          subject.next(user);
-        },
-        (error)=>
+      const res=this.getServersDiscord().subscribe(servers=> { 
+        res.unsubscribe();
+        if(!servers || servers.length==0)
+          return;
+
+        let server = servers[0];
+        if(servers.length>1)
         {
-          this.getUserInfo(token.access_token).subscribe(u=>{
-            const user= this.okLogin(token, "Rotiniel",undefined, u.id,u.username);
-            subject.next(user);
-          })
-        })
-      }
-      else if(guildTm) //THE MIRACLE
-      {
-        this.getUserInfo(token.access_token).subscribe(u=>
+        var choice=prompt("C'è più di un server registrato a ROTBOT di cui fai parte, inserisci il nome del server con cui desideri accedere");
+        if(choice!=undefined && choice.length>0)
+          server = servers.filter(x=> x.name===choice)[0];
+        }
+        
+        this.getUserGuildInfoById(token.access_token, server.id!).subscribe( (user) =>{
+          if(user.roles==undefined || user.roles.length==0)
           {
-            subject.next(this.okLogin(token, "The Miracle Shard",undefined,u.id,u.username,guildTm?.id,guildTm?.name));
-          })
-      }
-      else
-      {
-        this.openSnackBar("loginFallita");
-      }
+              this.openSnackBar("loginFallita",undefined,undefined,"Non hai un ruolo adeguato sul server "+server.name+" per poter effettuare la login.");
+              return;
+          }
+          if(!this.checkLogin(user, server))
+              return;
+
+          const ruoli = server.ruoli?.filter(x=> user.roles.includes(x.idRole!)).map(x=> x.role);
+
+          const fullUser= this.okLogin(user, server.id!,server.name!,token,ruoli);
+          
+          subject.next(fullUser);
+          });
+        });
     })
     return subject.asObservable();
   }
 
-  okLogin( token: TokenDiscord, serverAutenticazione:string, user?: UserDiscord, idUser?: string, username?:string, guildId?:string, guildName?:string)
+  private checkLogin(user:UserDiscord, server:FullServerDiscord)
   {
-    const u= new FullUserDiscord(token,user, idUser, username);
-    if(u.ruoli?.includes('Cittadino') || u.ruoli?.includes('Valinrim') || u.ruoli?.includes('Ceorita'))
+    const roles = server.ruoli?.filter(x=> user.roles.includes(x.idRole!));
+    if(!user || roles?.length==0)
     {
-      u.guildId=guildId;
-      u.guildName=guildName;
+      this.openSnackBar("loginFallita",undefined,undefined,"Non hai un ruolo adeguato sul server "+server.name+" per poter effettuare la login.");
+      return false;
     }
-    else
-    {
-      u.guildId="";
-      u.guildName="";
-    }
-    u.serverAutenticazione=serverAutenticazione;
-    this.checkUser(u).subscribe()
+    return true;
+  }
+
+  
+
+  okLogin(user?: UserDiscord, guildId?:string, guildName?:string, token?:TokenDiscord, ruoli?:any)
+  {
+    const u= new FullUserDiscord(user, guildId, guildName,token,ruoli);
+    this.checkUser(u).subscribe();
+
     this.openSnackBar("login");
+
     this.loggedIn.next(true);
     localStorage.setItem("idUser",u.id!);
-    if(u.ruoli?.includes('Cittadino') || u.ruoli?.includes('Valinrim') || u.ruoli?.includes('Ceorita'))
+    if(u.ruoli?.includes('Novizi e Cittadini') || u.ruoli?.includes('Valinrim') || u.ruoli?.includes('Ceorita'))
     {
       this.isRotinrim=true;
       u.interno=true;
@@ -258,8 +295,6 @@ export class UserService {
         {
           merge:true
         });
-
-
       }
       else
         this.registrati(user);
@@ -447,7 +482,7 @@ export class UserService {
         break;
 
       case "loginFallita":
-        this.openSnack(text=='' ? "Per poter accedere devi essere presente nel server di Rotiniel o di The Miracle" : text,"red-snackbar",verticalPosition,horizontalPosition);
+        this.openSnack(text=='' ? "Per poter accedere aver mappato correttamente il tuo server con ROTBOT." : text,"red-snackbar",verticalPosition,horizontalPosition);
         break;
 
       case "segnalazioneInviata":
