@@ -6,3 +6,12 @@ canvas#MyChart {
     height: 214px;
     width: 535px;
 }
+
+
+.center-container {
+    display: flex;
+    justify-content: center; /* Centra orizzontalmente */
+    align-items: center;     /* Centra verticalmente */
+    width: 100%;             /* Rende il contenitore a larghezza intera */
+    height: 100vh;           /* Rende il contenitore in altezza al 100% della viewport */
+  }

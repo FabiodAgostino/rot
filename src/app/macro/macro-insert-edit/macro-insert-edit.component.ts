@@ -195,13 +195,13 @@ editMultiInsert(event:any=null)
     if(user)
     {
           this.utenteLoggato=user.username!;
-          if(user.username===this.macroFull.macro.author || user.ruoli?.includes(roleNames.regnante))
+          if(user.username===this.macroFull.macro.author || (user.ruoli?.includes("Regnante") ||user.ruoli?.includes("Senatore") ))
             this.isUpdateable=true;
 
           if(this.insert && this.utenteLoggato!=null)
             this.macroFull.macro.author=this.utenteLoggato;
 
-          if(this.macroFull.macro.author!=user.username && user.ruoli?.includes(roleNames.regnante))
+          if(this.macroFull.macro.author!=user.username && (user.ruoli?.includes("Regnante") ||user.ruoli?.includes("Senatore") ))
             this.isRegnante=true;
     }
 

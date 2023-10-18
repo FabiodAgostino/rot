@@ -49,7 +49,7 @@ export class Utils {
   navigateOutAdmin()
   {
     const currentPath = this.getCurrentPath();
-    const allowedPaths = ['/admin', '/utenti', '/tickets', '/flussoDati', '/aggiungiNews'];
+    const allowedPaths = ['/admin', '/utenti', '/tickets', '/flussoDati', '/aggiungiNews','/statistiche-view'];
     if (allowedPaths.includes(currentPath!)) {
       this.route.navigate(['/']);
     }

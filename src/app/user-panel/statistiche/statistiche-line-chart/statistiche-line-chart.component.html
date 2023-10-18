@@ -1,5 +1,6 @@
-<div class="chart-container" [style.position]="!utils.isSmartphone() ? 'relative' : ''"
-[style.height]="!utils.isSmartphone() ? '40vh' : ''"
-[style.width]="!utils.isSmartphone() ? '52vw' : ''">
+<div class="center-container" [style.position]="!utils.isSmartphone() ? 'relative' : ''"
+[style.height]="!utils.isSmartphone() ? '36vh' : '20vh'"
+[style.width]="!utils.isSmartphone() ? '48vw' : ''"
+style="margin: 0 auto; text-align: center;">
   <canvas  id="MyChart">{{ chart }}</canvas>
 </div>

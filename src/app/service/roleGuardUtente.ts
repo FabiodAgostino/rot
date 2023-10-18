@@ -16,7 +16,7 @@ export class RoleGuardUtente  {
       return this.userService.isLoggedInObs.pipe(
         map((isLoggedIn) => {
           if (isLoggedIn ) {
-            return true;
+            return isLoggedIn;
           } else {
             return this.router.parseUrl('/');
           }

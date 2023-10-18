@@ -1,0 +1,6 @@
+<div class="center-container"
+style="position: relative;"
+[style.height]="utils.isSmartphone() ? '250px' : '35vh'"
+[style.width]="utils.isSmartphone() ? '250px' : '300px'">
+  <canvas  id="DonutChart">{{ chart }}</canvas>
+</div>

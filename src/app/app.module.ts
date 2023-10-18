@@ -83,6 +83,8 @@ import { RoleGuardUtente } from './service/roleGuardUtente';
 import { StatisticheTimelineComponent } from './user-panel/statistiche/statistiche-timeline/statistiche-timeline.component';
 import { StatisticheLineChartComponent } from './user-panel/statistiche/statistiche-line-chart/statistiche-line-chart.component';
 import { ModaleStatisticheComponent } from './user-panel/statistiche/modale-statistiche/modale-statistiche.component';
+import { ContainerModaleStatisticheComponent } from './user-panel/statistiche/container-modale-statistiche/container-modale-statistiche.component';
+import { StatisticheDonutChartComponent } from './user-panel/statistiche/statistiche-donut-chart/statistiche-donut-chart.component';
 
 
 
@@ -128,6 +130,8 @@ import { ModaleStatisticheComponent } from './user-panel/statistiche/modale-stat
     StatisticheTimelineComponent,
     StatisticheLineChartComponent,
     ModaleStatisticheComponent,
+    ContainerModaleStatisticheComponent,
+    StatisticheDonutChartComponent,
   ],
   imports: [
     BrowserModule,

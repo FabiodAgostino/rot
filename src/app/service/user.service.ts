@@ -135,7 +135,6 @@ export class UserService {
         if(choice!=undefined && choice.length>0)
           server = servers.filter(x=> x.name===choice)[0];
         }
-        
         this.getUserGuildInfoById(token.access_token, server.id!).subscribe( (user) =>{
           if(user.roles==undefined || user.roles.length==0)
           {
@@ -178,12 +177,12 @@ export class UserService {
 
     this.loggedIn.next(true);
     localStorage.setItem("idUser",u.id!);
-    if(u.ruoli?.includes('Novizi e Cittadini') || u.ruoli?.includes('Valinrim') || u.ruoli?.includes('Ceorita'))
+    if(u.ruoli?.includes('Novizi e Cittadini') || u.ruoli?.includes('Valinrim') || u.ruoli?.includes('Ceorita') || u.ruoli?.includes('Senatore'))
     {
       this.isRotinrim=true;
       u.interno=true;
     }
-    if(u.ruoli?.includes('Regnante'))
+    if(u.ruoli?.includes('Regnante') || u.ruoli?.includes('Senatore'))
     {
       this.regnanteIn.next(true);
     }
@@ -426,7 +425,7 @@ export class UserService {
           if(this.userLoggato.ruoli?.includes('Cittadino') || this.userLoggato.ruoli?.includes('Valinrim') || this.userLoggato.ruoli?.includes('Ceorita'))
             this.isRotinrim=true;
 
-          if(this.userLoggato.ruoli?.includes('Regnante'))
+          if((this.userLoggato.ruoli?.includes("Regnante") ||this.userLoggato.ruoli?.includes("Senatore") ) )
             this.regnanteIn.next(true);
 
           x.registratoDate  = new Date(x.registratoDate.seconds * 1000);
@@ -514,25 +513,9 @@ export class UserService {
     });
   }
 
-  canActivateAdmin(
-    route: ActivatedRouteSnapshot,
-    state: RouterStateSnapshot
-  ): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
+  
 
-    return this.isLoggedInObs.pipe(
-      map((isLoggedIn) => isLoggedIn && this.userLoggato?.ruoli?.includes('Regnante') ? true : this.route.parseUrl('/'))
-    );
-  }
 
-  canActivateUser(
-    route: ActivatedRouteSnapshot,
-    state: RouterStateSnapshot
-  ): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
-
-    return this.isLoggedInObs.pipe(
-      map((isLoggedIn) => isLoggedIn ? true : this.route.parseUrl('/'))
-    );
-  }
 
 
 }

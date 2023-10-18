@@ -1,8 +1,9 @@
 import { AfterViewInit, Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges, ViewChild } from '@angular/core';
 import { Chart, ChartConfiguration, LineController, LineElement, PointElement, LinearScale, Title, CategoryScale, Tooltip} from 'chart.js' 
-import { Statistiche } from 'src/app/models/Statistiche';
+import { FullStatistica, Statistiche } from 'src/app/models/Statistiche';
 import { Interaction } from 'chart.js';
 import { Utils } from 'src/app/utils/utility';
+import { ValoriGrafico } from 'src/app/models/grafici';
 
 Chart.register(LineController, LineElement, PointElement, LinearScale, Title, CategoryScale, Tooltip);
 var index;
@@ -14,18 +15,38 @@ var index;
 export class StatisticheLineChartComponent implements AfterViewInit{
 
   handlePointClick(clickedElement:any) {
-    const guid=clickedElement.element.$context.raw.guid;
-    if(guid)
+    var guid = new Array<string>();
+    var statistiche = new Array<Statistiche>();
+
+    if(clickedElement.length==1)
     {
-      const item=this.items?.filter(x=> x.guid==guid)[0];
-      this.openModal.emit(item);
+      guid.push(clickedElement[0].element.$context.raw.guid);
+      if(guid)
+      {
+        const item=this.items?.filter(x=> x.guid==guid[0])[0];
+        statistiche.push(item!);
+      }
     }
+    else
+    {
+      clickedElement.forEach((x: any) => {
+        guid.push(x.element.$context.raw.guid);
+      });
+      if(guid)
+      {
+        const item = this.items?.filter(x=> guid.includes(x.guid!));
+        statistiche=item!;
+      }
+    }
+    this.openModal.emit(statistiche);
   }
-  @Output() openModal = new EventEmitter<Statistiche>();
+  @Output() openModal = new EventEmitter<Array<Statistiche>>();
   valoriGrafico = new Array<ValoriGrafico>();
   @Input() filtro?: string;
   @Input() items?: Array<Statistiche>;
   indexNumber?:number;
+  public chart:any;
+  public show: boolean = true;
 
   ngOnChanges(changes: SimpleChanges): void {
     this.changeValoriFiltro();
@@ -38,8 +59,7 @@ export class StatisticheLineChartComponent implements AfterViewInit{
   }
 
   
-  public chart:any;
-  public show: boolean = true;
+
   createChart(){
 
     if(this.chart)
@@ -63,6 +83,10 @@ export class StatisticheLineChartComponent implements AfterViewInit{
         plugins: {
           tooltip: {
             enabled:true
+          },
+          legend:
+          {
+            display:false
           }
         },
         aspectRatio:2.5,
@@ -72,9 +96,7 @@ export class StatisticheLineChartComponent implements AfterViewInit{
           }
         },onClick: (event, chartElements) => {
           if (chartElements.length > 0) {
-            const clickedElement = chartElements[0];
-            // Richiama la funzione al di fuori del costruttore
-            this.handlePointClick(clickedElement);
+            this.handlePointClick(chartElements);
           }
         }
       },
@@ -109,19 +131,12 @@ export class StatisticheLineChartComponent implements AfterViewInit{
         const minuti = statistica.tempo?.hours!*60+statistica.tempo?.minutes!;
         return new ValoriGrafico(minuti!, new Date(statistica.date), statistica.guid);
       }); break;
+      case "Numero utenti": this.valoriGrafico = this.items!.map(statistica => {
+        return new ValoriGrafico(statistica.userList?.length!, new Date(statistica.date), statistica.guid);
+      }); break;
     }
   }
 }
 
-export class ValoriGrafico
-{
-  guid:any;
-  y?: number;
-  x?: string;
-  constructor(values:number, date?:Date, guid?:any) {
-    this.y=values;
-    this.x=date?.getDate() + "/"+date?.getMonth();
-    this.guid=guid;
-  }
-}
+
 

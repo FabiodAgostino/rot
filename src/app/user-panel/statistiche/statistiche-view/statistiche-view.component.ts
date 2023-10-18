@@ -6,7 +6,8 @@ import { StatisticheService } from 'src/app/service/statistiche.service';
 import { UserService } from 'src/app/service/user.service';
 import { Utils } from 'src/app/utils/utility';
 import { ModaleStatisticheComponent } from '../modale-statistiche/modale-statistiche.component';
-import { Subject } from 'rxjs';
+import { EMPTY, Observable, Subject, catchError, combineLatest, concatMap, filter, forkJoin, from, map, of, toArray } from 'rxjs';
+import { ContainerModaleStatisticheComponent } from '../container-modale-statistiche/container-modale-statistiche.component';
 
 @Component({
   selector: 'app-statistiche-view',
@@ -29,12 +30,13 @@ export class StatisticheViewComponent implements OnInit {
 
   arrayStatistiche = new Array<Statistiche>();
   arrayAllStatistiche = new Array<Statistiche>();
-  tipoGrafico = ["Timeline","Lineare"];
-  filtriGrafico = ["Fama","Monete","Frammenti","Sangue","Nuclei","Tempo"]
-  selectedGrafico = "Timeline";
+  tipoGrafico = ["Lineare","Timeline"];
+  filtriGrafico = ["Fama","Monete","Frammenti","Sangue","Nuclei","Tempo","Numero utenti"]
+  selectedGrafico = "Lineare";
   selectedFiltro:string = "Fama";
   statistica = new Statistiche();
   valoriGrafico = new Array<number>();
+  
   ngOnInit(): void 
   {
     this.getStatistiche();
@@ -58,7 +60,13 @@ export class StatisticheViewComponent implements OnInit {
   getStatistiche()
   {
     const guildId = this.userService.userLoggato?.guildId;
-    this.statisticheService.getCacciaOrganizzataTempoLoot(guildId!,this.month,this.year).subscribe(x=> {this.arrayAllStatistiche=x; this.arrayStatistiche=x;});
+    this.statisticheService.getCacciaOrganizzataTempoLoot(guildId!,this.month,this.year).subscribe(x=> {
+      {
+        const array = x.filter(x=> x.tempo!=undefined);
+        this.arrayAllStatistiche=array; 
+        this.arrayStatistiche=array;
+      }
+    });
   }
   change()
   {
@@ -68,32 +76,44 @@ export class StatisticheViewComponent implements OnInit {
       this.arrayStatistiche=this.arrayAllStatistiche;
   }
 
-  goToOpenModal(item:Statistiche)
+  goToOpenModal(items: Array<Statistiche>): Observable<FullStatistica[]> {
+    const observables: Observable<FullStatistica>[] = [];
+  
+    items.forEach(item => {
+      if (this.arrayMedie.some(x => x.dungeon == item.destination)) {
+        const object = this.arrayMedie.find(x => x.dungeon == item.destination);
+        const fullStatistica = new FullStatistica(item, object!);
+        observables.push(of(fullStatistica));
+      } else {
+        const observable = this.statisticheService.getMedie(item.guildId!, item.destination!).pipe(
+          map((x) => new FullStatistica(item, x)),
+          catchError((error) => {
+            console.error('Errore durante il recupero dei dati:', error);
+            return EMPTY; // Utilizziamo EMPTY per rimuovere il risultato in caso di errore
+          })
+        );
+        observables.push(observable);
+      }
+    });
+    return combineLatest(observables);
+  }
+  
+
+  setValuesModal(items: Array<Statistiche>)
   {
-    if(this.arrayMedie.some(x=> x.dungeon==item.destination))
-    {
-      var object=this.arrayMedie.filter(x=> x.dungeon==item.destination)[0];
-      const fullStatistica=new FullStatistica(item,object);
-      this.openModal(fullStatistica);
-    }
-    else
-    {
-      const response = this.statisticheService.getMedie(item.guildId!, item.destination!).subscribe(x=>{
-        this.arrayMedie.push(x);
-        const fullStatistica=new FullStatistica(item,x);
-        this.openModal(fullStatistica);
-        response.unsubscribe();
-      })
-    }
+    const ref=this.goToOpenModal(items).subscribe(x=> {
+      this.openModal(x)
+      ref.unsubscribe();
+    })
   }
 
 
-  openModal(fullStatistica:FullStatistica)
+  openModal(fullStatistiche:Array<FullStatistica>)
   {
-    this.dialog.open(ModaleStatisticheComponent,{
-      data:fullStatistica,
-      width:"500px",
-      height:"400px"
+    this.dialog.open(ContainerModaleStatisticheComponent,{
+      data:fullStatistiche,
+      width:"800px",
+      height:fullStatistiche.length>1 ? '490px' : '460px'
     });
   }
 

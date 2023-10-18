@@ -8,7 +8,7 @@ import { Statistiche } from 'src/app/models/Statistiche';
   styleUrls: ['./statistiche-timeline.component.css']
 })
 export class StatisticheTimelineComponent implements OnInit{
-  @Output() openModal = new EventEmitter<Statistiche>();
+  @Output() openModal = new EventEmitter<Array<Statistiche>>();
 
   ngOnInit(): void {
   }
@@ -25,6 +25,8 @@ export class StatisticheTimelineComponent implements OnInit{
   
   sendEvent(item:Statistiche)
   {
-    this.openModal.emit(item);
+    let array = new Array<Statistiche>();
+    array.push(item)
+    this.openModal.emit(array);
   }
 }

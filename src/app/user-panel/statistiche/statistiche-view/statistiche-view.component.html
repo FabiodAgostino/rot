@@ -29,9 +29,9 @@
               <div class="grafici mt-4" >
                 <div class="expanding-container center-content displayLarge " [ngStyle]="{ 'justify-content': selectedGrafico === 'Lineare' ? 'center' : 'left' }">
                   <div style="max-height: 350px;">
-                    <app-statistiche-timeline [items]="arrayStatistiche" *ngIf="selectedGrafico=='Timeline'" (openModal)="goToOpenModal($event)"></app-statistiche-timeline>
+                    <app-statistiche-timeline [items]="arrayStatistiche" *ngIf="selectedGrafico=='Timeline'" (openModal)="setValuesModal($event)"></app-statistiche-timeline>
                     <div *ngIf="selectedGrafico=='Lineare'" >
-                      <app-statistiche-line-chart [items]="arrayStatistiche" [filtro]="selectedFiltro" *ngIf="!utils.isSmartphone()" (openModal)="goToOpenModal($event)">
+                      <app-statistiche-line-chart [items]="arrayStatistiche" [filtro]="selectedFiltro" *ngIf="!utils.isSmartphone()" (openModal)="setValuesModal($event)">
                       </app-statistiche-line-chart>
                     </div>
                   </div>
@@ -46,7 +46,7 @@
     <div style="margin-top:5vh; background-color: white;" class="display">
       <app-statistiche-timeline [items]="arrayStatistiche" *ngIf="selectedGrafico=='Timeline'"></app-statistiche-timeline>
         <div *ngIf="selectedGrafico=='Lineare'" >
-          <app-statistiche-line-chart [items]="arrayStatistiche" [filtro]="selectedFiltro" *ngIf=" utils.isSmartphone()" (openModal)="goToOpenModal($event)"></app-statistiche-line-chart>
+          <app-statistiche-line-chart [items]="arrayStatistiche" [filtro]="selectedFiltro" *ngIf="utils.isSmartphone()" (openModal)="setValuesModal($event)"></app-statistiche-line-chart>
       </div>
     </div>
 </div>

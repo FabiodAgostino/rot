@@ -2,7 +2,7 @@
     <ng-container *ngFor="let item of items; let i = index">
       <mat-step [completed]="true" >
         <ng-template matStepLabel >
-          <div class="stepper-header-overlay" (click)="openModal.emit(item)" title="{{item.destination}}"></div>
+          <div class="stepper-header-overlay" (click)="sendEvent(item)" title="{{item.destination}}"></div>
          {{ item.date.getDate() +"/"+ (item.date.getMonth()+1)}}
         </ng-template>
       </mat-step>

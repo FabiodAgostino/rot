@@ -86,9 +86,9 @@ export class StatisticheService {
           if(itemFrammenti.length>0)
             medie.frammenti = itemFrammenti.reduce((sum, current) => (Number(sum) + Number(current))) / itemFrammenti.length;
 
-          var itemNuclei=collection.map(x=> x.nuclei).filter(x=> x>0) as Array<number>;
-          if(itemNuclei.length>0)
-            medie.nuclei = itemNuclei.reduce((sum, current) => (Number(sum) + Number(current))) / itemNuclei.length;
+          var itemNuclei=collection.map(x=> x.nuclei) as Array<number>;
+          medie.nuclei = itemNuclei.reduce((sum, current) => (Number(sum) + Number(current))) / itemNuclei.length;
+          console.log(itemNuclei.reduce((sum, current) => (Number(sum) + Number(current))))
 
           let sommaOre = 0;
           let sommaMinuti = 0;

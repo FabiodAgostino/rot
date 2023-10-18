@@ -1,0 +1,7 @@
+<div>
+    <div style="text-align: right; height:27px" *ngIf="arrayStatistiche!==undefined && arrayStatistiche!.length>1">
+    <button mat-icon-button (click)="setIndex('left')" class="button"><mat-icon>arrow_back_ios</mat-icon></button>
+    <button mat-icon-button (click)="setIndex('right')" class="button"><mat-icon>arrow_forward_ios</mat-icon></button>
+    </div>
+    <app-modale-statistiche [stat]="arrayStatistiche![index]"></app-modale-statistiche>
+</div>
