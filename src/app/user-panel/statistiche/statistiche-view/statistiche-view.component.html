@@ -1,4 +1,4 @@
-<div *ngIf="arrayAllStatistiche.length>0">
+<div *ngIf="!isLoading && !noData">
   <div class="flex justify-center items-center mt-4" >
       <div class="container grid grid-cols-6 gap-4" >
         <div class="col-start-2 col-span-4">
@@ -51,6 +51,27 @@
       </div>
     </div>
 </div>
-<div style="text-align: center; padding-top: 10px;" *ngIf="arrayAllStatistiche.length==0">
+<div *ngIf="isLoading">
+  <div class="flex justify-center items-center mt-4" >
+    <div class="container grid grid-cols-6 gap-4" >
+      <div class="col-start-2 col-span-4">
+      <input type="month" [(ngModel)]="selectedDate" (change)="onDateChange()" class="datepicker">
+      <mat-checkbox (change)="setAnnoCorrente($event.checked)" [color]="'primary'"  style="padding-left:15px" class="checkbox" *ngIf="userService.isRotinrim">Anno corrente</mat-checkbox>
+    </div>
+      <div class="col-start-2 col-span-4" style="padding:30px; border:2px outset #004a9f;">
+          <div class="row" >
+            <div class="flex flex-wrap justify-center">
+              <ngx-skeleton-loader count="1" appearance="line" [theme]="{ 
+                height: '30.5vh',
+                width:'60vw',
+                border: '1px solid white'
+              }"></ngx-skeleton-loader>
+            </div>
+          </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div style="text-align: center; padding-top: 10px;" *ngIf="noData">
   <h2>Non sono presenti statische disponibili.</h2>
 </div>

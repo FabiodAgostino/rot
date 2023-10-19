@@ -37,6 +37,8 @@ export class StatisticheViewComponent implements OnInit {
   selectedFiltro:string = "⬆️ Fama";
   statistica = new Statistiche();
   valoriGrafico = new Array<number>();
+  isLoading = true;
+  noData = false;
   
   ngOnInit(): void 
   {
@@ -60,12 +62,17 @@ export class StatisticheViewComponent implements OnInit {
 
   getStatistiche()
   {
+    this.noData=false;
+    this.isLoading=true;
     const guildId = this.userService.userLoggato?.guildId;
     this.statisticheService.getCacciaOrganizzataTempoLoot(guildId!,this.month,this.year, this.annoIntero).subscribe(x=> {
       {
         const array = x.filter(x=> x.tempo!=undefined);
         this.arrayAllStatistiche=array; 
         this.arrayStatistiche=array;
+        this.isLoading=false;
+        if(array.length==0)
+          this.noData=true;
       }
     });
   }
