@@ -1,4 +1,4 @@
-import { Component, Inject, Input, OnInit } from '@angular/core';
+import { Component, Inject, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialog } from '@angular/material/dialog';
 import { FullStatistica } from 'src/app/models/Statistiche';
 
@@ -7,7 +7,7 @@ import { FullStatistica } from 'src/app/models/Statistiche';
   templateUrl: './modale-statistiche.component.html',
   styleUrls: ['./modale-statistiche.component.css']
 })
-export class ModaleStatisticheComponent implements OnInit{
+export class ModaleStatisticheComponent implements OnInit, OnChanges{
 
   @Input() stat?: FullStatistica;
   mediaFama:string="0";
@@ -20,6 +20,10 @@ export class ModaleStatisticheComponent implements OnInit{
   listaClassi?:Array<string>;
 
   constructor() {
+  }
+  ngOnChanges(changes: SimpleChanges): void {
+    this.setMedia();
+
   }
 
   setMedia()
@@ -40,7 +44,6 @@ export class ModaleStatisticheComponent implements OnInit{
 
   }
   ngOnInit(): void {
-    this.setMedia();
   }
 
 }

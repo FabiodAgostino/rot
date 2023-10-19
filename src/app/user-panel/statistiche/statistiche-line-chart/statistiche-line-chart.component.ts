@@ -62,7 +62,6 @@ export class StatisticheLineChartComponent implements AfterViewInit{
   
 
   createChart(){
-
     if(this.chart)
     {
       this.chart.destroy();
@@ -137,7 +136,6 @@ export class StatisticheLineChartComponent implements AfterViewInit{
         return new ValoriGrafico(statistica.userList?.length!, new Date(statistica.date), statistica.guid);
       }); break;
     }
-    console.log(this.valoriGrafico)
   }
 
    rimuoviEmoji(stringa:string, listaDiEmoji:any) {

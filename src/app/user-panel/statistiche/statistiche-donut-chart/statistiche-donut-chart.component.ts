@@ -17,6 +17,7 @@ export class StatisticheDonutChartComponent implements OnChanges{
   public data = new Array<ValoriGraficoDonuts>();
   @Input() listClass = new Array<string>();
   ngOnChanges(changes: SimpleChanges): void {
+    this.data = new Array<ValoriGraficoDonuts>();
     this.divideClass();
     this.createChart();
   }
@@ -31,8 +32,6 @@ export class StatisticheDonutChartComponent implements OnChanges{
     
     let x=this.data.map(x=> x.x).filter(x=> x!=='0');
     let colorLabel = this.elaborateColorAndLabels();
-    console.log(x)
-    console.log(colorLabel)
 
     this.chart = new Chart("DonutChart", {
       type: 'doughnut', //this denotes tha type of chart

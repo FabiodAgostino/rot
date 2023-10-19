@@ -66,7 +66,6 @@ export class StatisticheViewComponent implements OnInit {
         const array = x.filter(x=> x.tempo!=undefined);
         this.arrayAllStatistiche=array; 
         this.arrayStatistiche=array;
-        console.log(array.map(x=> x.date))
       }
     });
   }

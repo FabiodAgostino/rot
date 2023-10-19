@@ -102,7 +102,6 @@ export class StatisticheService {
 
           var itemNuclei=collection.map(x=> x.nuclei) as Array<number>;
           medie.nuclei = itemNuclei.reduce((sum, current) => (Number(sum) + Number(current))) / itemNuclei.length;
-          console.log(itemNuclei.reduce((sum, current) => (Number(sum) + Number(current))))
 
           let sommaOre = 0;
           let sommaMinuti = 0;
