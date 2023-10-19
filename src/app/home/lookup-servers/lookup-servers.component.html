@@ -1,0 +1,9 @@
+<div style="padding:10px; margin:10px;">
+<span style="text-align: center;">Partecipi a più di un server con ROTBOT attivo, scegline uno:</span><br>
+<mat-form-field class="m-4">
+    <mat-label style="font-size: 12px">Servers</mat-label>
+    <mat-select color="primary"  class="flex-1" [(ngModel)]="selectedServer" >
+    <mat-option color="primary" *ngFor="let server of servers" [value]="server" (click)="change()">{{server.name}}</mat-option>
+    </mat-select>
+</mat-form-field>
+</div>

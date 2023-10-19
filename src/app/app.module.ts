@@ -85,6 +85,7 @@ import { StatisticheLineChartComponent } from './user-panel/statistiche/statisti
 import { ModaleStatisticheComponent } from './user-panel/statistiche/modale-statistiche/modale-statistiche.component';
 import { ContainerModaleStatisticheComponent } from './user-panel/statistiche/container-modale-statistiche/container-modale-statistiche.component';
 import { StatisticheDonutChartComponent } from './user-panel/statistiche/statistiche-donut-chart/statistiche-donut-chart.component';
+import { LookupServersComponent } from './home/lookup-servers/lookup-servers.component';
 
 
 
@@ -132,6 +133,7 @@ import { StatisticheDonutChartComponent } from './user-panel/statistiche/statist
     ModaleStatisticheComponent,
     ContainerModaleStatisticheComponent,
     StatisticheDonutChartComponent,
+    LookupServersComponent,
   ],
   imports: [
     BrowserModule,

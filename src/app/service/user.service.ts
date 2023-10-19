@@ -10,6 +10,7 @@ import { FullServerDiscord, FullUserDiscord, GuildDiscord, RuoloDiscord, RuoloTi
 import { Utils } from '../utils/utility';
 import { switchMap } from 'rxjs/operators';
 import { MatDialog } from '@angular/material/dialog';
+import { LookupServersComponent } from '../home/lookup-servers/lookup-servers.component';
 
 
 const REDIRECT_URL_LOCALE='http://localhost:4200/';
@@ -125,31 +126,62 @@ export class UserService {
     this.getGuilds(token.access_token).subscribe(guilds=> {
       const res=this.getServersDiscord().subscribe(servers=> { 
         res.unsubscribe();
-        if(!servers || servers.length==0)
-          return;
 
+        servers = servers.filter(x=> guilds.map(x=> x.id).includes(x.id!));
+
+        if(!servers || servers.length==0)
+        {
+          this.openSnackBar("loginFallita",undefined,undefined,"Non sei presente in alcun server con ROTBOT integrato.");
+          return;
+        }
+              
+        
         let server = servers[0];
+        // if(servers.length>1)
+        // {
+        // var choice=prompt("C'è più di un server registrato a ROTBOT di cui fai parte, inserisci il nome del server con cui desideri accedere");
+        // if(choice!=undefined && choice.length>0)
+        //   server = servers.filter(x=> x.name===choice)[0];
+        // }
+        
         if(servers.length>1)
         {
-        var choice=prompt("C'è più di un server registrato a ROTBOT di cui fai parte, inserisci il nome del server con cui desideri accedere");
-        if(choice!=undefined && choice.length>0)
-          server = servers.filter(x=> x.name===choice)[0];
+          const dialogRef=this.matDialog.open(LookupServersComponent,{
+            data:servers
+          })
+          dialogRef.afterClosed().subscribe((serv:FullServerDiscord)=>{
+            this.getUserGuildInfoById(token.access_token, serv.id!).subscribe( (user) =>{
+              if(user.roles==undefined || user.roles.length==0)
+              {
+                  this.openSnackBar("loginFallita",undefined,undefined,"Non hai un ruolo adeguato sul server "+serv.name+" per poter effettuare la login.");
+                  return;
+              }
+              if(!this.checkLogin(user, serv))
+                  return;
+    
+              const ruoli = server.ruoli?.filter(x=> user.roles.includes(x.idRole!)).map(x=> x.role);
+              const fullUser= this.okLogin(user, server.id!,server.name!,token,ruoli);
+              subject.next(fullUser);
+              });
+          })
         }
-        this.getUserGuildInfoById(token.access_token, server.id!).subscribe( (user) =>{
-          if(user.roles==undefined || user.roles.length==0)
-          {
-              this.openSnackBar("loginFallita",undefined,undefined,"Non hai un ruolo adeguato sul server "+server.name+" per poter effettuare la login.");
-              return;
-          }
-          if(!this.checkLogin(user, server))
-              return;
-
-          const ruoli = server.ruoli?.filter(x=> user.roles.includes(x.idRole!)).map(x=> x.role);
-
-          const fullUser= this.okLogin(user, server.id!,server.name!,token,ruoli);
-          
-          subject.next(fullUser);
-          });
+        else
+        {
+          this.getUserGuildInfoById(token.access_token, server.id!).subscribe( (user) =>{
+            if(user.roles==undefined || user.roles.length==0)
+            {
+                this.openSnackBar("loginFallita",undefined,undefined,"Non hai un ruolo adeguato sul server "+server.name+" per poter effettuare la login.");
+                return;
+            }
+            if(!this.checkLogin(user, server))
+                return;
+  
+            const ruoli = server.ruoli?.filter(x=> user.roles.includes(x.idRole!)).map(x=> x.role);
+            const fullUser= this.okLogin(user, server.id!,server.name!,token,ruoli);
+            subject.next(fullUser);
+            });
+        }
+        
         });
     })
     return subject.asObservable();
