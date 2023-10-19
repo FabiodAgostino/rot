@@ -1,7 +1,7 @@
  .datepicker
 {
     height: 4vh;
-    width: 8vw;
+    width: 80px;
     border: 1.8px solid #004a9f;
     border-radius: 4px;
     padding: 5px;
@@ -84,7 +84,14 @@
     }
   }
 
+  .checbox
+  {
+    display: block;
+  }
 
+::ng-deep .container .mdc-form-field {
+  width: 30vw;
+}
 
 
 

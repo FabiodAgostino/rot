@@ -3,7 +3,7 @@
       <div class="container grid grid-cols-6 gap-4" >
         <div class="col-start-2 col-span-4">
         <input type="month" [(ngModel)]="selectedDate" (change)="onDateChange()" class="datepicker">
-        <mat-checkbox (change)="setAnnoCorrente($event.checked)" [color]="'primary'" *ngIf="userService.isRotinrim" style="padding-left:15px">Tutto l'anno corrente</mat-checkbox>
+        <mat-checkbox (change)="setAnnoCorrente($event.checked)" [color]="'primary'"  style="padding-left:15px" class="checkbox">Anno corrente</mat-checkbox>
       </div>
         <div class="col-start-2 col-span-4" style="padding:30px; border:2px outset #004a9f;">
             <div class="row" >
@@ -44,7 +44,7 @@
     </div>
 
 
-    <div style="margin-top:5vh; background-color: white;" class="display">
+    <div style="margin-top:5vh; background-color: white;" *ngIf="utils.isSmartphone()">
       <app-statistiche-timeline [items]="arrayStatistiche" *ngIf="selectedGrafico=='Timeline'"></app-statistiche-timeline>
         <div *ngIf="selectedGrafico=='Lineare'" >
           <app-statistiche-line-chart [items]="arrayStatistiche" [filtro]="selectedFiltro" *ngIf="utils.isSmartphone()" (openModal)="setValuesModal($event)"></app-statistiche-line-chart>
