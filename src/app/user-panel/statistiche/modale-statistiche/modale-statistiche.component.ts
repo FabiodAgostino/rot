@@ -24,7 +24,6 @@ export class ModaleStatisticheComponent implements OnInit{
 
   setMedia()
   {
-    console.log(this.stat?.media?.nuclei)
     this.mediaFama= (((this.stat!.statistica!.fama!-this.stat!.media!.fama) / this.stat!.media!.fama) * 100).toFixed(2);
     this.mediaMonete= (((this.stat!.statistica!.monete!-this.stat!.media!.monete) / this.stat!.media!.monete) * 100).toFixed(2);
     this.mediaSangue= (((this.stat!.statistica!.sangue!-this.stat!.media!.sangue) / this.stat!.media!.sangue) * 100).toFixed(2);
@@ -34,7 +33,6 @@ export class ModaleStatisticheComponent implements OnInit{
     const sommaMediaSecondi = this.stat!?.media?.tempo?.hours! * 3600 + this.stat!.media?.tempo?.minutes! * 60 + this.stat!.media?.tempo?.seconds!;
     this.mediaTempo = (((sommaTotaleSecondi -sommaMediaSecondi) / sommaMediaSecondi) * 100).toFixed(2);
     this.mediaPg= (((this.stat!.statistica!.userList?.length!-this.stat!.media!.numeroPg!) / this.stat!.media!.numeroPg!) * 100).toFixed(2);
-    console.log(this.stat!.media!.numeroPg)
     if(this.mediaTempo==="0.00" || this.mediaTempo==="100")
       this.mediaTempo="";
 

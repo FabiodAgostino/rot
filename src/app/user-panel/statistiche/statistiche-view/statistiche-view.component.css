@@ -53,6 +53,12 @@
     padding: 0px 0px;
   }
    
+::ng-deep .container .mdc-checkbox {
+  padding-bottom: 12px;
+  padding-right: 10px;
+  padding-left: 10px;
+  margin: calc((var(--mdc-checkbox-state-layer-size) - var(--mdc-checkbox-state-layer-size)) / 2);
+}
   
   .center-content {
     display: flex;

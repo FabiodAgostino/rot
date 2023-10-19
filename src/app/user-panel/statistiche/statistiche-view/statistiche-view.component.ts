@@ -9,6 +9,7 @@ import { ModaleStatisticheComponent } from '../modale-statistiche/modale-statist
 import { EMPTY, Observable, Subject, catchError, combineLatest, concatMap, filter, forkJoin, from, map, of, toArray } from 'rxjs';
 import { ContainerModaleStatisticheComponent } from '../container-modale-statistiche/container-modale-statistiche.component';
 
+
 @Component({
   selector: 'app-statistiche-view',
   templateUrl: './statistiche-view.component.html',
@@ -16,7 +17,7 @@ import { ContainerModaleStatisticheComponent } from '../container-modale-statist
 })
 export class StatisticheViewComponent implements OnInit {
 
-  constructor(private userService: UserService, private statisticheService: StatisticheService, public utils:Utils, private dialog: MatDialog) {
+  constructor(public userService: UserService, private statisticheService: StatisticheService, public utils:Utils, private dialog: MatDialog) {
   }
 
   dungeons = new Array<Dungeon>();
@@ -26,14 +27,14 @@ export class StatisticheViewComponent implements OnInit {
   selectedDate: string ="2023-10";
   year = parseInt(this.selectedDate.split("-")[0]);
   month = parseInt(this.selectedDate.split("-")[1]);
-
+  annoIntero:boolean=false;
 
   arrayStatistiche = new Array<Statistiche>();
   arrayAllStatistiche = new Array<Statistiche>();
-  tipoGrafico = ["Lineare","Timeline"];
-  filtriGrafico = ["Fama","Monete","Frammenti","Sangue","Nuclei","Tempo","Numero utenti"]
+  tipoGrafico = [{tipo:"Lineare",emoji:"📈"},{tipo:"Timeline",emoji:"↔️"}];
+  filtriGrafico = ["⬆️ Fama","🪙 Monete","❄️ Frammenti","⚗️ Sangue","🔮 Nuclei","🕙 Tempo","⚔️ Numero utenti"]
   selectedGrafico = "Lineare";
-  selectedFiltro:string = "Fama";
+  selectedFiltro:string = "⬆️ Fama";
   statistica = new Statistiche();
   valoriGrafico = new Array<number>();
   
@@ -60,11 +61,12 @@ export class StatisticheViewComponent implements OnInit {
   getStatistiche()
   {
     const guildId = this.userService.userLoggato?.guildId;
-    this.statisticheService.getCacciaOrganizzataTempoLoot(guildId!,this.month,this.year).subscribe(x=> {
+    this.statisticheService.getCacciaOrganizzataTempoLoot(guildId!,this.month,this.year, this.annoIntero).subscribe(x=> {
       {
         const array = x.filter(x=> x.tempo!=undefined);
         this.arrayAllStatistiche=array; 
         this.arrayStatistiche=array;
+        console.log(array.map(x=> x.date))
       }
     });
   }
@@ -123,6 +125,12 @@ export class StatisticheViewComponent implements OnInit {
     {
       alert("Attualmente non disponibile per smartphone.")
     }
+  }
+
+  setAnnoCorrente(value:any)
+  {
+    this.annoIntero=value;
+    this.getStatistiche();
   }
 
 }

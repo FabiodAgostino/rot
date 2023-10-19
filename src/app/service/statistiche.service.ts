@@ -16,10 +16,23 @@ export class StatisticheService {
   constructor(private store:AngularFirestore) { }
 
 
-  getCacciaOrganizzataTempoLoot(idGuild: string, mese: number, anno: number) {
-    const inizioMeseTimestamp = new Date(anno, mese - 1, 1).getTime();
-  
-    const fineMeseTimestamp = new Date(anno, mese, 0, 23, 59, 59, 999).getTime();
+  getCacciaOrganizzataTempoLoot(idGuild: string, mese: number, anno: number,annoIntero:boolean=false) {
+
+    let inizioMeseTimestamp=0;
+    let fineMeseTimestamp=0;
+    if(!annoIntero)
+    {
+      inizioMeseTimestamp = new Date(anno, mese - 1, 1).getTime();
+      fineMeseTimestamp = new Date(anno, mese, 0, 23, 59, 59, 999).getTime();
+    }
+    else
+    {
+      mese=1;
+      let fineMese=12
+      inizioMeseTimestamp = new Date(anno, mese, 1).getTime();
+      fineMeseTimestamp = new Date(anno, fineMese, 0, 23, 59, 59, 999).getTime();
+    }
+   
   
    var response= this.store
       .collection<Statistiche>('CacciaOrganizzataTempoLoot', (ref) =>
@@ -34,8 +47,9 @@ export class StatisticheService {
           let dr = new Statistiche();
           dr.guid = crypto.randomUUID();
           dr.date = (collection.date as Timestamp).toDate();
+          dr.date = new Date(dr.date.setMonth(dr.date.getMonth()+1)); 
           var date = (collection.date as Timestamp).toDate();
-          dr.dateFinish = date.getDate() + " - "+date.getMonth()+" - "+date.getFullYear()+" alle "+date.getHours()+":"+date.getMinutes()+":"+date.getSeconds()
+          dr.dateFinish = date.getDate() + " - "+(date.getMonth()+1)+" - "+date.getFullYear()+" alle "+date.getHours()+":"+date.getMinutes()+":"+date.getSeconds()
           dr.fama=collection.fama;
           dr.guildId= collection.guildId;
           dr.guildName = collection.guildName;

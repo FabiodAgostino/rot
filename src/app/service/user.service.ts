@@ -422,7 +422,8 @@ export class UserService {
           }
           this.userLoggato=x;
           this.loggedIn.next(true)
-          if(this.userLoggato.ruoli?.includes('Cittadino') || this.userLoggato.ruoli?.includes('Valinrim') || this.userLoggato.ruoli?.includes('Ceorita'))
+          if(this.userLoggato.ruoli?.includes('Novizi e Cittadini') || this.userLoggato.ruoli?.includes('Valinrim') || this.userLoggato.ruoli?.includes('Ceorita')
+          || this.userLoggato.ruoli?.includes('Senatore'))
             this.isRotinrim=true;
 
           if((this.userLoggato.ruoli?.includes("Regnante") ||this.userLoggato.ruoli?.includes("Senatore") ) )

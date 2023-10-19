@@ -13,6 +13,8 @@ var index;
   styleUrls: ['./statistiche-line-chart.component.css']
 })
 export class StatisticheLineChartComponent implements AfterViewInit{
+  allEmoji = ["⬆️ ","🪙 ","❄️ ","⚗️ ","🔮 ","🕙 ","⚔️ "]
+
 
   handlePointClick(clickedElement:any) {
     var guid = new Array<string>();
@@ -55,7 +57,6 @@ export class StatisticheLineChartComponent implements AfterViewInit{
   constructor(public utils:Utils) {
   }
   ngAfterViewInit() {
-
   }
 
   
@@ -72,7 +73,7 @@ export class StatisticheLineChartComponent implements AfterViewInit{
       data: {// values on X-Axis
 	       datasets: [
           {
-            label: this.filtro,
+            label: this.rimuoviEmoji(this.filtro!,this.allEmoji),
             data:this.valoriGrafico,
             backgroundColor: 'blue',
 
@@ -110,7 +111,8 @@ export class StatisticheLineChartComponent implements AfterViewInit{
 
   changeValoriFiltro()
   {
-    switch(this.filtro)
+    const filtro = this.rimuoviEmoji(this.filtro!,this.allEmoji)
+    switch(filtro)
     {
       case "Fama": this.valoriGrafico = this.items!.map(statistica => {
         return new ValoriGrafico(statistica.fama!, new Date(statistica.date), statistica.guid);
@@ -135,6 +137,15 @@ export class StatisticheLineChartComponent implements AfterViewInit{
         return new ValoriGrafico(statistica.userList?.length!, new Date(statistica.date), statistica.guid);
       }); break;
     }
+    console.log(this.valoriGrafico)
+  }
+
+   rimuoviEmoji(stringa:string, listaDiEmoji:any) {
+    listaDiEmoji.forEach((emoji: string | RegExp) => {
+      const emojiRegex = new RegExp(emoji, 'g');
+      stringa = stringa.replace(emojiRegex, '');
+    });
+    return stringa;
   }
 }
 

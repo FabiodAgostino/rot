@@ -3,6 +3,7 @@
       <div class="container grid grid-cols-6 gap-4" >
         <div class="col-start-2 col-span-4">
         <input type="month" [(ngModel)]="selectedDate" (change)="onDateChange()" class="datepicker">
+        <mat-checkbox (change)="setAnnoCorrente($event.checked)" [color]="'primary'" *ngIf="userService.isRotinrim" style="padding-left:15px">Tutto l'anno corrente</mat-checkbox>
       </div>
         <div class="col-start-2 col-span-4" style="padding:30px; border:2px outset #004a9f;">
             <div class="row" >
@@ -16,7 +17,7 @@
                 <mat-form-field class="ml-1 fieldSmartphone" (click)="notAviable()">
                   <mat-label style="font-size: 12px">Tipo grafico</mat-label>
                   <mat-select color="primary"  class="flex-1" [(ngModel)]="selectedGrafico" [disabled]="utils.isSmartphone()">
-                    <mat-option color="primary" *ngFor="let grafico of tipoGrafico" [value]="grafico">{{grafico}}</mat-option>
+                    <mat-option color="primary" *ngFor="let grafico of tipoGrafico" [value]="grafico.tipo">{{grafico.emoji}} {{grafico.tipo}}</mat-option>
                   </mat-select>
                 </mat-form-field>
                 <mat-form-field class="ml-1 fieldSmartphone" *ngIf="selectedGrafico!=='Timeline'">
