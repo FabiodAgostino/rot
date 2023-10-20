@@ -134,15 +134,8 @@ export class UserService {
           this.openSnackBar("loginFallita",undefined,undefined,"Non sei presente in alcun server con ROTBOT integrato.");
           return;
         }
-              
         
         let server = servers[0];
-        // if(servers.length>1)
-        // {
-        // var choice=prompt("C'è più di un server registrato a ROTBOT di cui fai parte, inserisci il nome del server con cui desideri accedere");
-        // if(choice!=undefined && choice.length>0)
-        //   server = servers.filter(x=> x.name===choice)[0];
-        // }
         
         if(servers.length>1)
         {
@@ -160,7 +153,7 @@ export class UserService {
                   return;
     
               const ruoli = server.ruoli?.filter(x=> user.roles.includes(x.idRole!)).map(x=> x.role);
-              const fullUser= this.okLogin(user, server.id!,server.name!,token,ruoli);
+              const fullUser= this.okLogin(user, serv.id!,serv.name!,token,ruoli);
               subject.next(fullUser);
               });
           })
