@@ -143,6 +143,7 @@ export class UserService {
             data:servers
           })
           dialogRef.afterClosed().subscribe((serv:FullServerDiscord)=>{
+            console.log(serv)
             this.getUserGuildInfoById(token.access_token, serv.id!).subscribe( (user) =>{
               if(user.roles==undefined || user.roles.length==0)
               {
@@ -151,8 +152,8 @@ export class UserService {
               }
               if(!this.checkLogin(user, serv))
                   return;
-    
-              const ruoli = server.ruoli?.filter(x=> user.roles.includes(x.idRole!)).map(x=> x.role);
+
+              const ruoli = serv.ruoli?.filter(x=> user.roles.includes(x.idRole!)).map(x=> x.role);
               const fullUser= this.okLogin(user, serv.id!,serv.name!,token,ruoli);
               subject.next(fullUser);
               });
@@ -202,8 +203,9 @@ export class UserService {
 
     this.loggedIn.next(true);
     localStorage.setItem("idUser",u.id!);
+    console.log(u.ruoli)
     if(u.ruoli?.includes('Novizi e Cittadini') || u.ruoli?.includes('Valinrim') || u.ruoli?.includes('Ceorita') || u.ruoli?.includes('Senatore'))
-    {
+    { 
       this.isRotinrim=true;
       u.interno=true;
     }

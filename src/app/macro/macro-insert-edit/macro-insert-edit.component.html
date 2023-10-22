@@ -5,7 +5,7 @@
 <div class="flex justify-around content-stretch items-stretch flex-col">
   <mat-card class="cont" [ngStyle]="{ 'border-color': this.macroMultiInsert && !this.macroMultiInsert.checked ? 'grey' : ''}" [ngClass]="{'cont panel': multiInsert }" *ngIf="isFirstLoad">
 
-    <div class="edit" *ngIf="isUpdateable && detail">
+    <div class="edit" *ngIf="isUpdateable && detail" style="width: 99%;">
       <button mat-mini-fab matTooltip="Elimina" color="warn" style="margin-right:1vw" (click)="deleteMacro()"><mat-icon>delete_forever</mat-icon></button>
       <button mat-mini-fab style="background-color: rgb(234, 108, 34);" matTooltip="Modifica" (click)="edit=true; detail=false" *ngIf="!edit"><mat-icon>edit</mat-icon></button>
       <button mat-mini-fab matTooltip="Condividi" style="margin-left:1vw" color="primary" (click)="share()"><mat-icon>share</mat-icon></button>
