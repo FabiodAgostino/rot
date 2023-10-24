@@ -1,0 +1,41 @@
+.macro
+{
+  overflow: hidden;
+  text-overflow: ellipsis;
+  cursor: pointer;
+  font-weight: bold;
+  -webkit-line-clamp: 2; /* number of lines to show */
+           line-clamp: 2;
+   -webkit-box-orient: vertical;
+}
+
+.macro:hover
+{
+  color: #004a9f;
+  font-weight: bold;
+}
+
+
+.Custom
+{
+  color: #004a9f;
+}
+
+mat-header-cell
+{
+  color: #004a9f;
+  font-weight: 700;
+}
+
+/* Stile predefinito per la tabella (massima larghezza) */
+.tableWidth {
+  width: 100%; /* Larghezza massima su schermi più piccoli */
+}
+
+/* Media query per schermi più grandi di 500px */
+@media screen and (min-width: 650px) {
+  .tableWidth {
+    width: 70%; /* Larghezza del 70% su schermi più grandi */
+  }
+}
+

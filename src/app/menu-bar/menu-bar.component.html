@@ -24,6 +24,10 @@
       <mat-icon>trending_up</mat-icon>
       <span>Statistiche</span>
     </button>
+    <button mat-menu-item [routerLink]="'/validatore-view'" (click)=" boolHome=false;" *ngIf="UserService.isValidatore">
+      <mat-icon>assignment_turned_in</mat-icon>
+      <span>Validazioni</span>
+    </button>
     <button mat-menu-item disabled>
       <mat-icon>settings</mat-icon>
       <span>Impostazioni</span>

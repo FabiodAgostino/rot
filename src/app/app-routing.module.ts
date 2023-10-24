@@ -21,6 +21,7 @@ import { MonsterDexViewComponent } from './monster-dex/monster-dex-view/monster-
 import { MonsterDexTreeComponent } from './monster-dex/monster-dex-tree/monster-dex-tree.component';
 import { StatisticheViewComponent } from './user-panel/statistiche/statistiche-view/statistiche-view.component';
 import { RoleGuardUtente } from './service/roleGuardUtente';
+import { ValidatoreViewComponent } from './user-panel/validatore-view/validatore-view.component';
 
 const routes: Routes = [
 
@@ -35,6 +36,7 @@ const routes: Routes = [
   {path: "news",  component: NewsComponent},
   {path: "admin",  component: AdminComponent, canActivate: [RoleGuard] },
   {path: "statistiche-view",  component: StatisticheViewComponent, canActivate: [RoleGuardUtente]},
+  {path: "validatore-view",  component: ValidatoreViewComponent, canActivate: [RoleGuardUtente]},
   {path: "tickets",  component: TicketsComponent, canActivate: [RoleGuard]},
   {path: "flussoDati",  component: FlussoDatiComponent, canActivate: [RoleGuard]},
   {path: "aggiungi-news",  component: AggiungiNewsComponent, canActivate: [RoleGuard]},

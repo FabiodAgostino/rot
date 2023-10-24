@@ -19,13 +19,14 @@ const LOGIN_DISCORD ='https://discord.com/api/oauth2/authorize?client_id=1106594
 })
 export class MenuBarComponent implements OnInit {
 
-  constructor(public service: SchedaPersonaggioService, public UserService: UserService, public dialog: MatDialog, public router: Router, private utils:Utils){}
+  constructor(public service: SchedaPersonaggioService, public UserService: UserService, public dialog: MatDialog, public router: Router, public utils:Utils){}
   iFrameEmitter: Subject<string> = new Subject<string>();
   boolHome= false;
   class = new Array<Classe>();
   develop= false;
   isLoggedIn: boolean=false;
   isRegnante: boolean=false;
+  isValidatore: boolean=false;
   isSmartphone: boolean=false;
    ngOnInit() {
     const config = require("../../environments/version.json");

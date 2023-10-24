@@ -51,6 +51,7 @@ export class UserService {
 
 
   isRotinrim: boolean = false;
+  isValidatore: boolean = false;
   userLoggato?: FullUserDiscord;
   develop: boolean=false;
   redirectUrl: string='';
@@ -59,9 +60,13 @@ export class UserService {
 
 
   private loggedIn = new BehaviorSubject<boolean>(false);
+  private validatoreIn = new BehaviorSubject<boolean>(false);
 
   private regnanteIn = new BehaviorSubject<boolean>(false);
 
+  get isValidatoreInObs() {
+    return this.validatoreIn.asObservable();
+  }
   get isLoggedInObs() {
     return this.loggedIn.asObservable();
   }
@@ -126,7 +131,6 @@ export class UserService {
     this.getGuilds(token.access_token).subscribe(guilds=> {
       const res=this.getServersDiscord().subscribe(servers=> { 
         res.unsubscribe();
-
         servers = servers.filter(x=> guilds.map(x=> x.id).includes(x.id!));
 
         if(!servers || servers.length==0)
@@ -136,14 +140,12 @@ export class UserService {
         }
         
         let server = servers[0];
-        
         if(servers.length>1)
         {
           const dialogRef=this.matDialog.open(LookupServersComponent,{
             data:servers
           })
           dialogRef.afterClosed().subscribe((serv:FullServerDiscord)=>{
-            console.log(serv)
             this.getUserGuildInfoById(token.access_token, serv.id!).subscribe( (user) =>{
               if(user.roles==undefined || user.roles.length==0)
               {
@@ -153,8 +155,12 @@ export class UserService {
               if(!this.checkLogin(user, serv))
                   return;
 
+              const username = user.user.global_name==undefined ? user.user.username : user.user.global_name;
+              const isValidatore= serv.ruoli?.some(x=> x.isValidatore && x.username==username);
+              console.log(isValidatore)
               const ruoli = serv.ruoli?.filter(x=> user.roles.includes(x.idRole!)).map(x=> x.role);
-              const fullUser= this.okLogin(user, serv.id!,serv.name!,token,ruoli);
+
+              const fullUser= this.okLogin(user, serv.id!,serv.name!,token,ruoli,isValidatore);
               subject.next(fullUser);
               });
           })
@@ -169,9 +175,12 @@ export class UserService {
             }
             if(!this.checkLogin(user, server))
                 return;
+
+            const username = user.user.global_name==undefined ? user.user.username : user.user.global_name;
+            const isValidatore= server.ruoli?.some(x=> x.isValidatore && x.username==username);
   
             const ruoli = server.ruoli?.filter(x=> user.roles.includes(x.idRole!)).map(x=> x.role);
-            const fullUser= this.okLogin(user, server.id!,server.name!,token,ruoli);
+            const fullUser= this.okLogin(user, server.id!,server.name!,token,ruoli,isValidatore);
             subject.next(fullUser);
             });
         }
@@ -194,16 +203,15 @@ export class UserService {
 
   
 
-  okLogin(user?: UserDiscord, guildId?:string, guildName?:string, token?:TokenDiscord, ruoli?:any)
+  okLogin(user?: UserDiscord, guildId?:string, guildName?:string, token?:TokenDiscord, ruoli?:any, isValidatore?:boolean)
   {
-    const u= new FullUserDiscord(user, guildId, guildName,token,ruoli);
+    const u= new FullUserDiscord(user, guildId, guildName,token,ruoli, isValidatore);
     this.checkUser(u).subscribe();
 
     this.openSnackBar("login");
 
     this.loggedIn.next(true);
     localStorage.setItem("idUser",u.id!);
-    console.log(u.ruoli)
     if(u.ruoli?.includes('Novizi e Cittadini') || u.ruoli?.includes('Valinrim') || u.ruoli?.includes('Ceorita') || u.ruoli?.includes('Senatore'))
     { 
       this.isRotinrim=true;
@@ -212,6 +220,11 @@ export class UserService {
     if(u.ruoli?.includes('Regnante') || u.ruoli?.includes('Senatore'))
     {
       this.regnanteIn.next(true);
+    }
+    if(isValidatore)
+    {
+      this.validatoreIn.next(true);
+      this.isValidatore=true;
     }
     return u;
   }
@@ -285,7 +298,8 @@ export class UserService {
           ruoli: user.ruoli,
           roles: user.ruoli,
           guildId: user.guildId,
-          guildName: user.guildName
+          guildName: user.guildName,
+          isValidatore: user.isValidatore
         },
         {
           merge:true
@@ -340,7 +354,8 @@ export class UserService {
       serverAutenticazione: user.serverAutenticazione,
       registratoDate: new Date,
       guildId: user.guildId,
-      guildName: user.guildName
+      guildName: user.guildName,
+      isValidatore: user.isValidatore
   });
   }
 
@@ -456,6 +471,12 @@ export class UserService {
           if((this.userLoggato.ruoli?.includes("Regnante") ||this.userLoggato.ruoli?.includes("Senatore") ) )
             this.regnanteIn.next(true);
 
+          if(this.userLoggato.isValidatore)
+          {
+            this.isValidatore=true;
+            this.validatoreIn.next(true);
+          }
+
           x.registratoDate  = new Date(x.registratoDate.seconds * 1000);
         }
         else
@@ -477,8 +498,10 @@ export class UserService {
   logoutPartial()
   {
     this.isRotinrim=false;
+    this.isValidatore=false;
     this.loggedIn.next(false)
     this.regnanteIn.next(false)
+    this.validatoreIn.next(false);
     this.userLoggato=undefined;
     localStorage.removeItem("token");
     localStorage.removeItem("idUser");

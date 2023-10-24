@@ -89,7 +89,7 @@ export class UserDiscord {
 
 export class FullUserDiscord
 {
-  constructor(user?: UserDiscord, guildId?:string, guildName?:string, token?:TokenDiscord,ruoli?:string[])
+  constructor(user?: UserDiscord, guildId?:string, guildName?:string, token?:TokenDiscord,ruoli?:string[], isValidatore?:boolean)
   {
       this.id=user!.user.id;
       this.username=user!.user.username;
@@ -99,6 +99,7 @@ export class FullUserDiscord
       this.guildName = guildName;
       this.serverAutenticazione = guildName;
       this.token=token;
+      this.isValidatore=isValidatore;
   }
   id?: string;
   username?: string;
@@ -112,6 +113,7 @@ export class FullUserDiscord
   revokeToken: any;
   guildId?:string;
   guildName?:string;
+  isValidatore?:boolean;
 }
 
 export class PartialUserDiscord {
@@ -179,7 +181,7 @@ export class ServerDiscord
 
 export class RuoloTipoRuolo
 {
-  constructor(public guildId?:string, public role?:string, public tipoRuolo?:string, public idRole?:string) {
+  constructor(public guildId?:string, public role?:string, public tipoRuolo?:string, public idRole?:string, public isValidatore:boolean=false, public username?:string) {
   }
 }
 
