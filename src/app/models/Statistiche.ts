@@ -10,6 +10,7 @@ export class FullStatistica
 
 export class Statistiche
 {
+    id?:number;
     dateFinish: any;
     guid?: string;
     guildId?: string;
@@ -24,6 +25,25 @@ export class Statistiche
     tempo?: TempoCaccia;
     destination?: string;
     frammenti?: number;
+}
+
+export class StatisticheImmagini
+{
+    statistica:Statistiche;
+    imgs:Array<string>;
+    inAttesaDiValidazione:boolean;
+    validazione:boolean;
+    constructor(statistica:Statistiche, arrayImg:Array<string>, inAttesaDiValidazione:boolean, validazione:boolean) {
+        this.statistica=statistica;
+        this.imgs=arrayImg;
+        this.inAttesaDiValidazione=inAttesaDiValidazione;
+        this.validazione=validazione;
+    }
+}
+export class ImmaginiContest
+{
+   constructor(public idCacciaOrganizzataTempoLoot:string, public images:Array<string>,public inAttesaDiValidazione:boolean,public validazione:boolean)
+   {} 
 }
 
 export class TempoCaccia

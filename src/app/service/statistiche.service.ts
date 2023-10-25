@@ -2,10 +2,11 @@ import { Injectable } from '@angular/core';
 
 import { AngularFirestore, AngularFirestoreCollection } from '@angular/fire/compat/firestore';
 import { Timestamp } from 'firebase/firestore';
-import { BehaviorSubject, last, map, Observable, Subject, timestamp } from 'rxjs';
+import { BehaviorSubject, forkJoin, last, map, Observable, Subject, switchMap, timestamp } from 'rxjs';
 import { Macro, MacroFirebase, MacroFull, MacroSettings, MacroSettingsFront, MacroToInsert } from '../models/Macro';
 import { Utils } from '../utils/utility';
-import { Dungeon, MedieStatistiche, Statistiche, TempoCaccia } from '../models/Statistiche';
+import { Dungeon, ImmaginiContest, MedieStatistiche, Statistiche, StatisticheImmagini, TempoCaccia } from '../models/Statistiche';
+import { ServerDiscord } from '../models/discord';
 
 
 @Injectable({
@@ -140,4 +141,37 @@ export class StatisticheService {
     }));
       return response;
   }
+
+  getGuilds() {
+    var response= this.store
+       .collection<ServerDiscord>('ServerDiscord')
+       .valueChanges()
+       .pipe(map(collection=>{
+         return collection.map(collection=>{
+           let dr = new ServerDiscord();
+           dr.name=collection.name;
+           dr.id=collection.id;
+           return dr;
+         })
+     }));
+       return response;
+   }
+
+  getContest() {
+    return this.store.collection<Statistiche>('CacciaOrganizzataTempoLoot').valueChanges().pipe(
+      switchMap(cacce => {
+        return this.store.collection<ImmaginiContest>('ImmaginiContest').valueChanges().pipe(
+          map(immagini => {
+            const risultatoUnione = cacce.map(caccia => {
+              caccia.date = (caccia.date as Timestamp).toDate();
+              const imgs = immagini.filter(img => img?.idCacciaOrganizzataTempoLoot==caccia?.id?.toString())[0];
+              return new StatisticheImmagini(caccia, imgs?.images,imgs?.inAttesaDiValidazione, imgs?.validazione);
+            });
+            return risultatoUnione.filter(x=> x.imgs!=undefined);
+          })
+        );
+      })
+    );
+  }
+  
 }

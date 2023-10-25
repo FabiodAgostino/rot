@@ -86,7 +86,10 @@ import { ModaleStatisticheComponent } from './user-panel/statistiche/modale-stat
 import { ContainerModaleStatisticheComponent } from './user-panel/statistiche/container-modale-statistiche/container-modale-statistiche.component';
 import { StatisticheDonutChartComponent } from './user-panel/statistiche/statistiche-donut-chart/statistiche-donut-chart.component';
 import { LookupServersComponent } from './home/lookup-servers/lookup-servers.component';
-import { ValidatoreViewComponent } from './user-panel/validatore-view/validatore-view.component';
+import { ValidatoreViewComponent } from './user-panel/validatore/validatore-view/validatore-view.component';
+import { ModaleSiNoComponent } from './utils/modale-si-no/modale-si-no.component';
+import { ContainerStatisticheValidatoreComponent } from './user-panel/validatore/container-statistiche-validatore/container-statistiche-validatore.component';
+import {MatTabsModule} from '@angular/material/tabs';
 
 
 
@@ -136,6 +139,8 @@ import { ValidatoreViewComponent } from './user-panel/validatore-view/validatore
     StatisticheDonutChartComponent,
     LookupServersComponent,
     ValidatoreViewComponent,
+    ModaleSiNoComponent,
+    ContainerStatisticheValidatoreComponent,
   ],
   imports: [
     BrowserModule,
@@ -181,6 +186,7 @@ import { ValidatoreViewComponent } from './user-panel/validatore-view/validatore
     MatButtonModule,
     MatIconModule,
     MatMenuModule,
+    MatTabsModule
   ],
   providers: [
     SafePipe,

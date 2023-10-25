@@ -7,8 +7,8 @@
         <mat-card-content style="margin-top:5px;">
           <div class="grid grid-cols-2 gap-4 mobile-grid">
             <div class=>
-              <div class="row flex"><h3 class="subtitle">🕙 Tempo: </h3>&nbsp; 
-                <h3 class="">{{stat.statistica!.tempo!.hours}} h - {{stat.statistica!.tempo!.minutes}} m - {{stat.statistica!.tempo!.seconds}} s</h3> 
+              <div class="row flex" *ngIf="stat.statistica?.tempo"><h3 class="subtitle">🕙 Tempo: </h3>&nbsp; 
+                <h3 class="">{{stat.statistica?.tempo?.hours}} h - {{stat.statistica!.tempo!.minutes}} m - {{stat.statistica!.tempo!.seconds}} s</h3> 
                 &nbsp;&nbsp;<span *ngIf="mediaTempo!='NaN' && mediaTempo!=''"><span *ngIf="mediaTempo.includes('-')" style="color:green">{{mediaTempo}}%</span><span *ngIf="!mediaTempo.includes('-')" style="color:brown">+{{mediaTempo}}%</span></span></div>
               <div class="row flex" *ngIf="stat.statistica?.fama"><h3 class="subtitle">⬆️ Fama: </h3> &nbsp;<h3>{{stat.statistica!.fama}}</h3> &nbsp;&nbsp;<span *ngIf="mediaFama!='NaN'"><span *ngIf="mediaFama.includes('-')" style="color:brown">{{mediaFama}}%</span><span *ngIf="!mediaFama.includes('-')" style="color:green">+{{mediaFama == '0.00' ?  '100' : mediaFama}}%</span></span></div>
               <div class="row flex" *ngIf="stat.statistica?.monete"><h3 class="subtitle">🪙 Monete: </h3> &nbsp;<h3>{{stat.statistica!.monete}}</h3>&nbsp;&nbsp;<span *ngIf="mediaMonete!='NaN'"><span *ngIf="mediaMonete.includes('-')" style="color:brown">{{mediaMonete}}%</span><span *ngIf="!mediaMonete.includes('-')" style="color:green">+{{mediaMonete == '0.00' ?  '100' : mediaMonete}}%</span></span></div>

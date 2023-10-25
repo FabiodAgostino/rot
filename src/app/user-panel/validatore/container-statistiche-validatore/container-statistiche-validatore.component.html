@@ -1,0 +1,35 @@
+<div>
+    <div>
+    <mat-tab-group mat-stretch-tabs="false" mat-align-tabs="start">
+        <mat-tab label="Info generali">
+            <app-modale-statistiche [stat]="statistica"></app-modale-statistiche>
+        </mat-tab>
+        <mat-tab label="Screenshot">
+            <div style="text-align: right;">
+              <button mat-icon-button (click)="setIndex('left')" class="button"><mat-icon>arrow_back_ios</mat-icon></button>
+              <button mat-icon-button (click)="setIndex('right')" class="button"><mat-icon>arrow_forward_ios</mat-icon></button>
+              <div class="immagine" style="width: 65%; margin: 0 auto; text-align: center; padding-bottom: 20px;">
+                <img src="{{immagini![index]}}" class="image-overlay transition-opacity duration-300 hover:opacity-70" (click)="openModal()">
+              </div>
+            </div>
+          </mat-tab>
+        </mat-tab-group>
+    </div>
+</div>
+
+
+
+<ng-template #myModal>
+    <div class="modal">
+        <mat-card class="w-auto sm:w-full">
+            <mat-card-content class="d-flex">
+                <div class="modal-footer" style="text-align:right">
+                    <button mat-button type="button" color="primary" id="closeModal"  (click)="closeModal()">Chiudi</button>
+                </div>
+                <div class="w-auto sm:w-full d-flex justify-center" style="padding-top:22px; padding-bottom:22px;">
+                    <img mat-card-image src="{{ modalImageUrl }}" alt="Immagine" clss="imgTemplate">
+                </div>
+            </mat-card-content>
+        </mat-card>
+    </div>
+</ng-template>

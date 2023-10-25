@@ -21,7 +21,7 @@ import { MonsterDexViewComponent } from './monster-dex/monster-dex-view/monster-
 import { MonsterDexTreeComponent } from './monster-dex/monster-dex-tree/monster-dex-tree.component';
 import { StatisticheViewComponent } from './user-panel/statistiche/statistiche-view/statistiche-view.component';
 import { RoleGuardUtente } from './service/roleGuardUtente';
-import { ValidatoreViewComponent } from './user-panel/validatore-view/validatore-view.component';
+import { ValidatoreViewComponent } from './user-panel/validatore/validatore-view/validatore-view.component';
 
 const routes: Routes = [
 

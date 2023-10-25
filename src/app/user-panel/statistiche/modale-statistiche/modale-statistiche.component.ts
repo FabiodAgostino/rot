@@ -28,20 +28,19 @@ export class ModaleStatisticheComponent implements OnInit, OnChanges{
 
   setMedia()
   {
-    this.mediaFama= (((this.stat!.statistica!.fama!-this.stat!.media!.fama) / this.stat!.media!.fama) * 100).toFixed(2);
-    this.mediaMonete= (((this.stat!.statistica!.monete!-this.stat!.media!.monete) / this.stat!.media!.monete) * 100).toFixed(2);
-    this.mediaSangue= (((this.stat!.statistica!.sangue!-this.stat!.media!.sangue) / this.stat!.media!.sangue) * 100).toFixed(2);
-    this.mediaFrammenti= (((this.stat!.statistica!.frammenti!-this.stat!.media!.frammenti) / this.stat!.media!.frammenti) * 100).toFixed(2);
-    this.mediaNulei= (((this.stat!.statistica!.nuclei!-this.stat!.media!.nuclei) / this.stat!.media!.nuclei) * 100).toFixed(2);
-    const sommaTotaleSecondi = this.stat!?.statistica?.tempo?.hours! * 3600 + this.stat!.statistica?.tempo?.minutes! * 60 + this.stat!.statistica?.tempo?.seconds!;
-    const sommaMediaSecondi = this.stat!?.media?.tempo?.hours! * 3600 + this.stat!.media?.tempo?.minutes! * 60 + this.stat!.media?.tempo?.seconds!;
-    this.mediaTempo = (((sommaTotaleSecondi -sommaMediaSecondi) / sommaMediaSecondi) * 100).toFixed(2);
-    this.mediaPg= (((this.stat!.statistica!.userList?.length!-this.stat!.media!.numeroPg!) / this.stat!.media!.numeroPg!) * 100).toFixed(2);
-    if(this.mediaTempo==="0.00" || this.mediaTempo==="100")
-      this.mediaTempo="";
-
-    this.listaClassi = this.stat?.statistica?.userRole;
-
+      this.mediaFama= (((this.stat!.statistica!.fama!-this.stat!.media!.fama) / this.stat!.media!.fama) * 100).toFixed(2);
+      this.mediaMonete= (((this.stat!.statistica!.monete!-this.stat!.media!.monete) / this.stat!.media!.monete) * 100).toFixed(2);
+      this.mediaSangue= (((this.stat!.statistica!.sangue!-this.stat!.media!.sangue) / this.stat!.media!.sangue) * 100).toFixed(2);
+      this.mediaFrammenti= (((this.stat!.statistica!.frammenti!-this.stat!.media!.frammenti) / this.stat!.media!.frammenti) * 100).toFixed(2);
+      this.mediaNulei= (((this.stat!.statistica!.nuclei!-this.stat!.media!.nuclei) / this.stat!.media!.nuclei) * 100).toFixed(2);
+      const sommaTotaleSecondi = this.stat!?.statistica?.tempo?.hours! * 3600 + this.stat!.statistica?.tempo?.minutes! * 60 + this.stat!.statistica?.tempo?.seconds!;
+      const sommaMediaSecondi = this.stat!?.media?.tempo?.hours! * 3600 + this.stat!.media?.tempo?.minutes! * 60 + this.stat!.media?.tempo?.seconds!;
+      this.mediaTempo = (((sommaTotaleSecondi -sommaMediaSecondi) / sommaMediaSecondi) * 100).toFixed(2);
+      this.mediaPg= (((this.stat!.statistica!.userList?.length!-this.stat!.media!.numeroPg!) / this.stat!.media!.numeroPg!) * 100).toFixed(2);
+      if(this.mediaTempo==="0.00" || this.mediaTempo==="100")
+        this.mediaTempo="";
+    console.log(this.mediaFama=='NaN')
+      this.listaClassi = this.stat?.statistica?.userRole;
   }
   ngOnInit(): void {
   }
