@@ -63,8 +63,8 @@ export class ValidatoreViewComponent {
   {
     const ref=this.statisticheService.getContest()
       .subscribe(x=>{
-        console.log(x)
-        this.dataSource = new MatTableDataSource<StatisticheImmagini>(x);
+        this.statisticheImmagini=x;
+        this.dataSource = new MatTableDataSource<StatisticheImmagini>(x.filter(x=> x.inAttesaDiValidazione==!this.convalidati));
           this.sortedData = this.dataSource.data.slice();
           this.dataSource.paginator = this.paginator;
           this.dataSource.sort = this.sort;
@@ -99,26 +99,38 @@ export class ValidatoreViewComponent {
     const dialogRef = this.dialog.open(ModaleSiNoComponent, {
       data: { message: "Sei sicuro di voler modificare lo stato? L'azione è irreversibile." }
     });
-    dialogRef.afterClosed().subscribe(x=>{
-      console.log(x)
+    dialogRef.afterClosed().subscribe(si=>{
+      if(si)
+      {
+        var validazione = valid.value=="Convalida" ? true : false;
+        this.statisticheService.validaImmagini(row.statistica.id!.toString(), validazione).subscribe(x=>{
+          this.getContest();
+        })
+      }
     })
   }
 
 
   applyFilter(x:any, y:string)
   {
-    // if(y!='tipologia')
-    // {
-    //   let value = x.value.trim().toLowerCase();
-    //   this.dataSource.filter=value;
-    // }
-    // else
-    // {
-    //   if(x!='Tutte')
-    //     this.dataSource.data = this.sortedData.filter(z=> z.tipologia.includes(x));
-    //   else
-    //     this.dataSource.data=this.sortedData;
-    // }
+    switch(y)
+    {
+      case "dungeons": 
+        let filterDungeon = x as string;
+        this.dataSource = new MatTableDataSource<StatisticheImmagini>(this.statisticheImmagini.filter(x=> x.statistica.destination==filterDungeon));
+        break;
+      case "servers":
+        let filterServer = x as string;
+        this.dataSource = new MatTableDataSource<StatisticheImmagini>(this.statisticheImmagini.filter(x=> x.statistica.guildId==filterServer));
+        break;
+      case "convalidati":
+        let filterValidati = x as boolean;
+        this.dataSource = new MatTableDataSource<StatisticheImmagini>(this.statisticheImmagini.filter(x=> x.validazione==filterValidati));
+        break;
+    }
+    this.sortedData = this.dataSource.data.slice();
+    this.dataSource.paginator = this.paginator;
+    this.dataSource.sort = this.sort;
   }
 
   sortData(sort: Sort) {
@@ -157,7 +169,6 @@ getDisplayedColumns()
 
 detailStatistica(element: StatisticheImmagini)
 {
-  console.log(element.statistica)
   const dialogRef = this.dialog.open(ContainerStatisticheValidatoreComponent, {
     data: {
       statistica: new FullStatistica(element.statistica,new MedieStatistiche()),
@@ -171,35 +182,20 @@ detailStatistica(element: StatisticheImmagini)
   })
 }
 
-
-dialogInsertEdit(id:any = -1, insert=false)
+reset()
 {
-    return this.dialog.open(MacroInsertEditComponent, {
-      data: {id: id, insert:insert},
-      width: this.utils.isSmartphone() ? '100vw' : '50vw',
-      height: this.utils.isSmartphone() ? '90vh' : '70vh',
-    });
+  this.macroFullForm = new FormGroup({
+    author: new FormControl(''),
+    macro: new FormControl(''),
+    tipologia: new FormControl('')
+  });
+  this.convalidati=false;
+  this.dataSource = new MatTableDataSource<StatisticheImmagini>(this.statisticheImmagini.filter(x=> x.inAttesaDiValidazione==!this.convalidati));
+  this.sortedData = this.dataSource.data.slice();
+  this.dataSource.paginator = this.paginator;
+  this.dataSource.sort = this.sort;
 }
-
-
-checkThumb(row: any)
-{
-  return this.isLoggedIn && this.user!='' && this.user!=row.author && !row.utenti.includes(this.user);
 }
-
-checkIfVote(row: any)
-{
-  return row.utenti.includes(this.user) && this.isLoggedIn;
-}
-
-likeIt(guid: string)
-{
-  this.service.addLikeMacro(guid,this.user);
-}
-
-
-}
-
 export class ValidaLookup
 {
   constructor(public emoji?:string, public value?:string) {

@@ -25,6 +25,7 @@ export class Statistiche
     tempo?: TempoCaccia;
     destination?: string;
     frammenti?: number;
+    numPg?:number;
 }
 
 export class StatisticheImmagini

@@ -165,6 +165,7 @@ export class StatisticheService {
             const risultatoUnione = cacce.map(caccia => {
               caccia.date = (caccia.date as Timestamp).toDate();
               const imgs = immagini.filter(img => img?.idCacciaOrganizzataTempoLoot==caccia?.id?.toString())[0];
+              console.log(imgs)
               return new StatisticheImmagini(caccia, imgs?.images,imgs?.inAttesaDiValidazione, imgs?.validazione);
             });
             return risultatoUnione.filter(x=> x.imgs!=undefined);
@@ -173,5 +174,28 @@ export class StatisticheService {
       })
     );
   }
+
+  validaImmagini(guid:string, validazione:boolean)
+  {
+    var subjext = new Subject<boolean>();
+    const pg=this.store.collection('ImmaginiContest',ref=> ref.where('idCacciaOrganizzataTempoLoot','==',guid)).valueChanges({idField: 'id'}).subscribe(x=>{
+      if(x!=null && x.length>0)
+      {
+        console.log(x)
+        const up=this.store.collection('ImmaginiContest').doc(`${x[0].id}`).set({
+          dataValidazione:new Date(),
+          validazione:validazione,
+          inAttesaDiValidazione:false
+        },
+        {
+          merge:true
+        }).then(x=> {subjext.next(true);});
+        pg.unsubscribe();
+      }
+      });
+
+      return subjext.asObservable();
+  }
+
   
 }

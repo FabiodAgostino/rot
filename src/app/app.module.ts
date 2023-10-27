@@ -90,6 +90,7 @@ import { ValidatoreViewComponent } from './user-panel/validatore/validatore-view
 import { ModaleSiNoComponent } from './utils/modale-si-no/modale-si-no.component';
 import { ContainerStatisticheValidatoreComponent } from './user-panel/validatore/container-statistiche-validatore/container-statistiche-validatore.component';
 import {MatTabsModule} from '@angular/material/tabs';
+import { ModalValidatoreComponent } from './user-panel/validatore/modal-validatore/modal-validatore.component';
 
 
 
@@ -141,6 +142,7 @@ import {MatTabsModule} from '@angular/material/tabs';
     ValidatoreViewComponent,
     ModaleSiNoComponent,
     ContainerStatisticheValidatoreComponent,
+    ModalValidatoreComponent,
   ],
   imports: [
     BrowserModule,

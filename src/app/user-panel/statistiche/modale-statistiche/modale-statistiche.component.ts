@@ -39,7 +39,6 @@ export class ModaleStatisticheComponent implements OnInit, OnChanges{
       this.mediaPg= (((this.stat!.statistica!.userList?.length!-this.stat!.media!.numeroPg!) / this.stat!.media!.numeroPg!) * 100).toFixed(2);
       if(this.mediaTempo==="0.00" || this.mediaTempo==="100")
         this.mediaTempo="";
-    console.log(this.mediaFama=='NaN')
       this.listaClassi = this.stat?.statistica?.userRole;
   }
   ngOnInit(): void {

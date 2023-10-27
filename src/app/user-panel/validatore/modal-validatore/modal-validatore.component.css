@@ -1,0 +1,33 @@
+.example-card
+{
+    padding: 10px;
+    margin: 10px;
+}
+
+.subtitle
+{
+    font-weight: 500;
+}
+
+span
+{
+    font-weight: bold;
+    font-size: small;
+}
+
+.percentuali
+{
+    font-weight: 100;
+    font-size: small;
+    color: grey;
+    text-align: right;
+}
+
+
+
+  @media (max-width: 900px) {
+    .mobile-grid {
+        display: grid;
+        grid-template-columns: 1fr; /* Una colonna per schermi stretti */
+    }
+  }

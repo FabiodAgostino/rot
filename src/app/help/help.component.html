@@ -31,10 +31,13 @@
         </mat-form-field>
 
         <mat-form-field appearance="fill" [style.visibility]="(firstFormGroup.get('tipologia')?.valid || firstFormGroup.get('tipologia')?.value===tipologiaTicket[1]) ? 'visible' : 'hidden'">
-            <mat-label>Ticket</mat-label>
+            <mat-label>Messaggio</mat-label>
             <textarea rows="100" cols="100" matInput="" formControlName="ticket" cdkTextareaAutosize="" #autosize="cdkTextareaAutosize" cdkAutosizeMinRows="1" cdkAutosizeMaxRows="5"></textarea>
+            <mat-error *ngIf="firstFormGroup.get('ticket')?.value!.length>=0 && firstFormGroup.get('ticket')?.value!.length<20">
+              Inserisci almeno 20 caratteri
+            </mat-error>
           </mat-form-field>
-
+          
           <button mat-raised-button="" color="primary" (click)="salva()" [style.visibility]="(firstFormGroup.get('tool')?.valid || firstFormGroup.get('tipologia')?.value===tipologiaTicket[1]) ? 'visible' : 'hidden'" [disabled]="firstFormGroup.get('ticket')?.invalid || firstFormGroup.get('user')?.invalid">Invia</button>
     </form>
 

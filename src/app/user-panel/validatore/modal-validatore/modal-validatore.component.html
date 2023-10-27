@@ -1,0 +1,41 @@
+<div class="container mx-auto" *ngIf="stat">
+    <mat-card class="example-card" *ngIf="stat!=undefined" style="height: 45vh;">
+        <mat-card-header>
+          <mat-card-title>{{stat.statistica!.destination}}</mat-card-title>
+          <mat-card-subtitle>{{stat.statistica!.dateFinish}}</mat-card-subtitle>
+        </mat-card-header>
+        <mat-card-content style="margin-top:5px;">
+          <div class="grid grid-cols-2 gap-4 mobile-grid">
+            <div class=>
+              <div class="row flex" *ngIf="stat.statistica?.tempo"><h3 class="subtitle">🕙 Tempo: </h3>&nbsp; 
+                <h3 class="">{{stat.statistica?.tempo?.hours}} h - {{stat.statistica!.tempo!.minutes}} m - {{stat.statistica!.tempo!.seconds}} s</h3> </div>
+              <div class="row flex" *ngIf="stat.statistica?.fama"><h3 class="subtitle">⬆️ Fama: </h3> &nbsp;<h3>{{stat.statistica!.fama}}</h3> </div>
+              <div class="row flex" *ngIf="stat.statistica?.monete"><h3 class="subtitle">🪙 Monete: </h3> &nbsp;<h3>{{stat.statistica!.monete}}</h3></div>
+              <div class="row flex" *ngIf="stat.statistica?.sangue"><h3 class="subtitle">⚗️ Sangue:</h3>&nbsp; <h3>{{stat.statistica!.sangue}}</h3></div>
+              <div class="row flex" *ngIf="stat.statistica?.frammenti"><h3 class="subtitle">❄️ Frammenti:</h3>&nbsp; <h3>{{stat.statistica!.frammenti}}</h3></div>
+              <div class="row flex" *ngIf="stat.statistica?.nuclei"><h3 class="subtitle">🔮 Nuclei:</h3>&nbsp;<h3>{{stat.statistica!.nuclei}}</h3></div>
+              <div class="row flex" *ngIf="stat.statistica?.numPg"><h3 class="subtitle">⚔️ Numero PG:</h3>&nbsp;<h3>{{stat.statistica!.numPg}}</h3></div>
+            </div>
+          </div>
+        </mat-card-content>
+        <span class="percentuali">*Percentuali stimate in base a dungeon dello stesso tipo rispetto alla media sul totale</span>
+      </mat-card>
+</div>
+
+<div class="container mx-auto" *ngIf="!stat">
+    <mat-card class="example-card" *ngIf="stat!=undefined">
+        <ngx-skeleton-loader count="1" appearance="line" [theme]="{ 
+            height: '4vh',
+            width:'14vw'
+          }"></ngx-skeleton-loader>
+          <ngx-skeleton-loader count="1" appearance="line" [theme]="{ 
+            height: '2vh',
+            width:'20vw'
+          }"></ngx-skeleton-loader>
+        <mat-card-content style="margin-top:5px;">
+            <ngx-skeleton-loader count="8" appearance="line" [theme]="{ 
+                height: '2.2vh',
+              }"></ngx-skeleton-loader>
+        </mat-card-content>
+      </mat-card>
+</div>
