@@ -2,7 +2,7 @@
     <mat-card class="example-card" *ngIf="stat!=undefined" style="height: 45vh;">
         <mat-card-header>
           <mat-card-title>{{stat.statistica!.destination}}</mat-card-title>
-          <mat-card-subtitle>{{stat.statistica!.dateFinish}}</mat-card-subtitle>
+          <mat-card-subtitle>Data fine: {{stat.statistica!.dateFinish}}</mat-card-subtitle>
         </mat-card-header>
         <mat-card-content style="margin-top:5px;">
           <div class="grid grid-cols-2 gap-4 mobile-grid">
@@ -13,7 +13,7 @@
               <div class="row flex" *ngIf="stat.statistica?.monete"><h3 class="subtitle">🪙 Monete: </h3> &nbsp;<h3>{{stat.statistica!.monete}}</h3></div>
               <div class="row flex" *ngIf="stat.statistica?.sangue"><h3 class="subtitle">⚗️ Sangue:</h3>&nbsp; <h3>{{stat.statistica!.sangue}}</h3></div>
               <div class="row flex" *ngIf="stat.statistica?.frammenti"><h3 class="subtitle">❄️ Frammenti:</h3>&nbsp; <h3>{{stat.statistica!.frammenti}}</h3></div>
-              <div class="row flex" *ngIf="stat.statistica?.nuclei"><h3 class="subtitle">🔮 Nuclei:</h3>&nbsp;<h3>{{stat.statistica!.nuclei}}</h3></div>
+              <div class="row flex" *ngIf="stat.statistica?.nuclei"><h3 class="subtitle">🗡️ Armi 4/5:</h3>&nbsp;<h3>{{stat.statistica!.nuclei}}</h3></div>
               <div class="row flex" *ngIf="stat.statistica?.numPg"><h3 class="subtitle">⚔️ Numero PG:</h3>&nbsp;<h3>{{stat.statistica!.numPg}}</h3></div>
             </div>
           </div>

@@ -25,14 +25,14 @@ export class StatisticheViewComponent implements OnInit {
   arrayMedie = new Array<MedieStatistiche>();
 
   selectedDate: string ="2023-10";
-  year = parseInt(this.selectedDate.split("-")[0]);
-  month = parseInt(this.selectedDate.split("-")[1]);
+  year = 2023;
+  month = 10;
   annoIntero:boolean=false;
 
   arrayStatistiche = new Array<Statistiche>();
   arrayAllStatistiche = new Array<Statistiche>();
   tipoGrafico = [{tipo:"Lineare",emoji:"📈"},{tipo:"Timeline",emoji:"↔️"}];
-  filtriGrafico = ["⬆️ Fama","🪙 Monete","❄️ Frammenti","⚗️ Sangue","🔮 Nuclei","🕙 Tempo","⚔️ Numero utenti"]
+  filtriGrafico = ["⬆️ Fama","🪙 Monete","❄️ Frammenti","⚗️ Sangue","🗡️ Armi 4/5","🕙 Tempo","⚔️ Numero utenti"]
   selectedGrafico = "Lineare";
   selectedFiltro:string = "⬆️ Fama";
   statistica = new Statistiche();
@@ -42,6 +42,7 @@ export class StatisticheViewComponent implements OnInit {
   
   ngOnInit(): void 
   {
+    this.inizializzaData();
     this.getStatistiche();
     this.statisticheService.getDungeons().subscribe(x=> {
       this.dungeons=x;
@@ -50,7 +51,16 @@ export class StatisticheViewComponent implements OnInit {
     if(this.utils.isSmartphone())
       this.selectedGrafico="Lineare"
   }
-  
+
+  inizializzaData()
+  {
+    const year = new Date().getFullYear();
+    const month = new Date().getMonth()+1;
+    this.selectedDate = year+"-"+month;
+    const date = this.selectedDate.split("-");
+    this.year = parseInt(date[0]);
+    this.month = parseInt(date[1]);
+  }
  
 
   onDateChange() {

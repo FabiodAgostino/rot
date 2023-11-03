@@ -13,7 +13,7 @@ var index;
   styleUrls: ['./statistiche-line-chart.component.css']
 })
 export class StatisticheLineChartComponent implements AfterViewInit{
-  allEmoji = ["⬆️ ","🪙 ","❄️ ","⚗️ ","🔮 ","🕙 ","⚔️ "]
+  allEmoji = ["⬆️ ","🪙 ","❄️ ","⚗️ ","🗡️ ","🕙 ","⚔️ "]
 
 
   handlePointClick(clickedElement:any) {
@@ -119,7 +119,7 @@ export class StatisticheLineChartComponent implements AfterViewInit{
       case "Monete": this.valoriGrafico = this.items!.map(statistica => {
         return new ValoriGrafico(statistica.monete!, new Date(statistica.date), statistica.guid);
       }); break;
-      case "Nuclei": this.valoriGrafico =this.items!.map(statistica => {
+      case "Armi 4/5": this.valoriGrafico =this.items!.map(statistica => {
         return new ValoriGrafico(statistica.nuclei!, new Date(statistica.date), statistica.guid);
       }); break;
       case "Sangue": this.valoriGrafico = this.items!.map(statistica => {

@@ -25,6 +25,8 @@ export class StatisticheService {
     {
       inizioMeseTimestamp = new Date(anno, mese - 1, 1).getTime();
       fineMeseTimestamp = new Date(anno, mese, 0, 23, 59, 59, 999).getTime();
+      console.log( new Date(anno, mese - 1, 1));
+      console.log( new Date(anno, mese, 0, 23, 59, 59, 999))
     }
     else
     {
@@ -34,7 +36,6 @@ export class StatisticheService {
       fineMeseTimestamp = new Date(anno, fineMese, 0, 23, 59, 59, 999).getTime();
     }
    
-  
    var response= this.store
       .collection<Statistiche>('CacciaOrganizzataTempoLoot', (ref) =>
         ref
@@ -49,7 +50,7 @@ export class StatisticheService {
           dr.guid = crypto.randomUUID();
           dr.date = (collection.date as Timestamp).toDate();
           dr.date = new Date(dr.date.setMonth(dr.date.getMonth()+1)); 
-          var date = (collection.date as Timestamp).toDate();
+          var date = (collection.dateFinish as Timestamp).toDate();
           dr.dateFinish = date.getDate() + " - "+(date.getMonth()+1)+" - "+date.getFullYear()+" alle "+date.getHours()+":"+date.getMinutes()+":"+date.getSeconds()
           dr.fama=collection.fama;
           dr.guildId= collection.guildId;
@@ -164,8 +165,9 @@ export class StatisticheService {
           map(immagini => {
             const risultatoUnione = cacce.map(caccia => {
               caccia.date = (caccia.date as Timestamp).toDate();
+              const dateFinish= (caccia.dateFinish as Timestamp).toDate();
+              caccia.dateFinish = dateFinish.getDate()+"/"+dateFinish.getMonth()+"/"+dateFinish.getFullYear()+" "+dateFinish.getHours()+":"+dateFinish.getMinutes()+":"+dateFinish.getSeconds();
               const imgs = immagini.filter(img => img?.idCacciaOrganizzataTempoLoot==caccia?.id?.toString())[0];
-              console.log(imgs)
               return new StatisticheImmagini(caccia, imgs?.images,imgs?.inAttesaDiValidazione, imgs?.validazione);
             });
             return risultatoUnione.filter(x=> x.imgs!=undefined);
