@@ -25,6 +25,7 @@ export class Monster {
   }
 
   export interface FlatNode {
+    id: string,
     expandable: boolean;
     name: string;
     level: number,

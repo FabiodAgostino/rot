@@ -14,6 +14,7 @@ export class MonsterDexViewComponent {
 
   @ViewChild('myModal') modalTemplate!: TemplateRef<any>;
   modalImageUrl: string = '';
+
   desiredWidth = 500; // Larghezza desiderata per l'immagine
   desiredHeight = 400; // Altezza desiderata per l'immagine
   text="";
@@ -34,7 +35,6 @@ export class MonsterDexViewComponent {
   {
     this.imageLoaded=false;
     this.node=node;
-
     const image = new Image();
     image.src = this.node.url;
     image.onload = () => {
@@ -51,7 +51,7 @@ export class MonsterDexViewComponent {
   }
 
   openModal(): void {
-    this.modalImageUrl = this.node!.url;
+    this.modalImageUrl ="https://drive.google.com/thumbnail?id="+this.node!.id+"&sz=w1000";
     const dialogRef=this.dialog.open(this.modalTemplate, {
     });
   }

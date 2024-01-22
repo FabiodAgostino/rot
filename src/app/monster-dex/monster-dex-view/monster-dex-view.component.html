@@ -17,7 +17,6 @@
           </div>
         <app-monster-dex-tree (renderImmagine)="renderImage($event)"></app-monster-dex-tree>
     </div>
-
     <div class="w-full md:w-3/6 containers" style=" overflow: auto; height: 70vh; padding-top:3vh">
         <div class="titoloImmagine">
             <b>{{node?.name}}</b>
@@ -31,7 +30,7 @@
                 </button>
             </div>
             <div class="immagine" *ngIf="node!=null" (click)="openModal()">
-                <img src="{{node.url}}" class=" image-overlay mx-auto  transition-opacity duration-300 hover:opacity-70" [style.width.px]="desiredWidth" [style.height.px]="desiredHeight" [ngClass]="imageLoaded || isFirstLoad ? 'resistenze' : '' " (load)="imageLoaded= true; isFirstLoad=true;">
+                <img src="https://drive.google.com/thumbnail?id={{node.id}}&sz=w1000" class=" image-overlay mx-auto  transition-opacity duration-300 hover:opacity-70" [style.width.px]="desiredWidth" [style.height.px]="desiredHeight" [ngClass]="imageLoaded || isFirstLoad ? 'resistenze' : '' " (load)="imageLoaded= true; isFirstLoad=true;">
                 </div>
             </div>
         </div>
@@ -51,6 +50,7 @@
                 <div class="w-auto sm:w-full d-flex justify-center" style="padding-top:22px; padding-bottom:22px;">
                     <img mat-card-image src="{{ modalImageUrl }}" alt="Immagine" clss="imgTemplate" (load)="imageTemplate= true; "[style.width.px]="desiredWidth" [style.height.px]="desiredHeight">
                 </div>
+
             </mat-card-content>
             <div class="modal-footer closeModal">
                 <button mat-button type="button" color="primary" id="closeModal"  (click)="closeModal()">Chiudi</button>
