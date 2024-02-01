@@ -15,11 +15,11 @@ import { LookupServersComponent } from '../home/lookup-servers/lookup-servers.co
 
 const REDIRECT_URL_LOCALE='http://localhost:4200/';
 const CLIENT_ID_LOCALE='1106594210242625579'
-const CLIENT_SECRET_LOCALE ='RIZz7vBghyPRJJKSLj32UL95iyygc2_9';
+const CLIENT_SECRET_LOCALE ='vSpoEDdg9pho-4Fltzo736cgwyPQk2g1';
 
 const REDIRECT_URL='https://fabiodagostino.github.io/rot/';
 const CLIENT_ID='1106594210242625579';
-const CLIENT_SECRET ='RIZz7vBghyPRJJKSLj32UL95iyygc2_9';
+const CLIENT_SECRET ='vSpoEDdg9pho-4Fltzo736cgwyPQk2g1';
 const API_ENDPOINT = 'https://discord.com/api/v10';
 const GUILD_ID_ROTINIEL="511856322141093904";
 
