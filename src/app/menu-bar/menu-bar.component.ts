@@ -9,9 +9,7 @@ import { UserService } from '../service/user.service';
 import { Router } from '@angular/router';
 import { Utils } from '../utils/utility';
 import {MatMenuModule} from '@angular/material/menu';
-
-const LOGIN_DISCORD_LOCALE='https://discord.com/api/oauth2/authorize?client_id=1106594210242625579&redirect_uri=http%3A%2F%2Flocalhost%3A4200%2F&response_type=code&scope=identify%20guilds%20connections%20guilds.members.read'
-const LOGIN_DISCORD ='https://discord.com/api/oauth2/authorize?client_id=1106594210242625579&redirect_uri=https%3A%2F%2Ffabiodagostino.github.io%2Frot%2F&response_type=code&scope=identify%20guilds%20connections%20guilds.members.read'
+import { environment } from 'src/environments/environment';
 @Component({
   selector: 'app-menu-bar',
   templateUrl: './menu-bar.component.html',
@@ -49,7 +47,7 @@ export class MenuBarComponent implements OnInit {
   openLogin()
   {
     localStorage.setItem("lastUrl",this.router.url);
-    window.location.href= this.develop ? LOGIN_DISCORD_LOCALE : LOGIN_DISCORD;
+    window.location.href= this.develop ? environment.discordConfigLocal.loginDiscord : environment.discordConfig.loginDiscord;
   }
 
   logOut()

@@ -11,17 +11,9 @@ import { Utils } from '../utils/utility';
 import { switchMap } from 'rxjs/operators';
 import { MatDialog } from '@angular/material/dialog';
 import { LookupServersComponent } from '../home/lookup-servers/lookup-servers.component';
+import { environment } from 'src/environments/environment';
 
-
-const REDIRECT_URL_LOCALE='http://localhost:4200/';
-const CLIENT_ID_LOCALE='1106594210242625579'
-const CLIENT_SECRET_LOCALE ='vSpoEDdg9pho-4Fltzo736cgwyPQk2g1';
-
-const REDIRECT_URL='https://fabiodagostino.github.io/rot/';
-const CLIENT_ID='1106594210242625579';
-const CLIENT_SECRET ='vSpoEDdg9pho-4Fltzo736cgwyPQk2g1';
 const API_ENDPOINT = 'https://discord.com/api/v10';
-const GUILD_ID_ROTINIEL="511856322141093904";
 
 @Injectable({
   providedIn: 'root'
@@ -37,19 +29,20 @@ export class UserService {
     this.develop=config.develop;
     if(this.develop)
     {
-      this.redirectUrl=REDIRECT_URL_LOCALE;
-      this.clientId=CLIENT_ID_LOCALE;
-      this.clientSecret=CLIENT_SECRET_LOCALE;
+      this.redirectUrl=environment.discordConfigLocal.redirectUrl;
+      this.clientId=environment.discordConfigLocal.clientId;
+      this.clientSecret=environment.discordConfigLocal.clientSecret;
     }
     else
     {
-      this.redirectUrl=REDIRECT_URL;
-      this.clientId=CLIENT_ID;
-      this.clientSecret=CLIENT_SECRET;
+      this.redirectUrl=environment.discordConfig.redirectUrl;
+      this.clientId=environment.discordConfig.clientId;
+      this.clientSecret=environment.discordConfig.clientSecret;
     }
+    this.guildIdRotiniel = environment.discordConfig.guildId;
    }
 
-
+  guildIdRotiniel: string = '';
   isRotinrim: boolean = false;
   isValidatore: boolean = false;
   userLoggato?: FullUserDiscord;
@@ -87,7 +80,7 @@ export class UserService {
   getUserGuildInfo(accessToken: string)
   {
     const headers = new HttpHeaders().set('Authorization', `Bearer ${accessToken}`);
-    return this.http.get<UserDiscord>(`${API_ENDPOINT}/users/@me/guilds/${GUILD_ID_ROTINIEL}/member`, { headers });
+    return this.http.get<UserDiscord>(`${API_ENDPOINT}/users/@me/guilds/${this.guildIdRotiniel}/member`, { headers });
   }
 
   getUserGuildInfoById(accessToken: string, idGuild:string)
