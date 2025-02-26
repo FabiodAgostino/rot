@@ -25,6 +25,7 @@ jobs:
           echo "export const environment = {" > src/environments/environment.prod.ts
           echo "  production: true," >> src/environments/environment.prod.ts
           echo "  firebaseConfig: '${{ secrets.FIREBASE_DETAILS }}'" >> src/environments/environment.prod.ts
+          echo "  discordConfig: '${{ secrets.DISCORD_DETAILS }}'" >> src/environments/environment.prod.ts
           echo "};" >> src/environments/environment.prod.ts
 
       - name: Build Angular App
