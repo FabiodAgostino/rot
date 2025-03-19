@@ -6,16 +6,21 @@ on:
       - main
 
 jobs:
-  deploy:
+  build-and-deploy:
     runs-on: ubuntu-latest
-
     steps:
-      # Checkout del codice
+      # Checkout the repository
       - name: Checkout repository
         uses: actions/checkout@v2
 
-      # Impostiamo le variabili d'ambiente per Firebase e Discord
-      - name: Set environment variables
+      # Set up Node.js environment
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '16'
+
+      # Set environment variables from GitHub Secrets (or a .env file)
+      - name: Set up environment variables
         run: |
           echo "FIREBASE_API_KEY=${{ secrets.FIREBASE_API_KEY }}" >> $GITHUB_ENV
           echo "FIREBASE_AUTH_DOMAIN=${{ secrets.FIREBASE_AUTH_DOMAIN }}" >> $GITHUB_ENV
@@ -24,42 +29,20 @@ jobs:
           echo "FIREBASE_MESSAGING_SENDER_ID=${{ secrets.FIREBASE_MESSAGING_SENDER_ID }}" >> $GITHUB_ENV
           echo "FIREBASE_APP_ID=${{ secrets.FIREBASE_APP_ID }}" >> $GITHUB_ENV
           echo "FIREBASE_MEASUREMENT_ID=${{ secrets.FIREBASE_MEASUREMENT_ID }}" >> $GITHUB_ENV
-          echo "DISCORD_REDIRECT_URL=${{ secrets.DISCORD_REDIRECT_URL }}" >> $GITHUB_ENV
-          echo "DISCORD_CLIENT_ID=${{ secrets.DISCORD_CLIENT_ID }}" >> $GITHUB_ENV
-          echo "DISCORD_CLIENT_SECRET=${{ secrets.DISCORD_CLIENT_SECRET }}" >> $GITHUB_ENV
-          echo "DISCORD_GUILD_ID=${{ secrets.DISCORD_GUILD_ID }}" >> $GITHUB_ENV
-          echo "DISCORD_LOGIN_URL=${{ secrets.DISCORD_LOGIN_URL }}" >> $GITHUB_ENV
 
-      # Installa le dipendenze
+      # Install dependencies
       - name: Install dependencies
         run: |
-          npm install -g @angular/cli
           npm install
 
-      # Sostituisci le variabili nel file `environment.prod.ts`
-      - name: Replace variables in environment.prod.ts
-        run: |
-          sed -i "s|\"apiKey\": \"\"|\"apiKey\": \"${{ secrets.FIREBASE_API_KEY }}\"|g" src/environments/environment.prod.ts
-          sed -i "s|\"authDomain\": \"\"|\"authDomain\": \"${{ secrets.FIREBASE_AUTH_DOMAIN }}\"|g" src/environments/environment.prod.ts
-          sed -i "s|\"projectId\": \"\"|\"projectId\": \"${{ secrets.FIREBASE_PROJECT_ID }}\"|g" src/environments/environment.prod.ts
-          sed -i "s|\"storageBucket\": \"\"|\"storageBucket\": \"${{ secrets.FIREBASE_STORAGE_BUCKET }}\"|g" src/environments/environment.prod.ts
-          sed -i "s|\"messagingSenderId\": \"\"|\"messagingSenderId\": \"${{ secrets.FIREBASE_MESSAGING_SENDER_ID }}\"|g" src/environments/environment.prod.ts
-          sed -i "s|\"appId\": \"\"|\"appId\": \"${{ secrets.FIREBASE_APP_ID }}\"|g" src/environments/environment.prod.ts
-          sed -i "s|\"measurementId\": \"\"|\"measurementId\": \"${{ secrets.FIREBASE_MEASUREMENT_ID }}\"|g" src/environments/environment.prod.ts
-          sed -i "s|\"redirectUrl\": \"\"|\"redirectUrl\": \"${{ secrets.DISCORD_REDIRECT_URL }}\"|g" src/environments/environment.prod.ts
-          sed -i "s|\"clientId\": \"\"|\"clientId\": \"${{ secrets.DISCORD_CLIENT_ID }}\"|g" src/environments/environment.prod.ts
-          sed -i "s|\"clientSecret\": \"\"|\"clientSecret\": \"${{ secrets.DISCORD_CLIENT_SECRET }}\"|g" src/environments/environment.prod.ts
-          sed -i "s|\"guildId\": \"\"|\"guildId\": \"${{ secrets.DISCORD_GUILD_ID }}\"|g" src/environments/environment.prod.ts
-          sed -i "s|\"loginDiscord\": \"\"|\"loginDiscord\": \"${{ secrets.DISCORD_LOGIN_URL }}\"|g" src/environments/environment.prod.ts
-
-      # Costruisci l'app
+      # Build the app (using production environment)
       - name: Build the app
         run: |
           npm run build -- --configuration production
 
-      # Distribuisci su GitHub Pages
+      # Deploy the app to GitHub Pages
       - name: Deploy to GitHub Pages
         uses: JamesIves/github-pages-deploy-action@v4
         with:
           branch: gh-pages
-          folder: docs
+          folder: dist
