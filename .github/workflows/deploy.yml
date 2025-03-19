@@ -11,6 +11,14 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v2
 
+      - name: Check if environment.ts exists
+        run: |
+          if [ ! -f src/environments/environment.ts ]; then
+            echo "Error: environment.ts not found!"
+            exit 1
+          fi
+
+
       - name: Set environment variables for Firebase and Discord
         run: |
           echo "FIREBASE_API_KEY=${{ secrets.FIREBASE_DETAILS.apiKey }}" >> $GITHUB_ENV
