@@ -1,5 +1,3 @@
-name: Deploy to GitHub Pages
-
 on:
   push:
     branches:
@@ -28,8 +26,12 @@ jobs:
           echo "DISCORD_GUILD_ID=${{ secrets.DISCORD_DETAILS.guildId }}" >> $GITHUB_ENV
           echo "DISCORD_LOGIN=${{ secrets.DISCORD_DETAILS.loginDiscord }}" >> $GITHUB_ENV
 
+      - name: Install dependencies
+        run: |
+          npm install -g @angular/cli
+          npm install
+
       - name: Build the app
         run: |
           echo "Building the app with Firebase and Discord configs"
           npm run build -- --configuration production
-     
