@@ -20,12 +20,15 @@ jobs:
       - name: Install dependencies
         run: npm install
 
+      - name: Install jq
+        run: sudo apt-get install jq
+
       - name: Create environment.prod.ts
         run: |
           echo "export const environment = {" > src/environments/environment.prod.ts
           echo "  production: true," >> src/environments/environment.prod.ts
-          echo "  firebaseConfig: '${{ secrets.FIREBASE_DETAILS }}'" >> src/environments/environment.prod.ts
-          echo "  discordConfig: '${{ secrets.DISCORD_DETAILS }}'" >> src/environments/environment.prod.ts
+          echo "  firebaseConfig: $(echo '${{ secrets.FIREBASE_DETAILS }}' | jq .)," >> src/environments/environment.prod.ts
+          echo "  discordConfig: $(echo '${{ secrets.DISCORD_DETAILS }}' | jq .)" >> src/environments/environment.prod.ts
           echo "};" >> src/environments/environment.prod.ts
 
       - name: Build Angular App
