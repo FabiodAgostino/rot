@@ -27,6 +27,12 @@ jobs:
         run: |
           echo "firebaseConfig=${{secrets.FIREBASE_DETAILS}}" >> $GITHUB_ENV
           echo "discordConfig=${{secrets.DISCORD_DETAILS}}" >> $GITHUB_ENV
+
+      - name: Debug environment variables
+        run: |
+          echo "firebaseConfig"
+          echo "discordConfig"
+  
       - name: Install dependencies
         run: |
           npm install -g @angular/cli
