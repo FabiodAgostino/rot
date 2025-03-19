@@ -25,11 +25,16 @@ jobs:
 
       - name: Create environment.prod.ts
         run: |
-          echo "export const environment = {" > src/environments/environment.prod.ts
-          echo "  production: true," >> src/environments/environment.prod.ts
-          echo "  firebaseConfig: $(echo '${{ secrets.FIREBASE_DETAILS }}' | jq .)," >> src/environments/environment.prod.ts
-          echo "  discordConfig: $(echo '${{ secrets.DISCORD_DETAILS }}' | jq .)" >> src/environments/environment.prod.ts
-          echo "};" >> src/environments/environment.prod.ts
+          FIREBASE_CONFIG=$(echo '${{ secrets.FIREBASE_DETAILS }}' | jq -c .)
+          DISCORD_CONFIG=$(echo '${{ secrets.DISCORD_DETAILS }}' | jq -c .)
+          cat <<EOF > src/environments/environment.prod.ts
+          export const environment = {
+            production: true,
+            firebaseConfig: $FIREBASE_CONFIG,
+            discordConfig: $DISCORD_CONFIG
+          };
+          EOF
+
 
       - name: Build Angular App
         run: npm run build --configuration=production
