@@ -31,6 +31,5 @@ jobs:
       - name: Build the app
         run: |
           echo "Building the app with Firebase and Discord configs"
-           npm run ng -- deploy --configuration=production
-
+          npm run build -- --configuration production
      
