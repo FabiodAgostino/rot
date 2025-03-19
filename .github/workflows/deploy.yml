@@ -60,7 +60,7 @@ jobs:
 
       - name: Replace Environment Variables
         run: |
-          node scripts/replace-env.js
+          node ../../scripts/replace-env.js
         env:
           FIREBASE_API_KEY: ${{ secrets.FIREBASE_API_KEY }}
           FIREBASE_AUTH_DOMAIN: ${{ secrets.FIREBASE_AUTH_DOMAIN }}
