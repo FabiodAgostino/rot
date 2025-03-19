@@ -1,92 +1,93 @@
-# on:
-#   push:
-#     branches:
-#       - main
-
-# jobs:
-#   deploy:
-#     runs-on: ubuntu-latest
-
-#     steps:
-#       - name: Checkout repository
-#         uses: actions/checkout@v2
-
-#       - name: Check if environment.prod.ts exists
-#         run: |
-#           if [ ! -f src/environments/environment.prod.ts ]; then
-#             echo "Error: environment.prod.ts not found!"
-#             exit 1
-#           fi
-
-#       - name: Set environment variables for Firebase and Discord
-#         run: |
-#           echo "firebaseConfig=${{secrets.FIREBASE_DETAILS}}" >> $GITHUB_ENV
-#           echo "discordConfig=${{secrets.DISCORD_DETAILS}}" >> $GITHUB_ENV
-
-#       - name: Debug environment variables
-#         run: |
-#           echo "firebaseConfig"
-#           echo "discordConfig"
-  
-#       - name: Install dependencies
-#         run: |
-#           npm install -g @angular/cli
-#           npm install
-
-#       - name: Build the app
-#         run: |
-#           echo "Building the app with Firebase and Discord configs"
-#           npm run build -- --configuration production
-
-
-name: Deploy Production
-
 on:
   push:
     branches:
       - main
 
 jobs:
-  build-and-deploy:
+  deploy:
     runs-on: ubuntu-latest
+
     steps:
-      - name: Checkout Repository
-        uses: actions/checkout@v4
+      - name: Checkout repository
+        uses: actions/checkout@v2
 
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: 20.x
-
-      - name: Replace Environment Variables
+      - name: Check if environment.prod.ts exists
         run: |
-          node ../scripts/replace-env.js
-        env:
-          FIREBASE_API_KEY: ${{ secrets.FIREBASE_API_KEY }}
-          FIREBASE_AUTH_DOMAIN: ${{ secrets.FIREBASE_AUTH_DOMAIN }}
-          FIREBASE_PROJECT_ID: ${{ secrets.FIREBASE_PROJECT_ID }}
-          FIREBASE_STORAGE_BUCKET: ${{ secrets.FIREBASE_STORAGE_BUCKET }}
-          FIREBASE_MESSAGING_SENDER_ID: ${{ secrets.FIREBASE_MESSAGING_SENDER_ID }}
-          FIREBASE_APP_ID: ${{ secrets.FIREBASE_APP_ID }}
-          FIREBASE_MEASUREMENT_ID: ${{ secrets.FIREBASE_MEASUREMENT_ID }}
-          DISCORD_REDIRECT_URL: ${{ secrets.DISCORD_REDIRECT_URL }}
-          DISCORD_CLIENT_ID: ${{ secrets.DISCORD_CLIENT_ID }}
-          DISCORD_CLIENT_SECRET: ${{ secrets.DISCORD_CLIENT_SECRET }}
-          DISCORD_GUILD_ID: ${{ secrets.DISCORD_GUILD_ID }}
-          DISCORD_LOGIN_URL: ${{ secrets.DISCORD_LOGIN_URL }}
-          DISCORD_LOCAL_REDIRECT_URL: ${{ secrets.DISCORD_LOCAL_REDIRECT_URL }}
-          DISCORD_LOCAL_CLIENT_ID: ${{ secrets.DISCORD_LOCAL_CLIENT_ID }}
-          DISCORD_LOCAL_CLIENT_SECRET: ${{ secrets.DISCORD_LOCAL_CLIENT_SECRET }}
-          DISCORD_LOCAL_GUILD_ID: ${{ secrets.DISCORD_LOCAL_GUILD_ID }}
-          DISCORD_LOCAL_LOGIN_URL: ${{ secrets.DISCORD_LOCAL_LOGIN_URL }}
+          if [ ! -f src/environments/environment.prod.ts ]; then
+            echo "Error: environment.prod.ts not found!"
+            exit 1
+          fi
 
-      - name: Install Dependencies
-        run: npm install
+      # - name: Set environment variables for Firebase and Discord
+      #   run: |
+      #     echo "firebaseConfig=${{secrets.FIREBASE_DETAILS}}" >> $GITHUB_ENV
+      #     echo "discordConfig=${{secrets.DISCORD_DETAILS}}" >> $GITHUB_ENV
 
-      - name: Build Angular
-        run: npm run build -- --configuration=production
+      - name: Install dependencies
+        run: |
+          npm install -g @angular/cli
+          npm install
 
       - name: Build the app
         run: |
           echo "Building the app with Firebase and Discord configs"
           npm run build -- --configuration production
+      
+      - name: Sync Files
+        uses: SamKirkland/FTP-Deploy-Action@4.0.0
+        with:
+          firebaseConfig: ${{ secrets.FIREBASE_DETAILS }}
+          discordConfig: ${{ secrets.DISCORD_DETAILS }}
+
+
+# name: Deploy Production
+
+# on:
+#   push:
+#     branches:
+#       - main
+
+# jobs:
+#   build-and-deploy:
+#     runs-on: ubuntu-latest
+#     steps:
+#       - name: Checkout Repository
+#         uses: actions/checkout@v4
+
+#       - name: Setup Node.js
+#         uses: actions/setup-node@v4
+#         with:
+#           node-version: 20.x
+
+#       - name: Replace Environment Variables
+#         run: |
+#           node ../scripts/replace-env.js
+#         env:
+#           FIREBASE_API_KEY: ${{ secrets.FIREBASE_API_KEY }}
+#           FIREBASE_AUTH_DOMAIN: ${{ secrets.FIREBASE_AUTH_DOMAIN }}
+#           FIREBASE_PROJECT_ID: ${{ secrets.FIREBASE_PROJECT_ID }}
+#           FIREBASE_STORAGE_BUCKET: ${{ secrets.FIREBASE_STORAGE_BUCKET }}
+#           FIREBASE_MESSAGING_SENDER_ID: ${{ secrets.FIREBASE_MESSAGING_SENDER_ID }}
+#           FIREBASE_APP_ID: ${{ secrets.FIREBASE_APP_ID }}
+#           FIREBASE_MEASUREMENT_ID: ${{ secrets.FIREBASE_MEASUREMENT_ID }}
+#           DISCORD_REDIRECT_URL: ${{ secrets.DISCORD_REDIRECT_URL }}
+#           DISCORD_CLIENT_ID: ${{ secrets.DISCORD_CLIENT_ID }}
+#           DISCORD_CLIENT_SECRET: ${{ secrets.DISCORD_CLIENT_SECRET }}
+#           DISCORD_GUILD_ID: ${{ secrets.DISCORD_GUILD_ID }}
+#           DISCORD_LOGIN_URL: ${{ secrets.DISCORD_LOGIN_URL }}
+#           DISCORD_LOCAL_REDIRECT_URL: ${{ secrets.DISCORD_LOCAL_REDIRECT_URL }}
+#           DISCORD_LOCAL_CLIENT_ID: ${{ secrets.DISCORD_LOCAL_CLIENT_ID }}
+#           DISCORD_LOCAL_CLIENT_SECRET: ${{ secrets.DISCORD_LOCAL_CLIENT_SECRET }}
+#           DISCORD_LOCAL_GUILD_ID: ${{ secrets.DISCORD_LOCAL_GUILD_ID }}
+#           DISCORD_LOCAL_LOGIN_URL: ${{ secrets.DISCORD_LOCAL_LOGIN_URL }}
+
+#       - name: Install Dependencies
+#         run: npm install
+
+#       - name: Build Angular
+#         run: npm run build -- --configuration=production
+
+#       - name: Build the app
+#         run: |
+#           echo "Building the app with Firebase and Discord configs"
+#           npm run build -- --configuration production
