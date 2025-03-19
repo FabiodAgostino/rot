@@ -20,9 +20,6 @@ jobs:
       - name: Install dependencies
         run: npm install
 
-      - name: Install jq
-        run: sudo apt-get install jq
-
       - name: Create environment.prod.ts
         run: |
           FIREBASE_CONFIG=$(echo '${{ secrets.FIREBASE_DETAILS }}' | jq -c .)
@@ -34,6 +31,9 @@ jobs:
             discordConfig: $DISCORD_CONFIG
           };
           EOF
+          
+      - name: Display environment.prod.ts content
+        run: cat src/environments/environment.prod.ts
 
 
       - name: Build Angular App
