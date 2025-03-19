@@ -1,3 +1,44 @@
+# on:
+#   push:
+#     branches:
+#       - main
+
+# jobs:
+#   deploy:
+#     runs-on: ubuntu-latest
+
+#     steps:
+#       - name: Checkout repository
+#         uses: actions/checkout@v2
+
+#       - name: Check if environment.prod.ts exists
+#         run: |
+#           if [ ! -f src/environments/environment.prod.ts ]; then
+#             echo "Error: environment.prod.ts not found!"
+#             exit 1
+#           fi
+
+#       - name: Set environment variables for Firebase and Discord
+#         run: |
+#           echo "firebaseConfig=${{secrets.FIREBASE_DETAILS}}" >> $GITHUB_ENV
+#           echo "discordConfig=${{secrets.DISCORD_DETAILS}}" >> $GITHUB_ENV
+
+#       - name: Debug environment variables
+#         run: |
+#           echo "firebaseConfig"
+#           echo "discordConfig"
+  
+#       - name: Install dependencies
+#         run: |
+#           npm install -g @angular/cli
+#           npm install
+
+#       - name: Build the app
+#         run: |
+#           echo "Building the app with Firebase and Discord configs"
+#           npm run build -- --configuration production
+
+
 on:
   push:
     branches:
@@ -18,12 +59,19 @@ jobs:
             exit 1
           fi
 
-      - name: Set environment variables for Firebase and Discord
+      - name: Declare
+        env:
+            FIREBASE_CONFIG: ${{ secrets.FIREBASE_DETAILS }}
+            DISCORD_CONFIG: ${{ secrets.DISCORD_DETAILS }}
         run: |
-          firebaseConfig=${{secrets.FIREBASE_DETAILS}}"
-          echo "$firebaseConfig"
-          discordConfig=${{secrets.DISCORD_DETAILS}}"
-          echo "$discordConfig"
+          firebaseConfig = $(curl -s $FIREBASE_CONFIG)
+          discordConfig = $(curl -s $DISCORD_CONFIG)
+        
+      - name: Set credentials env var
+        run: |
+          firebaseConfig =$firebaseConfig
+          discordConfig =$discordConfig
+        
 
       - name: Debug environment variables
         run: |
