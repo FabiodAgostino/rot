@@ -11,13 +11,12 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v2
 
-      - name: Check if environment.ts exists
+      - name: Check if environment.prod.ts exists
         run: |
-          if [ ! -f src/environments/environment.ts ]; then
-            echo "Error: environment.ts not found!"
+          if [ ! -f src/environments/environment.prod.ts ]; then
+            echo "Error: environment.prod.ts not found!"
             exit 1
           fi
-
 
       - name: Set environment variables for Firebase and Discord
         run: |
