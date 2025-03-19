@@ -20,8 +20,8 @@ jobs:
 
       - name: Debug environment variables
         run: |
-          echo "FIREBASE_DETAILS=$FIREBASE_DETAILS"
-          echo "DISCORD_DETAILS=$DISCORD_DETAILS"
+          echo "FIREBASE_DETAILS=${{secrets.FIREBASE_DETAILS}}"
+          echo "DISCORD_DETAILS=${{secrets.DISCORD_DETAILS}}"
 
       - name: Set environment variables for Firebase and Discord
         run: |
