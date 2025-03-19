@@ -31,10 +31,6 @@ jobs:
       - name: Build the app
         run: |
           echo "Building the app with Firebase and Discord configs"
-          # Aggiungi qui il comando di build specifico per la tua app (e.g., npm run build)
+          ng build --configuration=production
 
-      - name: Deploy to GitHub Pages
-        uses: peaceiris/actions-gh-pages@v3
-        with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./dist  # Cambia con il percorso corretto dei tuoi file generati
+     
