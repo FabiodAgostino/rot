@@ -18,10 +18,10 @@ jobs:
             exit 1
           fi
 
-      # - name: Set environment variables for Firebase and Discord
-      #   run: |
-      #     echo "firebaseConfig=${{secrets.FIREBASE_DETAILS}}" >> $GITHUB_ENV
-      #     echo "discordConfig=${{secrets.DISCORD_DETAILS}}" >> $GITHUB_ENV
+      - name: Set environment variables for Firebase and Discord
+        run: |
+          echo "firebaseConfig=${{secrets.FIREBASE_DETAILS}}" >> $GITHUB_ENV
+          echo "discordConfig=${{secrets.DISCORD_DETAILS}}" >> $GITHUB_ENV
 
       - name: Install dependencies
         run: |
@@ -33,11 +33,7 @@ jobs:
           echo "Building the app with Firebase and Discord configs"
           npm run build -- --configuration production
       
-      - name: Sync Files
-        uses: SamKirkland/FTP-Deploy-Action@4.0.0
-        with:
-          firebaseConfig: ${{ secrets.FIREBASE_DETAILS }}
-          discordConfig: ${{ secrets.DISCORD_DETAILS }}
+
 
 
 # name: Deploy Production
