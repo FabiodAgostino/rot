@@ -11,24 +11,18 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v2
 
-      - name: Install jq
-        run: sudo apt-get update && sudo apt-get install -y jq
+      - name: Check if environment.prod.ts exists
+        run: |
+          if [ ! -f src/environments/environment.prod.ts ]; then
+            echo "Error: environment.prod.ts not found!"
+            exit 1
+          fi
 
       - name: Extract Firebase and Discord values from secrets
         run: |
-          # Scriviamo i secret in modo corretto per evitare problemi di escape
-          printf '%s' '${{ secrets.FIREBASE_DETAILS }}' > firebase.json
-          printf '%s' '${{ secrets.DISCORD_DETAILS }}' > discord.json
+          echo '${{ secrets.FIREBASE_DETAILS }}' > firebase.json
+          echo '${{ secrets.DISCORD_DETAILS }}' > discord.json
 
-          # Debug per vedere il contenuto (non funzionerà per GitHub Secrets mascherati)
-          cat firebase.json
-          cat discord.json
-
-          # Verifica che i file siano JSON validi
-          jq empty firebase.json || { echo "Invalid JSON in firebase.json"; exit 1; }
-          jq empty discord.json || { echo "Invalid JSON in discord.json"; exit 1; }
-
-          # Estrazione delle variabili d'ambiente da JSON
           echo "FIREBASE_API_KEY=$(jq -r '.apiKey' firebase.json)" >> $GITHUB_ENV
           echo "FIREBASE_AUTH_DOMAIN=$(jq -r '.authDomain' firebase.json)" >> $GITHUB_ENV
           echo "FIREBASE_PROJECT_ID=$(jq -r '.projectId' firebase.json)" >> $GITHUB_ENV
@@ -43,6 +37,11 @@ jobs:
           echo "DISCORD_GUILD_ID=$(jq -r '.guildId' discord.json)" >> $GITHUB_ENV
           echo "DISCORD_LOGIN_URL=$(jq -r '.loginDiscord' discord.json)" >> $GITHUB_ENV
 
+      - name: Substitute environment variables in the config file
+        run: |
+          echo "Substituting variables in environment.prod.ts"
+          envsubst < src/environments/environment.prod.ts > src/environments/environment.prod.ts
+
       - name: Install dependencies
         run: |
           npm install -g @angular/cli
@@ -52,6 +51,7 @@ jobs:
         run: |
           echo "Building the app with Firebase and Discord configs"
           npm run build -- --configuration production
+
 
       
 
