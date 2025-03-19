@@ -20,10 +20,13 @@ jobs:
       - name: Install dependencies
         run: npm install
 
+      - name: Install jq
+        run: sudo apt-get install jq
+
       - name: Create environment.prod.ts
         run: |
-          FIREBASE_CONFIG=$(echo '${{ secrets.FIREBASE_DETAILS }}' | jq -c .)
-          DISCORD_CONFIG=$(echo '${{ secrets.DISCORD_DETAILS }}' | jq -c .)
+          FIREBASE_CONFIG=${{ secrets.FIREBASE_DETAILS }} 
+          DISCORD_CONFIG=${{ secrets.DISCORD_DETAILS }}
           cat <<EOF > src/environments/environment.prod.ts
           export const environment = {
             production: true,
@@ -31,10 +34,9 @@ jobs:
             discordConfig: $DISCORD_CONFIG
           };
           EOF
-          
+
       - name: Display environment.prod.ts content
         run: cat src/environments/environment.prod.ts
-
 
       - name: Build Angular App
         run: ng build --configuration=production
