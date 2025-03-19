@@ -20,8 +20,14 @@ jobs:
 
       - name: Set environment variables for Firebase and Discord
         run: |
-          echo "firebaseConfig=${{secrets.FIREBASE_DETAILS}}" >> $GITHUB_ENV
-          echo "discordConfig=${{secrets.DISCORD_DETAILS}}" >> $GITHUB_ENV
+          echo "FIREBASE_DETAILS<<EOF" >> $GITHUB_ENV
+          echo "${{ secrets.FIREBASE_DETAILS }}" >> $GITHUB_ENV
+          echo "EOF" >> $GITHUB_ENV
+      
+          echo "DISCORD_DETAILS<<EOF" >> $GITHUB_ENV
+          echo "${{ secrets.DISCORD_DETAILS }}" >> $GITHUB_ENV
+          echo "EOF" >> $GITHUB_ENV
+    
 
       - name: Install dependencies
         run: |
