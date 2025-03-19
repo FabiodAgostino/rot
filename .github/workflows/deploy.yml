@@ -39,49 +39,40 @@
 #           npm run build -- --configuration production
 
 
+name: Deploy Production
+
 on:
   push:
     branches:
-      - main
+      - main  # Trigger sul branch principale
+
+env:
+  FIREBASE_DETAILS: ${{ secrets.FIREBASE_DETAILS }}  # Variabili da GitHub Secrets
+  DISCORD_DETAILS: ${{ secrets.DISCORD_DETAILS }}
 
 jobs:
-  deploy:
+  build-and-deploy:
     runs-on: ubuntu-latest
-
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v2
+      - name: Checkout Repository
+        uses: actions/checkout@v4
 
-      - name: Check if environment.prod.ts exists
-        run: |
-          if [ ! -f src/environments/environment.prod.ts ]; then
-            echo "Error: environment.prod.ts not found!"
-            exit 1
-          fi
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20.x
 
-      - name: Declare
-        env:
-            FIREBASE_CONFIG: ${{ secrets.FIREBASE_DETAILS }}
-            DISCORD_CONFIG: ${{ secrets.DISCORD_DETAILS }}
+      - name: Replace Environment Variables in environment.prod.js
         run: |
-          firebaseConfig = $(curl -s $FIREBASE_CONFIG)
-          discordConfig = $(curl -s $DISCORD_CONFIG)
-        
-      - name: Set credentials env var
-        run: |
-          firebaseConfig =$firebaseConfig
-          discordConfig =$discordConfig
-        
+          # Sostituisce i placeholder nel file con i valori delle variabili d'ambiente
+          sed -i "s|{{FIREBASE_DETAILS}}|$FIREBASE_DETAILS|g" src/environments/environment.prod.js
+          sed -i "s|{{DISCORD_DETAILS}}|$DISCORD_DETAILS|g" src/environments/environment.prod.js
 
-      - name: Debug environment variables
-        run: |
-          echo "firebaseConfig"
-          echo "discordConfig"
-  
-      - name: Install dependencies
-        run: |
-          npm install -g @angular/cli
-          npm install
+      - name: Install Dependencies
+        run: npm install
+
+      - name: Build Angular for Production
+        run: npm run build -- --configuration=production
 
       - name: Build the app
         run: |
