@@ -1,4 +1,4 @@
-name: Build and Deploy Angular App
+name: Deploy to GitHub Pages
 
 on:
   push:
@@ -6,37 +6,35 @@ on:
       - main
 
 jobs:
-  build:
+  deploy:
     runs-on: ubuntu-latest
+
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v3
+        uses: actions/checkout@v2
 
-      - name: Setup Node.js
-        uses: actions/setup-node@v3
-        with:
-          node-version: 18
-
-      - name: Install dependencies
-        run: npm install
-
-      - name: Install jq
-        run: sudo apt-get install jq
-
-      - name: Create environment.prod.ts
+      - name: Set environment variables for Firebase and Discord
         run: |
-          FIREBASE_CONFIG=${{ secrets.FIREBASE_DETAILS }} 
-          DISCORD_CONFIG=${{ secrets.DISCORD_DETAILS }}
-          cat <<EOF > src/environments/environment.prod.ts
-          export const environment = {
-            production: true,
-            firebaseConfig: $FIREBASE_CONFIG,
-            discordConfig: $DISCORD_CONFIG
-          };
-          EOF
+          echo "FIREBASE_API_KEY=${{ secrets.FIREBASE_DETAILS.apiKey }}" >> $GITHUB_ENV
+          echo "FIREBASE_AUTH_DOMAIN=${{ secrets.FIREBASE_DETAILS.authDomain }}" >> $GITHUB_ENV
+          echo "FIREBASE_PROJECT_ID=${{ secrets.FIREBASE_DETAILS.projectId }}" >> $GITHUB_ENV
+          echo "FIREBASE_STORAGE_BUCKET=${{ secrets.FIREBASE_DETAILS.storageBucket }}" >> $GITHUB_ENV
+          echo "FIREBASE_MESSAGING_SENDER_ID=${{ secrets.FIREBASE_DETAILS.messagingSenderId }}" >> $GITHUB_ENV
+          echo "FIREBASE_APP_ID=${{ secrets.FIREBASE_DETAILS.appId }}" >> $GITHUB_ENV
+          echo "FIREBASE_MEASUREMENT_ID=${{ secrets.FIREBASE_DETAILS.measurementId }}" >> $GITHUB_ENV
+          echo "DISCORD_REDIRECT_URL=${{ secrets.DISCORD_DETAILS.redirectUrl }}" >> $GITHUB_ENV
+          echo "DISCORD_CLIENT_ID=${{ secrets.DISCORD_DETAILS.clientId }}" >> $GITHUB_ENV
+          echo "DISCORD_CLIENT_SECRET=${{ secrets.DISCORD_DETAILS.clientSecret }}" >> $GITHUB_ENV
+          echo "DISCORD_GUILD_ID=${{ secrets.DISCORD_DETAILS.guildId }}" >> $GITHUB_ENV
+          echo "DISCORD_LOGIN=${{ secrets.DISCORD_DETAILS.loginDiscord }}" >> $GITHUB_ENV
 
-      - name: Display environment.prod.ts content
-        run: cat src/environments/environment.prod.ts
+      - name: Build the app
+        run: |
+          echo "Building the app with Firebase and Discord configs"
+          # Aggiungi qui il comando di build specifico per la tua app (e.g., npm run build)
 
-      - name: Build Angular App
-        run: ng build --configuration=production
+      - name: Deploy to GitHub Pages
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./dist  # Cambia con il percorso corretto dei tuoi file generati
