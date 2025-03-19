@@ -18,10 +18,15 @@ jobs:
             exit 1
           fi
 
+      - name: Debug environment variables
+        run: |
+          echo "FIREBASE_DETAILS=$FIREBASE_DETAILS"
+          echo "DISCORD_DETAILS=$DISCORD_DETAILS"
+
       - name: Set environment variables for Firebase and Discord
         run: |
-          echo "firebaseConfig=${{ secrets.FIREBASE_DETAILS }}" >> $GITHUB_ENV
-          echo "discordConfig=${{ secrets.DISCORD_DETAILS }}" >> $GITHUB_ENV
+          echo "firebaseConfig=${{secrets.FIREBASE_DETAILS}}" >> $GITHUB_ENV
+          echo "discordConfig=${{secrets.DISCORD_DETAILS}}" >> $GITHUB_ENV
       - name: Install dependencies
         run: |
           npm install -g @angular/cli
