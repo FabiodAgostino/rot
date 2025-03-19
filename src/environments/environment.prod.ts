@@ -1,26 +1,26 @@
 export const environment = {
   production: true,
   firebaseConfig: {
-    apiKey: process.env['FIREBASE_API_KEY'],
-    authDomain: process.env['FIREBASE_AUTH_DOMAIN'],
-    projectId: process.env['FIREBASE_PROJECT_ID'],
-    storageBucket: process.env['FIREBASE_STORAGE_BUCKET'],
-    messagingSenderId: process.env['FIREBASE_MESSAGING_SENDER_ID'],
-    appId: process.env['FIREBASE_APP_ID'],
-    measurementId: process.env['FIREBASE_MEASUREMENT_ID'],
+    apiKey: "AIzaSyBNWbqdAaq44dWHELm2m1jU0xY6graA9uo",
+    authDomain: "rotiniel-35c5b.firebaseapp.com",
+    projectId: "rotiniel-35c5b",
+    storageBucket: "rotiniel-35c5b.appspot.com",
+    messagingSenderId: "546264380520",
+    appId: "1:546264380520:web:b09f4bc5e62c611818f7dd",
+    measurementId: "G-VXQ0LYQVDB"
   },
-  discordConfig: {
-    redirectUrl: "{{DISCORD_REDIRECT_URL}}",
-    clientId: "{{DISCORD_CLIENT_ID}}",
-    clientSecret: "{{DISCORD_CLIENT_SECRET}}",
-    guildId: "{{DISCORD_GUILD_ID}}",
-    loginDiscord: "{{DISCORD_LOGIN_URL}}"
+  discordConfig:{
+    redirectUrl:'https://fabiodagostino.github.io/rot/',
+    clientId:'1106594210242625579',
+    clientSecret : 'vSpoEDdg9pho-4Fltzo736cgwyPQk2g1',
+    guildId:'511856322141093904',
+    loginDiscord:"https://discord.com/api/oauth2/authorize?client_id=1106594210242625579&redirect_uri=https%3A%2F%2Ffabiodagostino.github.io%2Frot%2F&response_type=code&scope=identify%20guilds%20connections%20guilds.members.read"
   },
-  discordConfigLocal: {
-    redirectUrl: "{{DISCORD_LOCAL_REDIRECT_URL}}",
-    clientId: "{{DISCORD_LOCAL_CLIENT_ID}}",
-    clientSecret: "{{DISCORD_LOCAL_CLIENT_SECRET}}",
-    guildId: "{{DISCORD_LOCAL_GUILD_ID}}",
-    loginDiscord: "{{DISCORD_LOCAL_LOGIN_URL}}"
+  discordConfigLocal:{
+    redirectUrl:'http://localhost:4200/',
+    clientId:'1106594210242625579',
+    clientSecret : 'vSpoEDdg9pho-4Fltzo736cgwyPQk2g1',
+    guildId:'511856322141093904',
+    loginDiscord:"https://discord.com/api/oauth2/authorize?client_id=1106594210242625579&redirect_uri=http%3A%2F%2Flocalhost%3A4200%2F&response_type=code&scope=identify%20guilds%20connections%20guilds.members.read"
   }
 };
