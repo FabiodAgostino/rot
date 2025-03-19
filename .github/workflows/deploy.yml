@@ -65,8 +65,8 @@ jobs:
       - name: Replace Environment Variables in environment.prod.js
         run: |
           # Sostituisce i placeholder nel file con i valori delle variabili d'ambiente
-          sed -i "s|{{FIREBASE_DETAILS}}|$FIREBASE_DETAILS|g" src/environments/environment.prod.js
-          sed -i "s|{{DISCORD_DETAILS}}|$DISCORD_DETAILS|g" src/environments/environment.prod.js
+          sed -i "s#|{{FIREBASE_DETAILS}}|$FIREBASE_DETAILS|g" src/environments/environment.prod.js
+          sed -i "s#|{{DISCORD_DETAILS}}|$DISCORD_DETAILS|g" src/environments/environment.prod.js
 
       - name: Install Dependencies
         run: npm install
