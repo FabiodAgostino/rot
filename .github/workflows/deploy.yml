@@ -20,8 +20,10 @@ jobs:
 
       - name: Set environment variables for Firebase and Discord
         run: |
-          echo "firebaseConfig=${{toJSON(secrets.FIREBASE_DETAILS)}}" >> $GITHUB_ENV
-          echo "discordConfig=${{toJSON(secrets.DISCORD_DETAILS)}}" >> $GITHUB_ENV
+          firebaseConfig=${{secrets.FIREBASE_DETAILS}}"
+          echo "$firebaseConfig"
+          discordConfig=${{secrets.DISCORD_DETAILS}}"
+          echo "$discordConfig"
 
       - name: Debug environment variables
         run: |
