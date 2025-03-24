@@ -4,7 +4,6 @@ on:
   push:
     branches: [main]
 
-# Aggiungi queste permissions a livello workflow
 permissions:
   contents: write
   pages: write
@@ -32,6 +31,7 @@ jobs:
 
       - name: Crea environment.prod.ts
         env:
+          # Firebase
           FIREBASE_API_KEY: ${{ secrets.FIREBASE_API_KEY }}
           FIREBASE_AUTH_DOMAIN: ${{ secrets.FIREBASE_AUTH_DOMAIN }}
           FIREBASE_PROJECT_ID: ${{ secrets.FIREBASE_PROJECT_ID }}
@@ -39,6 +39,12 @@ jobs:
           FIREBASE_MESSAGING_SENDER_ID: ${{ secrets.FIREBASE_MESSAGING_SENDER_ID }}
           FIREBASE_APP_ID: ${{ secrets.FIREBASE_APP_ID }}
           FIREBASE_MEASUREMENT_ID: ${{ secrets.FIREBASE_MEASUREMENT_ID }}
+          # Discord
+          DISCORD_CLIENT_ID: ${{ secrets.DISCORD_CLIENT_ID }}
+          DISCORD_CLIENT_SECRET: ${{ secrets.DISCORD_CLIENT_SECRET }}
+          DISCORD_GUILD_ID: ${{ secrets.DISCORD_GUILD_ID }}
+          DISCORD_LOGIN_DISCORD: ${{ secrets.DISCORD_LOGIN_DISCORD }}
+          DISCORD_REDIRECT_URL: ${{ secrets.DISCORD_REDIRECT_URL }}
         run: |
           mkdir -p src/environments
           envsubst < src/environments/environment.prod.template.ts > src/environments/environment.prod.ts
@@ -49,8 +55,8 @@ jobs:
       - name: Build Angular in docs
         run: |
           npm run build -- --configuration production --base-href /rot/ --output-path docs
+          sed 's/<base href="\/rot\/">/<base href="\/">/' docs/index.html > docs/404.html
           touch docs/.nojekyll
-          cp src/404.html docs/ || echo "404.html not found, continuing anyway"
 
       - name: Verifica docs
         run: ls -la docs
