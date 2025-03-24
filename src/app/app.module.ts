@@ -94,6 +94,7 @@ import { ModalValidatoreComponent } from './user-panel/validatore/modal-validato
 
 
 
+console.log("Firebase Config: ", environment.firebaseConfig); // Verifica i dati
 
 
 @NgModule({

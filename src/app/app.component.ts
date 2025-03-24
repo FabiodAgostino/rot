@@ -1,7 +1,6 @@
 import { Component, NO_ERRORS_SCHEMA, OnInit } from '@angular/core';
 import { Observable, interval } from 'rxjs';
 import { UserService } from './service/user.service';
-import { environment } from '../environments/environment';
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
@@ -16,7 +15,6 @@ export class AppComponent implements OnInit {
   }
 
     ngOnInit(): void {
-      console.log('Firebase Config:', environment.firebaseConfig);
   }
 }
 
