@@ -1,4 +1,4 @@
-name: Deploy to GitHub Pages
+name: Deploy Angular to GitHub Pages (Docs)
 
 on:
   push:
@@ -9,7 +9,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout code
+      - name: Checkout repository
         uses: actions/checkout@v4
 
       - name: Setup Node.js
@@ -17,10 +17,10 @@ jobs:
         with:
           node-version: 20
 
-      - name: Install gettext
+      - name: Install gettext per envsubst
         run: sudo apt-get install gettext -y
 
-      - name: Create environment.prod.ts
+      - name: Crea environment.prod.ts
         env:
           FIREBASE_API_KEY: ${{ secrets.FIREBASE_API_KEY }}
           FIREBASE_AUTH_DOMAIN: ${{ secrets.FIREBASE_AUTH_DOMAIN }}
@@ -33,17 +33,23 @@ jobs:
           mkdir -p src/environments
           envsubst < environment.prod.template.ts > src/environments/environment.prod.ts
 
-      - name: Install dependencies
+      - name: Installa dipendenze
         run: npm ci
 
-      - name: Build Angular app
-        run: npm run build -- --configuration=production
+      - name: Build Angular in docs
+        run: |
+          npm run build -- --configuration=production --output-path=docs
 
-      - name: Upload artifact
-        uses: actions/upload-artifact@v3
+      - name: Verifica docs
+        run: |
+          ls -la docs
+
+      - name: Carica Docs come artifact
+        uses: actions/upload-pages-artifact@v3
         with:
-          name: angular-build
-          path: docs
+          path: 'docs'
 
-      - name: Deploy to GitHub Pages
+      - name: Deploy su GitHub Pages
         uses: actions/deploy-pages@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
