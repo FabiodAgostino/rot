@@ -46,7 +46,7 @@ jobs:
       - name: Installa dipendenze
         run: npm ci --no-audit
 
-        - name: Build Angular in docs
+      - name: Build Angular in docs
         run: |
           npm run build -- --configuration production --base-href /rot/ --output-path docs
           touch docs/.nojekyll
