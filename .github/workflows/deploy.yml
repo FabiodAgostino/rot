@@ -47,7 +47,10 @@ jobs:
         run: npm ci --no-audit
 
       - name: Build Angular in docs
-        run: npm run build -- --configuration production --output-path docs
+        run: |
+          npm run build -- --configuration production --base-href /rot/ --output-path docs
+          touch docs/.nojekyll
+          cp src/404.html docs/  # Opzionale per gestire i refresh
 
       - name: Verifica docs
         run: ls -la docs
