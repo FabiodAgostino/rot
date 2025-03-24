@@ -3,6 +3,11 @@ name: Deploy Angular to GitHub Pages (Docs)
 on:
   push:
     branches: [main]
+    
+permissions: # Aggiungi questa sezione
+  contents: write
+  pages: write
+  id-token: write # Permesso cruciale
 
 jobs:
   deploy:
