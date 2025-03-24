@@ -49,4 +49,4 @@ jobs:
         uses: JamesIves/github-pages-deploy-action@v4
         with:
           branch: main  # Specifica che il deploy avviene sul branch 'main'
-          folder: _site  # Il contenuto generato da Jekyll si trova in './_site'
+          folder: docs  # Il contenuto generato da Jekyll si trova in './_site'
