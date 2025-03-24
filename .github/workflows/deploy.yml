@@ -46,11 +46,11 @@ jobs:
       - name: Installa dipendenze
         run: npm ci --no-audit
 
-      - name: Build Angular in docs
+        - name: Build Angular in docs
         run: |
           npm run build -- --configuration production --base-href /rot/ --output-path docs
           touch docs/.nojekyll
-          cp src/404.html docs/  # Opzionale per gestire i refresh
+          cp src/404.html docs/ || echo "404.html not found, continuing anyway"
 
       - name: Verifica docs
         run: ls -la docs
