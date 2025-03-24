@@ -3,15 +3,19 @@ name: Deploy Angular to GitHub Pages (Docs)
 on:
   push:
     branches: [main]
-    
-permissions: # Aggiungi questa sezione
+
+# Aggiungi queste permissions a livello workflow
+permissions:
   contents: write
   pages: write
-  id-token: write # Permesso cruciale
+  id-token: write
 
 jobs:
   deploy:
     runs-on: ubuntu-latest
+    environment: 
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
 
     steps:
       - name: Checkout repository
@@ -21,6 +25,7 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: 20
+          cache: 'npm'
 
       - name: Install gettext per envsubst
         run: sudo apt-get install gettext -y
@@ -39,22 +44,21 @@ jobs:
           envsubst < src/environments/environment.prod.template.ts > src/environments/environment.prod.ts
 
       - name: Installa dipendenze
-        run: npm ci
+        run: npm ci --no-audit
 
       - name: Build Angular in docs
-        run: |
-          npm run build -- --configuration=production --output-path=docs
+        run: npm run build -- --configuration production --output-path docs
 
       - name: Verifica docs
-        run: |
-          ls -la docs
+        run: ls -la docs
 
       - name: Carica Docs come artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: 'docs'
+          path: 'docs/'
 
       - name: Deploy su GitHub Pages
+        id: deployment
         uses: actions/deploy-pages@v4
         with:
-          token: ${{ secrets.GITHUB_TOKEN }}
+          github_token: ${{ secrets.GITHUB_TOKEN }}
