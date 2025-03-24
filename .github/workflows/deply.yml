@@ -15,9 +15,9 @@ jobs:
 
       # 2. Setup di Node.js
       - name: Setup Node.js
-        uses: actions/setup-node@v2
+        uses: actions/setup-node@v3
         with:
-          node-version: '14'
+            node-version: '18'
 
       # 3. Installa le dipendenze
       - name: Install dependencies
