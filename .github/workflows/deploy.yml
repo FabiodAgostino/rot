@@ -1,3 +1,74 @@
+# name: Build and Deploy
+
+# on:
+#   push:
+#     branches:
+#       - main
+
+# jobs:
+#   build:
+#     runs-on: ubuntu-latest
+#     steps:
+#       # 1. Checkout del repository
+#       - name: Checkout repository
+#         uses: actions/checkout@v2
+
+#       # 2. Setup di Node.js
+#       - name: Setup Node.js
+#         uses: actions/setup-node@v3
+#         with:
+#             node-version: '18'
+
+#       # 3. Installa le dipendenze
+#       - name: Install dependencies
+#         run: npm install
+
+#       # 4. Genera il file environment.prod.ts utilizzando i secrets
+#       - name: Generate environment.prod.ts
+#         run: |
+#           cat > src/environments/environment.prod.ts <<EOL
+#           export const environment = {
+#             production: true,
+#             firebaseConfig: {
+#               apiKey: "${{ secrets.FIREBASE_API_KEY }}",
+#               authDomain: "${{ secrets.FIREBASE_AUTH_DOMAIN }}",
+#               projectId: "${{ secrets.FIREBASE_PROJECT_ID }}",
+#               storageBucket: "${{ secrets.FIREBASE_STORAGE_BUCKET }}",
+#               messagingSenderId: "${{ secrets.FIREBASE_MESSAGING_SENDER_ID }}",
+#               appId: "${{ secrets.FIREBASE_APP_ID }}",
+#               measurementId: "${{ secrets.FIREBASE_MEASUREMENT_ID }}"
+#             },
+#             discordConfig: {
+#               redirectUrl: 'https://fabiodagostino.github.io/rot/',
+#               clientId: '1106594210242625579',
+#               clientSecret: 'vSpoEDdg9pho-4Fltzo736cgwyPQk2g1',
+#               guildId: '511856322141093904',
+#               loginDiscord: "https://discord.com/api/oauth2/authorize?client_id=1106594210242625579&redirect_uri=https%3A%2F%2Ffabiodagostino.github.io%2Frot%2F&response_type=code&scope=identify%20guilds%20connections%20guilds.members.read"
+#             },
+#             discordConfigLocal: {
+#               redirectUrl: 'http://localhost:4200/',
+#               clientId: '1106594210242625579',
+#               clientSecret: 'vSpoEDdg9pho-4Fltzo736cgwyPQk2g1',
+#               guildId: '511856322141093904',
+#               loginDiscord: "https://discord.com/api/oauth2/authorize?client_id=1106594210242625579&redirect_uri=http%3A%2F%2Flocalhost%3A4200%2F&response_type=code&scope=identify%20guilds%20connections%20guilds.members.read"
+#             }
+#           };
+#           EOL
+
+#       # 5. Esegui il build del progetto (ad esempio per Angular)
+#       - name: Build project
+#         run: npm run build --prod
+
+#       # 6. Deploy su GitHub Pages
+#       - name: Deploy to GitHub Pages
+#         uses: peaceiris/actions-gh-pages@v3
+#         with:
+#           github_token: ${{ secrets.GITHUB_TOKEN }}
+#           publish_dir: ./docs/  # Assicurati che questo percorso corrisponda alla cartella generata dalla build
+
+
+
+
 name: Build and Deploy
 
 on:
@@ -30,13 +101,13 @@ jobs:
           export const environment = {
             production: true,
             firebaseConfig: {
-              apiKey: "${{ secrets.FIREBASE_API_KEY }}",
-              authDomain: "${{ secrets.FIREBASE_AUTH_DOMAIN }}",
-              projectId: "${{ secrets.FIREBASE_PROJECT_ID }}",
-              storageBucket: "${{ secrets.FIREBASE_STORAGE_BUCKET }}",
-              messagingSenderId: "${{ secrets.FIREBASE_MESSAGING_SENDER_ID }}",
-              appId: "${{ secrets.FIREBASE_APP_ID }}",
-              measurementId: "${{ secrets.FIREBASE_MEASUREMENT_ID }}"
+              apiKey: "AIzaSyBNWbqdAaq44dWHELm2m1jU0xY6graA9uo",
+              authDomain: "rotiniel-35c5b.firebaseapp.com",
+              projectId: "rotiniel-35c5b",
+              storageBucket: "rotiniel-35c5b.appspot.com",
+              messagingSenderId: "546264380520",
+              appId: "1:546264380520:web:b09f4bc5e62c611818f7dd",
+              measurementId: "G-VXQ0LYQVDB"
             },
             discordConfig: {
               redirectUrl: 'https://fabiodagostino.github.io/rot/',
@@ -65,3 +136,4 @@ jobs:
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_dir: ./docs/  # Assicurati che questo percorso corrisponda alla cartella generata dalla build
+
