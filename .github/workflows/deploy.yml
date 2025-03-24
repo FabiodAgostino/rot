@@ -130,10 +130,13 @@ jobs:
       - name: Build project
         run: npm run build --prod
 
+      - name: Verifica environment.prod.ts
+        run: cat src/environments/environment.prod.ts
+
+
       # 6. Deploy su GitHub Pages
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v3
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_dir: ./docs/  # Assicurati che questo percorso corrisponda alla cartella generata dalla build
-
