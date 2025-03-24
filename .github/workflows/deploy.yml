@@ -54,9 +54,21 @@ jobs:
 
       - name: Build Angular in docs
         run: |
-           npm run build -- --configuration production --base-href /rot/ --output-path docs
-           sed 's/<base href="\/rot\/">/<base href="\/">/' docs/index.html > docs/404.html
-           touch docs/.nojekyll
+          npm run build -- --configuration production --base-href /rot/ --output-path docs
+          
+          # Genera 404.html solo se index.html esiste
+          if [ -f docs/index.html ]; then
+            echo "Generating 404.html from index.html..."
+            sed 's/<base href="\/rot\/">/<base href="\/">/' docs/index.html > docs/404.html
+            echo "✅ 404.html generato correttamente"
+            ls -la docs | grep 404.html
+          else
+            echo "❌ ERRORE: index.html non trovato in docs/"
+            ls -la docs
+            exit 1
+          fi
+      
+          touch docs/.nojekyll
 
       - name: Verifica docs
         run: ls -la docs
