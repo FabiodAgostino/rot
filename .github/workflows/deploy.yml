@@ -43,7 +43,7 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           name: angular-build
-          path: dist/your-project-name
+          path: docs
 
       - name: Deploy to GitHub Pages
         uses: actions/deploy-pages@v4
