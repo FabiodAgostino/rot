@@ -17,7 +17,7 @@ jobs:
         with:
           node-version: 20
 
-      - name: Install gettext (for envsubst)
+      - name: Install gettext
         run: sudo apt-get install gettext -y
 
       - name: Create environment.prod.ts
@@ -29,7 +29,6 @@ jobs:
           FIREBASE_MESSAGING_SENDER_ID: ${{ secrets.FIREBASE_MESSAGING_SENDER_ID }}
           FIREBASE_APP_ID: ${{ secrets.FIREBASE_APP_ID }}
           FIREBASE_MEASUREMENT_ID: ${{ secrets.FIREBASE_MEASUREMENT_ID }}
-          CLIENT_SECRET: ${{ secrets.CLIENT_SECRET }}
         run: |
           mkdir -p src/environments
           envsubst < environment.prod.template.ts > src/environments/environment.prod.ts
@@ -40,10 +39,11 @@ jobs:
       - name: Build Angular app
         run: npm run build -- --configuration=production
 
-      - name: Deploy to GitHub Pages
-        uses: actions/upload-pages-artifact@v2
+      - name: Upload artifact
+        uses: actions/upload-artifact@v3
         with:
+          name: angular-build
           path: dist/your-project-name
 
-      - name: Finalize deployment
-        uses: actions/deploy-pages@v3
+      - name: Deploy to GitHub Pages
+        uses: actions/deploy-pages@v4
