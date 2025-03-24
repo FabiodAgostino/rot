@@ -54,9 +54,9 @@ jobs:
 
       - name: Build Angular in docs
         run: |
-          npm run build -- --configuration production --base-href /rot/ --output-path docs
-          sed 's/<base href="\/rot\/">/<base href="\/">/' docs/index.html > docs/404.html
-          touch docs/.nojekyll
+           npm run build -- --configuration production --base-href /rot/ --output-path docs
+           sed 's/<base href="\/rot\/">/<base href="\/">/' docs/index.html > docs/404.html
+           touch docs/.nojekyll
 
       - name: Verifica docs
         run: ls -la docs
