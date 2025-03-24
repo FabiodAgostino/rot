@@ -31,7 +31,7 @@ jobs:
           FIREBASE_MEASUREMENT_ID: ${{ secrets.FIREBASE_MEASUREMENT_ID }}
         run: |
           mkdir -p src/environments
-          envsubst < environment.prod.template.ts > src/environments/environment.prod.ts
+          envsubst < src/environment.prod.template.ts > src/environments/environment.prod.ts
 
       - name: Installa dipendenze
         run: npm ci
