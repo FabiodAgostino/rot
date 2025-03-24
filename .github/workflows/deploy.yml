@@ -101,7 +101,7 @@ jobs:
           export const environment = {
             production: true,
             firebaseConfig: {
-              apiKey: "ciao",
+              apiKey: "AIzaSyBNWbqdAaq44dWHELm2m1jU0xY6graA9uo",
               authDomain: "rotiniel-35c5b.firebaseapp.com",
               projectId: "rotiniel-35c5b",
               storageBucket: "rotiniel-35c5b.appspot.com",
